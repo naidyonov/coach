@@ -378,7 +378,7 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
 
   const renderBoardContent = (inModal = false) => (
     <div
-      className={`relative rounded-2xl overflow-hidden border border-emerald-800/80 bg-emerald-950 shadow-2xl select-none ${
+      className={`tactical-pitch-canvas relative rounded-2xl overflow-hidden border border-emerald-800/80 bg-emerald-950 shadow-2xl select-none ${
         inModal ? 'w-full max-w-5xl mx-auto' : 'w-full'
       }`}
       onTouchStart={handleTouchStart}

@@ -13,6 +13,12 @@
     background-color: #020617;
     color: #f8fafc;
     overflow-x: hidden;
+    transition: background-color 200ms ease, color 200ms ease;
+  }
+
+  html[data-theme='light'] body {
+    background-color: #f1f5f9;
+    color: #0f172a;
   }
 }
 
@@ -32,6 +38,152 @@
   }
 }
 
+/* ==========================================================================
+   High-Contrast Outdoor Light Mode ("Pitch Daylight") Overrides
+   Preserves authentic turf inside .tactical-pitch-canvas and svg elements
+   ========================================================================== */
+html[data-theme='light'] .app-shell {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+/* Primary Surfaces */
+html[data-theme='light'] :not(.tactical-pitch-canvas) > .bg-slate-950,
+html[data-theme='light'] .bg-slate-950:not(.tactical-pitch-canvas *) {
+  background-color: #f8fafc !important;
+}
+
+html[data-theme='light'] .bg-slate-950\/90:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-slate-950\/80:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-slate-950\/70:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-slate-950\/60:not(.tactical-pitch-canvas *) {
+  background-color: #f1f5f9 !important;
+}
+
+html[data-theme='light'] .bg-slate-900:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-slate-900\/95:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-slate-900\/90:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-slate-900\/80:not(.tactical-pitch-canvas *) {
+  background-color: #ffffff !important;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04) !important;
+}
+
+html[data-theme='light'] .bg-slate-800:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-slate-800\/90:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-slate-800\/80:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-slate-800\/60:not(.tactical-pitch-canvas *) {
+  background-color: #e2e8f0 !important;
+}
+
+html[data-theme='light'] .hover\:bg-slate-800:hover:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .hover\:bg-slate-800\/70:hover:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .hover\:bg-slate-800\/60:hover:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .hover\:bg-slate-700:hover:not(.tactical-pitch-canvas *) {
+  background-color: #cbd5e1 !important;
+}
+
+/* Structural Borders */
+html[data-theme='light'] .border-slate-800:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .border-slate-800\/90:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .border-slate-800\/80:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .border-slate-800\/70:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .border-slate-800\/60:not(.tactical-pitch-canvas *) {
+  border-color: #e2e8f0 !important;
+}
+
+html[data-theme='light'] .border-slate-700:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .border-slate-700\/80:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .border-slate-700\/70:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .border-slate-700\/60:not(.tactical-pitch-canvas *) {
+  border-color: #cbd5e1 !important;
+}
+
+html[data-theme='light'] .divide-slate-800\/70 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #e2e8f0 !important;
+}
+
+/* Typography Hierarchy (excluding solid colored buttons/badges and SVG pitch) */
+html[data-theme='light'] .text-white:not(.keep-white):not(svg *):not(.tactical-pitch-canvas *):not(.bg-emerald-600):not(.bg-emerald-600 *):not(.bg-emerald-500):not(.bg-emerald-500 *):not(.bg-blue-600):not(.bg-amber-600):not(.bg-rose-600):not(.bg-rose-600\/90):not(.bg-emerald-600\/90):not(.bg-purple-600) {
+  color: #0f172a !important;
+}
+
+html[data-theme='light'] .text-slate-100:not(svg *):not(.tactical-pitch-canvas *),
+html[data-theme='light'] .text-slate-200:not(svg *):not(.tactical-pitch-canvas *) {
+  color: #1e293b !important;
+}
+
+html[data-theme='light'] .text-slate-300:not(svg *):not(.tactical-pitch-canvas *) {
+  color: #334155 !important;
+}
+
+html[data-theme='light'] .text-slate-400:not(svg *):not(.tactical-pitch-canvas *),
+html[data-theme='light'] .text-slate-500:not(svg *):not(.tactical-pitch-canvas *) {
+  color: #475569 !important;
+}
+
+/* Semantic Accent Text Adjustments for High Outdoor Contrast */
+html[data-theme='light'] .text-emerald-300:not(svg *):not(.tactical-pitch-canvas *),
+html[data-theme='light'] .text-emerald-300\/90:not(svg *):not(.tactical-pitch-canvas *),
+html[data-theme='light'] .text-emerald-400:not(svg *):not(.tactical-pitch-canvas *),
+html[data-theme='light'] .text-emerald-200:not(svg *):not(.tactical-pitch-canvas *),
+html[data-theme='light'] .text-emerald-200\/90:not(svg *):not(.tactical-pitch-canvas *),
+html[data-theme='light'] .text-emerald-100:not(svg *):not(.tactical-pitch-canvas *) {
+  color: #047857 !important;
+}
+
+html[data-theme='light'] .text-amber-300:not(svg *):not(.tactical-pitch-canvas *),
+html[data-theme='light'] .text-amber-300\/90:not(svg *):not(.tactical-pitch-canvas *),
+html[data-theme='light'] .text-amber-400:not(svg *):not(.tactical-pitch-canvas *) {
+  color: #b45309 !important;
+}
+
+html[data-theme='light'] .text-rose-300:not(svg *):not(.tactical-pitch-canvas *),
+html[data-theme='light'] .text-rose-400:not(svg *):not(.tactical-pitch-canvas *),
+html[data-theme='light'] .text-rose-100:not(svg *):not(.tactical-pitch-canvas *),
+html[data-theme='light'] .text-red-400:not(svg *):not(.tactical-pitch-canvas *) {
+  color: #be123c !important;
+}
+
+html[data-theme='light'] .text-blue-300:not(svg *):not(.tactical-pitch-canvas *),
+html[data-theme='light'] .text-blue-400:not(svg *):not(.tactical-pitch-canvas *),
+html[data-theme='light'] .text-blue-100:not(svg *):not(.tactical-pitch-canvas *) {
+  color: #1d4ed8 !important;
+}
+
+html[data-theme='light'] .text-purple-300:not(svg *):not(.tactical-pitch-canvas *) {
+  color: #6d28d9 !important;
+}
+
+/* Semantic Tinted Callout Wells in Light Mode */
+html[data-theme='light'] .bg-emerald-950\/70:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-emerald-950\/30:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-emerald-950\/25:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-emerald-950\/20:not(.tactical-pitch-canvas *) {
+  background-color: #ecfdf5 !important;
+  border-color: #a7f3d0 !important;
+}
+
+html[data-theme='light'] .bg-rose-950\/30:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-rose-950\/25:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-red-950\/25:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-red-950\/20:not(.tactical-pitch-canvas *) {
+  background-color: #fff1f2 !important;
+  border-color: #fecdd3 !important;
+}
+
+html[data-theme='light'] .bg-amber-950\/30:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-amber-950\/25:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-amber-950\/20:not(.tactical-pitch-canvas *) {
+  background-color: #fffbeb !important;
+  border-color: #fde68a !important;
+}
+
+html[data-theme='light'] .bg-blue-950\/25:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-blue-950\/20:not(.tactical-pitch-canvas *) {
+  background-color: #eff6ff !important;
+  border-color: #bfdbfe !important;
+}
+
 /* Custom subtle scrollbars for desktop */
 ::-webkit-scrollbar {
   width: 6px;
@@ -40,9 +192,15 @@
 ::-webkit-scrollbar-track {
   background: #020617;
 }
+html[data-theme='light'] ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
 ::-webkit-scrollbar-thumb {
   background: #1e293b;
   border-radius: 9999px;
+}
+html[data-theme='light'] ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #334155;
@@ -65,3 +223,4 @@
     break-inside: avoid;
   }
 }
+

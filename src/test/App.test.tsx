@@ -124,28 +124,31 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
     fireEvent.click(closeBtn);
   });
 
-  it('switches audience role modes (Coach, Players, Parents)', () => {
+  it('opens the Settings dropdown menu, toggles Dark/Light theme, and opens the Training Series hub', () => {
     renderApp();
 
-    const roleSwitcher = screen.getByTestId('role-switcher');
+    // Open Settings dropdown menu
+    const settingsBtn = screen.getByTestId('settings-menu-btn');
+    fireEvent.click(settingsBtn);
 
-    // Switch to Players mode
-    fireEvent.click(within(roleSwitcher).getByRole('button', { name: /Players/i }));
-    expect(
-      screen.getAllByText(/U15 Player mode: step-by-step phase animations/i).length
-    ).toBeGreaterThan(0);
+    const themeSwitcher = screen.getByTestId('theme-switcher');
+    const lightBtn = within(themeSwitcher).getByRole('button', { name: /Light/i });
+    const darkBtn = within(themeSwitcher).getByRole('button', { name: /Dark/i });
 
-    // Switch to Parents mode
-    fireEvent.click(within(roleSwitcher).getByRole('button', { name: /Parents/i }));
-    expect(
-      screen.getAllByText(/Parent Overview mode: transparent breakdown/i).length
-    ).toBeGreaterThan(0);
+    // Switch to Light mode
+    fireEvent.click(lightBtn);
+    expect(document.documentElement.getAttribute('data-theme')).toBe('light');
 
-    // Switch back to Coach mode
-    fireEvent.click(within(roleSwitcher).getByRole('button', { name: /Coach/i }));
+    // Switch back to Dark mode
+    fireEvent.click(darkBtn);
+    expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
+
+    // Open Training Series Switcher popover to see Series 01: Rondo and upcoming modules
+    const seriesBtn = screen.getByTestId('series-switcher-btn');
+    fireEvent.click(seriesBtn);
     expect(
-      screen.getAllByText(/Full Pro Coach mode: UEFA tactical cues/i).length
-    ).toBeGreaterThan(0);
+      screen.getByText(/Series 02: Positional Play/i)
+    ).toBeInTheDocument();
   });
 
   it('supports Interactive Pitch Board 2.0 controls (Auto-Play, Replay Pass, Speed, and Tokens)', () => {
