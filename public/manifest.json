@@ -1,0 +1,11 @@
+{
+  "name": "U15 Football Coach Playbook • Tactical Rondos",
+  "short_name": "Coach Rondos",
+  "description": "Mobile-first U15 Football Coaching Tactical Playbook: 5 Core Rondos (EN / RU)",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#020617",
+  "orientation": "portrait-primary",
+  "icons": []
+}
