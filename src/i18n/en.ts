@@ -1203,6 +1203,11 @@ export const UI_EN: UIStrings = {
     ]
   },
   methodology: {
+    tabAll: 'All Sections',
+    tabPrinciples: '1. Micro-Principles & U15',
+    tabGeometry: '2. Geometry, Body Shape & Cover Shadow',
+    tabInterventions: '3. Coach Freeze & Interventions',
+    tabCheatSheet: '4. 10 Rondos Master Table',
     cards: [
       {
         title: '1. Micro-Principles ("Barcelona School")',
@@ -1269,6 +1274,116 @@ export const UI_EN: UIStrings = {
             accentColor: 'text-amber-400'
           }
         ]
+      }
+    ],
+    geometrySectionTitle: 'Interactive Tactical Geometry: Body Shape, Angles & Cover Shadow',
+    geometrySectionSubtitle: 'Toggle each diagram between the common U15 mistake and the correct tactical execution to demonstrate the exact micro-details on the board.',
+    geometryModeMistakeBtn: '✗ Common U15 Mistake',
+    geometryModeSolutionBtn: '✓ Correct Tactical Execution',
+    geometryCueLabel: 'Live Voice Prompt:',
+    geometryConcepts: [
+      {
+        id: 'angles-45',
+        title: '1. 45° Support Angles vs Flat Lines',
+        subtitle: 'Why standing on the same line kills possession and how 45° triangles create automatic outlets',
+        mistakeLabel: '✗ Mistake: Flat Support Behind the Cover Shadow',
+        mistakeDesc: 'Teammates B and C stand too high or flat on the same horizontal plane, allowing a single defender (D1) to block both passing lanes simultaneously with one straight pressing run.',
+        solutionLabel: '✓ Solution: 45° Diagonal Support Outside the Cone',
+        solutionDesc: 'Teammates B and C drop/adjust along their perimeter lines to form 45° angles to the ball-carrier (A). No matter which way D1 turns, at least one clean passing lane is wide open.',
+        coachingCue: '“Step out of the shadow! Give the ball two 45-degree diagonals — never stand flat with the ball!”'
+      },
+      {
+        id: 'body-shape',
+        title: '2. Open Body Shape (Perfilación) & Far-Foot Reception',
+        subtitle: 'How half-turn shoulder alignment saves 0.8 seconds and opens the entire pitch on the first touch',
+        mistakeLabel: '✗ Mistake: Closed Body & Near-Foot Sole Stop',
+        mistakeDesc: 'Receiver B faces the passer squarely and stops the ball with the near foot or sole. His back is turned to the center and the far side, trapping him into a predictable return pass into pressure.',
+        solutionLabel: '✓ Solution: Half-Turn (Perfilación) & Back-Foot Cushion',
+        solutionDesc: 'Before the ball arrives, B angles his hips 45° toward the center of the grid and receives across his body with the back (far) foot, seeing all three lines and the defender simultaneously.',
+        coachingCue: '“Open your hips to the center before the pass arrives! Receive on the back foot — see the whole square!”'
+      },
+      {
+        id: 'cover-shadow',
+        title: '3. Cover Shadow (Тень перекрытия) & Arc Pressing',
+        subtitle: 'How defenders turn a 1v2 disadvantage into a 1v1 duel by curving their pressing trajectory',
+        mistakeLabel: '✗ Mistake: Straight-Line Sprint at the Ball',
+        mistakeDesc: 'Defender D1 sprints in a straight line directly at the ball-carrier (A). This leaves the central and diagonal passing lanes completely exposed for an easy split pass.',
+        solutionLabel: '✓ Solution: Curved Arc Press Keeping Pivot in Shadow',
+        solutionDesc: 'D1 curves his pressing run in an arc, keeping the central pivot (#6) or far target directly inside his Cover Shadow cone while forcing the ball-carrier onto one predictable side.',
+        coachingCue: '“Curve your run! Bend your press to hide #6 in your shadow and lock the ball onto one side!”'
+      },
+      {
+        id: 'third-man',
+        title: '4. Third-Man Combination (A → B → C)',
+        subtitle: 'Unlocking a player who is completely screened by a defender’s cover shadow',
+        mistakeLabel: '✗ Mistake: Forcing a Blocked Direct Pass (A → C)',
+        mistakeDesc: 'Passer A tries to force a direct vertical pass to C even though Defender D1 is squarely screening the lane, resulting in an immediate interception and counter-attack.',
+        solutionLabel: '✓ Solution: Bounce Pass via Second Man (A → B → C)',
+        solutionDesc: 'Passer A plays an angled pass to wide teammate B (“Second Man”). As D1 turns his head toward B, B Cushions a 1-touch layoff around the corner of the shadow to the free “Third Man” C!',
+        coachingCue: '“Can’t find C directly? Use B’s 1-touch mirror! Pass to the outside foot — bounce to the Third Man!”'
+      }
+    ],
+    interventionsSectionTitle: 'Coach “Freeze” & Live Intervention Playbook (6 Scenarios)',
+    interventionsSectionSubtitle: 'When to blow the whistle, what symptom to spot, the exact Socratic question to ask U15 players, and the 15-second fix.',
+    symptomLabel: 'On-Pitch Symptom',
+    freezeTriggerLabel: 'When to Shout “FREEZE!”',
+    guidedQuestionLabel: 'Guided Question (Ask U15)',
+    microCorrectionLabel: '15-Second Micro-Fix',
+    openRondoInCatalogBtn: 'Open Rondo on Board',
+    interventions: [
+      {
+        rondoId: 'rondo-1',
+        rondoNumber: '1.1',
+        title: '3v1 Rondo: The Vacant 4th Line Freeze',
+        symptom: 'After passing, the player admires his pass and stands still while the receiver gets trapped in a corner with only 1 option.',
+        freezeTrigger: 'Blow the whistle the moment the ball arrives at the receiver’s foot and one of the 4 sides is still empty while the passer hasn’t moved.',
+        guidedQuestion: '“Freeze! Look at the four lines of our square — which side is completely empty right now, and who had the shortest sprint to open a second angle?”',
+        microCorrection: 'Rewind 3 seconds: require the passer to start his sprint toward the vacant line the instant the ball leaves his boot — before it reaches his teammate.'
+      },
+      {
+        rondoId: 'rondo-2',
+        rondoNumber: '1.2',
+        title: '5v2 Rondo: Flat Defensive Pair Exposed',
+        symptom: 'Both defenders chase the ball side-by-side on the same horizontal line and get split by a simple ground pass.',
+        freezeTrigger: 'Shout “Freeze!” right as both defenders step up flat onto the same line and the ball-carrier draws his foot back for the split pass.',
+        guidedQuestion: '“Defenders, hold right there! Look at the gap between your shoulders — if you stand flat on the same line, who is protecting the central window behind you?”',
+        microCorrection: 'Drop the second defender 2.5 meters deeper and 1.5 meters diagonally inside (“staggered pair: one presses, one covers the split”). Restart from the bait pass.'
+      },
+      {
+        rondoId: 'rondo-3',
+        rondoNumber: '2.1',
+        title: '7v3 Rondo: Pivot (#6) Hiding Behind Pressure',
+        symptom: 'Perimeter players pass endlessly around the outside because the central pivot (#6) stands statically behind a defender’s back.',
+        freezeTrigger: 'Freeze play after 4 consecutive perimeter passes when (#6) has not checked his shoulders or adjusted out of the central defender’s cover shadow.',
+        guidedQuestion: '“Number 6, without turning around — tell me where the three defenders are! And if you stay right behind D2’s back, can the ball-carrier ever reach you?”',
+        microCorrection: 'Show (#6) how to take 2 quick lateral steps into the “window” between two defenders as the ball travels along the perimeter, scanning twice before calling for the ball.'
+      },
+      {
+        rondoId: 'rondo-5',
+        rondoNumber: '3.1',
+        title: '6v3 Two-Grid Rondo: Late Width on the Switch',
+        symptom: 'Attackers complete 4 passes under heavy pressure in Grid 1, but nobody has expanded into Grid 2 yet, forcing a turnover.',
+        freezeTrigger: 'Freeze on the 4th pass in Grid 1 when all 6 attackers are still bunched inside the first square.',
+        guidedQuestion: '“We just survived 4 passes and drew all three defenders into this box — look across into Grid 2: who is there to receive the switch?”',
+        microCorrection: 'Establish the “3rd-Pass Trigger”: on pass #3, the farthest attacker must already be crossing the midline into Grid 2 with an open body shape.'
+      },
+      {
+        rondoId: 'rondo-8',
+        rondoNumber: '4.2',
+        title: 'Bartolini Rondo: Missing the 1-Touch Layoff Cue',
+        symptom: 'The “Second Man” (B) takes 2 touches and stops the ball dead instead of playing a 1-touch bounce pass to the “Third Man” (C) in the inner box.',
+        freezeTrigger: 'Freeze the instant B traps the ball under his sole while C had timed a clean run into the open window inside the 5×5 m box.',
+        guidedQuestion: '“B, when A fired that firm pass to your right foot, where was C’s window open — and what happened to that window during your extra touch?”',
+        microCorrection: 'Demonstrate “Pass as a Message”: A’s pass to B’s back/inside foot is a command for an automatic 1-touch cushioned layoff into the inner box.'
+      },
+      {
+        rondoId: 'rondo-9',
+        rondoNumber: '5.1',
+        title: '4v2+4 Transition Rondo: Delayed Counter-Press Reaction',
+        symptom: 'Upon losing the ball, 1 player chases while the other 3 attackers pause or step backward, letting the defenders play out easily.',
+        freezeTrigger: 'Blow the whistle 1.5 seconds after an interception if even one of the 4 inner attackers is standing on his heels or looking down.',
+        guidedQuestion: '“Freeze! Look at the distances around the ball — if only one of you presses and three watch, how many free passing lanes does the opponent have to escape?”',
+        microCorrection: 'Re-run the turnover on the coach’s clap: all 4 attackers must sprint inward within 1 second (1 hunts the ball, 3 close the 360° net).'
       }
     ],
     tableTitle: 'Master Cheat-Sheet: Grid Dimensions & Work-to-Rest Ratios for All 10 Rondos (U15 / 14–15 yrs)',

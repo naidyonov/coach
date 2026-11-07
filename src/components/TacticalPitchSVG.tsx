@@ -1,5 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Maximize2, Minimize2, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import {
+  Maximize2,
+  Minimize2,
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  Pause,
+  RotateCcw,
+  RefreshCw,
+  Move
+} from 'lucide-react';
 import { RondoItem } from '../i18n/types';
 import { useLanguage } from '../i18n/LanguageContext';
 
@@ -20,15 +30,127 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
   showMovements,
   showShadows
 }) => {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Interactive Playback & Ball Animation State
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [playbackSpeed, setPlaybackSpeed] = useState<0.75 | 1 | 1.5>(1);
+  const [passProgress, setPassProgress] = useState<number>(0);
+  const [isPassAnimating, setIsPassAnimating] = useState(false);
+  const [replayTrigger, setReplayTrigger] = useState(0);
+
+  // Interactive Coach Whiteboard (Drag & Drop) State
+  const [customPositions, setCustomPositions] = useState<Record<string, { x: number; y: number }>>({});
+  const [customBallPos, setCustomBallPos] = useState<{ x: number; y: number } | null>(null);
+  const [draggingTokenId, setDraggingTokenId] = useState<string | null>(null);
+
   const touchStartXRef = useRef<number | null>(null);
   const touchStartYRef = useRef<number | null>(null);
+  const isDraggingRef = useRef(false);
+  const rafRef = useRef<number | null>(null);
+  const timeoutRef = useRef<number | null>(null);
 
   const phases = rondo.diagram.phases;
   const safePhaseIndex = Math.min(phaseIndex, phases.length - 1);
   const phase = phases[safePhaseIndex] || phases[0];
   const { cones, type, gridLabel } = rondo.diagram;
+
+  const primaryPass = phase.passes.find((p) => p.primary) || phase.passes[0] || null;
+  const hasCustomPositions =
+    Object.keys(customPositions).length > 0 || customBallPos !== null;
+
+  // Reset custom dragged coordinates when drill or phase changes
+  useEffect(() => {
+    setCustomPositions({});
+    setCustomBallPos(null);
+    setDraggingTokenId(null);
+    isDraggingRef.current = false;
+  }, [rondo.id, safePhaseIndex]);
+
+  // Stop auto-play when switching drills
+  useEffect(() => {
+    setIsPlaying(false);
+    setIsPassAnimating(false);
+    setPassProgress(0);
+  }, [rondo.id]);
+
+  // Clean up timers and animation frames
+  const clearAnimations = useCallback(() => {
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    if (timeoutRef.current !== null) {
+      window.clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  }, []);
+
+  // Run smooth ball trajectory animation along the primary pass vector
+  useEffect(() => {
+    clearAnimations();
+
+    if (!isPlaying && replayTrigger === 0) {
+      setIsPassAnimating(false);
+      setPassProgress(0);
+      return;
+    }
+
+    if (!primaryPass) {
+      if (isPlaying && onPhaseChange) {
+        timeoutRef.current = window.setTimeout(() => {
+          onPhaseChange((safePhaseIndex + 1) % phases.length);
+        }, 1600 / playbackSpeed);
+      }
+      return clearAnimations;
+    }
+
+    // Wait briefly so player tokens settle, then animate pass 0 -> 1
+    const settleDelay = isPlaying ? Math.round(320 / playbackSpeed) : 80;
+    const duration = Math.round(900 / playbackSpeed);
+    const holdDelay = Math.round(580 / playbackSpeed);
+
+    setPassProgress(0);
+    setIsPassAnimating(true);
+
+    timeoutRef.current = window.setTimeout(() => {
+      const startTime = performance.now();
+
+      const step = (now: number) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(1, elapsed / duration);
+        setPassProgress(progress);
+
+        if (progress < 1) {
+          rafRef.current = requestAnimationFrame(step);
+        } else {
+          // Hold at pass destination before advancing or resetting
+          timeoutRef.current = window.setTimeout(() => {
+            if (isPlaying && onPhaseChange) {
+              onPhaseChange((safePhaseIndex + 1) % phases.length);
+            } else {
+              setIsPassAnimating(false);
+              setPassProgress(0);
+            }
+          }, holdDelay);
+        }
+      };
+
+      rafRef.current = requestAnimationFrame(step);
+    }, settleDelay);
+
+    return clearAnimations;
+  }, [
+    isPlaying,
+    replayTrigger,
+    safePhaseIndex,
+    playbackSpeed,
+    primaryPass,
+    onPhaseChange,
+    phases.length,
+    clearAnimations
+  ]);
 
   useEffect(() => {
     if (!isFullscreen) return;
@@ -39,13 +161,66 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
         onPhaseChange((safePhaseIndex - 1 + phases.length) % phases.length);
       } else if (e.key === 'ArrowRight' && onPhaseChange) {
         onPhaseChange((safePhaseIndex + 1) % phases.length);
+      } else if (e.key === ' ') {
+        e.preventDefault();
+        setIsPlaying((prev) => !prev);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isFullscreen, onPhaseChange, safePhaseIndex, phases.length]);
 
+  const handleResetPositions = () => {
+    setCustomPositions({});
+    setCustomBallPos(null);
+    setDraggingTokenId(null);
+  };
+
+  const handleReplayPass = () => {
+    setCustomBallPos(null);
+    setReplayTrigger((prev) => prev + 1);
+  };
+
+  const handleTokenPointerDown = (tokenId: string, e: React.PointerEvent) => {
+    e.stopPropagation();
+    setIsPlaying(false);
+    setIsPassAnimating(false);
+    setDraggingTokenId(tokenId);
+    isDraggingRef.current = true;
+    touchStartXRef.current = null;
+    touchStartYRef.current = null;
+  };
+
+  const handleSvgPointerMove = (e: React.PointerEvent<SVGSVGElement>) => {
+    if (!draggingTokenId) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
+
+    const rawX = ((e.clientX - rect.left) / rect.width) * 500;
+    const rawY = ((e.clientY - rect.top) / rect.height) * 400;
+    const x = Math.round(Math.max(20, Math.min(480, rawX)));
+    const y = Math.round(Math.max(20, Math.min(380, rawY)));
+
+    if (draggingTokenId === 'ball') {
+      setCustomBallPos({ x, y });
+    } else {
+      setCustomPositions((prev) => ({
+        ...prev,
+        [draggingTokenId]: { x, y }
+      }));
+    }
+  };
+
+  const handleSvgPointerUp = () => {
+    if (!draggingTokenId) return;
+    setDraggingTokenId(null);
+    window.setTimeout(() => {
+      isDraggingRef.current = false;
+    }, 50);
+  };
+
   const handleTouchStart = (e: React.TouchEvent) => {
+    if (isDraggingRef.current || draggingTokenId) return;
     if (e.touches.length === 1) {
       touchStartXRef.current = e.touches[0].clientX;
       touchStartYRef.current = e.touches[0].clientY;
@@ -54,6 +229,8 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (
+      isDraggingRef.current ||
+      draggingTokenId ||
       !onPhaseChange ||
       touchStartXRef.current === null ||
       touchStartYRef.current === null ||
@@ -181,6 +358,24 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
     return null;
   };
 
+  // Compute dynamic ball coordinates (custom dragged > pass trajectory animation > phase default)
+  const getBallCoordinates = () => {
+    if (customBallPos) {
+      return customBallPos;
+    }
+    if (isPassAnimating && primaryPass) {
+      // Ease-out cubic interpolation along primary pass vector
+      const ease = 1 - Math.pow(1 - passProgress, 3);
+      return {
+        x: primaryPass.from.x + (primaryPass.to.x - primaryPass.from.x) * ease,
+        y: primaryPass.from.y + (primaryPass.to.y - primaryPass.from.y) * ease
+      };
+    }
+    return phase.ball;
+  };
+
+  const ballCoords = getBallCoordinates();
+
   const renderBoardContent = (inModal = false) => (
     <div
       className={`relative rounded-2xl overflow-hidden border border-emerald-800/80 bg-emerald-950 shadow-2xl select-none ${
@@ -191,14 +386,20 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
     >
       {/* Top Bar with Grid Label, Legend, and Fullscreen Toggle */}
       <div className="bg-slate-900/95 px-3 sm:px-4 py-2.5 flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 text-xs">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           <span className="font-semibold text-emerald-300 tracking-wide">
             {gridLabel}
           </span>
+          {hasCustomPositions && (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[11px] font-medium">
+              <Move className="w-3 h-3" />
+              {lang === 'ru' ? 'Своя расстановка' : 'Custom Setup'}
+            </span>
+          )}
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-slate-300">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3.5 text-slate-300">
           <span className="flex items-center gap-1.5">
             <span className="w-3 h-3 rounded-full bg-red-500 inline-block border border-white/80 shadow-sm" />
             <span>{t.catalog.legendPossession}</span>
@@ -233,12 +434,99 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
         </div>
       </div>
 
+      {/* Interactive Pitch Controls Bar: Auto-Play, Speed, Replay Pass, and Whiteboard Reset */}
+      <div className="bg-slate-900/80 px-3 sm:px-4 py-2 flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 text-xs print:hidden">
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+          {/* Auto-Play / Pause Button */}
+          <button
+            type="button"
+            data-testid={inModal ? 'pitch-autoplay-btn-modal' : 'pitch-autoplay-btn'}
+            onClick={() => setIsPlaying((prev) => !prev)}
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold transition cursor-pointer border ${
+              isPlaying
+                ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-sm shadow-emerald-500/20'
+                : 'bg-slate-800 hover:bg-slate-700 text-emerald-300 border-slate-700'
+            }`}
+          >
+            {isPlaying ? (
+              <>
+                <Pause className="w-3.5 h-3.5 fill-current" />
+                <span>{lang === 'ru' ? 'Пауза' : 'Pause'}</span>
+              </>
+            ) : (
+              <>
+                <Play className="w-3.5 h-3.5 fill-current" />
+                <span>{lang === 'ru' ? 'Авто-показ' : 'Auto-Play'}</span>
+              </>
+            )}
+          </button>
+
+          {/* Replay Current Pass Trajectory Button */}
+          {primaryPass && (
+            <button
+              type="button"
+              data-testid={inModal ? 'pitch-replay-pass-btn-modal' : 'pitch-replay-pass-btn'}
+              onClick={handleReplayPass}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer"
+              title={lang === 'ru' ? 'Повторить траекторию паса в текущей фазе' : 'Replay pass trajectory in current phase'}
+            >
+              <RefreshCw className={`w-3.5 h-3.5 text-amber-400 ${isPassAnimating && !isPlaying ? 'animate-spin' : ''}`} />
+              <span>{lang === 'ru' ? 'Повтор паса' : 'Replay Pass'}</span>
+            </button>
+          )}
+
+          {/* Speed Selector Pill */}
+          <div className="inline-flex items-center rounded-lg bg-slate-950/80 p-0.5 border border-slate-800">
+            {([0.75, 1, 1.5] as const).map((spd) => (
+              <button
+                key={spd}
+                type="button"
+                onClick={() => setPlaybackSpeed(spd)}
+                className={`px-2 py-0.5 rounded-md text-[11px] font-semibold transition cursor-pointer ${
+                  playbackSpeed === spd
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                {spd}x
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Whiteboard Helper & Reset Button */}
+        <div className="flex items-center gap-2">
+          {hasCustomPositions ? (
+            <button
+              type="button"
+              data-testid={inModal ? 'pitch-reset-positions-btn-modal' : 'pitch-reset-positions-btn'}
+              onClick={handleResetPositions}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-semibold transition cursor-pointer"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>{lang === 'ru' ? 'Сбросить расстановку' : 'Reset Positions'}</span>
+            </button>
+          ) : (
+            <span className="hidden md:inline-flex items-center gap-1 text-[11px] text-slate-400">
+              <Move className="w-3 h-3 text-emerald-400/80" />
+              {lang === 'ru'
+                ? 'Доска тренера: перетаскивайте игроков и мяч'
+                : 'Coach Whiteboard: drag players & ball'}
+            </span>
+          )}
+        </div>
+      </div>
+
       {/* SVG Pitch */}
       <svg
         viewBox="0 0 500 400"
-        className={`w-full h-auto block ${inModal ? 'max-h-[70vh]' : ''}`}
+        className={`w-full h-auto block touch-none ${inModal ? 'max-h-[70vh]' : ''}`}
         role="img"
         aria-label={`${rondo.title} - ${phase.title}`}
+        onPointerMove={handleSvgPointerMove}
+        onPointerUp={handleSvgPointerUp}
+        onPointerCancel={handleSvgPointerUp}
+        onPointerLeave={handleSvgPointerUp}
       >
         <defs>
           {/* Drop Shadow for Players & Ball */}
@@ -469,8 +757,11 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
             );
           })}
 
-        {/* Players */}
+        {/* Players (Interactive Draggable Tokens) */}
         {phase.players.map((p) => {
+          const pos = customPositions[p.id] || { x: p.x, y: p.y };
+          const isBeingDragged = draggingTokenId === p.id;
+          const isCustomMoved = Boolean(customPositions[p.id]);
           const fill =
             p.role === 'att'
               ? '#ef4444'
@@ -483,10 +774,29 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
           return (
             <g
               key={p.id}
-              transform={`translate(${p.x}, ${p.y})`}
-              style={{ transition: 'transform 450ms cubic-bezier(0.22, 1, 0.36, 1)' }}
+              data-testid={`pitch-player-${p.id}`}
+              transform={`translate(${pos.x}, ${pos.y})`}
+              style={{
+                transition: isBeingDragged
+                  ? 'none'
+                  : 'transform 450ms cubic-bezier(0.22, 1, 0.36, 1)'
+              }}
               filter="url(#token-shadow)"
+              className="cursor-grab active:cursor-grabbing"
+              onPointerDown={(e) => handleTokenPointerDown(p.id, e)}
             >
+              {/* Active Drag or Custom Position Highlight Ring */}
+              {(isBeingDragged || isCustomMoved) && (
+                <circle
+                  cx={0}
+                  cy={0}
+                  r={isBeingDragged ? 21 : 18.5}
+                  fill="none"
+                  stroke={isBeingDragged ? '#34d399' : 'rgba(251, 191, 36, 0.75)'}
+                  strokeWidth={isBeingDragged ? '2.5' : '1.5'}
+                  strokeDasharray={isBeingDragged ? undefined : '3 2'}
+                />
+              )}
               <circle
                 cx={0}
                 cy={0}
@@ -502,7 +812,7 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
                 fill={textColor}
                 fontSize="11.5"
                 fontWeight="800"
-                style={{ fontFamily: 'system-ui, sans-serif' }}
+                style={{ fontFamily: 'system-ui, sans-serif', pointerEvents: 'none' }}
               >
                 {p.label}
               </text>
@@ -510,13 +820,32 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
           );
         })}
 
-        {/* Football */}
-        {phase.ball && (
+        {/* Football (Animated along Primary Pass or Draggable) */}
+        {ballCoords && (
           <g
-            transform={`translate(${phase.ball.x}, ${phase.ball.y})`}
-            style={{ transition: 'transform 450ms cubic-bezier(0.22, 1, 0.36, 1)' }}
+            data-testid="pitch-ball-token"
+            transform={`translate(${ballCoords.x}, ${ballCoords.y})`}
+            style={{
+              transition:
+                draggingTokenId === 'ball' || isPassAnimating
+                  ? 'none'
+                  : 'transform 450ms cubic-bezier(0.22, 1, 0.36, 1)'
+            }}
             filter="url(#token-shadow)"
+            className="cursor-grab active:cursor-grabbing"
+            onPointerDown={(e) => handleTokenPointerDown('ball', e)}
           >
+            {(draggingTokenId === 'ball' || isPassAnimating) && (
+              <circle
+                cx={0}
+                cy={0}
+                r={13.5}
+                fill="none"
+                stroke="#facc15"
+                strokeWidth="1.8"
+                strokeDasharray="3 2"
+              />
+            )}
             <circle
               cx={0}
               cy={0}
@@ -571,7 +900,7 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
           {/* Quick Phase Stepper Controls in Fullscreen */}
           <div className="w-full max-w-5xl mx-auto mt-3 bg-slate-900/90 border border-slate-800 rounded-xl p-3 sm:p-4">
             <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-              <div className="flex items-center gap-1.5">
+              <div className="flex flex-wrap items-center gap-1.5">
                 {onPhaseChange && (
                   <button
                     type="button"
@@ -613,6 +942,28 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
                   </button>
                 )}
               </div>
+
+              <button
+                type="button"
+                onClick={() => setIsPlaying((prev) => !prev)}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer border ${
+                  isPlaying
+                    ? 'bg-emerald-500 text-slate-950 border-emerald-400'
+                    : 'bg-slate-800 hover:bg-slate-700 text-emerald-300 border-slate-700'
+                }`}
+              >
+                {isPlaying ? (
+                  <>
+                    <Pause className="w-3.5 h-3.5 fill-current" />
+                    <span>{lang === 'ru' ? 'Пауза' : 'Pause'}</span>
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-3.5 h-3.5 fill-current" />
+                    <span>{lang === 'ru' ? 'Авто-показ фаз' : 'Auto-Play Phases'}</span>
+                  </>
+                )}
+              </button>
             </div>
 
             <div className="text-xs sm:text-sm">
@@ -625,3 +976,4 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
     </>
   );
 };
+

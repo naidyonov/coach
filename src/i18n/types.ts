@@ -120,6 +120,27 @@ export interface SessionStructureBlock {
   accentColor?: string;
 }
 
+export interface GeometryConceptItem {
+  id: 'angles-45' | 'body-shape' | 'cover-shadow' | 'third-man';
+  title: string;
+  subtitle: string;
+  mistakeLabel: string;
+  mistakeDesc: string;
+  solutionLabel: string;
+  solutionDesc: string;
+  coachingCue: string;
+}
+
+export interface CoachInterventionItem {
+  rondoId: string;
+  rondoNumber: string;
+  title: string;
+  symptom: string;
+  freezeTrigger: string;
+  guidedQuestion: string;
+  microCorrection: string;
+}
+
 export interface UIStrings {
   header: {
     moduleBadge: string;
@@ -206,7 +227,26 @@ export interface UIStrings {
     sessionBlocks: SessionStructureBlock[];
   };
   methodology: {
+    tabAll: string;
+    tabPrinciples: string;
+    tabGeometry: string;
+    tabInterventions: string;
+    tabCheatSheet: string;
     cards: MethodologySection[];
+    geometrySectionTitle: string;
+    geometrySectionSubtitle: string;
+    geometryModeMistakeBtn: string;
+    geometryModeSolutionBtn: string;
+    geometryCueLabel: string;
+    geometryConcepts: GeometryConceptItem[];
+    interventionsSectionTitle: string;
+    interventionsSectionSubtitle: string;
+    symptomLabel: string;
+    freezeTriggerLabel: string;
+    guidedQuestionLabel: string;
+    microCorrectionLabel: string;
+    openRondoInCatalogBtn: string;
+    interventions: CoachInterventionItem[];
     tableTitle: string;
     tableHeaders: {
       num: string;

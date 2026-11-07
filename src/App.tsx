@@ -284,6 +284,7 @@ export function App() {
             teamPlayersCount={teamPlayersCount}
             onChangeTeamPlayersCount={setTeamPlayersCount}
             onOpenMonthlyPlan={() => setActiveTab('monthly')}
+            onOpenTimerForRondo={() => setActiveTab('timer')}
             roleMode={roleMode}
           />
         )}

@@ -8,6 +8,9 @@ import {
   Timer,
   Volume2,
   VolumeX,
+  Trophy,
+  MessageSquare,
+  Zap
 } from 'lucide-react';
 import { RondoItem } from '../i18n/types';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -16,8 +19,37 @@ export interface PitchTimerViewProps {
   selectedRondo?: RondoItem;
 }
 
+const getRondoTimerPreset = (
+  rondo: RondoItem
+): { work: number; rest: number; sets: number } => {
+  switch (rondo.id) {
+    case 'rondo-1':
+      return { work: 90, rest: 30, sets: 4 };
+    case 'rondo-2':
+      return { work: 120, rest: 40, sets: 4 };
+    case 'rondo-3':
+      return { work: 150, rest: 45, sets: 4 };
+    case 'rondo-4':
+      return { work: 180, rest: 60, sets: 3 };
+    case 'rondo-5':
+      return { work: 150, rest: 45, sets: 4 };
+    case 'rondo-6':
+      return { work: 240, rest: 60, sets: 3 };
+    case 'rondo-7':
+      return { work: 120, rest: 45, sets: 4 };
+    case 'rondo-8':
+      return { work: 150, rest: 60, sets: 4 };
+    case 'rondo-9':
+      return { work: 120, rest: 45, sets: 4 };
+    case 'rondo-10':
+      return { work: 150, rest: 45, sets: 4 };
+    default:
+      return { work: 120, rest: 40, sets: 4 };
+  }
+};
+
 export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo }) => {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
 
   const [workSeconds, setWorkSeconds] = useState<number>(120); // 2 min default
   const [restSeconds, setRestSeconds] = useState<number>(40);
@@ -137,11 +169,18 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
     return `${m}:${s < 10 ? '0' : ''}${s}`;
   };
 
+  const rondoPreset = selectedRondo ? getRondoTimerPreset(selectedRondo) : null;
+  const isRondoPresetActive =
+    rondoPreset !== null &&
+    workSeconds === rondoPreset.work &&
+    restSeconds === rondoPreset.rest &&
+    totalSets === rondoPreset.sets;
+
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
         {/* Top Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-5">
           <div>
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
               {t.timer.badge}
@@ -171,7 +210,45 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
           </button>
         </div>
 
-        {/* Presets */}
+        {/* Active Rondo One-Tap Preset Banner */}
+        {selectedRondo && rondoPreset && (
+          <div className="mb-4">
+            <button
+              type="button"
+              data-testid="timer-active-rondo-preset-btn"
+              onClick={() =>
+                applyPreset(rondoPreset.work, rondoPreset.rest, rondoPreset.sets)
+              }
+              className={`w-full flex flex-wrap items-center justify-between gap-2 px-4 py-3 rounded-xl border text-left transition-all cursor-pointer ${
+                isRondoPresetActive
+                  ? 'bg-emerald-500/20 border-emerald-500 text-emerald-200 shadow-md shadow-emerald-950/50'
+                  : 'bg-slate-950/90 border-emerald-500/40 hover:border-emerald-400 text-slate-200'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Zap className="w-4 h-4 text-amber-400 shrink-0" />
+                <div>
+                  <div className="text-xs font-extrabold text-emerald-300">
+                    {lang === 'ru'
+                      ? `Загрузить дозировку выбранного рондо №${selectedRondo.number}`
+                      : `Load Selected Rondo #${selectedRondo.number} Dosage`}
+                  </div>
+                  <div className="text-xs text-slate-300">
+                    {selectedRondo.shortTitle || selectedRondo.title} —{' '}
+                    <span className="font-semibold text-white">
+                      {selectedRondo.timingU15}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <span className="px-2.5 py-1 rounded-lg bg-emerald-500 text-slate-950 text-xs font-extrabold shrink-0">
+                {rondoPreset.sets} × {formatTime(rondoPreset.work)} / {rondoPreset.rest}s
+              </span>
+            </button>
+          </div>
+        )}
+
+        {/* Standard Presets */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-6">
           <button
             type="button"
@@ -352,7 +429,41 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
             </button>
           </div>
         </div>
+
+        {/* Live On-Pitch Reference Card for the Active Rondo */}
+        {selectedRondo && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 border-t border-slate-800">
+            <div className="p-3.5 rounded-xl bg-amber-950/20 border border-amber-800/40">
+              <div className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-amber-400 mb-1">
+                <Trophy className="w-3.5 h-3.5 shrink-0" />
+                <span>{t.catalog.scoringRuleTitle}</span>
+              </div>
+              <p className="text-xs text-slate-200 leading-relaxed">
+                {selectedRondo.scoringRule}
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
+              <div className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-emerald-400 mb-1.5">
+                <MessageSquare className="w-3.5 h-3.5 shrink-0" />
+                <span>{t.catalog.coachingCuesTitle}</span>
+              </div>
+              <ul className="space-y-1">
+                {selectedRondo.coachingCues.map((cue, idx) => (
+                  <li
+                    key={idx}
+                    className="text-xs text-slate-300 leading-snug flex items-start gap-1.5"
+                  >
+                    <span className="text-emerald-400 font-bold">•</span>
+                    <span>“{cue}”</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 };
+

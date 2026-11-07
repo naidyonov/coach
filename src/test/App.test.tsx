@@ -147,4 +147,70 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
       screen.getAllByText(/Full Pro Coach mode: UEFA tactical cues/i).length
     ).toBeGreaterThan(0);
   });
+
+  it('supports Interactive Pitch Board 2.0 controls (Auto-Play, Replay Pass, Speed, and Tokens)', () => {
+    renderApp();
+
+    const autoPlayBtn = screen.getByTestId('pitch-autoplay-btn');
+    expect(autoPlayBtn).toHaveTextContent(/Auto-Play/i);
+
+    // Toggle Auto-Play on and off
+    fireEvent.click(autoPlayBtn);
+    expect(autoPlayBtn).toHaveTextContent(/Pause/i);
+    fireEvent.click(autoPlayBtn);
+    expect(autoPlayBtn).toHaveTextContent(/Auto-Play/i);
+
+    // Trigger Replay Pass
+    const replayPassBtn = screen.getByTestId('pitch-replay-pass-btn');
+    fireEvent.click(replayPassBtn);
+
+    // Check interactive player & ball tokens are rendered
+    expect(screen.getByTestId('pitch-ball-token')).toBeInTheDocument();
+    expect(screen.getByTestId('pitch-player-A')).toBeInTheDocument();
+  });
+
+  it('supports Quick Pitch-Side Rondo Stepper, Mobile Sub-Tabs, and Drill-Aware Timer Preset', () => {
+    renderApp();
+
+    // Quick Rondo Stepper pill selection (jump directly to Rondo 2.1 / rondo-3)
+    const quickPillRondo3 = screen.getByTestId('quick-rondo-pill-rondo-3');
+    fireEvent.click(quickPillRondo3);
+
+    expect(
+      screen.getAllByText(/7v3 Rondo: Progression Through Pivot \(#6\)/i).length
+    ).toBeGreaterThan(0);
+
+    // Mobile drill sub-tabs switching
+    const mobileSubTabs = screen.getByTestId('mobile-drill-subtabs');
+    fireEvent.click(within(mobileSubTabs).getByRole('button', { name: /Cues & Stages/i }));
+    fireEvent.click(within(mobileSubTabs).getByRole('button', { name: /Squad/i }));
+    fireEvent.click(within(mobileSubTabs).getByRole('button', { name: /Goals & Score/i }));
+
+    // Launch Drill Timer directly from the active rondo card
+    const launchTimerBtn = screen.getByTestId('launch-rondo-timer-btn');
+    fireEvent.click(launchTimerBtn);
+
+    // Apply Rondo 2.1 dosage preset (4 x 2:30 / 45s)
+    const activeRondoPresetBtn = screen.getByTestId('timer-active-rondo-preset-btn');
+    fireEvent.click(activeRondoPresetBtn);
+
+    expect(screen.getAllByText('2:30').length).toBeGreaterThan(0);
+  });
+
+  it('renders Expanded Methodology Interactive Geometry diagrams and Coach Freeze Interventions', () => {
+    renderApp();
+
+    const mainNav = screen.getByRole('navigation', { name: /main navigation/i });
+    fireEvent.click(within(mainNav).getByRole('button', { name: /U15 Methodology/i }));
+
+    // Check Interactive Geometry section & toggle Mistake vs Solution mode
+    const geometryToggles = screen.getAllByTestId('geometry-mode-toggle');
+    expect(geometryToggles.length).toBe(4);
+    fireEvent.click(geometryToggles[0]);
+
+    // Check Coach Freeze Interventions section
+    expect(screen.getAllByText(/FREEZE!/i).length).toBeGreaterThanOrEqual(6);
+  });
 });
+
+
