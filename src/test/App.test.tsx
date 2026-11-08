@@ -214,6 +214,39 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
     // Check Coach Freeze Interventions section
     expect(screen.getAllByText(/FREEZE!/i).length).toBeGreaterThanOrEqual(6);
   });
+
+  it('switches age bands (U9–U10 through U17+ / Pro) and renders the Methodological & Scientific Basis tab', () => {
+    renderApp();
+
+    // Verify Age Band Selector is rendered in the Catalog view
+    const ageSelector = screen.getByTestId('age-band-selector');
+    expect(ageSelector).toBeInTheDocument();
+
+    // Switch to U9–U10 (Foundation Stage)
+    const u10Pill = screen.getByTestId('age-pill-u10');
+    fireEvent.click(u10Pill);
+    expect(
+      screen.getAllByText(/Foundation Stage \(Funino \/ Game Discovery\)/i).length
+    ).toBeGreaterThan(0);
+
+    // Switch to U17+ / Pro (High Performance)
+    const proPill = screen.getByTestId('age-pill-u18_pro');
+    fireEvent.click(proPill);
+    expect(
+      screen.getAllByText(/High Performance & Adult Football/i).length
+    ).toBeGreaterThan(0);
+
+    // Open the "Basis & Science" tab inside the Coaching Brief
+    const basisTabBtn = screen.getByTestId('scientific-basis-tab-btn');
+    fireEvent.click(basisTabBtn);
+
+    const basisPanel = screen.getByTestId('scientific-basis-panel');
+    expect(basisPanel).toBeInTheDocument();
+    expect(
+      within(basisPanel).getByText(/FC Barcelona \(La Masia\)/i)
+    ).toBeInTheDocument();
+  });
 });
+
 
 

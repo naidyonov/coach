@@ -4,6 +4,8 @@ export type CategoryId = 'all' | 'retention' | 'progression' | 'switch' | 'defen
 
 export type RoleMode = 'coach' | 'players' | 'parents';
 
+export type AgeBandId = 'u10' | 'u12' | 'u14' | 'u16' | 'u18_pro';
+
 export interface CategoryItem {
   id: CategoryId;
   name: string;

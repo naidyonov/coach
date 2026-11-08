@@ -16,6 +16,10 @@ import {
   MessageSquare,
   Timer,
   LayoutGrid,
+  GraduationCap,
+  Microscope,
+  Compass,
+  Sparkles,
 } from 'lucide-react';
 import { CategoryId, RondoItem } from '../i18n/types';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -40,7 +44,7 @@ export interface CatalogViewProps {
   onOpenTimerForRondo?: () => void;
 }
 
-type DrillBriefTab = 'goals' | 'cues' | 'squad';
+type DrillBriefTab = 'goals' | 'science' | 'cues' | 'squad';
 
 export const CatalogView: React.FC<CatalogViewProps> = ({
   selectedCategory,
@@ -60,7 +64,20 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
   onOpenMonthlyPlan,
   onOpenTimerForRondo,
 }) => {
-  const { lang, t, categories, rondos, getSquadOrganizationAdvice } = useLanguage();
+  const {
+    lang,
+    t,
+    ageBand,
+    setAgeBand,
+    ageBands,
+    currentAgeBandInfo,
+    getRondoMethodology,
+    getRondoAgeVariant,
+    categories,
+    rondos,
+    getSquadOrganizationAdvice,
+  } = useLanguage();
+
   // Default to false so the user immediately sees the Tactical Pitch & active drill without 10 cards pushing it down
   const [isCatalogExpanded, setIsCatalogExpanded] = useState<boolean>(false);
   const [briefTab, setBriefTab] = useState<DrillBriefTab>('goals');
@@ -100,9 +117,12 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
     onPhaseChange((safePhaseIndex + 1) % phases.length);
   };
 
+  const activeAgeVariant = getRondoAgeVariant(selectedRondo.id);
+  const methodologyBasis = getRondoMethodology(selectedRondo.id);
+
   return (
     <div className="space-y-4">
-      {/* Unified Drill Navigator Bar: Categories + Quick Number Stepper + Optional Cards Drawer */}
+      {/* Unified Drill Navigator Bar: Categories + Age Group Selector + Quick Stepper */}
       <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 shadow-sm space-y-3">
         {/* Top Row: Category Pills + Expand/Collapse All Cards Drawer Button */}
         <div className="flex flex-wrap items-center justify-between gap-2">
@@ -150,6 +170,47 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
               </>
             )}
           </button>
+        </div>
+
+        {/* Multi-Age Group Selector Bar (U9-U10 | U11-U12 | U13-U14 | U15-U16 | U17+/Pro) */}
+        <div
+          data-testid="age-band-selector"
+          className="bg-slate-950/90 border border-slate-800/80 rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2"
+        >
+          <div className="flex items-center gap-2">
+            <GraduationCap className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span className="text-xs font-bold text-slate-300">
+              {lang === 'ru' ? 'Возрастная адаптация:' : 'Age Adaptation:'}
+            </span>
+            <span className="hidden md:inline-block text-[11px] text-slate-400">
+              {currentAgeBandInfo.stageTitle} •{' '}
+              <strong className="text-emerald-400">
+                {currentAgeBandInfo.relativeAreaRule}
+              </strong>
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
+            {ageBands.map((band) => {
+              const isSelected = ageBand === band.id;
+              return (
+                <button
+                  key={band.id}
+                  type="button"
+                  data-testid={`age-pill-${band.id}`}
+                  onClick={() => setAgeBand(band.id)}
+                  title={`${band.label} — ${band.stageTitle}`}
+                  className={`shrink-0 px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer border ${
+                    isSelected
+                      ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-sm'
+                      : 'bg-slate-900 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white'
+                  }`}
+                >
+                  {band.shortLabel}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Quick Rondo Stepper Bar (1.1 -> 5.2) with Short Titles */}
@@ -214,6 +275,7 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
           <div className="pt-2 border-t border-slate-800/80 flex overflow-x-auto sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 pb-1 sm:pb-0 snap-x snap-mandatory no-scrollbar">
             {filteredRondos.map((rondo) => {
               const isSelected = rondo.id === selectedRondo.id;
+              const rondoAgeVar = getRondoAgeVariant(rondo.id);
               return (
                 <button
                   key={rondo.id}
@@ -245,11 +307,11 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                   </div>
 
                   <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-                    <span className="truncate max-w-[60%] font-medium text-slate-300">
-                      {rondo.format.split(' ')[0]}
+                    <span className="truncate max-w-[55%] font-medium text-slate-300">
+                      {rondoAgeVar.formatOverride || rondo.format.split(' ')[0]}
                     </span>
-                    <span className="text-emerald-300/90 font-mono">
-                      {rondo.dimensionsU15.base.split('(')[0].trim()}
+                    <span className="text-emerald-300/90 font-mono truncate">
+                      {rondoAgeVar.baseGrid.split('(')[0].trim()}
                     </span>
                   </div>
                 </button>
@@ -276,8 +338,11 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                   >
                     {selectedRondo.categoryName}
                   </span>
+                  <span className="px-2 py-0.5 rounded-md bg-slate-800 text-emerald-300 text-xs font-bold">
+                    {currentAgeBandInfo.shortLabel}
+                  </span>
                   <span className="text-xs text-slate-400 font-medium">
-                    • {selectedRondo.playersCount}
+                    • {activeAgeVariant.formatOverride || selectedRondo.playersCount}
                   </span>
                 </div>
                 <h2 className="text-lg sm:text-xl font-extrabold text-white tracking-tight">
@@ -423,47 +488,58 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
           </div>
         </div>
 
-        {/* RIGHT COLUMN (5 cols): Structured Coaching Brief with Focused Tabs */}
+        {/* RIGHT COLUMN (5 cols): Dynamic Age-Adapted Metrics + 4-Tab Coaching & Scientific Brief */}
         <div className="lg:col-span-5 space-y-4">
-          {/* Top Key Metrics Strip: Pitch Size & Dosage (Always visible at a glance) */}
-          <div className="grid grid-cols-2 gap-3">
+          {/* Top Key Metrics Strip: Age-Adapted Pitch Size (with m²/player) & Dosage */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 shadow-sm">
-              <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold mb-1">
-                <Maximize2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>{t.catalog.pitchSizeLabel}</span>
+              <div className="flex items-center justify-between gap-1.5 text-xs text-slate-400 font-semibold mb-1">
+                <span className="flex items-center gap-1.5">
+                  <Maximize2 className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>{t.catalog.pitchSizeLabel}</span>
+                </span>
+                <span className="px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300 font-bold text-[10px]">
+                  {currentAgeBandInfo.shortLabel}
+                </span>
               </div>
               <div className="text-sm font-extrabold text-white">
-                {selectedRondo.dimensionsU15.base}
+                {activeAgeVariant.baseGrid}
               </div>
               <div className="text-[11px] text-emerald-400 mt-0.5">
-                {t.catalog.intensivePrefix} {selectedRondo.dimensionsU15.intensive}
+                {t.catalog.intensivePrefix} {activeAgeVariant.intensiveGrid}
               </div>
             </div>
 
             <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 shadow-sm">
-              <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold mb-1">
-                <Clock className="w-3.5 h-3.5 text-amber-400" />
-                <span>{t.catalog.dosageLabel}</span>
+              <div className="flex items-center justify-between gap-1.5 text-xs text-slate-400 font-semibold mb-1">
+                <span className="flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-amber-400" />
+                  <span>{t.catalog.dosageLabel}</span>
+                </span>
+                <span className="px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-300 font-bold text-[10px]">
+                  {activeAgeVariant.touchesRule}
+                </span>
               </div>
               <div className="text-sm font-extrabold text-white">
-                {selectedRondo.timingU15}
+                {activeAgeVariant.timing}
               </div>
               <div className="text-[11px] text-slate-400 mt-0.5">
-                {t.catalog.formatPrefix} {selectedRondo.format}
+                {t.catalog.formatPrefix}{' '}
+                {activeAgeVariant.formatOverride || selectedRondo.format}
               </div>
             </div>
           </div>
 
-          {/* Universal Coaching Brief Tab Switcher (Eliminates vertical wall of 10 boxes!) */}
+          {/* Universal Coaching Brief Tab Switcher */}
           <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-sm space-y-4">
             <div
               data-testid="mobile-drill-subtabs"
-              className="grid grid-cols-3 gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800"
+              className="grid grid-cols-4 gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800"
             >
               <button
                 type="button"
                 onClick={() => setBriefTab('goals')}
-                className={`py-2 px-2 rounded-lg text-xs font-bold transition cursor-pointer ${
+                className={`py-2 px-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition cursor-pointer truncate ${
                   briefTab === 'goals'
                     ? 'bg-emerald-600 text-white keep-white shadow-sm'
                     : 'text-slate-400 hover:text-white'
@@ -473,8 +549,20 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
               </button>
               <button
                 type="button"
+                data-testid="scientific-basis-tab-btn"
+                onClick={() => setBriefTab('science')}
+                className={`py-2 px-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition cursor-pointer truncate ${
+                  briefTab === 'science'
+                    ? 'bg-emerald-600 text-white keep-white shadow-sm'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                {lang === 'ru' ? 'Базис (Наука)' : 'Basis & Science'}
+              </button>
+              <button
+                type="button"
                 onClick={() => setBriefTab('cues')}
-                className={`py-2 px-2 rounded-lg text-xs font-bold transition cursor-pointer ${
+                className={`py-2 px-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition cursor-pointer truncate ${
                   briefTab === 'cues'
                     ? 'bg-emerald-600 text-white keep-white shadow-sm'
                     : 'text-slate-400 hover:text-white'
@@ -485,7 +573,7 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
               <button
                 type="button"
                 onClick={() => setBriefTab('squad')}
-                className={`py-2 px-2 rounded-lg text-xs font-bold transition cursor-pointer ${
+                className={`py-2 px-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition cursor-pointer truncate ${
                   briefTab === 'squad'
                     ? 'bg-emerald-600 text-white keep-white shadow-sm'
                     : 'text-slate-400 hover:text-white'
@@ -497,9 +585,29 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
               </button>
             </div>
 
-            {/* TAB 1: Game Problem, Attack/Defense Goals & Scoring Rules */}
+            {/* TAB 1: Age Pedagogical Focus, Game Problem, Attack/Defense Goals & Scoring Rules */}
             {briefTab === 'goals' && (
               <div className="space-y-3">
+                {/* Age-Specific Pedagogical Focus Banner */}
+                <div
+                  data-testid="age-coaching-focus-box"
+                  className="bg-emerald-950/25 border border-emerald-800/50 rounded-xl p-3.5"
+                >
+                  <div className="flex items-center justify-between gap-2 text-xs font-extrabold uppercase tracking-wider text-emerald-400 mb-1">
+                    <span className="flex items-center gap-1.5">
+                      <GraduationCap className="w-4 h-4 shrink-0" />
+                      <span>
+                        {lang === 'ru'
+                          ? `Методический фокус для ${currentAgeBandInfo.label}`
+                          : `Coaching Focus for ${currentAgeBandInfo.label}`}
+                      </span>
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                    {activeAgeVariant.ageCoachingFocus}
+                  </p>
+                </div>
+
                 {/* Problem in the Game */}
                 <div className="bg-rose-950/25 border border-rose-800/40 rounded-xl p-3.5">
                   <div className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-rose-400 mb-1">
@@ -550,7 +658,94 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
               </div>
             )}
 
-            {/* TAB 2: Live Coaching Cues & 3 Progression Stages */}
+            {/* TAB 2: Methodological Provenance & Scientific Basis ("Базис и первоисточник") */}
+            {briefTab === 'science' && (
+              <div
+                data-testid="scientific-basis-panel"
+                className="space-y-3"
+              >
+                {/* 1. Coaching School & Historical Origin */}
+                <div className="p-3.5 rounded-xl bg-emerald-950/25 border border-emerald-800/40 space-y-1">
+                  <div className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-emerald-400">
+                    <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                    <span>
+                      {lang === 'ru'
+                        ? '1. Первоисточник и тренерская школа'
+                        : '1. Coaching Lineage & Origin School'}
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                    {methodologyBasis.originSchool}
+                  </p>
+                </div>
+
+                {/* 2. Sports Science & Relative Area (m²/player) Math */}
+                <div className="p-3.5 rounded-xl bg-blue-950/25 border border-blue-800/40 space-y-1">
+                  <div className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-blue-400">
+                    <Microscope className="w-3.5 h-3.5 shrink-0" />
+                    <span>
+                      {lang === 'ru'
+                        ? '2. Научное обоснование (м²/игрока, биомеханика, сканирование)'
+                        : '2. Scientific Basis (m²/player, Biomechanics & Scanning)'}
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                    {methodologyBasis.scientificBasis}
+                  </p>
+                </div>
+
+                {/* 3. Match Transfer (11v11 / 9v9 / 7v7 Phase & Zone) */}
+                <div className="p-3.5 rounded-xl bg-amber-950/25 border border-amber-800/40 space-y-1">
+                  <div className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-amber-400">
+                    <Compass className="w-3.5 h-3.5 shrink-0" />
+                    <span>
+                      {lang === 'ru'
+                        ? '3. Прямой перенос в матч (Зона и игровая ситуация)'
+                        : '3. Direct Match Transfer (Pitch Zone & Game Situation)'}
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                    {methodologyBasis.matchTransfer}
+                  </p>
+                </div>
+
+                {/* 4. Multi-Age Scaling Table for this Specific Drill */}
+                <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                  <div className="text-xs font-extrabold uppercase tracking-wider text-slate-300 flex items-center justify-between">
+                    <span>
+                      {lang === 'ru'
+                        ? 'Шкала площадей по возрастам (U9 → Pro)'
+                        : 'Age Scaling Matrix (U9 → Pro)'}
+                    </span>
+                    <span className="text-[10px] text-emerald-400 font-mono">
+                      ApP (m²/pl)
+                    </span>
+                  </div>
+                  <div className="divide-y divide-slate-800/70 text-[11px]">
+                    {ageBands.map((band) => {
+                      const v = getRondoAgeVariant(selectedRondo.id, band.id);
+                      const isCurr = band.id === ageBand;
+                      return (
+                        <div
+                          key={band.id}
+                          onClick={() => setAgeBand(band.id)}
+                          className={`py-1.5 px-2 rounded-lg flex items-center justify-between gap-2 cursor-pointer transition ${
+                            isCurr
+                              ? 'bg-emerald-500/15 text-emerald-300 font-bold'
+                              : 'text-slate-300 hover:bg-slate-900'
+                          }`}
+                        >
+                          <span>{band.shortLabel}</span>
+                          <span className="font-mono text-right">{v.baseGrid}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 3: Live Coaching Cues & 3 Progression Stages */}
             {briefTab === 'cues' && (
               <div className="space-y-4">
                 {/* Live Coaching Cues */}
@@ -597,7 +792,7 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
               </div>
             )}
 
-            {/* TAB 3: U15 Squad Attendance Calculator */}
+            {/* TAB 4: Squad Attendance Calculator */}
             {briefTab === 'squad' && (
               <div className="bg-emerald-950/25 border border-emerald-800/40 rounded-xl p-4 space-y-3">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">

@@ -56,7 +56,16 @@ const loadInitialTheme = (): ThemeMode => {
 };
 
 export function App() {
-  const { lang, setLang, t, rondos } = useLanguage();
+  const {
+    lang,
+    setLang,
+    ageBand,
+    setAgeBand,
+    ageBands,
+    currentAgeBandInfo,
+    t,
+    rondos,
+  } = useLanguage();
 
   const [activeTab, setActiveTab] = useState<ActiveTab>('catalog');
   const [selectedCategory, setSelectedCategory] = useState<CategoryId>('all');
@@ -172,8 +181,8 @@ export function App() {
       title: lang === 'ru' ? 'Серия 01: Анатомия Рондо' : 'Series 01: Anatomy of the Rondo',
       subtitle:
         lang === 'ru'
-          ? '10 прогрессий (3v1 → 8v4) • Сканирование, углы 45°, 3-й игрок'
-          : '10 progressions (3v1 → 8v4) • Scanning, 45° angles, 3rd man',
+          ? '10 прогрессий (3v1 → 8v4) • Базис Ла Масии, расчёт м²/игрока (U9–Pro)'
+          : '10 progressions (3v1 → 8v4) • La Masia basis, m²/player math (U9–Pro)',
       active: true,
       badge: lang === 'ru' ? 'Активно • 10 упр.' : 'Active • 10 drills',
     },
@@ -212,6 +221,17 @@ export function App() {
     },
   ];
 
+  const emblemBadge =
+    ageBand === 'u10'
+      ? 'U10'
+      : ageBand === 'u12'
+      ? 'U12'
+      : ageBand === 'u14'
+      ? 'U14'
+      : ageBand === 'u16'
+      ? 'U15'
+      : 'PRO';
+
   return (
     <div
       data-theme={themeMode}
@@ -223,7 +243,7 @@ export function App() {
           {/* LEFT: Platform Identity + Active Training Series Switcher */}
           <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center shadow-md shadow-emerald-600/20 font-black text-xs sm:text-sm tracking-tighter text-white keep-white shrink-0">
-              U15
+              {emblemBadge}
             </div>
 
             {/* Series Switcher Dropdown */}
@@ -233,7 +253,7 @@ export function App() {
                   {lang === 'ru' ? 'Направление:' : 'Training Series:'}
                 </span>
                 <span className="hidden sm:inline-block text-[10px] font-semibold px-1.5 py-0.2 rounded bg-slate-800 text-slate-300">
-                  {t.header.ageBadge}
+                  {currentAgeBandInfo.label}
                 </span>
               </div>
 
@@ -278,7 +298,7 @@ export function App() {
                       </span>
                     </div>
                     <span className="text-[10px] font-semibold text-slate-400">
-                      UEFA Pro • U15
+                      UEFA Pro • U9–Pro
                     </span>
                   </div>
 
@@ -400,7 +420,7 @@ export function App() {
             </button>
           </nav>
 
-          {/* RIGHT: Settings Dropdown Menu (Theme Dark/Light + Language EN/RU) */}
+          {/* RIGHT: Settings Dropdown Menu (Age Band + Theme Dark/Light + Language EN/RU) */}
           <div className="relative flex items-center gap-2 shrink-0" ref={settingsMenuRef}>
             <button
               type="button"
@@ -413,6 +433,9 @@ export function App() {
               aria-label={lang === 'ru' ? 'Настройки интерфейса' : 'Interface settings'}
               className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-200 border border-slate-800 text-xs font-semibold transition cursor-pointer"
             >
+              <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-extrabold text-[11px]">
+                {currentAgeBandInfo.shortLabel}
+              </span>
               {themeMode === 'light' ? (
                 <Sun className="w-3.5 h-3.5 text-amber-400" />
               ) : (
@@ -427,17 +450,46 @@ export function App() {
               />
             </button>
 
-            {/* Dropdown Panel (Always mounted in DOM for fast accessibility & testing, toggled via visibility/open state) */}
+            {/* Dropdown Panel */}
             <div
               data-testid="settings-dropdown-panel"
-              className={`absolute right-0 top-full mt-2 w-64 rounded-2xl bg-slate-900 border border-slate-700 shadow-2xl p-3.5 z-50 space-y-3.5 transition-all ${
+              className={`absolute right-0 top-full mt-2 w-72 rounded-2xl bg-slate-900 border border-slate-700 shadow-2xl p-3.5 z-50 space-y-3.5 transition-all ${
                 isSettingsMenuOpen
                   ? 'opacity-100 visible translate-y-0'
                   : 'opacity-0 invisible -translate-y-1 pointer-events-none'
               }`}
             >
-              {/* Theme Switcher Section */}
+              {/* Age Group Selector inside Settings Menu */}
               <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  <span>{lang === 'ru' ? 'Возраст команды' : 'Team Age Group'}</span>
+                  <span className="text-emerald-400 font-semibold">
+                    {currentAgeBandInfo.ageYears}
+                  </span>
+                </div>
+                <div
+                  data-testid="settings-age-switcher"
+                  className="grid grid-cols-3 gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800"
+                >
+                  {ageBands.map((band) => (
+                    <button
+                      key={band.id}
+                      type="button"
+                      onClick={() => setAgeBand(band.id)}
+                      className={`py-1.5 px-1.5 rounded-lg text-[11px] font-bold transition-all cursor-pointer truncate ${
+                        ageBand === band.id
+                          ? 'bg-emerald-500 text-slate-950 shadow'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      {band.shortLabel}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Theme Switcher Section */}
+              <div className="space-y-1.5 pt-2 border-t border-slate-800">
                 <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400">
                   <span>{lang === 'ru' ? 'Тема оформления' : 'Appearance'}</span>
                   <span>{themeMode === 'light' ? '☀️' : '🌙'}</span>

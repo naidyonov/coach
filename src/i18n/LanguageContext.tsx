@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import {
+  AgeBandId,
   CategoryItem,
   Language,
   MonthlySessionItem,
@@ -20,13 +21,33 @@ import {
   generateMonthlyPlanEn,
   getSquadOrganizationAdviceEn
 } from './en';
+import {
+  AGE_BANDS_EN,
+  AGE_BANDS_RU,
+  AgeBandInfo,
+  RONDO_AGE_MATRIX_EN,
+  RONDO_AGE_MATRIX_RU,
+  RONDO_METHODOLOGY_EN,
+  RONDO_METHODOLOGY_RU,
+  RondoAgeVariant,
+  RondoMethodologicalBasis,
+} from './ageMethodologyData';
 
 const STORAGE_KEY = 'coach_app_lang';
+const AGE_STORAGE_KEY = 'coach_age_band';
+
+const VALID_AGE_BANDS: AgeBandId[] = ['u10', 'u12', 'u14', 'u16', 'u18_pro'];
 
 export interface LanguageContextValue {
   lang: Language;
   setLang: (lang: Language) => void;
   toggleLang: () => void;
+  ageBand: AgeBandId;
+  setAgeBand: (age: AgeBandId) => void;
+  ageBands: AgeBandInfo[];
+  currentAgeBandInfo: AgeBandInfo;
+  getRondoMethodology: (rondoId: string) => RondoMethodologicalBasis;
+  getRondoAgeVariant: (rondoId: string, ageOverride?: AgeBandId) => RondoAgeVariant;
   t: UIStrings;
   categories: CategoryItem[];
   rondos: RondoItem[];
@@ -48,13 +69,35 @@ const getInitialLanguage = (): Language => {
   return 'en';
 };
 
+const getInitialAgeBand = (): AgeBandId => {
+  try {
+    const saved = window.localStorage.getItem(AGE_STORAGE_KEY) as AgeBandId | null;
+    if (saved && VALID_AGE_BANDS.includes(saved)) {
+      return saved;
+    }
+  } catch {
+    // Ignore storage errors
+  }
+  return 'u16';
+};
+
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [lang, setLangState] = useState<Language>(getInitialLanguage);
+  const [ageBand, setAgeBandState] = useState<AgeBandId>(getInitialAgeBand);
 
   const setLang = (newLang: Language) => {
     setLangState(newLang);
     try {
       window.localStorage.setItem(STORAGE_KEY, newLang);
+    } catch {
+      // Ignore storage errors
+    }
+  };
+
+  const setAgeBand = (newAge: AgeBandId) => {
+    setAgeBandState(newAge);
+    try {
+      window.localStorage.setItem(AGE_STORAGE_KEY, newAge);
     } catch {
       // Ignore storage errors
     }
@@ -70,17 +113,34 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const value = useMemo<LanguageContextValue>(() => {
     const isRu = lang === 'ru';
+    const bands = isRu ? AGE_BANDS_RU : AGE_BANDS_EN;
+    const currentAgeBandInfo =
+      bands.find((b) => b.id === ageBand) || bands[3]; // fallback to u16
+    const methodologyMap = isRu ? RONDO_METHODOLOGY_RU : RONDO_METHODOLOGY_EN;
+    const ageMatrix = isRu ? RONDO_AGE_MATRIX_RU : RONDO_AGE_MATRIX_EN;
+
     return {
       lang,
       setLang,
       toggleLang,
+      ageBand,
+      setAgeBand,
+      ageBands: bands,
+      currentAgeBandInfo,
+      getRondoMethodology: (rondoId: string) =>
+        methodologyMap[rondoId] || methodologyMap['rondo-1'],
+      getRondoAgeVariant: (rondoId: string, ageOverride?: AgeBandId) => {
+        const targetAge = ageOverride || ageBand;
+        const drillVariants = ageMatrix[rondoId] || ageMatrix['rondo-1'];
+        return drillVariants[targetAge] || drillVariants['u16'];
+      },
       t: isRu ? UI_RU : UI_EN,
       categories: isRu ? CATEGORIES_RU : CATEGORIES_EN,
       rondos: isRu ? RONDOS_RU : RONDOS_EN,
       generateMonthlyPlan: isRu ? generateMonthlyPlanRu : generateMonthlyPlanEn,
       getSquadOrganizationAdvice: isRu ? getSquadOrganizationAdviceRu : getSquadOrganizationAdviceEn
     };
-  }, [lang]);
+  }, [lang, ageBand]);
 
   return (
     <LanguageContext.Provider value={value}>
@@ -96,3 +156,4 @@ export const useLanguage = (): LanguageContextValue => {
   }
   return ctx;
 };
+

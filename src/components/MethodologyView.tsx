@@ -587,7 +587,17 @@ const GeometryMiniPitchSVG: React.FC<{
 export const MethodologyView: React.FC<MethodologyViewProps> = ({
   onSelectRondoAndOpenCatalog,
 }) => {
-  const { lang, t, rondos } = useLanguage();
+  const {
+    lang,
+    t,
+    rondos,
+    ageBand,
+    setAgeBand,
+    ageBands,
+    currentAgeBandInfo,
+    getRondoAgeVariant,
+    getRondoMethodology,
+  } = useLanguage();
   const [activeSubTab, setActiveSubTab] = useState<SubTabId>('all');
   const [geometryModes, setGeometryModes] = useState<Record<string, DiagramMode>>({
     'angles-45': 'solution',
@@ -920,12 +930,66 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
         </div>
       )}
 
-      {/* SECTION 4: Master Cheat-Sheet Table of All 10 Rondos */}
+      {/* SECTION 4: Master Cheat-Sheet Table of All 10 Rondos (Multi-Age & Scientific Basis) */}
       {showCheatSheet && (
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 overflow-hidden shadow-xl">
-          <h3 className="text-base font-bold text-white mb-4">
-            {t.methodology.tableTitle}
-          </h3>
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 overflow-hidden shadow-xl space-y-5">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+            <div>
+              <h3 className="text-base font-bold text-white">
+                {t.methodology.tableTitle}
+              </h3>
+              <p className="text-xs text-slate-400 mt-0.5">
+                {currentAgeBandInfo.label} • {currentAgeBandInfo.stageTitle} ({currentAgeBandInfo.relativeAreaRule})
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-1.5">
+              {ageBands.map((band) => {
+                const isSelected = ageBand === band.id;
+                return (
+                  <button
+                    key={band.id}
+                    type="button"
+                    onClick={() => setAgeBand(band.id)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+                      isSelected
+                        ? 'bg-emerald-600 text-white border-emerald-500 shadow'
+                        : 'bg-slate-950 text-slate-300 border-slate-800 hover:border-slate-700 hover:text-white'
+                    }`}
+                  >
+                    {band.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Age Physiological & Cognitive Profile Card */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 mb-1">
+                {lang === 'ru' ? 'Когнитивное окно и площадь (ApP)' : 'Cognitive Window & Relative Area'}
+              </div>
+              <div className="font-bold text-white">{currentAgeBandInfo.decisionWindow}</div>
+              <div className="text-slate-400 mt-1">{currentAgeBandInfo.relativeAreaRule}</div>
+            </div>
+            <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-cyan-400 mb-1">
+                {lang === 'ru' ? 'Физиологический профиль' : 'Physiological Profile'}
+              </div>
+              <p className="text-slate-300 leading-relaxed">
+                {currentAgeBandInfo.physiologicalProfile}
+              </p>
+            </div>
+            <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-amber-400 mb-1">
+                {lang === 'ru' ? 'Методический фокус возраста' : 'Age Methodological Focus'}
+              </div>
+              <p className="text-slate-300 leading-relaxed">
+                {currentAgeBandInfo.summaryFocus}
+              </p>
+            </div>
+          </div>
+
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
@@ -939,30 +1003,40 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800/70 text-slate-200">
-                {rondos.map((r) => (
-                  <tr
-                    key={r.id}
-                    onClick={() => onSelectRondoAndOpenCatalog(r.id)}
-                    className="hover:bg-slate-800/60 cursor-pointer transition-colors"
-                  >
-                    <td className="py-2.5 px-3 font-mono font-bold text-emerald-400">
-                      {r.number}
-                    </td>
-                    <td className="py-2.5 px-3 font-semibold text-white">{r.title}</td>
-                    <td className="py-2.5 px-3">
-                      <span
-                        className={`text-[11px] px-2 py-0.5 rounded border ${r.badgeColor}`}
-                      >
-                        {r.categoryName}
-                      </span>
-                    </td>
-                    <td className="py-2.5 px-3 font-mono">{r.dimensionsU15.base}</td>
-                    <td className="py-2.5 px-3 font-mono text-amber-300">
-                      {r.dimensionsU15.intensive}
-                    </td>
-                    <td className="py-2.5 px-3 text-slate-300">{r.timingU15}</td>
-                  </tr>
-                ))}
+                {rondos.map((r) => {
+                  const ageVar = getRondoAgeVariant(r.id);
+                  const meth = getRondoMethodology(r.id);
+                  return (
+                    <tr
+                      key={r.id}
+                      onClick={() => onSelectRondoAndOpenCatalog(r.id)}
+                      className="hover:bg-slate-800/60 cursor-pointer transition-colors"
+                    >
+                      <td className="py-2.5 px-3 font-mono font-bold text-emerald-400">
+                        {r.number}
+                      </td>
+                      <td className="py-2.5 px-3">
+                        <div className="font-semibold text-white">{r.title}</div>
+                        <div className="text-[10px] text-slate-400 mt-0.5">{meth.originSchool}</div>
+                      </td>
+                      <td className="py-2.5 px-3">
+                        <span
+                          className={`text-[11px] px-2 py-0.5 rounded border ${r.badgeColor}`}
+                        >
+                          {r.categoryName}
+                        </span>
+                      </td>
+                      <td className="py-2.5 px-3 font-mono">{ageVar.baseGrid}</td>
+                      <td className="py-2.5 px-3 font-mono text-amber-300">
+                        {ageVar.intensiveGrid}
+                      </td>
+                      <td className="py-2.5 px-3 text-slate-300">
+                        <div>{ageVar.timing}</div>
+                        <div className="text-[10px] text-emerald-400 font-semibold">{ageVar.touchesRule}</div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

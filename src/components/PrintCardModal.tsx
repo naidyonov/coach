@@ -17,13 +17,22 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
   selectedRondo,
   phaseIndex
 }) => {
-  const { t, generateMonthlyPlan } = useLanguage();
+  const {
+    lang,
+    t,
+    generateMonthlyPlan,
+    currentAgeBandInfo,
+    getRondoAgeVariant,
+    getRondoMethodology,
+  } = useLanguage();
 
   if (!isOpen) {
     return null;
   }
 
   const monthlySessions = generateMonthlyPlan(selectedRondo);
+  const ageVariant = getRondoAgeVariant(selectedRondo.id);
+  const methodology = getRondoMethodology(selectedRondo.id);
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
@@ -31,9 +40,14 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
         {/* Modal Header */}
         <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
           <div>
-            <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-400">
-              {t.printModal.badge}
-            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-400">
+                {t.printModal.badge}
+              </span>
+              <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                {currentAgeBandInfo.label} • {currentAgeBandInfo.stageTitle}
+              </span>
+            </div>
             <h2 className="text-xl sm:text-2xl font-black text-white mt-0.5">
               {t.catalog.numberPrefix}{selectedRondo.number} • {selectedRondo.title}
             </h2>
@@ -59,9 +73,9 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
           </div>
         </div>
 
-        {/* Diagram + U15 Parameters & Objectives */}
+        {/* Diagram + Age-Adapted Parameters & Objectives */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
-          <div className="md:col-span-6">
+          <div className="md:col-span-6 space-y-3">
             <TacticalPitchSVG
               rondo={selectedRondo}
               phaseIndex={phaseIndex}
@@ -69,6 +83,34 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
               showMovements={true}
               showShadows={true}
             />
+
+            {/* Methodological & Scientific Basis Summary on Print Card */}
+            <div className="p-3 rounded-xl bg-slate-950/90 border border-emerald-500/30 text-xs space-y-2">
+              <div>
+                <div className="font-bold text-emerald-400 uppercase tracking-wider text-[10px]">
+                  {lang === 'ru' ? 'Методическая школа и первоисточник' : 'Methodological Lineage & Origin'}
+                </div>
+                <p className="text-slate-200 font-semibold leading-snug mt-0.5">
+                  {methodology.originSchool}
+                </p>
+              </div>
+              <div>
+                <div className="font-bold text-cyan-400 uppercase tracking-wider text-[10px]">
+                  {lang === 'ru' ? 'Научный и биомеханический базис' : 'Scientific & Biomechanical Basis'}
+                </div>
+                <p className="text-slate-300 leading-snug mt-0.5">
+                  {methodology.scientificBasis}
+                </p>
+              </div>
+              <div>
+                <div className="font-bold text-amber-400 uppercase tracking-wider text-[10px]">
+                  {lang === 'ru' ? 'Перенос в матч 11×11' : 'Match Transfer (11v11)'}
+                </div>
+                <p className="text-slate-300 leading-snug mt-0.5">
+                  {methodology.matchTransfer}
+                </p>
+              </div>
+            </div>
           </div>
 
           <div className="md:col-span-6 space-y-3 text-xs">
@@ -78,7 +120,7 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
                   {t.printModal.dimensionsLabel}{' '}
                 </span>
                 <span className="text-white font-bold">
-                  {selectedRondo.dimensionsU15.base}
+                  {ageVariant.baseGrid}
                 </span>
               </div>
               <div>
@@ -86,7 +128,7 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
                   {t.printModal.intensiveLabel}{' '}
                 </span>
                 <span className="text-emerald-400 font-bold">
-                  {selectedRondo.dimensionsU15.intensive}
+                  {ageVariant.intensiveGrid}
                 </span>
               </div>
               <div>
@@ -94,8 +136,12 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
                   {t.printModal.dosageLabel}{' '}
                 </span>
                 <span className="text-amber-300 font-bold">
-                  {selectedRondo.timingU15}
+                  {ageVariant.timing} • {ageVariant.touchesRule}
                 </span>
+              </div>
+              <div className="pt-1 border-t border-slate-800/80 text-emerald-300">
+                <span className="font-bold">{currentAgeBandInfo.label}: </span>
+                <span>{ageVariant.ageCoachingFocus}</span>
               </div>
             </div>
 
