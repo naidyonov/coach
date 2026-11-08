@@ -36,14 +36,25 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
     ).toBeGreaterThan(0);
   });
 
-  it('switches language between English (EN) and Russian (RU) accurately', () => {
+  it('switches language between English (EN), German (DE), and Russian (RU) accurately', () => {
     renderApp();
 
     const langSwitcher = screen.getByTestId('lang-switcher');
+    const deButton = within(langSwitcher).getByRole('button', { name: /german/i });
     const ruButton = within(langSwitcher).getByRole('button', { name: /russian/i });
     const enButton = within(langSwitcher).getByRole('button', { name: /english/i });
 
-    // Switch to Russian
+    // Switch to German (DE)
+    fireEvent.click(deButton);
+
+    expect(
+      screen.getByText(/Anatomie des Rondos: Taktik-Playbook & Monatsplan/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByText(/3-gegen-1-Rondo: Anspielwinkel & Passlinien/i).length
+    ).toBeGreaterThan(0);
+
+    // Switch to Russian (RU)
     fireEvent.click(ruButton);
 
     expect(
@@ -53,7 +64,7 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
       screen.getAllByText(/Рондо 3 на 1: Углы и линии паса/i).length
     ).toBeGreaterThan(0);
 
-    // Switch back to English
+    // Switch back to English (EN)
     fireEvent.click(enButton);
 
     expect(

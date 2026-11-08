@@ -29,10 +29,11 @@ type DiagramMode = 'mistake' | 'solution';
 const GeometryMiniPitchSVG: React.FC<{
   conceptId: GeometryConceptItem['id'];
   mode: DiagramMode;
-  lang: 'en' | 'ru';
+  lang: 'en' | 'de' | 'ru';
 }> = ({ conceptId, mode, lang }) => {
   const isSolution = mode === 'solution';
-  const lbl = (enText: string, ruText: string) => (lang === 'ru' ? ruText : enText);
+  const lbl = (enText: string, deText: string, ruText: string) =>
+    lang === 'ru' ? ruText : lang === 'de' ? deText : enText;
 
   return (
     <svg
@@ -157,7 +158,7 @@ const GeometryMiniPitchSVG: React.FC<{
                 fontSize="10"
                 fontWeight="bold"
               >
-                {lbl('Both options in shadow!', 'Оба адресата в тени!')}
+                {lbl('Both options in shadow!', 'Beide im Deckungsschatten!', 'Оба адресата в тени!')}
               </text>
             </>
           ) : (
@@ -322,7 +323,7 @@ const GeometryMiniPitchSVG: React.FC<{
                 markerEnd={`url(#arrow-ok-${conceptId})`}
               />
               <text x="205" y="88" fill="#6ee7b7" fontSize="10" fontWeight="bold">
-                {lbl('Far-foot → switch open!', 'Дальняя нога → разворот!')}
+                {lbl('Far-foot → switch open!', 'Ferner Fuß → offenes Feld!', 'Дальняя нога → разворот!')}
               </text>
             </>
           ) : (
@@ -338,7 +339,7 @@ const GeometryMiniPitchSVG: React.FC<{
                 markerEnd={`url(#arrow-bad-${conceptId})`}
               />
               <text x="195" y="85" fill="#fca5a5" fontSize="10" fontWeight="bold">
-                {lbl('Back turned to pitch!', 'Спиной к полю — тупик!')}
+                {lbl('Back turned to pitch!', 'Rücken zum Zentrum!', 'Спиной к полю — тупик!')}
               </text>
             </>
           )}
@@ -417,7 +418,7 @@ const GeometryMiniPitchSVG: React.FC<{
                 markerEnd={`url(#arrow-ok-${conceptId})`}
               />
               <text x="115" y="135" fill="#6ee7b7" fontSize="10" fontWeight="bold">
-                {lbl('Arc press blocks #6!', 'Дуга прячет №6 в тень!')}
+                {lbl('Arc press blocks #6!', 'Bogenlauf schließt #6!', 'Дуга прячет №6 в тень!')}
               </text>
             </>
           ) : (
@@ -444,7 +445,7 @@ const GeometryMiniPitchSVG: React.FC<{
                 markerEnd={`url(#arrow-warn-${conceptId})`}
               />
               <text x="115" y="135" fill="#fca5a5" fontSize="10" fontWeight="bold">
-                {lbl('Straight run exposes #6!', 'Прямой бег открыл №6!')}
+                {lbl('Straight run exposes #6!', 'Gerader Lauf öffnet #6!', 'Прямой бег открыл №6!')}
               </text>
             </>
           )}
@@ -520,7 +521,11 @@ const GeometryMiniPitchSVG: React.FC<{
                 markerEnd={`url(#arrow-bad-${conceptId})`}
               />
               <text x="180" y="45" textAnchor="middle" fill="#fca5a5" fontSize="10" fontWeight="bold">
-                {lbl('Direct pass A → C blocked by D1!', 'Прямой пас А → С перехвачен!')}
+                {lbl(
+                  'Direct pass A → C blocked by D1!',
+                  'Direktpass A → C von D1 abgefangen!',
+                  'Прямой пас А → С перехвачен!'
+                )}
               </text>
             </>
           ) : (
@@ -549,7 +554,7 @@ const GeometryMiniPitchSVG: React.FC<{
                 1. A → B
               </text>
               <text x="255" y="96" fill="#fde68a" fontSize="9.5" fontWeight="bold">
-                {lbl('2. 1-Touch → C!', '2. В 1 кас. → С!')}
+                {lbl('2. 1-Touch → C!', '2. Ablage (1 K.) → C!', '2. В 1 кас. → С!')}
               </text>
             </>
           )}
@@ -967,14 +972,22 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
             <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
               <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 mb-1">
-                {lang === 'ru' ? 'Когнитивное окно и площадь (ApP)' : 'Cognitive Window & Relative Area'}
+                {lang === 'ru'
+                  ? 'Когнитивное окно и площадь (ApP)'
+                  : lang === 'de'
+                  ? 'Kognitives Zeitfenster & Relativfläche (ApP)'
+                  : 'Cognitive Window & Relative Area'}
               </div>
               <div className="font-bold text-white">{currentAgeBandInfo.decisionWindow}</div>
               <div className="text-slate-400 mt-1">{currentAgeBandInfo.relativeAreaRule}</div>
             </div>
             <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
               <div className="text-[10px] font-bold uppercase tracking-wider text-cyan-400 mb-1">
-                {lang === 'ru' ? 'Физиологический профиль' : 'Physiological Profile'}
+                {lang === 'ru'
+                  ? 'Физиологический профиль'
+                  : lang === 'de'
+                  ? 'Physiologisches Profil'
+                  : 'Physiological Profile'}
               </div>
               <p className="text-slate-300 leading-relaxed">
                 {currentAgeBandInfo.physiologicalProfile}
@@ -982,7 +995,11 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
             </div>
             <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800">
               <div className="text-[10px] font-bold uppercase tracking-wider text-amber-400 mb-1">
-                {lang === 'ru' ? 'Методический фокус возраста' : 'Age Methodological Focus'}
+                {lang === 'ru'
+                  ? 'Методический фокус возраста'
+                  : lang === 'de'
+                  ? 'Methodischer Altersfokus'
+                  : 'Age Methodological Focus'}
               </div>
               <p className="text-slate-300 leading-relaxed">
                 {currentAgeBandInfo.summaryFocus}

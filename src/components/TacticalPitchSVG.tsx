@@ -394,7 +394,11 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
           {hasCustomPositions && (
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[11px] font-medium">
               <Move className="w-3 h-3" />
-              {lang === 'ru' ? 'Своя расстановка' : 'Custom Setup'}
+              {lang === 'ru'
+                ? 'Своя расстановка'
+                : lang === 'de'
+                ? 'Eigene Aufstellung'
+                : 'Custom Setup'}
             </span>
           )}
         </div>
@@ -456,7 +460,13 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
             ) : (
               <>
                 <Play className="w-3.5 h-3.5 fill-current" />
-                <span>{lang === 'ru' ? 'Авто-показ' : 'Auto-Play'}</span>
+                <span>
+                  {lang === 'ru'
+                    ? 'Авто-показ'
+                    : lang === 'de'
+                    ? 'Auto-Play'
+                    : 'Auto-Play'}
+                </span>
               </>
             )}
           </button>
@@ -468,10 +478,22 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
               data-testid={inModal ? 'pitch-replay-pass-btn-modal' : 'pitch-replay-pass-btn'}
               onClick={handleReplayPass}
               className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer"
-              title={lang === 'ru' ? 'Повторить траекторию паса в текущей фазе' : 'Replay pass trajectory in current phase'}
+              title={
+                lang === 'ru'
+                  ? 'Повторить траекторию паса в текущей фазе'
+                  : lang === 'de'
+                  ? 'Passweg in dieser Phase wiederholen'
+                  : 'Replay pass trajectory in current phase'
+              }
             >
               <RefreshCw className={`w-3.5 h-3.5 text-amber-400 ${isPassAnimating && !isPlaying ? 'animate-spin' : ''}`} />
-              <span>{lang === 'ru' ? 'Повтор паса' : 'Replay Pass'}</span>
+              <span>
+                {lang === 'ru'
+                  ? 'Повтор паса'
+                  : lang === 'de'
+                  ? 'Pass wiederholen'
+                  : 'Replay Pass'}
+              </span>
             </button>
           )}
 
@@ -504,13 +526,21 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
               className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-semibold transition cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span>{lang === 'ru' ? 'Сбросить расстановку' : 'Reset Positions'}</span>
+              <span>
+                {lang === 'ru'
+                  ? 'Сбросить расстановку'
+                  : lang === 'de'
+                  ? 'Positionen zurücksetzen'
+                  : 'Reset Positions'}
+              </span>
             </button>
           ) : (
             <span className="hidden md:inline-flex items-center gap-1 text-[11px] text-slate-400">
               <Move className="w-3 h-3 text-emerald-400/80" />
               {lang === 'ru'
                 ? 'Доска тренера: перетаскивайте игроков и мяч'
+                : lang === 'de'
+                ? 'Taktiktafel: Spieler & Ball frei verschieben'
                 : 'Coach Whiteboard: drag players & ball'}
             </span>
           )}
@@ -960,7 +990,13 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
                 ) : (
                   <>
                     <Play className="w-3.5 h-3.5 fill-current" />
-                    <span>{lang === 'ru' ? 'Авто-показ фаз' : 'Auto-Play Phases'}</span>
+                    <span>
+                      {lang === 'ru'
+                        ? 'Авто-показ фаз'
+                        : lang === 'de'
+                        ? 'Phasen Auto-Play'
+                        : 'Auto-Play Phases'}
+                    </span>
                   </>
                 )}
               </button>

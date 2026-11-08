@@ -231,6 +231,8 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
                   <div className="text-xs font-extrabold text-emerald-300">
                     {lang === 'ru'
                       ? `Загрузить дозировку выбранного рондо №${selectedRondo.number}`
+                      : lang === 'de'
+                      ? `Belastung für gewähltes Rondo #${selectedRondo.number} laden`
                       : `Load Selected Rondo #${selectedRondo.number} Dosage`}
                   </div>
                   <div className="text-xs text-slate-300">

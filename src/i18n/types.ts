@@ -1,4 +1,4 @@
-export type Language = 'en' | 'ru';
+export type Language = 'en' | 'de' | 'ru';
 
 export type CategoryId = 'all' | 'retention' | 'progression' | 'switch' | 'defense' | 'transition';
 

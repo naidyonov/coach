@@ -174,50 +174,73 @@ export function App() {
     );
   };
 
+  const tr = (enText: string, deText: string, ruText: string) =>
+    lang === 'ru' ? ruText : lang === 'de' ? deText : enText;
+
   const trainingSeriesModules = [
     {
       id: 'rondo-series',
       code: '01',
-      title: lang === 'ru' ? 'Серия 01: Анатомия Рондо' : 'Series 01: Anatomy of the Rondo',
-      subtitle:
-        lang === 'ru'
-          ? '10 прогрессий (3v1 → 8v4) • Базис Ла Масии, расчёт м²/игрока (U9–Pro)'
-          : '10 progressions (3v1 → 8v4) • La Masia basis, m²/player math (U9–Pro)',
+      title: tr(
+        'Series 01: Anatomy of the Rondo',
+        'Serie 01: Anatomie des Rondos',
+        'Серия 01: Анатомия Рондо'
+      ),
+      subtitle: tr(
+        '10 progressions (3v1 → 8v4) • La Masia basis, m²/player math (U9–Pro)',
+        '10 Progressionen (3v1 → 8v4) • La-Masia-Basis, m²/Spieler-Mathematik (U9–Pro)',
+        '10 прогрессий (3v1 → 8v4) • Базис Ла Масии, расчёт м²/игрока (U9–Pro)'
+      ),
       active: true,
-      badge: lang === 'ru' ? 'Активно • 10 упр.' : 'Active • 10 drills',
+      badge: tr('Active • 10 drills', 'Aktiv • 10 Formen', 'Активно • 10 упр.'),
     },
     {
       id: 'positional-play',
       code: '02',
-      title: lang === 'ru' ? 'Серия 02: Позиционная игра' : 'Series 02: Positional Play',
-      subtitle:
-        lang === 'ru'
-          ? 'Juego de Posición • Полуфланги, ромбы и численный перевес'
-          : 'Juego de Posición • Half-spaces, diamonds & overloads',
+      title: tr(
+        'Series 02: Positional Play',
+        'Serie 02: Positionsspiel (Juego de Posición)',
+        'Серия 02: Позиционная игра'
+      ),
+      subtitle: tr(
+        'Juego de Posición • Half-spaces, diamonds & overloads',
+        'Halbräume, Rautenbildung & Überzahl schaffen',
+        'Juego de Posición • Полуфланги, ромбы и численный перевес'
+      ),
       active: false,
-      badge: lang === 'ru' ? 'Скоро' : 'Soon',
+      badge: tr('Soon', 'Bald', 'Скоро'),
     },
     {
       id: 'pressing-transitions',
       code: '03',
-      title: lang === 'ru' ? 'Серия 03: Прессинг и Переходы' : 'Series 03: Pressing & Transitions',
-      subtitle:
-        lang === 'ru'
-          ? 'Контрпрессинг (правило 6 сек), ловушки на флангах и высокий блок'
-          : 'Counter-pressing (6-sec rule), touchline traps & high block',
+      title: tr(
+        'Series 03: Pressing & Transitions',
+        'Serie 03: Pressing & Umschaltspiel',
+        'Серия 03: Прессинг и Переходы'
+      ),
+      subtitle: tr(
+        'Counter-pressing (6-sec rule), touchline traps & high block',
+        'Gegenpressing (6-Sek.-Regel), Pressingfallen am Flügel & Angriffspressing',
+        'Контрпрессинг (правило 6 сек), ловушки на флангах и высокий блок'
+      ),
       active: false,
-      badge: lang === 'ru' ? 'Скоро' : 'Soon',
+      badge: tr('Soon', 'Bald', 'Скоро'),
     },
     {
       id: 'finishing-box',
       code: '04',
-      title: lang === 'ru' ? 'Серия 04: Завершение и Штрафная' : 'Series 04: Finishing & Box Entries',
-      subtitle:
-        lang === 'ru'
-          ? 'Вскрытие низкого блока, прострелы (cutbacks) и врывания в слепую зону'
-          : 'Breaking low blocks, cutbacks & blind-side box runs',
+      title: tr(
+        'Series 04: Finishing & Box Entries',
+        'Serie 04: Torabschluss & Strafraumbesetzung',
+        'Серия 04: Завершение и Штрафная'
+      ),
+      subtitle: tr(
+        'Breaking low blocks, cutbacks & blind-side box runs',
+        'Tiefe Blöcke knacken, Rückpass von der Grundlinie (Cutbacks) & Blind-Side-Läufe',
+        'Вскрытие низкого блока, прострелы (cutbacks) и врывания в слепую зону'
+      ),
       active: false,
-      badge: lang === 'ru' ? 'Скоро' : 'Soon',
+      badge: tr('Soon', 'Bald', 'Скоро'),
     },
   ];
 
@@ -250,7 +273,7 @@ export function App() {
             <div className="relative min-w-0" ref={seriesMenuRef}>
               <div className="flex items-center gap-1.5">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">
-                  {lang === 'ru' ? 'Направление:' : 'Training Series:'}
+                  {tr('Training Series:', 'Trainingsserie:', 'Направление:')}
                 </span>
                 <span className="hidden sm:inline-block text-[10px] font-semibold px-1.5 py-0.2 rounded bg-slate-800 text-slate-300">
                   {currentAgeBandInfo.label}
@@ -268,7 +291,7 @@ export function App() {
                 title={t.header.title}
               >
                 <h1 className="text-sm sm:text-base font-extrabold text-white tracking-tight truncate">
-                  {lang === 'ru' ? 'Серия 01: Рондо (10)' : 'Series 01: Rondo (10)'}
+                  {tr('Series 01: Rondo (10)', 'Serie 01: Rondo (10)', 'Серия 01: Рондо (10)')}
                 </h1>
                 <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-slate-800 group-hover:bg-slate-700 text-emerald-400 transition shrink-0">
                   <ChevronDown
@@ -292,9 +315,11 @@ export function App() {
                     <div className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-emerald-400">
                       <Compass className="w-3.5 h-3.5" />
                       <span>
-                        {lang === 'ru'
-                          ? 'Модули тренерской платформы'
-                          : 'Coaching Platform Modules'}
+                        {tr(
+                          'Coaching Platform Modules',
+                          'Module der Trainerplattform',
+                          'Модули тренерской платформы'
+                        )}
                       </span>
                     </div>
                     <span className="text-[10px] font-semibold text-slate-400">
@@ -342,9 +367,11 @@ export function App() {
                   <div className="px-2 pt-1 text-[11px] text-slate-400 flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                     <span>
-                      {lang === 'ru'
-                        ? 'Сейчас открыта Серия 01 (Рондо). Новые направления скоро появятся.'
-                        : 'Currently viewing Series 01 (Rondo). New modules coming soon.'}
+                      {tr(
+                        'Currently viewing Series 01 (Rondo). New modules coming soon.',
+                        'Aktuell geöffnet: Serie 01 (Rondo). Weitere Module folgen in Kürze.',
+                        'Сейчас открыта Серия 01 (Рондо). Новые направления скоро появятся.'
+                      )}
                     </span>
                   </div>
                 </div>
@@ -420,7 +447,7 @@ export function App() {
             </button>
           </nav>
 
-          {/* RIGHT: Settings Dropdown Menu (Age Band + Theme Dark/Light + Language EN/RU) */}
+          {/* RIGHT: Settings Dropdown Menu (Age Band + Theme Dark/Light + Language EN/DE/RU) */}
           <div className="relative flex items-center gap-2 shrink-0" ref={settingsMenuRef}>
             <button
               type="button"
@@ -430,7 +457,7 @@ export function App() {
                 setIsSeriesMenuOpen(false);
               }}
               aria-expanded={isSettingsMenuOpen}
-              aria-label={lang === 'ru' ? 'Настройки интерфейса' : 'Interface settings'}
+              aria-label={tr('Interface settings', 'Einstellungen', 'Настройки интерфейса')}
               className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-200 border border-slate-800 text-xs font-semibold transition cursor-pointer"
             >
               <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-extrabold text-[11px]">
@@ -462,7 +489,7 @@ export function App() {
               {/* Age Group Selector inside Settings Menu */}
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                  <span>{lang === 'ru' ? 'Возраст команды' : 'Team Age Group'}</span>
+                  <span>{tr('Team Age Group', 'Altersklasse', 'Возраст команды')}</span>
                   <span className="text-emerald-400 font-semibold">
                     {currentAgeBandInfo.ageYears}
                   </span>
@@ -491,7 +518,7 @@ export function App() {
               {/* Theme Switcher Section */}
               <div className="space-y-1.5 pt-2 border-t border-slate-800">
                 <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                  <span>{lang === 'ru' ? 'Тема оформления' : 'Appearance'}</span>
+                  <span>{tr('Appearance', 'Darstellung', 'Тема оформления')}</span>
                   <span>{themeMode === 'light' ? '☀️' : '🌙'}</span>
                 </div>
                 <div
@@ -509,7 +536,7 @@ export function App() {
                     }`}
                   >
                     <Moon className="w-3.5 h-3.5" />
-                    <span>{lang === 'ru' ? 'Тёмная' : 'Dark'}</span>
+                    <span>{tr('Dark', 'Dunkel', 'Тёмная')}</span>
                   </button>
                   <button
                     type="button"
@@ -522,47 +549,59 @@ export function App() {
                     }`}
                   >
                     <Sun className="w-3.5 h-3.5" />
-                    <span>{lang === 'ru' ? 'Светлая' : 'Light'}</span>
+                    <span>{tr('Light', 'Hell', 'Светлая')}</span>
                   </button>
                 </div>
               </div>
 
-              {/* Language Switcher Section */}
+              {/* Language Switcher Section (EN / DE / RU) */}
               <div className="space-y-1.5 pt-2 border-t border-slate-800">
                 <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400">
                   <span className="flex items-center gap-1">
                     <Globe className="w-3.5 h-3.5 text-emerald-400" />
-                    {lang === 'ru' ? 'Язык / Language' : 'Language'}
+                    {tr('Language', 'Sprache / Language', 'Язык / Language')}
                   </span>
                 </div>
                 <div
                   data-testid="lang-switcher"
                   title={t.header.langToggleTitle}
-                  className="grid grid-cols-2 gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800"
+                  className="grid grid-cols-3 gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800"
                 >
                   <button
                     type="button"
                     onClick={() => setLang('en')}
                     aria-label="Switch language to English"
-                    className={`py-1.5 px-2.5 rounded-lg text-xs font-bold uppercase transition-all cursor-pointer ${
+                    className={`py-1.5 px-2 rounded-lg text-xs font-bold uppercase transition-all cursor-pointer ${
                       lang === 'en'
                         ? 'bg-emerald-500 text-slate-950 shadow'
                         : 'text-slate-400 hover:text-white'
                     }`}
                   >
-                    EN • English
+                    EN • Eng
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setLang('de')}
+                    aria-label="Switch language to German"
+                    className={`py-1.5 px-2 rounded-lg text-xs font-bold uppercase transition-all cursor-pointer ${
+                      lang === 'de'
+                        ? 'bg-emerald-500 text-slate-950 shadow'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    DE • Deu
                   </button>
                   <button
                     type="button"
                     onClick={() => setLang('ru')}
                     aria-label="Switch language to Russian"
-                    className={`py-1.5 px-2.5 rounded-lg text-xs font-bold uppercase transition-all cursor-pointer ${
+                    className={`py-1.5 px-2 rounded-lg text-xs font-bold uppercase transition-all cursor-pointer ${
                       lang === 'ru'
                         ? 'bg-emerald-500 text-slate-950 shadow'
                         : 'text-slate-400 hover:text-white'
                     }`}
                   >
-                    RU • Русский
+                    RU • Рус
                   </button>
                 </div>
               </div>

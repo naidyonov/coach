@@ -1182,3 +1182,581 @@ export const RONDO_AGE_MATRIX_EN: Record<string, Record<AgeBandId, RondoAgeVaria
     },
   },
 };
+
+export const AGE_BANDS_DE: AgeBandInfo[] = [
+  {
+    id: 'u10',
+    shortLabel: 'U9–U10',
+    label: 'U9–U10 (8–10 J.)',
+    ageYears: '8–10 Jahre',
+    stageTitle: 'Grundlagentraining (Funino / Spielintelligenz entdecken)',
+    relativeAreaRule: '+25–35 % Fläche (24–35 m²/Sp.)',
+    decisionWindow: '2,2 – 3,0 Sek.',
+    physiologicalProfile: 'Alaktazid-aerob (Belastung 60–90 Sek., Pause 1:1)',
+    summaryFocus:
+      'Vergrößerte Felder, freie Kontakte oder 2–3 Kontakte. Komplexe Spielformen werden in der Spielerzahl reduziert (4v1, 4v2, 3v3+2N). Fokus: Mitnahme mit dem ballfernen Fuß und Freilaufen aus dem Deckungsschatten.',
+  },
+  {
+    id: 'u12',
+    shortLabel: 'U11–U12',
+    label: 'U11–U12 (11–12 J.)',
+    ageYears: '11–12 Jahre',
+    stageTitle: 'Goldenes Lernalter der Motorik',
+    relativeAreaRule: '+15–20 % Fläche (20–28 m²/Sp.)',
+    decisionWindow: '1,6 – 2,0 Sek.',
+    physiologicalProfile: 'Neuromuskulär-koordinative Schnelligkeit ohne Übersäuerung (2:1)',
+    summaryFocus:
+      'Maximale Neuroplastizität: Offene Spielstellung (Perfilación / Halb-offene Stellung), erster Schulterblick vor der Ballannahme, bewusster Schnittstellenpass und Einführung der Sechser-Rolle (#6).',
+  },
+  {
+    id: 'u14',
+    shortLabel: 'U13–U14',
+    label: 'U13–U14 (13–14 J.)',
+    ageYears: '13–14 Jahre',
+    stageTitle: 'Aufbautraining: Übergang zum 11-gegen-11 (PHV-Steuerung)',
+    relativeAreaRule: '+8–10 % Fläche (18–26 m²/Sp.)',
+    decisionWindow: '1,3 – 1,6 Sek.',
+    physiologicalProfile: 'Gemischt-aerob, Schutz der Wachstumsfugen im Wachstumsschub (2,5:1)',
+    summaryFocus:
+      'Übertragung der Rondo-Geometrie auf das Großfeld (11v11): Bogenpressing mit Deckungsschatten (Cover Shadow), diagonale Tiefenstaffelung, Spiel über den Sechser (#6) und Prinzip „Dritter Mann“ (Steil-Klatsch).',
+  },
+  {
+    id: 'u16',
+    shortLabel: 'U15–U16',
+    label: 'U15–U16 (15–16 J.)',
+    ageYears: '15–16 Jahre',
+    stageTitle: 'Leistungstraining: Handlungsschnelligkeit & Spezialisierung',
+    relativeAreaRule: '100 % Referenzwert (16–24 m²/Sp.)',
+    decisionWindow: '1,0 – 1,3 Sek.',
+    physiologicalProfile: 'Fussballspezifische Ausdauer 85–90 % HFmax (3:1 – 4:1)',
+    summaryFocus:
+      'Referenzstandard des Moduls: 1–2 Kontakte, 2 Schulterblicke vor der Annahme, Direktspiel (1 Kontakt) des Sechsers unter Druck, Pressingfallen im Eck und 3-Sekunden-Gegenpressing.',
+  },
+  {
+    id: 'u18_pro',
+    shortLabel: 'U17+ / Pro',
+    label: 'U17+ & Aktive (Pro)',
+    ageYears: '17+ J. / Herren & Profis',
+    stageTitle: 'Hochleistungstraining & Erwachsenenfußball (Maximaler Raum-/Zeitdruck)',
+    relativeAreaRule: '-10–18 % Fläche (11–19 m²/Sp.)',
+    decisionWindow: '0,6 – 1,0 Sek.',
+    physiologicalProfile: 'Anaerob-glykolytische Leistung 88–94 % HFmax (4:1 – 5:1)',
+    summaryFocus:
+      'Extremer Raum- und Zeitdruck: Strikt 1–2 Kontakte (Zentrumsspieler 1 Kontakt), verdeckte Pässe ohne Ausholbewegung, „Pass als Botschaft“ auf den Zielfuß und nahtlose Umschaltphasen.',
+  },
+];
+
+export const RONDO_METHODOLOGY_DE: Record<string, RondoMethodologicalBasis> = {
+  'rondo-1': {
+    originSchool:
+      'FC Barcelona (La Masia) • Laureano Ruiz (1972) & Johan Cruyff (1988) — das klassische „4-Seiten-Quadrat“ zur Automatisierung der Dreiecksbildung und des synchronen Freilaufens auf die offene Linie.',
+    scientificBasis:
+      'Eine relative Fläche pro Spieler (ApP) von 20,3 m²/Sp. (9×9 m Basis) bzw. 16,0 m²/Sp. (8×8 m) erzwingt ein Entscheidungsfenster von 1,2–1,5 Sek. Da 3 Angreifer 4 Seiten bespielen, verlangt die Geometrie im Moment der Ballabgabe einen 4–6 m langen Antritt (Schulterblick-Frequenz ≥ 0,8/Sek.) und schult alaktazide Antrittskraft sowie exzentrisches Abbremsen.',
+    matchTransfer:
+      'Auflösen von 1-gegen-1-Pressing im Flügeldreieck: Außenverteidiger (#2/#3) — Sechser/Achter (#6/#8) — Flügelstürmer (#7/#11) an der Seitenlinie.',
+  },
+  'rondo-2': {
+    originSchool:
+      'Positionsspiel-Schule von Joan Vilà & Xavi Hernández (FC Barcelona) — Prinzip „Atraer para dividir“ (Gegner durch kurze Pässe anlocken, um die Pressinglinie per Schnittstellenpass zu durchbrechen).',
+    scientificBasis:
+      'Bei einer Dichte von 17,3 m²/Sp. (11×11 m) bzw. 14,3 m²/Sp. (10×10 m) decken zwei gestaffelte Verteidiger 65 % der Feldbreite ab. Kurze Lockpässe zwingen sie jedoch zur Annäherung, wodurch sich für 0,7–0,9 Sek. ein zentrales Schnittstellenfenster von 2,5–3,5 m öffnet. Trainiert periphere Wahrnehmung und verdeckte Pässe.',
+    matchTransfer:
+      'Spieleröffnung der beiden Innenverteidiger (#4 & #5) und Außenverteidiger gegen ein Zweier-Stürmerpressing (4-4-2 / 4-2-3-1) mit vertikalem Schnittstellenpass auf den Achter/Zehner (#8/#10) zwischen den Linien.',
+  },
+  'rondo-3': {
+    originSchool:
+      'Pep Guardiola & Sergio Busquets (FC Barcelona / Manchester City) — strukturelles Rondo zur Einbindung des zentralen Sechsers (#6) im Rücken der ersten Pressinglinie.',
+    scientificBasis:
+      'ApP von 22,5 m²/Sp. (15×15 m) bzw. 16,9 m²/Sp. (13×13 m). Der zentrale Sechser (#6) agiert im 360°-Raum: Untersuchungen von Jordet et al. zeigen, dass Zentrumsspieler mit ≥ 0,65 Schulterblicken/Sek. vor Ballannahme eine um 28 % höhere Erfolgsquote bei vorwärtsgerichteten Pässen erzielen. Hohe kardiovaskuläre Last für das Pressingtrio (86–92 % HFmax).',
+    matchTransfer:
+      'Spielaufbau aus der ersten in die zweite Zone über den alleinigen Sechser (#6) gegen ein 3-Mann-Angriffspressing (4-3-3) und anschließende Spielverlagerung auf den ballfernen Außenverteidiger.',
+  },
+  'rondo-4': {
+    originSchool:
+      'Paco Seirul·lo & Pep Guardiola (FC Barcelona) — zonales Positionsspiel zur diagonalen Tiefenstaffelung (Asymmetrie) von Sechser (#6) und Achter (#8) in den Halbräumen.',
+    scientificBasis:
+      'ApP von 25,1 m²/Sp. (22×16 m) bzw. 20,0 m²/Sp. (20×14 m). Die Zweiteilung des Feldes bildet den realen Abstand zwischen erster und zweiter Pressinglinie im 11-gegen-11 ab (10–12 m Tiefe) und zwingt #6 und #8, ihre Höhen gegenläufig anzupassen, um vertikale Passkorridore zu öffnen.',
+    matchTransfer:
+      'Überspielen eines kompakten 4-4-2-Mittelfeldblocks durch das Zusammenspiel von Innenverteidigern (#4/#5), abkippendem Sechser (#6), hohem Achter (#8) im Halbraum und Neuner (#9).',
+  },
+  'rondo-5': {
+    originSchool:
+      'Pep Guardiola (FC Bayern / Manchester City) & Roberto De Zerbi — Konzept „Überladen, um zu isolieren“ (Overload to Isolate): Gegner auf einer Ballseite binden, um die ballferne Zone freizuspielen.',
+    scientificBasis:
+      'Im aktiven 12×12 m Feld herrscht mit 9 Spielern eine hohe Dichte (ApP = 16,0 m²/Sp., Intensiv 13,4 m²/Sp.), während das Nachbarfeld komplett frei ist. Nach 4–5 schnellen Pässen kollabiert das Verteidigertrio auf ~60 m² und öffnet den 12–16 m langen Verlagerungspass in den offenen Raum. Für die Abwehr entstehen wiederholte 12–15 m Sprints (RSA — Repeated Sprint Ability).',
+    matchTransfer:
+      'Kombinationsspiel im engen Flügel-/Halbraumkorridor, um das gegnerische Mittelfeld herüberzuziehen, gefolgt von einer scharfen Flachverlagerung auf den einrückenden ballfernen Außenverteidiger oder Flügelstürmer.',
+  },
+  'rondo-6': {
+    originSchool:
+      'Paco Seirul·lo (FC Barcelona) & Louis van Gaal (Ajax) — das klassische Positionsspiel („Juego de Posición“ 4v4+3 Neutrale) als direkte Brücke zwischen Rondo und dem 11-gegen-11-Spiel.',
+    scientificBasis:
+      'Die großzügige Fläche von 34,9 m²/Sp. (24×16 m) bzw. 28,0 m²/Sp. (22×14 m) entspricht der realen Spielerdichte im mittleren Drittel eines 11-gegen-11-Spiels. Bei 4-minütigen Durchgängen wird die spezifische aerobe-anaerobe Schwelle (85–89 % HFmax) trainiert, während nach Ballverlust innerhalb von 1,5 Sek. von maximaler Breite auf maximale Kompaktheit umgeschaltet werden muss.',
+    matchTransfer:
+      'Kontrollierter Spielaufbau im 4-3-3: Innenverteidiger (N1) → Außenverteidiger und Achter auf den Halbpositionen + Sechser (#6) im Zentrum → Durchbruch auf den Neuner (N2).',
+  },
+  'rondo-7': {
+    originSchool:
+      'Diego Simeone (Atlético Madrid), Jürgen Klopp & Ralf Rangnick — kollektive Pressingfalle an der Seitenlinie/Ecke durch synchrones Bogenpressing.',
+    scientificBasis:
+      'Bei ApP = 21,8 m²/Sp. (14×14 m) reduziert der Pass in eine 90°-Feldecke den möglichen Abspielwinkel des Ballführenden von 180° auf 90°. Läuft D1 im Bogen an und nehmen D2/D3 die Nachbarlinien auf, sinkt das Zeitfenster des Angreifers auf < 0,8 Sek. Das Pressingtrio absolviert hochintensive Richtungswechsel und Abbremsbewegungen (2–3 m/s²).',
+    matchTransfer:
+      'Gezieltes Lenken des gegnerischen Aufbauspiels auf den Außenverteidiger an der Seitenlinie (Pressing-Auslöser: Querpass nach außen) und gemeinsames Zuschnappen der Falle durch Flügelstürmer, Achter und eigenen Außenverteidiger.',
+  },
+  'rondo-8': {
+    originSchool:
+      'Maurizio Sarri (SSC Neapel), Roberto De Zerbi & Marcelo Bielsa — konzentrisches Rondo zur Automatisierung des „Dritten Mannes“ (Steil-Klatsch / A → B → C) um den Deckungsschatten herum.',
+    scientificBasis:
+      'ApP von 23,3 m²/Sp. (16×16 m) bzw. 17,8 m²/Sp. (14×14 m). Da der Verteidiger den direkten Weg A → C mit seinem Deckungsschatten zustellt, ist C für A unsichtbar, hat aber freie Sicht auf B. Die 1-Kontakt-Ablage von B auf C dauert nur 0,3–0,4 Sek. — schneller als die Rotationszeit des Verteidigers (0,6–0,8 Sek. für eine 120°-Drehung).',
+    matchTransfer:
+      'Überspielen einer Mannorientierung im Mittelfeld: Innenverteidiger (A) spielt steil auf den entgegenkommenden Stürmer oder Flügel (B), der mit 1 Kontakt auf den einstartenden Sechser/Achter (C) klatschen lässt.',
+  },
+  'rondo-9': {
+    originSchool:
+      'Ralf Rangnick, Jürgen Klopp (FC Liverpool) & Pep Guardiola — die „3-Sekunden-Regel“ des kollektiven Gegenpressings unmittelbar nach Ballverlust.',
+    scientificBasis:
+      'Im 10×10 m Innenquadrat herrscht eine extreme Dichte von 16,7 m²/Sp. (Intensiv 9×9 m = 13,5 m²/Sp.). Im Moment des Ballverlusts sind alle 4 Angreifer nur 3–5 m vom Ball entfernt. Schalten sie in unter 0,5 Sek. um, schließen sie in 1,2–1,5 Sek. den 360°-Raum um den Ballgewinner. Trainiert maximale neuromuskuläre Reaktionsschnelligkeit und anaerob-alaktazide Power.',
+    matchTransfer:
+      'Sofortiges Schwarm-Gegenpressing im Angriffsdrittel nach einem abgefangenen Pass, um den ersten Konterpass auf die gegnerischen Flügel oder den Sechser im Keim zu ersticken.',
+  },
+  'rondo-10': {
+    originSchool:
+      'Thomas Tuchel, Luis Enrique & Julian Nagelsmann — Umschaltprinzip „1. Pass raus aus der Druckzone“ (Escape the Pressure Zone) nach Ballgewinn.',
+    scientificBasis:
+      'In der Ballgewinnzone (14×14 m mit 8 Spielern, ApP = 24,5 m²/Sp., Intensiv 18,0 m²/Sp.) herrscht sofortiger Gegenpressing-Druck, während im Nachbarfeld 2 Zielspieler auf 196 m² völlig frei warten. Spielanalysen der UEFA zeigen, dass Konter, deren 1. oder 2. Pass die Ballgewinnzone verlässt, zu 64 % häufiger in einer geordneten Offensivaktion münden.',
+    matchTransfer:
+      'Nach Balleroberung im eigenen Abwehr-/Mittelfelddrittel nicht im engen Getümmel dribbeln, sondern sofort per Diagonalpass auf den ballfernen Zehner/Flügel eröffnen und geschlossen nachrücken.',
+  },
+};
+
+export const RONDO_AGE_MATRIX_DE: Record<string, Record<AgeBandId, RondoAgeVariant>> = {
+  'rondo-1': {
+    u10: {
+      baseGrid: '10 × 10 m (25,0 m²/Sp.)',
+      intensiveGrid: '9 × 9 m (20,3 m²/Sp.)',
+      touchesRule: 'Frei / 3 Kontakte',
+      timing: '4 Sätze × 1 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Bis zu 3 Kontakte erlauben. Hauptkommando für Kinder: „Versteck dich nicht hinter dem Verteidiger — lauf sofort zur Seite mit dem freien Hütchen!“. Verteidigerwechsel alle 45–60 Sek.',
+    },
+    u12: {
+      baseGrid: '10 × 10 m (25,0 m²/Sp.)',
+      intensiveGrid: '8,5 × 8,5 m (18,1 m²/Sp.)',
+      touchesRule: '2–3 Kontakte',
+      timing: '4 Sätze × 1,5 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Fokus auf Ballannahme mit dem ballfernen Fuß in offener Stellung (kein Stoppen mit der Sohle!). Der Lauf auf die freie Linie startet, noch während der Pass rollt.',
+    },
+    u14: {
+      baseGrid: '9,5 × 9,5 m (22,6 m²/Sp.)',
+      intensiveGrid: '8,5 × 8,5 m (18,1 m²/Sp.)',
+      touchesRule: 'Pflicht: 2 Kontakte',
+      timing: '4 Sätze × 1,5 Min. | Pause: 40 Sek.',
+      ageCoachingFocus:
+        'Der Verteidiger lernt den Bogenlauf, um einen Passweg mit dem Deckungsschatten zu schließen. Angriff strikt mit 2 Kontakten (Annahme ferner Fuß + Pass).',
+    },
+    u16: {
+      baseGrid: '9 × 9 m (20,3 m²/Sp.)',
+      intensiveGrid: '8 × 8 m (16,0 m²/Sp.)',
+      touchesRule: '1–2 Kontakte (≤ 1,5 Sek.)',
+      timing: '4 Sätze × 1,5 Min. | Pause: 30 Sek.',
+      ageCoachingFocus:
+        'Ab Stufe 2 Rückpass zum Passgeber verboten; synchroner Antritt auf die freie Linie im Moment des Abspiels, 2 Schulterblicke vor der Annahme.',
+    },
+    u18_pro: {
+      baseGrid: '8 × 8 m (16,0 m²/Sp.)',
+      intensiveGrid: '7 × 7 m (12,3 m²/Sp.)',
+      touchesRule: 'Strikt 1–2 Kontakte (< 1,0 Sek.)',
+      timing: '4 Sätze × 2 Min. | Pause: 30 Sek.',
+      ageCoachingFocus:
+        'Maximale Passschärfe, Rückpass verboten, Direktspiel (1 Kontakt) bei Gegnerdruck unter 2 m. Jeder über Kniehöhe gespielte Ball zählt als Ballverlust.',
+    },
+  },
+  'rondo-2': {
+    u10: {
+      formatOverride: '5v2 (oder 4v1 für Einsteiger)',
+      baseGrid: '13 × 13 m (24,1 m²/Sp.)',
+      intensiveGrid: '12 × 12 m (20,6 m²/Sp.)',
+      touchesRule: 'Frei / 3 Kontakte',
+      timing: '4 Sätze × 1,5 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        '1 Punkt für 6 Pässe ODER 2 Bonuspunkte für den „Mut-Pass“ durch die Schnittstelle zwischen beiden Verteidigern. Jeden mutigen Versuch loben!',
+    },
+    u12: {
+      baseGrid: '12 × 12 m (20,6 m²/Sp.)',
+      intensiveGrid: '11 × 11 m (17,3 m²/Sp.)',
+      touchesRule: '2–3 Kontakte',
+      timing: '4 Sätze × 1,5 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Der ballferne Spieler lernt, sich auf seiner Linie ständig im offenen „Fenster“ zwischen beiden Verteidigern anzubieten. Verteidiger jagen nicht zu zweit denselben Ball.',
+    },
+    u14: {
+      baseGrid: '11,5 × 11,5 m (18,9 m²/Sp.)',
+      intensiveGrid: '10,5 × 10,5 m (15,8 m²/Sp.)',
+      touchesRule: '2 Kontakte',
+      timing: '4 Sätze × 2 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Diagonale Tiefenstaffelung der beiden Verteidiger (Einer stellt den Ball, der Zweite sichert die Schnittstelle). Angreifer locken mit Kurzpässen.',
+    },
+    u16: {
+      baseGrid: '11 × 11 m (17,3 m²/Sp.)',
+      intensiveGrid: '10 × 10 m (14,3 m²/Sp.)',
+      touchesRule: '1–2 Kontakte (Intensiv: 1 K.)',
+      timing: '4 Sätze × 2 Min. | Pause: 40 Sek.',
+      ageCoachingFocus:
+        'Punkte zählen NUR für Schnittstellenpässe; der Pass unmittelbar nach einem Schnittstellenpass muss direkt (1 Kontakt) gespielt werden.',
+    },
+    u18_pro: {
+      baseGrid: '10 × 10 m (14,3 m²/Sp.)',
+      intensiveGrid: '9 × 9 m (11,6 m²/Sp.)',
+      touchesRule: 'Strikt 1 Kontakt (Direktspiel)',
+      timing: '4 Sätze × 2,5 Min. | Pause: 35 Sek.',
+      ageCoachingFocus:
+        'Klassisches Profi-5v2 im Direktspiel mit höchstem Balltempo. Verdeckte Schnittstellenpässe ohne vorhersehbare Blick- oder Hüftorientierung.',
+    },
+  },
+  'rondo-3': {
+    u10: {
+      formatOverride: '5+1 gegen 2 (U10-Anpassung)',
+      baseGrid: '14 × 14 m (24,5 m²/Sp.)',
+      intensiveGrid: '13 × 13 m (21,1 m²/Sp.)',
+      touchesRule: '2–3 Kontakte',
+      timing: '4 Sätze × 1,5 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        'U10-Anpassung: Reduzierung auf 2 Verteidiger (5 außen + 1 Zentrumsspieler gegen 2), damit der Sechser im Zentrum Zeit hat, den Ball anzunehmen, aufzudrehen und weiterzuleiten!',
+    },
+    u12: {
+      baseGrid: '17 × 17 m (28,9 m²/Sp.)',
+      intensiveGrid: '15 × 15 m (22,5 m²/Sp.)',
+      touchesRule: '2–3 Kontakte (#6 mit 2 K.)',
+      timing: '4 Sätze × 2 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        'Einführung der Sechser-Rolle (#6) im 7v3 in einem großen 17×17 m Feld. Wichtigste Gewohnheit für #6: immer seitlich (halb-offen) stehen, um beide Hälften zu sehen.',
+    },
+    u14: {
+      baseGrid: '16 × 16 m (25,6 m²/Sp.)',
+      intensiveGrid: '14 × 14 m (19,6 m²/Sp.)',
+      touchesRule: '2 Kontakte',
+      timing: '4 Sätze × 2 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Sechser #6 lernt, sich mit zwei schnellen Seitwärtsschritten aus dem Deckungsschatten des zentralen Verteidigers zu lösen. Abwehr bildet ein kompaktes Pressingdreieck.',
+    },
+    u16: {
+      baseGrid: '15 × 15 m (22,5 m²/Sp.)',
+      intensiveGrid: '13 × 13 m (16,9 m²/Sp.)',
+      touchesRule: 'Außen 2 K., #6 mit 1–2 K.',
+      timing: '4 Sätze × 2,5 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Punkte zählen nur über (#6) auf eine neue Linie; in Stufe 3 spielt der Sechser (#6) strikt mit 1 Kontakt nach doppeltem Schulterblick.',
+    },
+    u18_pro: {
+      baseGrid: '13,5 × 13,5 m (18,2 m²/Sp.)',
+      intensiveGrid: '12 × 12 m (14,4 m²/Sp.)',
+      touchesRule: 'Alle 1–2 K., #6 strikt 1 Kontakt',
+      timing: '4 Sätze × 3 Min. | Pause: 40 Sek.',
+      ageCoachingFocus:
+        'Aggressives Pressingdreieck mit 5–6 Pässen Limit bis zur Balleroberung. Sechser #6 muss unter engem Gegnerdruck im Rücken mit 1 Kontakt weiterleiten.',
+    },
+  },
+  'rondo-4': {
+    u10: {
+      formatOverride: '4+2ZM gegen 2 (8 Spieler, 7v7-Modell)',
+      baseGrid: '18 × 12 m (27,0 m²/Sp.)',
+      intensiveGrid: '16 × 12 m (24,0 m²/Sp.)',
+      touchesRule: 'Frei / 3 Kontakte',
+      timing: '3 Sätze × 2 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        'U10-Anpassung (7v7): 8 statt 14 Spieler! 4 Außenspieler + 2 Zentrumsspieler (einer pro Hälfte) gegen 2 Verteidiger (1 pro Zone). Spielerisch von Linie zu Linie durchs Zentrum kombinieren.',
+    },
+    u12: {
+      formatOverride: '6+2ZM gegen 3 (11 Spieler, 9v9-Modell)',
+      baseGrid: '22 × 15 m (30,0 m²/Sp.)',
+      intensiveGrid: '20 × 14 m (25,5 m²/Sp.)',
+      touchesRule: '2–3 Kontakte',
+      timing: '3 Sätze × 2,5 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        '9v9-Anpassung: Die beiden Zentrumsspieler (#6 & #8) lernen die Grundregel — „niemals hintereinander auf einer Schiene stehen“ (einer kippt links ab, der andere schiebt rechts hoch).',
+    },
+    u14: {
+      baseGrid: '24 × 17 m (29,1 m²/Sp.)',
+      intensiveGrid: '22 × 16 m (25,1 m²/Sp.)',
+      touchesRule: '2 Kontakte',
+      timing: '3 Sätze × 3 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        'Volles Format 8v4+2. Verteidiger arbeiten als 2+2-Zonenpaare. Fokus auf die diagonale Aufbaukette „IV → Außen → #6 → #8 → Stürmer“.',
+    },
+    u16: {
+      baseGrid: '22 × 16 m (25,1 m²/Sp.)',
+      intensiveGrid: '20 × 14 m (20,0 m²/Sp.)',
+      touchesRule: '2 Kontakte (ZM 1–2 K.)',
+      timing: '3 Sätze × 3 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        'Ein Verteidiger aus Zone 1 darf über die Mittellinie vorrücken (3v1-Überzahl im Zentrum); #6 und #8 müssen ihre Höhen dynamisch gegenläufig anpassen.',
+    },
+    u18_pro: {
+      baseGrid: '20 × 14 m (20,0 m²/Sp.)',
+      intensiveGrid: '18 × 13 m (16,7 m²/Sp.)',
+      touchesRule: '1–2 Kontakte (#6 & #8 mit 1 K.)',
+      timing: '3 Sätze × 3,5 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Freies 4-Mann-Pressing über beide Zonen + 4 Minitore für den sofortigen Gegenstoß bei Ballgewinn. Einstieg auf #8 über Steil-Klatsch (Dritter Mann).',
+    },
+  },
+  'rondo-5': {
+    u10: {
+      formatOverride: '4v2 über 2 Felder (6 Spieler)',
+      baseGrid: '2 Felder à 12 × 12 m (24,0 m²/Sp.)',
+      intensiveGrid: '2 Felder à 11 × 11 m (20,2 m²/Sp.)',
+      touchesRule: 'Frei / 3 Kontakte',
+      timing: '4 Sätze × 1,5 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        'U10-Anpassung: 4v2-Format (nach 3 Pässen sprintet einer der 4 Angreifer in das freie Nachbarfeld, um dort den Verlagerungspass zu empfangen).',
+    },
+    u12: {
+      baseGrid: '2 Felder à 13 × 13 m (18,8 m²/Sp.)',
+      intensiveGrid: '2 Felder à 12 × 12 m (16,0 m²/Sp.)',
+      touchesRule: '2–3 Kontakte',
+      timing: '4 Sätze × 2 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        'Regel: „Beim 3. Pass Blick ins Nachbarfeld!“. Der ballferne Spieler lernt, sich frühzeitig vor dem Verlagerungspass in die freie Zone abzusetzen.',
+    },
+    u14: {
+      baseGrid: '2 Felder à 13 × 13 m (18,8 m²/Sp.)',
+      intensiveGrid: '2 Felder à 12 × 12 m (16,0 m²/Sp.)',
+      touchesRule: '2 Kontakte',
+      timing: '4 Sätze × 2 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Format 6v3, Verlagerung nach 4 Pässen. Verteidiger lernen, die interne Mittellinie zuzustellen, um den Gegner im ersten Feld einzuschnüren.',
+    },
+    u16: {
+      baseGrid: '2 Felder à 12 × 12 m (16,0 m²/Sp.)',
+      intensiveGrid: '2 Felder à 11 × 11 m + 2 m Korridor',
+      touchesRule: '1–2 Kontakte',
+      timing: '4 Sätze × 2,5 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Alle 3 Verteidiger durch 4–5 schnelle Pässe (inklusive Zentrumskontakt) zusammenziehen und dann scharf und flach ins zweite Feld verlagern.',
+    },
+    u18_pro: {
+      baseGrid: '2 Felder à 11 × 11 m (13,4 m²/Sp.)',
+      intensiveGrid: '2 Felder à 10 × 10 m + 3 m Korridor',
+      touchesRule: '1–2 Kontakte (Verlagerung mit 1. K.)',
+      timing: '4 Sätze × 3 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Zwei frische Verteidiger sprinten ins neue Feld + 1 schiebt nach, während der 4. im 3 m Mittelkorridor lauert, um Rückverlagerungen sofort abzufangen.',
+    },
+  },
+  'rondo-6': {
+    u10: {
+      formatOverride: '3v3 + 2 Wandspieler (8 Spieler)',
+      baseGrid: '20 × 14 m (35,0 m²/Sp.)',
+      intensiveGrid: '18 × 12 m (27,0 m²/Sp.)',
+      touchesRule: 'Frei / 3 Kontakte',
+      timing: '3 Sätze × 2,5 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        'U10-Anpassung: 3v3 + 2 Wandspieler außen (oder +3N). Goldene Regel: „Haltet eure Raute groß — lauft nicht alle zusammen in dieselbe Hälfte zum Ball!“.',
+    },
+    u12: {
+      baseGrid: '24 × 16 m (34,9 m²/Sp.)',
+      intensiveGrid: '22 × 15 m (30,0 m²/Sp.)',
+      touchesRule: '2–3 Kontakte',
+      timing: '3 Sätze × 3 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        'Disziplin der Raumaufteilung: Je 2 Mitspieler bleiben in ihrer Feldhälfte und spielen den Ball über den zentralen Sechser (#6) von Wandspieler zu Wandspieler.',
+    },
+    u14: {
+      baseGrid: '25 × 17 m (38,6 m²/Sp.)',
+      intensiveGrid: '23 × 15 m (31,4 m²/Sp.)',
+      touchesRule: '2 Kontakte (Neutrale 1–2 K.)',
+      timing: '3 Sätze × 3,5 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        'Sofortiger Rollenwechsel bei Ballverlust: Das Team nach Ballverlust verdichtet in unter 2 Sek. das Zentrum; das ballerobernde Team schafft sofort maximale Breite.',
+    },
+    u16: {
+      baseGrid: '24 × 16 m (34,9 m²/Sp.)',
+      intensiveGrid: '22 × 14 m (28,0 m²/Sp.)',
+      touchesRule: '2 Kontakte (3 Neutrale mit 1 K.)',
+      timing: '3 Sätze × 4 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        'Abschluss-Positionsspiel: Punkte addieren sich für Pässe über (#6), Dritter-Mann-Kombinationen, Zonenverlagerungen und Gegenpressing-Ballgewinne in 3 Sek.',
+    },
+    u18_pro: {
+      baseGrid: '22 × 14 m (28,0 m²/Sp.)',
+      intensiveGrid: '20 × 13 m (23,6 m²/Sp.)',
+      touchesRule: '1–2 Kontakte (Neutrale strikt 1 K.)',
+      timing: '4 Sätze × 4 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        'Hochintensives Positionsspiel nach La-Masia-/Guardiola-Standard: Alle Neutralen strikt mit 1 Kontakt, direkter Rückpass zum selben Neutralen verboten.',
+    },
+  },
+  'rondo-7': {
+    u10: {
+      formatOverride: '4v2 mit Eck-„Mausefallen“',
+      baseGrid: '12 × 12 m (24,0 m²/Sp.)',
+      intensiveGrid: '11 × 11 m (20,2 m²/Sp.)',
+      touchesRule: '2–3 Kontakte',
+      timing: '4 Sätze × 1 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'U10-Anpassung: 4v2 mit bunten 2×2 m großen „Mausefallen“ in den Ecken. Die 2 Verteidiger erhalten 2 Bonuspunkte, wenn sie den Gegner ins Eck lenken und dort den Ball erobern!',
+    },
+    u12: {
+      baseGrid: '15 × 15 m (25,0 m²/Sp.)',
+      intensiveGrid: '14 × 14 m (21,8 m²/Sp.)',
+      touchesRule: '2–3 Kontakte',
+      timing: '4 Sätze × 1,5 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Der erste Verteidiger lernt den Bogenlauf („Bananenlauf“), um den Rückpass abzuschneiden, während sein Partner die nächste Linie zustellt.',
+    },
+    u14: {
+      baseGrid: '14,5 × 14,5 m (23,4 m²/Sp.)',
+      intensiveGrid: '13,5 × 13,5 m (20,3 m²/Sp.)',
+      touchesRule: '2 Kontakte',
+      timing: '4 Sätze × 2 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Pressing-Auslöser erkennen: Sobald der Ball Richtung Ecke oder auf den schwachen Fuß rollt, schnappt das gesamte Verteidigertrio synchron zu.',
+    },
+    u16: {
+      baseGrid: '14 × 14 m (21,8 m²/Sp.)',
+      intensiveGrid: '13 × 13 m (18,8 m²/Sp.)',
+      touchesRule: '2 Kontakte',
+      timing: '4 Sätze × 2 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        '6-Pässe-Limit für das Verteidigertrio bis zum Ballgewinn; nach Eroberung in der Eckfalle müssen die Verteidiger 1 sicheren Pass untereinander spielen.',
+    },
+    u18_pro: {
+      baseGrid: '13 × 13 m (18,8 m²/Sp.)',
+      intensiveGrid: '12 × 12 m (16,0 m²/Sp.)',
+      touchesRule: '1–2 Kontakte',
+      timing: '4 Sätze × 2,5 Min. | Pause: 40 Sek.',
+      ageCoachingFocus:
+        'Maximale Pressing-Aggressivität (5-Pässe-Limit für die Abwehr), während sich der Angriff nur über Direktspiel-Dreiecke oder scharfe Diagonalverlagerung befreien kann.',
+    },
+  },
+  'rondo-8': {
+    u10: {
+      formatOverride: '4+1 (im zentralen „Häuschen“) gegen 2',
+      baseGrid: '14 × 14 m (Innen 4 × 4 m, 28,0 m²/Sp.)',
+      intensiveGrid: '13 × 13 m (Innen 4 × 4 m)',
+      touchesRule: '2–3 Kontakte',
+      timing: '4 Sätze × 1,5 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        'U10-Anpassung: 4 Außenspieler + 1 im 4×4 m „Häuschen“ gegen 2 Verteidiger. Grundmuster lernen: „Pass ins Häuschen — klatschen lassen auf den freien Freund!“.',
+    },
+    u12: {
+      baseGrid: '17 × 17 m (Innen 5 × 5 m, 26,3 m²/Sp.)',
+      intensiveGrid: '16 × 16 m (Innen 5 × 5 m)',
+      touchesRule: 'Außen 2–3 K., Ablage 1–2 K.',
+      timing: '4 Sätze × 2 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Der Spieler im Innenquadrat agiert als „Spiegel“ — er lässt den Ball mit 1–2 Kontakten direkt zu dem dritten Mitspieler klatschen, dem er zugewandt ist.',
+    },
+    u14: {
+      baseGrid: '16,5 × 16,5 m (Innen 5 × 5 m, 24,8 m²/Sp.)',
+      intensiveGrid: '15 × 15 m (Innen 4,5 × 4,5 m)',
+      touchesRule: '2 Kontakte (Ablage mit 1 K.)',
+      timing: '4 Sätze × 2 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Beide Varianten beherrschen: Zentrumsspieler als „Zweiter Mann“ (lässt nach außen klatschen) und als „Dritter Mann“ (erhält die Direktablage vom Flügel).',
+    },
+    u16: {
+      baseGrid: '16 × 16 m (Innen 5 × 5 m, 23,3 m²/Sp.)',
+      intensiveGrid: '14 × 14 m (Innen 4 × 4 m, 17,8 m²/Sp.)',
+      touchesRule: 'Außen 1–2 K., 2. Mann 1 Kontakt',
+      timing: '4 Sätze × 2,5 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Punkte zählen NUR für „A → B (1 Kontakt) → C“. Prinzip „Pass als Botschaft“: Pass auf den linken Fuß von B signalisiert die Direktablage nach links.',
+    },
+    u18_pro: {
+      baseGrid: '14 × 14 m (Innen 4 × 4 m, 17,8 m²/Sp.)',
+      intensiveGrid: '13 × 13 m (Innen 3,5 × 3,5 m, 15,4 m²/Sp.)',
+      touchesRule: 'Strikt 1 Kontakt beim Ein- & Ausstieg',
+      timing: '4 Sätze × 3 Min. | Pause: 40 Sek.',
+      ageCoachingFocus:
+        'Hochdichtes De-Zerbi-/Sarri-Regime: Jedes Anspiel ins Innenquadrat und jede Ablage heraus muss mit 1 Kontakt und fließendem Positionswechsel erfolgen.',
+    },
+  },
+  'rondo-9': {
+    u10: {
+      baseGrid: 'Innen 12 × 12 m (24,0 m²/Sp.) in 24 × 24 m',
+      intensiveGrid: 'Innen 11 × 11 m in 22 × 22 m',
+      touchesRule: 'Frei / 3 Kontakte',
+      timing: '4 Sätze × 1 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        '„5-Sekunden-Balljagd“: Erobern die 2 Blauen den Ball, müssen alle 4 Roten sie sofort einkreisen, bevor sie den Pass zu ihren Freunden am großen Viereck schaffen!',
+    },
+    u12: {
+      baseGrid: 'Innen 11 × 11 m (20,2 m²/Sp.) in 23 × 23 m',
+      intensiveGrid: 'Innen 10 × 10 m in 21 × 21 m',
+      touchesRule: '2–3 Kontakte',
+      timing: '4 Sätze × 1,5 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Automatischer Umschaltreflex bei Ballverlust (4-Sekunden-Regel): Kein Stehenbleiben, kein Kopf-Hängenlassen nach einem Fehlpass.',
+    },
+    u14: {
+      baseGrid: 'Innen 10,5 × 10,5 m (18,4 m²/Sp.) in 22 × 22 m',
+      intensiveGrid: 'Innen 9,5 × 9,5 m in 20 × 20 m',
+      touchesRule: '2 Kontakte',
+      timing: '4 Sätze × 2 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Aufgabenverteilung im Gegenpressing: Der Ballnächste stellt sofort den Ballgewinner, die anderen drei schließen die Passwege nach außen.',
+    },
+    u16: {
+      baseGrid: 'Innen 10 × 10 m (16,7 m²/Sp.) in 22 × 22 m',
+      intensiveGrid: 'Innen 9 × 9 m (13,5 m²/Sp.) in 20 × 20 m',
+      touchesRule: '1–2 Kontakte',
+      timing: '4 Sätze × 2 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Strikte 3-Sekunden-Regel (+2 Pkt. bei Rückeroberung). Spielt Blau nach außen, geht das Spiel nahtlos als 6-gegen-4 im großen 22×22 m Feld weiter.',
+    },
+    u18_pro: {
+      baseGrid: 'Innen 9 × 9 m (13,5 m²/Sp.) in 20 × 20 m',
+      intensiveGrid: 'Innen 8 × 8 m (10,7 m²/Sp.) in 18 × 18 m',
+      touchesRule: '1–2 Kontakte (Ausstieg mit 1 K.)',
+      timing: '4 Sätze × 2,5 Min. | Pause: 40 Sek.',
+      ageCoachingFocus:
+        'Permanente Doppel-Transition (4v2 innen ↔ 6v4 außen ↔ sofortiges Gegenpressing von Blau bei Ballverlust im großen Quadrat).',
+    },
+  },
+  'rondo-10': {
+    u10: {
+      formatOverride: '4v2 → 4v2 (8 Spieler: 4 Rot gegen 4 Blau)',
+      baseGrid: '2 Felder à 13 × 13 m (28,2 m²/Sp.)',
+      intensiveGrid: '2 Felder à 12 × 12 m (24,0 m²/Sp.)',
+      touchesRule: 'Frei / 3 Kontakte',
+      timing: '4 Sätze × 1,5 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        'U10-Anpassung (8 Spieler): Im ersten Feld 4 gegen 2, während 2 Blaue im zweiten Feld warten. Ball erobert — sofort rüberpassen zu den freien Freunden!',
+    },
+    u12: {
+      baseGrid: '2 Felder à 15 × 15 m (28,1 m²/Sp.)',
+      intensiveGrid: '2 Felder à 14 × 14 m (24,5 m²/Sp.)',
+      touchesRule: '2–3 Kontakte',
+      timing: '4 Sätze × 2 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        'Nach Ballgewinn nicht im engen Getümmel dribbeln, sondern sofort den Kopf heben und die beiden freien Mitspieler in Zone 2 anspielen.',
+    },
+    u14: {
+      baseGrid: '2 Felder à 14,5 × 14,5 m (26,3 m²/Sp.)',
+      intensiveGrid: '2 Felder à 13 × 13 m (21,1 m²/Sp.)',
+      touchesRule: '2 Kontakte',
+      timing: '4 Sätze × 2 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        'Die wartenden Zielspieler in Zone 2 bewegen sich aktiv an der Mittellinie und zeigen sich in den Passfenstern zwischen den Gegenpressing-Spielern.',
+    },
+    u16: {
+      baseGrid: '2 Felder à 14 × 14 m (24,5 m²/Sp.)',
+      intensiveGrid: '2 Felder à 12 × 12 m (18,0 m²/Sp.)',
+      touchesRule: '1–2 Kontakte',
+      timing: '4 Sätze × 2,5 Min. | Pause: 1 Min.',
+      ageCoachingFocus:
+        'Befreiungspass in Zone 2 zwingend mit dem 1. oder 2. Pass nach Ballgewinn, gefolgt vom explosiven Nachrücken zum neuen 5-gegen-3.',
+    },
+    u18_pro: {
+      baseGrid: '2 Felder à 12,5 × 12,5 m (19,5 m²/Sp.)',
+      intensiveGrid: '2 Felder à 11 × 11 m (15,1 m²/Sp.)',
+      touchesRule: '1–2 Kontakte (Ausstieg mit 1. Pass)',
+      timing: '4 Sätze × 3 Min. | Pause: 45 Sek.',
+      ageCoachingFocus:
+        'Ausstieg aus der Druckzone ausschließlich mit dem 1. Pass (oder per Direktablage des Zielspielers auf den Dritten Mann) gegen 4 Sekunden Vollgas-Gegenpressing!',
+    },
+  },
+};

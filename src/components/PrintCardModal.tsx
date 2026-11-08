@@ -88,7 +88,11 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
             <div className="p-3 rounded-xl bg-slate-950/90 border border-emerald-500/30 text-xs space-y-2">
               <div>
                 <div className="font-bold text-emerald-400 uppercase tracking-wider text-[10px]">
-                  {lang === 'ru' ? 'Методическая школа и первоисточник' : 'Methodological Lineage & Origin'}
+                  {lang === 'ru'
+                    ? 'Методическая школа и первоисточник'
+                    : lang === 'de'
+                    ? 'Methodische Herkunft & Trainerschule'
+                    : 'Methodological Lineage & Origin'}
                 </div>
                 <p className="text-slate-200 font-semibold leading-snug mt-0.5">
                   {methodology.originSchool}
@@ -96,7 +100,11 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
               </div>
               <div>
                 <div className="font-bold text-cyan-400 uppercase tracking-wider text-[10px]">
-                  {lang === 'ru' ? 'Научный и биомеханический базис' : 'Scientific & Biomechanical Basis'}
+                  {lang === 'ru'
+                    ? 'Научный и биомеханический базис'
+                    : lang === 'de'
+                    ? 'Sportwissenschaftliche & Biomechanische Basis'
+                    : 'Scientific & Biomechanical Basis'}
                 </div>
                 <p className="text-slate-300 leading-snug mt-0.5">
                   {methodology.scientificBasis}
@@ -104,7 +112,11 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
               </div>
               <div>
                 <div className="font-bold text-amber-400 uppercase tracking-wider text-[10px]">
-                  {lang === 'ru' ? 'Перенос в матч 11×11' : 'Match Transfer (11v11)'}
+                  {lang === 'ru'
+                    ? 'Перенос в матч 11×11'
+                    : lang === 'de'
+                    ? 'Direkter Spieltransfer (11 gegen 11)'
+                    : 'Match Transfer (11v11)'}
                 </div>
                 <p className="text-slate-300 leading-snug mt-0.5">
                   {methodology.matchTransfer}

@@ -156,7 +156,13 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
             <LayoutGrid className="w-3.5 h-3.5 text-emerald-400" />
             {isCatalogExpanded ? (
               <>
-                <span>{lang === 'ru' ? 'Скрыть каталог' : 'Hide Cards'}</span>
+                <span>
+                  {lang === 'ru'
+                    ? 'Скрыть каталог'
+                    : lang === 'de'
+                    ? 'Karten ausblenden'
+                    : 'Hide Cards'}
+                </span>
                 <ChevronUp className="w-3.5 h-3.5 text-slate-400" />
               </>
             ) : (
@@ -164,6 +170,8 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                 <span>
                   {lang === 'ru'
                     ? `Все карточки (${filteredRondos.length})`
+                    : lang === 'de'
+                    ? `Alle Karten (${filteredRondos.length})`
                     : `Browse Cards (${filteredRondos.length})`}
                 </span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
@@ -180,7 +188,11 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
           <div className="flex items-center gap-2">
             <GraduationCap className="w-4 h-4 text-emerald-400 shrink-0" />
             <span className="text-xs font-bold text-slate-300">
-              {lang === 'ru' ? 'Возрастная адаптация:' : 'Age Adaptation:'}
+              {lang === 'ru'
+                ? 'Возрастная адаптация:'
+                : lang === 'de'
+                ? 'Altersanpassung:'
+                : 'Age Adaptation:'}
             </span>
             <span className="hidden md:inline-block text-[11px] text-slate-400">
               {currentAgeBandInfo.stageTitle} •{' '}
@@ -222,7 +234,13 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
             type="button"
             data-testid="prev-rondo-btn"
             onClick={handlePrevRondo}
-            aria-label={lang === 'ru' ? 'Предыдущее рондо' : 'Previous rondo'}
+            aria-label={
+              lang === 'ru'
+                ? 'Предыдущее рондо'
+                : lang === 'de'
+                ? 'Vorheriges Rondo'
+                : 'Previous rondo'
+            }
             className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 transition cursor-pointer shrink-0"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -263,7 +281,13 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
             type="button"
             data-testid="next-rondo-btn"
             onClick={handleNextRondo}
-            aria-label={lang === 'ru' ? 'Следующее рондо' : 'Next rondo'}
+            aria-label={
+              lang === 'ru'
+                ? 'Следующее рондо'
+                : lang === 'de'
+                ? 'Nächstes Rondo'
+                : 'Next rondo'
+            }
             className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 transition cursor-pointer shrink-0"
           >
             <ChevronRight className="w-4 h-4" />
@@ -359,7 +383,13 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                     className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-xs font-bold transition cursor-pointer"
                   >
                     <Timer className="w-3.5 h-3.5" />
-                    <span>{lang === 'ru' ? 'Таймер' : 'Drill Timer'}</span>
+                    <span>
+                      {lang === 'ru'
+                        ? 'Таймер'
+                        : lang === 'de'
+                        ? 'Platz-Timer'
+                        : 'Drill Timer'}
+                    </span>
                   </button>
                 )}
 
@@ -545,7 +575,11 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
-                {lang === 'ru' ? 'Цели и счёт' : 'Goals & Score'}
+                {lang === 'ru'
+                  ? 'Цели и счёт'
+                  : lang === 'de'
+                  ? 'Ziele & Punkte'
+                  : 'Goals & Score'}
               </button>
               <button
                 type="button"
@@ -557,7 +591,11 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
-                {lang === 'ru' ? 'Базис (Наука)' : 'Basis & Science'}
+                {lang === 'ru'
+                  ? 'Базис (Наука)'
+                  : lang === 'de'
+                  ? 'Basis & Wissenschaft'
+                  : 'Basis & Science'}
               </button>
               <button
                 type="button"
@@ -568,7 +606,11 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
-                {lang === 'ru' ? 'Подсказки (3)' : 'Cues & Stages'}
+                {lang === 'ru'
+                  ? 'Подсказки (3)'
+                  : lang === 'de'
+                  ? 'Coaching & Stufen'
+                  : 'Cues & Stages'}
               </button>
               <button
                 type="button"
@@ -581,6 +623,8 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
               >
                 {lang === 'ru'
                   ? `Состав (${teamPlayersCount})`
+                  : lang === 'de'
+                  ? `Kader (${teamPlayersCount})`
                   : `Squad (${teamPlayersCount})`}
               </button>
             </div>
@@ -599,6 +643,8 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                       <span>
                         {lang === 'ru'
                           ? `Методический фокус для ${currentAgeBandInfo.label}`
+                          : lang === 'de'
+                          ? `Methodischer Fokus für ${currentAgeBandInfo.label}`
                           : `Coaching Focus for ${currentAgeBandInfo.label}`}
                       </span>
                     </span>
@@ -671,6 +717,8 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                     <span>
                       {lang === 'ru'
                         ? '1. Первоисточник и тренерская школа'
+                        : lang === 'de'
+                        ? '1. Methodische Herkunft & Trainerschule'
                         : '1. Coaching Lineage & Origin School'}
                     </span>
                   </div>
@@ -686,6 +734,8 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                     <span>
                       {lang === 'ru'
                         ? '2. Научное обоснование (м²/игрока, биомеханика, сканирование)'
+                        : lang === 'de'
+                        ? '2. Sportwissenschaftliche Basis (m²/Spieler, Biomechanik & Schulterblick)'
                         : '2. Scientific Basis (m²/player, Biomechanics & Scanning)'}
                     </span>
                   </div>
@@ -701,6 +751,8 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                     <span>
                       {lang === 'ru'
                         ? '3. Прямой перенос в матч (Зона и игровая ситуация)'
+                        : lang === 'de'
+                        ? '3. Direkter Spieltransfer (Spielfeldzone & Spielsituation 11v11)'
                         : '3. Direct Match Transfer (Pitch Zone & Game Situation)'}
                     </span>
                   </div>
@@ -715,6 +767,8 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                     <span>
                       {lang === 'ru'
                         ? 'Шкала площадей по возрастам (U9 → Pro)'
+                        : lang === 'de'
+                        ? 'Flächen- & Altersmatrix (U9 → Pro)'
                         : 'Age Scaling Matrix (U9 → Pro)'}
                     </span>
                     <span className="text-[10px] text-emerald-400 font-mono">

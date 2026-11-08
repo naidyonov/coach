@@ -22,11 +22,21 @@ import {
   getSquadOrganizationAdviceEn
 } from './en';
 import {
+  CATEGORIES_DE,
+  RONDOS_DE,
+  UI_DE,
+  generateMonthlyPlanDe,
+  getSquadOrganizationAdviceDe
+} from './de';
+import {
+  AGE_BANDS_DE,
   AGE_BANDS_EN,
   AGE_BANDS_RU,
   AgeBandInfo,
+  RONDO_AGE_MATRIX_DE,
   RONDO_AGE_MATRIX_EN,
   RONDO_AGE_MATRIX_RU,
+  RONDO_METHODOLOGY_DE,
   RONDO_METHODOLOGY_EN,
   RONDO_METHODOLOGY_RU,
   RondoAgeVariant,
@@ -60,7 +70,7 @@ const LanguageContext = createContext<LanguageContextValue | undefined>(undefine
 const getInitialLanguage = (): Language => {
   try {
     const saved = window.localStorage.getItem(STORAGE_KEY);
-    if (saved === 'en' || saved === 'ru') {
+    if (saved === 'en' || saved === 'de' || saved === 'ru') {
       return saved;
     }
   } catch {
@@ -104,7 +114,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const toggleLang = () => {
-    setLang(lang === 'en' ? 'ru' : 'en');
+    setLang(lang === 'en' ? 'de' : lang === 'de' ? 'ru' : 'en');
   };
 
   useEffect(() => {
@@ -112,12 +122,22 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, [lang]);
 
   const value = useMemo<LanguageContextValue>(() => {
-    const isRu = lang === 'ru';
-    const bands = isRu ? AGE_BANDS_RU : AGE_BANDS_EN;
+    const bands =
+      lang === 'ru' ? AGE_BANDS_RU : lang === 'de' ? AGE_BANDS_DE : AGE_BANDS_EN;
     const currentAgeBandInfo =
       bands.find((b) => b.id === ageBand) || bands[3]; // fallback to u16
-    const methodologyMap = isRu ? RONDO_METHODOLOGY_RU : RONDO_METHODOLOGY_EN;
-    const ageMatrix = isRu ? RONDO_AGE_MATRIX_RU : RONDO_AGE_MATRIX_EN;
+    const methodologyMap =
+      lang === 'ru'
+        ? RONDO_METHODOLOGY_RU
+        : lang === 'de'
+        ? RONDO_METHODOLOGY_DE
+        : RONDO_METHODOLOGY_EN;
+    const ageMatrix =
+      lang === 'ru'
+        ? RONDO_AGE_MATRIX_RU
+        : lang === 'de'
+        ? RONDO_AGE_MATRIX_DE
+        : RONDO_AGE_MATRIX_EN;
 
     return {
       lang,
@@ -134,11 +154,22 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         const drillVariants = ageMatrix[rondoId] || ageMatrix['rondo-1'];
         return drillVariants[targetAge] || drillVariants['u16'];
       },
-      t: isRu ? UI_RU : UI_EN,
-      categories: isRu ? CATEGORIES_RU : CATEGORIES_EN,
-      rondos: isRu ? RONDOS_RU : RONDOS_EN,
-      generateMonthlyPlan: isRu ? generateMonthlyPlanRu : generateMonthlyPlanEn,
-      getSquadOrganizationAdvice: isRu ? getSquadOrganizationAdviceRu : getSquadOrganizationAdviceEn
+      t: lang === 'ru' ? UI_RU : lang === 'de' ? UI_DE : UI_EN,
+      categories:
+        lang === 'ru' ? CATEGORIES_RU : lang === 'de' ? CATEGORIES_DE : CATEGORIES_EN,
+      rondos: lang === 'ru' ? RONDOS_RU : lang === 'de' ? RONDOS_DE : RONDOS_EN,
+      generateMonthlyPlan:
+        lang === 'ru'
+          ? generateMonthlyPlanRu
+          : lang === 'de'
+          ? generateMonthlyPlanDe
+          : generateMonthlyPlanEn,
+      getSquadOrganizationAdvice:
+        lang === 'ru'
+          ? getSquadOrganizationAdviceRu
+          : lang === 'de'
+          ? getSquadOrganizationAdviceDe
+          : getSquadOrganizationAdviceEn
     };
   }, [lang, ageBand]);
 
