@@ -2,6 +2,7 @@ import React from 'react';
 import { Calendar, CheckCircle2, Clock } from 'lucide-react';
 import { RondoItem } from '../i18n/types';
 import { useLanguage } from '../i18n/LanguageContext';
+import { classifySessionFocus } from '../domain/periodization';
 
 export interface MonthlyPlanViewProps {
   selectedRondo: RondoItem;
@@ -81,17 +82,9 @@ export const MonthlyPlanView: React.FC<MonthlyPlanViewProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
         {monthlyPlan.map((item) => {
           const isDone = completedSessions.includes(item.session);
-          const focusLower = item.focusSide.toLowerCase();
-          const isAttackFocus =
-            focusLower.includes('attack') ||
-            focusLower.includes('angriff') ||
-            focusLower.includes('атак');
-          const isDefenseFocus =
-            focusLower.includes('defens') ||
-            focusLower.includes('press') ||
-            focusLower.includes('abwehr') ||
-            focusLower.includes('оборон') ||
-            focusLower.includes('отбор');
+          const focusCategory = classifySessionFocus(item);
+          const isAttackFocus = focusCategory === 'attack';
+          const isDefenseFocus = focusCategory === 'defense';
 
           return (
             <div

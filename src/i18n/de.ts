@@ -1,4 +1,5 @@
 import { CategoryItem, MonthlySessionItem, RondoItem, UIStrings } from './types';
+import { computeSquadSetup } from '../domain/squadCalculator';
 
 export const CATEGORIES_DE: CategoryItem[] = [
   { id: 'all', name: 'Alle', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
@@ -1081,21 +1082,21 @@ export const generateMonthlyPlanDe = (
 };
 
 export const getSquadOrganizationAdviceDe = (count: number, rondo: RondoItem): string => {
-  if (rondo.id === 'rondo-1') {
-    const squares = Math.floor(count / 4);
-    return `Bei ${count} Spielern: ${squares} parallele 3-gegen-1-Felder (9×9 m) aufbauen. Die übrigen (${count % 4} Spieler) rotieren alle 60 Sek. als frische Verteidiger ein.`;
+  const setup = computeSquadSetup(count, rondo.id);
+  switch (setup.type) {
+    case 'rondo_1_parallel_squares':
+      return `Bei ${setup.playersCount} Spielern: ${setup.squares} parallele 3-gegen-1-Felder (9×9 m) aufbauen. Die übrigen (${setup.rotatingDefenders} Spieler) rotieren alle 60 Sek. als frische Verteidiger ein.`;
+    case 'rondo_2_dual_grids':
+      return `Bei ${setup.playersCount} Spielern: 2 parallele 5-gegen-2-Felder (11×11 m) — alle Spieler sind gleichzeitig ohne Standzeiten aktiv!`;
+    case 'rondo_2_single_with_neutrals':
+      return `Bei ${setup.playersCount} Spielern: 1 Hauptfeld 5-gegen-2 + übrige Spieler als rotierende Außenspieler.`;
+    case 'rondo_3_dual_grids':
+      return `Bei ${setup.playersCount} Spielern: 2 Felder parallel aufbauen (einmal 7 gegen 3 und einmal 6 gegen 2 mit Sechser #6).`;
+    case 'rondo_3_single_with_pressing_unit':
+      return `Bei ${setup.playersCount} Spielern: 1 Hauptfeld 7 gegen 3 (10 Spieler) + eine zweite Pressinggruppe (${setup.extraPressers} Spieler), die alle 75 Sekunden mit maximaler Frische einrotiert.`;
+    default:
+      return `Bei ${setup.playersCount} Spielern: Kader in die Hauptgruppe (${rondo.playersCount}) plus ein rotierendes Pressing-Trio aufteilen (Wechsel alle 90 Sek. für konstante 85 % HFmax).`;
   }
-  if (rondo.id === 'rondo-2') {
-    return count >= 14
-      ? `Bei ${count} Spielern: 2 parallele 5-gegen-2-Felder (11×11 m) — alle Spieler sind gleichzeitig ohne Standzeiten aktiv!`
-      : `Bei ${count} Spielern: 1 Hauptfeld 5-gegen-2 + übrige Spieler als rotierende Außenspieler.`;
-  }
-  if (rondo.id === 'rondo-3') {
-    return count >= 18
-      ? `Bei ${count} Spielern: 2 Felder parallel aufbauen (einmal 7 gegen 3 und einmal 6 gegen 2 mit Sechser #6).`
-      : `Bei ${count} Spielern: 1 Hauptfeld 7 gegen 3 (10 Spieler) + eine zweite Pressinggruppe (${count - 10} Spieler), die alle 75 Sekunden mit maximaler Frische einrotiert.`;
-  }
-  return `Bei ${count} Spielern: Kader in die Hauptgruppe (${rondo.playersCount}) plus ein rotierendes Pressing-Trio aufteilen (Wechsel alle 90 Sek. für konstante 85 % HFmax).`;
 };
 
 export const UI_DE: UIStrings = {

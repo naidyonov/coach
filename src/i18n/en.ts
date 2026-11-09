@@ -1,4 +1,5 @@
 import { CategoryItem, MonthlySessionItem, RondoItem, UIStrings } from './types';
+import { computeSquadSetup } from '../domain/squadCalculator';
 
 export const CATEGORIES_EN: CategoryItem[] = [
   { id: 'all', name: 'All', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
@@ -1081,21 +1082,21 @@ export const generateMonthlyPlanEn = (
 };
 
 export const getSquadOrganizationAdviceEn = (count: number, rondo: RondoItem): string => {
-  if (rondo.id === 'rondo-1') {
-    const squares = Math.floor(count / 4);
-    return `For ${count} players: set up ${squares} parallel 3v1 grids (9×9 m). Remaining (${count % 4} players) rotate in as defenders every 60 sec.`;
+  const setup = computeSquadSetup(count, rondo.id);
+  switch (setup.type) {
+    case 'rondo_1_parallel_squares':
+      return `For ${setup.playersCount} players: set up ${setup.squares} parallel 3v1 grids (9×9 m). Remaining (${setup.rotatingDefenders} players) rotate in as defenders every 60 sec.`;
+    case 'rondo_2_dual_grids':
+      return `For ${setup.playersCount} players: run 2 parallel 5v2 grids (11×11 m) — every player is active simultaneously with zero queues!`;
+    case 'rondo_2_single_with_neutrals':
+      return `For ${setup.playersCount} players: run 1 main 5v2 grid + extra players as rotating perimeter neutrals.`;
+    case 'rondo_3_dual_grids':
+      return `For ${setup.playersCount} players: set up 2 grids (one 7v3 grid and one 6v2 grid with a central pivot #6).`;
+    case 'rondo_3_single_with_pressing_unit':
+      return `For ${setup.playersCount} players: 1 main 7v3 grid (10 players) + a second pressing unit (${setup.extraPressers} players) recovering actively and rotating in every 75 seconds to sustain maximum pressing intensity.`;
+    default:
+      return `For ${setup.playersCount} players: organize the squad into the primary rondo unit (${rondo.playersCount}) plus a rotating pressing trio (swap every 90 sec to stay in the 85% HRmax zone).`;
   }
-  if (rondo.id === 'rondo-2') {
-    return count >= 14
-      ? `For ${count} players: run 2 parallel 5v2 grids (11×11 m) — every player is active simultaneously with zero queues!`
-      : `For ${count} players: run 1 main 5v2 grid + extra players as rotating perimeter neutrals.`;
-  }
-  if (rondo.id === 'rondo-3') {
-    return count >= 18
-      ? `For ${count} players: set up 2 grids (one 7v3 grid and one 6v2 grid with a central pivot #6).`
-      : `For ${count} players: 1 main 7v3 grid (10 players) + a second pressing unit (${count - 10} players) recovering actively and rotating in every 75 seconds to sustain maximum pressing intensity.`;
-  }
-  return `For ${count} players: organize the squad into the primary rondo unit (${rondo.playersCount}) plus a rotating pressing trio (swap every 90 sec to stay in the 85% HRmax zone).`;
 };
 
 export const UI_EN: UIStrings = {

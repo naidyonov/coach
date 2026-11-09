@@ -43,10 +43,12 @@ import {
   RondoMethodologicalBasis,
 } from './ageMethodologyData';
 
-const STORAGE_KEY = 'coach_app_lang';
-const AGE_STORAGE_KEY = 'coach_age_band';
-
-const VALID_AGE_BANDS: AgeBandId[] = ['u10', 'u12', 'u14', 'u16', 'u18_pro'];
+import {
+  loadInitialAgeBand,
+  loadInitialLanguage,
+  saveAgeBand,
+  saveLanguage,
+} from '../domain/sessionStorage';
 
 export interface LanguageContextValue {
   lang: Language;
@@ -67,50 +69,18 @@ export interface LanguageContextValue {
 
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
 
-const getInitialLanguage = (): Language => {
-  try {
-    const saved = window.localStorage.getItem(STORAGE_KEY);
-    if (saved === 'en' || saved === 'de' || saved === 'ru') {
-      return saved;
-    }
-  } catch {
-    // Ignore storage errors in restricted environments
-  }
-  return 'en';
-};
-
-const getInitialAgeBand = (): AgeBandId => {
-  try {
-    const saved = window.localStorage.getItem(AGE_STORAGE_KEY) as AgeBandId | null;
-    if (saved && VALID_AGE_BANDS.includes(saved)) {
-      return saved;
-    }
-  } catch {
-    // Ignore storage errors
-  }
-  return 'u16';
-};
-
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [lang, setLangState] = useState<Language>(getInitialLanguage);
-  const [ageBand, setAgeBandState] = useState<AgeBandId>(getInitialAgeBand);
+  const [lang, setLangState] = useState<Language>(loadInitialLanguage);
+  const [ageBand, setAgeBandState] = useState<AgeBandId>(loadInitialAgeBand);
 
   const setLang = (newLang: Language) => {
     setLangState(newLang);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, newLang);
-    } catch {
-      // Ignore storage errors
-    }
+    saveLanguage(newLang);
   };
 
   const setAgeBand = (newAge: AgeBandId) => {
     setAgeBandState(newAge);
-    try {
-      window.localStorage.setItem(AGE_STORAGE_KEY, newAge);
-    } catch {
-      // Ignore storage errors
-    }
+    saveAgeBand(newAge);
   };
 
   const toggleLang = () => {

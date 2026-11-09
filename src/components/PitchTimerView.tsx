@@ -14,39 +14,17 @@ import {
 } from 'lucide-react';
 import { RondoItem } from '../i18n/types';
 import { useLanguage } from '../i18n/LanguageContext';
+import {
+  clampRestSeconds,
+  clampTotalSets,
+  clampWorkSeconds,
+  formatTimerMinutesSeconds,
+  getRondoTimerPreset,
+} from '../domain/timerDosage';
 
 export interface PitchTimerViewProps {
   selectedRondo?: RondoItem;
 }
-
-const getRondoTimerPreset = (
-  rondo: RondoItem
-): { work: number; rest: number; sets: number } => {
-  switch (rondo.id) {
-    case 'rondo-1':
-      return { work: 90, rest: 30, sets: 4 };
-    case 'rondo-2':
-      return { work: 120, rest: 40, sets: 4 };
-    case 'rondo-3':
-      return { work: 150, rest: 45, sets: 4 };
-    case 'rondo-4':
-      return { work: 180, rest: 60, sets: 3 };
-    case 'rondo-5':
-      return { work: 150, rest: 45, sets: 4 };
-    case 'rondo-6':
-      return { work: 240, rest: 60, sets: 3 };
-    case 'rondo-7':
-      return { work: 120, rest: 45, sets: 4 };
-    case 'rondo-8':
-      return { work: 150, rest: 60, sets: 4 };
-    case 'rondo-9':
-      return { work: 120, rest: 45, sets: 4 };
-    case 'rondo-10':
-      return { work: 150, rest: 45, sets: 4 };
-    default:
-      return { work: 120, rest: 40, sets: 4 };
-  }
-};
 
 export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo }) => {
   const { lang, t } = useLanguage();
@@ -140,7 +118,7 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
   };
 
   const adjustWork = (delta: number) => {
-    const next = Math.max(15, Math.min(600, workSeconds + delta));
+    const next = clampWorkSeconds(workSeconds + delta);
     setWorkSeconds(next);
     if (!isRunning && isWorkPhase) {
       setTimeLeft(next);
@@ -148,7 +126,7 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
   };
 
   const adjustRest = (delta: number) => {
-    const next = Math.max(10, Math.min(300, restSeconds + delta));
+    const next = clampRestSeconds(restSeconds + delta);
     setRestSeconds(next);
     if (!isRunning && !isWorkPhase) {
       setTimeLeft(next);
@@ -156,18 +134,14 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
   };
 
   const adjustSets = (delta: number) => {
-    const next = Math.max(1, Math.min(12, totalSets + delta));
+    const next = clampTotalSets(totalSets + delta);
     setTotalSets(next);
     if (currentSet > next) {
       setCurrentSet(next);
     }
   };
 
-  const formatTime = (sec: number) => {
-    const m = Math.floor(sec / 60);
-    const s = sec % 60;
-    return `${m}:${s < 10 ? '0' : ''}${s}`;
-  };
+  const formatTime = formatTimerMinutesSeconds;
 
   const rondoPreset = selectedRondo ? getRondoTimerPreset(selectedRondo) : null;
   const isRondoPresetActive =

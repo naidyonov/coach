@@ -20,39 +20,17 @@ import { MonthlyPlanView } from './components/MonthlyPlanView';
 import { MethodologyView } from './components/MethodologyView';
 import { PitchTimerView } from './components/PitchTimerView';
 import { PrintCardModal } from './components/PrintCardModal';
+import {
+  loadCompletedSessions,
+  loadInitialTheme,
+  saveCompletedSessions,
+  saveTheme,
+  ThemeMode,
+} from './domain/sessionStorage';
+import { getSeriesHubData } from './data/seriesModules';
 
 type ActiveTab = 'catalog' | 'monthly' | 'methodology' | 'timer';
-export type ThemeMode = 'dark' | 'light';
-
-const COMPLETED_SESSIONS_STORAGE_KEY = 'coach_completed_sessions';
-const THEME_STORAGE_KEY = 'coach_theme_mode';
-
-const loadCompletedSessions = (): number[] => {
-  try {
-    const raw = window.localStorage.getItem(COMPLETED_SESSIONS_STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) {
-        return parsed.filter((n): n is number => typeof n === 'number');
-      }
-    }
-  } catch {
-    // Ignore localStorage errors
-  }
-  return [1, 2];
-};
-
-const loadInitialTheme = (): ThemeMode => {
-  try {
-    const saved = window.localStorage.getItem(THEME_STORAGE_KEY);
-    if (saved === 'light' || saved === 'dark') {
-      return saved;
-    }
-  } catch {
-    // Ignore storage errors
-  }
-  return 'dark';
-};
+export type { ThemeMode };
 
 export function App() {
   const {
@@ -98,23 +76,12 @@ export function App() {
   );
 
   useEffect(() => {
-    try {
-      window.localStorage.setItem(
-        COMPLETED_SESSIONS_STORAGE_KEY,
-        JSON.stringify(completedSessions)
-      );
-    } catch {
-      // Ignore storage errors
-    }
+    saveCompletedSessions(completedSessions);
   }, [completedSessions]);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', themeMode);
-    try {
-      window.localStorage.setItem(THEME_STORAGE_KEY, themeMode);
-    } catch {
-      // Ignore storage errors
-    }
+    saveTheme(themeMode);
   }, [themeMode]);
 
   // Close popovers when clicking outside or pressing Escape
@@ -176,68 +143,8 @@ export function App() {
   const tr = (enText: string, deText: string, ruText: string) =>
     lang === 'ru' ? ruText : lang === 'de' ? deText : enText;
 
-  const trainingSeriesModules = [
-    {
-      id: 'rondo-series',
-      code: '01',
-      title: tr('Rondo', 'Rondo', 'Рондо'),
-      subtitle: tr(
-        '3v1 → 8v4 progressions • La Masia basis & m²/player math',
-        '3v1 → 8v4 Progressionen • La-Masia-Basis & m²/Spieler',
-        'Прогрессии 3v1 → 8v4 • Базис Ла Масии и м²/игрока'
-      ),
-      active: true,
-      badge: tr('Active', 'Aktiv', 'Активно'),
-    },
-    {
-      id: 'positional-play',
-      code: '02',
-      title: tr(
-        'Positional Play',
-        'Positionsspiel',
-        'Позиционная игра'
-      ),
-      subtitle: tr(
-        'Half-spaces, diamonds & numerical overloads',
-        'Halbräume, Rautenbildung & Überzahl schaffen',
-        'Полуфланги, ромбы и численный перевес'
-      ),
-      active: false,
-      badge: tr('Soon', 'Bald', 'Скоро'),
-    },
-    {
-      id: 'pressing-transitions',
-      code: '03',
-      title: tr(
-        'Pressing & Transitions',
-        'Pressing & Umschaltspiel',
-        'Прессинг и Переходы'
-      ),
-      subtitle: tr(
-        'Counter-pressing (6-sec rule), touchline traps & high block',
-        'Gegenpressing (6-Sek.-Regel), Pressingfallen & Angriffspressing',
-        'Контрпрессинг (правило 6 сек), ловушки на флангах и высокий блок'
-      ),
-      active: false,
-      badge: tr('Soon', 'Bald', 'Скоро'),
-    },
-    {
-      id: 'finishing-box',
-      code: '04',
-      title: tr(
-        'Finishing & Box Entries',
-        'Torabschluss & Strafraum',
-        'Завершение и Штрафная'
-      ),
-      subtitle: tr(
-        'Breaking low blocks, cutbacks & blind-side box runs',
-        'Tiefe Blöcke knacken, Cutbacks & Blind-Side-Läufe',
-        'Вскрытие низкого блока, прострелы и врывания в слепую зону'
-      ),
-      active: false,
-      badge: tr('Soon', 'Bald', 'Скоро'),
-    },
-  ];
+  const seriesHub = getSeriesHubData(lang);
+  const trainingSeriesModules = seriesHub.modules;
 
   return (
     <div

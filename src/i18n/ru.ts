@@ -1,4 +1,5 @@
 import { CategoryItem, MonthlySessionItem, RondoItem, UIStrings } from './types';
+import { computeSquadSetup } from '../domain/squadCalculator';
 
 export const CATEGORIES_RU: CategoryItem[] = [
   { id: 'all', name: 'Все', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
@@ -1081,21 +1082,21 @@ export const generateMonthlyPlanRu = (
 };
 
 export const getSquadOrganizationAdviceRu = (count: number, rondo: RondoItem): string => {
-  if (rondo.id === 'rondo-1') {
-    const squares = Math.floor(count / 4);
-    return `Для ${count} игроков: организуйте ${squares} параллельных квадрата 3 на 1 (9×9 м). Остаток (${count % 4} чел.) — ротация отбирающих каждые 60 сек.`;
+  const setup = computeSquadSetup(count, rondo.id);
+  switch (setup.type) {
+    case 'rondo_1_parallel_squares':
+      return `Для ${setup.playersCount} игроков: организуйте ${setup.squares} параллельных квадрата 3 на 1 (9×9 м). Остаток (${setup.rotatingDefenders} чел.) — ротация отбирающих каждые 60 сек.`;
+    case 'rondo_2_dual_grids':
+      return `Для ${setup.playersCount} игроков: 2 параллельных квадрата 5 на 2 (11×11 м) — все игроки задействованы одновременно без очередей!`;
+    case 'rondo_2_single_with_neutrals':
+      return `Для ${setup.playersCount} игроков: 1 основной квадрат 5 на 2 + нейтральные на линиях для ротации.`;
+    case 'rondo_3_dual_grids':
+      return `Для ${setup.playersCount} игроков: 2 квадрата (один 7 на 3 и один 6 на 2 с опорником).`;
+    case 'rondo_3_single_with_pressing_unit':
+      return `Для ${setup.playersCount} игроков: 1 квадрат 7 на 3 (10 чел.) + вторая тройка отбирающих (${setup.extraPressers} чел.) отдыхает в динамике и заходит каждые 75 секунд для поддержания максимального прессинга.`;
+    default:
+      return `Для ${setup.playersCount} игроков: разбейте группу на основной блок (${rondo.playersCount}) и сменную тройку прессингующих (смена каждые 90 сек для сохранения пульсовой зоны 85% ЧСС).`;
   }
-  if (rondo.id === 'rondo-2') {
-    return count >= 14
-      ? `Для ${count} игроков: 2 параллельных квадрата 5 на 2 (11×11 м) — все игроки задействованы одновременно без очередей!`
-      : `Для ${count} игроков: 1 основной квадрат 5 на 2 + нейтральные на линиях для ротации.`;
-  }
-  if (rondo.id === 'rondo-3') {
-    return count >= 18
-      ? `Для ${count} игроков: 2 квадрата (один 7 на 3 и один 6 на 2 с опорником).`
-      : `Для ${count} игроков: 1 квадрат 7 на 3 (10 чел.) + вторая тройка отбирающих (${count - 10} чел.) отдыхает в динамике и заходит каждые 75 секунд для поддержания максимального прессинга.`;
-  }
-  return `Для ${count} игроков: разбейте группу на основной блок (${rondo.playersCount}) и сменную тройку прессингующих (смена каждые 90 сек для сохранения пульсовой зоны 85% ЧСС).`;
 };
 
 export const UI_RU: UIStrings = {
