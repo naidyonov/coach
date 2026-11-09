@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+
+echo "=========================================================="
+echo "🛡️  Pre-Push Verification Gate (Auto-Ship)"
+echo "Checking: Vitest Unit Tests, fast-check Property Tests & Production Build"
+echo "=========================================================="
+
+# Run verification suite (npm test + npm run build)
+npm run verify
+
+echo "=========================================================="
+echo "✅ All tests and production build passed! Proceeding with push."
+echo "=========================================================="
+exit 0

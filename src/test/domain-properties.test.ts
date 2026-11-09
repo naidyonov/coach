@@ -1,0 +1,171 @@
+import { describe, it, expect } from 'vitest';
+import * as fc from 'fast-check';
+import { computeSquadSetup } from '../domain/squadCalculator';
+import {
+  formatTimerMinutesSeconds,
+  clampWorkSeconds,
+  clampRestSeconds,
+  clampTotalSets,
+  getRondoTimerPreset,
+  DEFAULT_TIMER_PRESET,
+} from '../domain/timerDosage';
+import { classifySessionFocus } from '../domain/periodization';
+
+describe('Domain Logic Property-Based Tests (fast-check)', () => {
+  describe('squadCalculator properties', () => {
+    it('always clamps playersCount to integer >= 4 regardless of input', () => {
+      fc.assert(
+        fc.property(
+          fc.double({ min: -1000, max: 1000, noNaN: true }),
+          fc.string(),
+          (playersCount, rondoId) => {
+            const setup = computeSquadSetup(playersCount, rondoId);
+            expect(setup.playersCount).toBeGreaterThanOrEqual(4);
+            expect(Number.isInteger(setup.playersCount)).toBe(true);
+          }
+        )
+      );
+    });
+
+    it('preserves rondo-1 partition invariant: squares * 4 + rotatingDefenders === playersCount', () => {
+      fc.assert(
+        fc.property(fc.integer({ min: 4, max: 100 }), (playersCount) => {
+          const setup = computeSquadSetup(playersCount, 'rondo-1');
+          if (setup.type === 'rondo_1_parallel_squares') {
+            expect(setup.squares * 4 + setup.rotatingDefenders).toBe(setup.playersCount);
+            expect(setup.rotatingDefenders).toBeGreaterThanOrEqual(0);
+            expect(setup.rotatingDefenders).toBeLessThan(4);
+            expect(setup.squares).toBeGreaterThanOrEqual(1);
+          } else {
+            throw new Error(`Unexpected setup type for rondo-1: ${setup.type}`);
+          }
+        })
+      );
+    });
+
+    it('correctly partitions rondo-2 based on threshold 14', () => {
+      fc.assert(
+        fc.property(fc.integer({ min: 4, max: 50 }), (playersCount) => {
+          const setup = computeSquadSetup(playersCount, 'rondo-2');
+          if (playersCount >= 14) {
+            expect(setup.type).toBe('rondo_2_dual_grids');
+          } else {
+            expect(setup.type).toBe('rondo_2_single_with_neutrals');
+          }
+        })
+      );
+    });
+
+    it('correctly partitions rondo-3 based on threshold 18 and calculates extraPressers', () => {
+      fc.assert(
+        fc.property(fc.integer({ min: 4, max: 50 }), (playersCount) => {
+          const setup = computeSquadSetup(playersCount, 'rondo-3');
+          if (playersCount >= 18) {
+            expect(setup.type).toBe('rondo_3_dual_grids');
+          } else {
+            expect(setup.type).toBe('rondo_3_single_with_pressing_unit');
+            if (setup.type === 'rondo_3_single_with_pressing_unit') {
+              expect(setup.extraPressers).toBe(Math.max(0, playersCount - 10));
+            }
+          }
+        })
+      );
+    });
+  });
+
+  describe('timerDosage properties', () => {
+    it('formatTimerMinutesSeconds produces valid mm:ss string matching seconds integer floor', () => {
+      fc.assert(
+        fc.property(fc.integer({ min: 0, max: 36000 }), (sec) => {
+          const formatted = formatTimerMinutesSeconds(sec);
+          expect(formatted).toMatch(/^\d+:[0-5]\d$/);
+
+          const [mStr, sStr] = formatted.split(':');
+          const reconstructed = parseInt(mStr, 10) * 60 + parseInt(sStr, 10);
+          expect(reconstructed).toBe(sec);
+        })
+      );
+    });
+
+    it('clampWorkSeconds always bounds result within [15, 600] and is idempotent', () => {
+      fc.assert(
+        fc.property(fc.integer({ min: -100, max: 2000 }), (val) => {
+          const clamped = clampWorkSeconds(val);
+          expect(clamped).toBeGreaterThanOrEqual(15);
+          expect(clamped).toBeLessThanOrEqual(600);
+          expect(clampWorkSeconds(clamped)).toBe(clamped);
+        })
+      );
+    });
+
+    it('clampRestSeconds always bounds result within [10, 300] and is idempotent', () => {
+      fc.assert(
+        fc.property(fc.integer({ min: -100, max: 2000 }), (val) => {
+          const clamped = clampRestSeconds(val);
+          expect(clamped).toBeGreaterThanOrEqual(10);
+          expect(clamped).toBeLessThanOrEqual(300);
+          expect(clampRestSeconds(clamped)).toBe(clamped);
+        })
+      );
+    });
+
+    it('clampTotalSets always bounds result within [1, 12] and is idempotent', () => {
+      fc.assert(
+        fc.property(fc.integer({ min: -100, max: 100 }), (val) => {
+          const clamped = clampTotalSets(val);
+          expect(clamped).toBeGreaterThanOrEqual(1);
+          expect(clamped).toBeLessThanOrEqual(12);
+          expect(clampTotalSets(clamped)).toBe(clamped);
+        })
+      );
+    });
+
+    it('getRondoTimerPreset returns valid positive presets for any rondo ID', () => {
+      fc.assert(
+        fc.property(fc.string(), (id) => {
+          const preset = getRondoTimerPreset(id);
+          expect(preset.work).toBeGreaterThan(0);
+          expect(preset.rest).toBeGreaterThan(0);
+          expect(preset.sets).toBeGreaterThan(0);
+        })
+      );
+    });
+  });
+
+  describe('periodization properties', () => {
+    it('always classifies sessions 1 & 3 as attack, 2 & 4 as defense', () => {
+      fc.assert(
+        fc.property(
+          fc.constantFrom(1, 3),
+          fc.string(),
+          (session, focusSide) => {
+            expect(classifySessionFocus({ session, focusSide })).toBe('attack');
+          }
+        )
+      );
+
+      fc.assert(
+        fc.property(
+          fc.constantFrom(2, 4),
+          fc.string(),
+          (session, focusSide) => {
+            expect(classifySessionFocus({ session, focusSide })).toBe('defense');
+          }
+        )
+      );
+    });
+
+    it('always returns one of the 3 valid focus categories', () => {
+      fc.assert(
+        fc.property(
+          fc.integer({ min: -10, max: 10 }),
+          fc.string(),
+          (session, focusSide) => {
+            const category = classifySessionFocus({ session, focusSide });
+            expect(['attack', 'defense', 'other']).toContain(category);
+          }
+        )
+      );
+    });
+  });
+});

@@ -29,7 +29,9 @@ export const getRondoTimerPreset = (
   rondoOrId: RondoItem | string
 ): TimerDosagePreset => {
   const id = typeof rondoOrId === 'string' ? rondoOrId : rondoOrId.id;
-  return RONDO_TIMER_PRESETS[id] || DEFAULT_TIMER_PRESET;
+  return Object.prototype.hasOwnProperty.call(RONDO_TIMER_PRESETS, id)
+    ? RONDO_TIMER_PRESETS[id]
+    : DEFAULT_TIMER_PRESET;
 };
 
 export const formatTimerMinutesSeconds = (sec: number): string => {
