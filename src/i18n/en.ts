@@ -770,7 +770,7 @@ export const RONDOS_EN: RondoItem[] = [
         },
         {
           title: 'Phase 2: 1-Touch Layoff to "Third Man" C (+1 Point)',
-          desc: 'Player B Cushions a 1-touch layoff past the cover shadow directly to "Third Man" C inside the inner box, who turns and switches the attack to the top line!',
+          desc: 'Player B cushions a 1-touch layoff past the cover shadow directly to "Third Man" C inside the inner box, who turns and switches the attack to the top line!',
           players: [
             { id: 'PA', role: 'att', label: 'A', x: 250, y: 360 },
             { id: 'PB', role: 'att', label: 'B', x: 425, y: 250 },
@@ -1101,10 +1101,10 @@ export const getSquadOrganizationAdviceEn = (count: number, rondo: RondoItem): s
 
 export const UI_EN: UIStrings = {
   header: {
-    moduleBadge: 'Pattern XII • Complete Reconstruction',
+    moduleBadge: 'Module 01 • Tactical Playbook',
     ageBadge: 'U15 (14–15 yrs)',
     title: 'Anatomy of the Rondo: Tactical Playbook & Monthly Curriculum',
-    langToggleTitle: 'Switch Language (EN / RU)',
+    langToggleTitle: 'Switch Language (EN / DE / RU)',
     roleSwitcherLabel: 'View Mode:',
     roles: {
       coach: 'Coach',
@@ -1312,7 +1312,7 @@ export const UI_EN: UIStrings = {
       },
       {
         id: 'cover-shadow',
-        title: '3. Cover Shadow (Тень перекрытия) & Arc Pressing',
+        title: '3. Cover Shadow & Arc Pressing',
         subtitle: 'How defenders turn a 1v2 disadvantage into a 1v1 duel by curving their pressing trajectory',
         mistakeLabel: '✗ Mistake: Straight-Line Sprint at the Ball',
         mistakeDesc: 'Defender D1 sprints in a straight line directly at the ball-carrier (A). This leaves the central and diagonal passing lanes completely exposed for an easy split pass.',
@@ -1327,7 +1327,7 @@ export const UI_EN: UIStrings = {
         mistakeLabel: '✗ Mistake: Forcing a Blocked Direct Pass (A → C)',
         mistakeDesc: 'Passer A tries to force a direct vertical pass to C even though Defender D1 is squarely screening the lane, resulting in an immediate interception and counter-attack.',
         solutionLabel: '✓ Solution: Bounce Pass via Second Man (A → B → C)',
-        solutionDesc: 'Passer A plays an angled pass to wide teammate B (“Second Man”). As D1 turns his head toward B, B Cushions a 1-touch layoff around the corner of the shadow to the free “Third Man” C!',
+        solutionDesc: 'Passer A plays an angled pass to wide teammate B (“Second Man”). As D1 turns his head toward B, B cushions a 1-touch layoff around the corner of the shadow to the free “Third Man” C!',
         coachingCue: '“Can’t find C directly? Use B’s 1-touch mirror! Pass to the outside foot — bounce to the Third Man!”'
       }
     ],

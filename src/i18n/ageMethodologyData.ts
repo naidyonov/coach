@@ -1228,7 +1228,7 @@ export const AGE_BANDS_DE: AgeBandInfo[] = [
     stageTitle: 'Leistungstraining: Handlungsschnelligkeit & Spezialisierung',
     relativeAreaRule: '100 % Referenzwert (16–24 m²/Sp.)',
     decisionWindow: '1,0 – 1,3 Sek.',
-    physiologicalProfile: 'Fussballspezifische Ausdauer 85–90 % HFmax (3:1 – 4:1)',
+    physiologicalProfile: 'Fußballspezifische Ausdauer 85–90 % HFmax (3:1 – 4:1)',
     summaryFocus:
       'Referenzstandard des Moduls: 1–2 Kontakte, 2 Schulterblicke vor der Annahme, Direktspiel (1 Kontakt) des Sechsers unter Druck, Pressingfallen im Eck und 3-Sekunden-Gegenpressing.',
   },

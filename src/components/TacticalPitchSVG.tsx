@@ -249,7 +249,7 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
                   {lang === 'ru'
                     ? 'Повтор паса'
                     : lang === 'de'
-                    ? 'Pass'
+                    ? 'Pass-Replay'
                     : 'Replay Pass'}
                 </span>
               </button>
