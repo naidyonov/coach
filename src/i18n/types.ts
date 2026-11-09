@@ -31,6 +31,7 @@ export interface RondoPhasePass {
   to: Point2D;
   label?: string;
   primary: boolean;
+  curve?: number;
 }
 
 export interface RondoPhaseMovement {
@@ -38,10 +39,12 @@ export interface RondoPhaseMovement {
   to: Point2D;
   role: 'att' | 'def' | 'neutral';
   label?: string;
+  curve?: number;
 }
 
 export interface RondoPhaseShadow {
   points: string;
+  variant?: 'danger' | 'solution';
 }
 
 export interface RondoPhase {

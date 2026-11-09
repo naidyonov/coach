@@ -26,6 +26,7 @@ export const rondoPhaseToTacticalScene = (
       to: mv.to,
       role: mv.role,
       label: mv.label,
+      curve: mv.curve,
     })),
     ...phase.passes.map((pass, idx) => ({
       id: `pass-${idx}`,
@@ -34,6 +35,7 @@ export const rondoPhaseToTacticalScene = (
       to: pass.to,
       primary: pass.primary,
       label: pass.label,
+      curve: pass.curve,
     })),
   ];
 
@@ -57,7 +59,7 @@ export const rondoPhaseToTacticalScene = (
     shadows: phase.shadows.map((s, idx) => ({
       id: `shadow-${idx}`,
       points: s.points,
-      variant: 'danger',
+      variant: s.variant || 'danger',
     })),
   };
 

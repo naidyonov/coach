@@ -50,66 +50,68 @@ export const RONDOS_RU: RondoItem[] = [
       ],
       phases: [
         {
-          title: 'Фаза 1: Приём и поиск двух линий',
-          desc: 'Игрок А (сверху) владеет мячом. Игрок Б открыт слева, Игрок В — снизу. Правая сторона квадрата свободна. Защитник З1 перекрывает прямой диагональный пас на В.',
+          title: 'Фаза 1: Приём и поиск двух открытых линий',
+          desc: 'Игрок А (сверху) владеет мячом. Игрок Б открыт слева, Игрок В — снизу. Правая сторона свободна. Защитник З1 бежит по дуге, перекрывая тенью прямой пас на В.',
           players: [
             { id: 'A', role: 'att', label: 'А', x: 250, y: 55 },
             { id: 'B', role: 'att', label: 'Б', x: 95, y: 200 },
             { id: 'V', role: 'att', label: 'В', x: 250, y: 345 },
-            { id: 'D1', role: 'def', label: 'З1', x: 220, y: 170 }
+            { id: 'D1', role: 'def', label: 'З1', x: 250, y: 175 }
           ],
           ball: { x: 250, y: 72 },
           passes: [
-            { from: { x: 250, y: 65 }, to: { x: 110, y: 195 }, label: 'Пас 1', primary: true }
+            { from: { x: 240, y: 65 }, to: { x: 110, y: 190 }, label: 'Пас 1', primary: true }
           ],
           movements: [
-            { from: { x: 220, y: 170 }, to: { x: 155, y: 185 }, role: 'def', label: 'Прессинг по дуге' },
-            { from: { x: 250, y: 55 }, to: { x: 395, y: 180 }, role: 'att', label: 'Рывок на пустую грань' }
+            { from: { x: 250, y: 175 }, to: { x: 155, y: 185 }, role: 'def', label: 'Прессинг по дуге', curve: -22 },
+            { from: { x: 262, y: 58 }, to: { x: 400, y: 185 }, role: 'att', label: 'Рывок на пустую грань' }
           ],
           shadows: [
-            { points: '220,170 210,340 290,340' }
+            { points: '250,175 205,345 295,345' }
           ]
         },
         {
           title: 'Фаза 2: Синхронное смещение на пустую грань',
-          desc: 'Пока мяч катится к Б, Игрок А делает рывок на правую (свободную) сторону. Теперь у Б снова есть два надёжных адресата: В снизу и открывшийся справа А.',
+          desc: 'Пока мяч катится к Б, Игрок А занял правую сторону. З1 атакует Б и перекрывает верхний угол, но у Б есть два открытых варианта: В снизу и А справа.',
           players: [
             { id: 'A', role: 'att', label: 'А', x: 405, y: 200 },
             { id: 'B', role: 'att', label: 'Б', x: 95, y: 200 },
             { id: 'V', role: 'att', label: 'В', x: 250, y: 345 },
-            { id: 'D1', role: 'def', label: 'З1', x: 155, y: 205 }
+            { id: 'D1', role: 'def', label: 'З1', x: 165, y: 145 }
           ],
           ball: { x: 112, y: 200 },
           passes: [
-            { from: { x: 105, y: 205 }, to: { x: 240, y: 335 }, label: 'Пас 2', primary: true },
-            { from: { x: 105, y: 195 }, to: { x: 390, y: 200 }, label: 'Вариант 2', primary: false }
+            { from: { x: 105, y: 208 }, to: { x: 240, y: 335 }, label: 'Пас 2', primary: true },
+            { from: { x: 112, y: 200 }, to: { x: 390, y: 200 }, label: 'Вариант 2', primary: false }
           ],
           movements: [
-            { from: { x: 155, y: 205 }, to: { x: 230, y: 295 }, role: 'def', label: 'Смещение З1' },
-            { from: { x: 95, y: 200 }, to: { x: 245, y: 55 }, role: 'att', label: 'Рывок Б наверх' }
+            { from: { x: 165, y: 145 }, to: { x: 120, y: 185 }, role: 'def', label: 'З1 давит на Б' },
+            { from: { x: 95, y: 185 }, to: { x: 235, y: 55 }, role: 'att', label: 'Рывок Б наверх' }
           ],
           shadows: [
-            { points: '155,205 395,150 395,245' }
+            { points: '165,145 210,60 330,60' }
           ]
         },
         {
           title: 'Фаза 3: Завершение цикла и новый треугольник',
-          desc: 'Мяч у игрока В снизу. Игрок Б уже занял верхнюю линию, а А открыт справа. Геометрия треугольника полностью восстановлена без пауз.',
+          desc: 'Мяч у игрока В снизу. Игрок Б уже занял верхнюю линию, а А открыт справа — геометрия треугольника 45° полностью восстановлена без пауз.',
           players: [
             { id: 'A', role: 'att', label: 'А', x: 405, y: 200 },
             { id: 'B', role: 'att', label: 'Б', x: 250, y: 55 },
             { id: 'V', role: 'att', label: 'В', x: 250, y: 345 },
-            { id: 'D1', role: 'def', label: 'З1', x: 245, y: 280 }
+            { id: 'D1', role: 'def', label: 'З1', x: 195, y: 260 }
           ],
           ball: { x: 250, y: 328 },
           passes: [
-            { from: { x: 255, y: 335 }, to: { x: 395, y: 210 }, label: 'Пас 3', primary: true },
-            { from: { x: 250, y: 330 }, to: { x: 250, y: 70 }, label: 'Пас вразрез', primary: false }
+            { from: { x: 260, y: 335 }, to: { x: 395, y: 210 }, label: 'Пас 3', primary: true },
+            { from: { x: 250, y: 325 }, to: { x: 250, y: 72 }, label: 'Пас через центр', primary: false }
           ],
           movements: [
-            { from: { x: 250, y: 345 }, to: { x: 95, y: 200 }, role: 'att', label: 'Уход влево после паса' }
+            { from: { x: 238, y: 342 }, to: { x: 95, y: 205 }, role: 'att', label: 'Уход влево после паса' }
           ],
-          shadows: []
+          shadows: [
+            { points: '195,260 100,230 100,150' }
+          ]
         }
       ]
     }
@@ -162,60 +164,62 @@ export const RONDOS_RU: RondoItem[] = [
             { id: 'P3', role: 'att', label: '3', x: 340, y: 55 },
             { id: 'P4', role: 'att', label: '4', x: 405, y: 210 },
             { id: 'P5', role: 'att', label: '5', x: 250, y: 345 },
-            { id: 'D1', role: 'def', label: 'З1', x: 165, y: 115 },
-            { id: 'D2', role: 'def', label: 'З2', x: 225, y: 165 }
+            { id: 'D1', role: 'def', label: 'З1', x: 165, y: 210 },
+            { id: 'D2', role: 'def', label: 'З2', x: 225, y: 150 }
           ],
           ball: { x: 170, y: 72 },
           passes: [
-            { from: { x: 165, y: 65 }, to: { x: 108, y: 145 }, label: 'Короткий пас-приманка', primary: true }
+            { from: { x: 162, y: 65 }, to: { x: 108, y: 142 }, label: 'Короткий пас-приманка', primary: true }
           ],
           movements: [
-            { from: { x: 165, y: 115 }, to: { x: 135, y: 145 }, role: 'def', label: 'З1 давит' },
-            { from: { x: 225, y: 165 }, to: { x: 195, y: 135 }, role: 'def', label: 'З2 поднимается' }
+            { from: { x: 165, y: 210 }, to: { x: 130, y: 230 }, role: 'def', label: 'З1 выдвигается' },
+            { from: { x: 225, y: 150 }, to: { x: 195, y: 170 }, role: 'def', label: 'З2 стягивается' }
           ],
           shadows: []
         },
         {
-          title: 'Фаза 2: Проникающий пас вразрез (+1 очко)',
-          desc: 'Защитники З1 и З2 оказались на одной линии. Игрок 2 мгновенно бьёт низом вразрез между ними на дальнего игрока 5!',
+          title: 'Фаза 2: Проникающий пас вразрез между З1 и З2 (+1 очко)',
+          desc: 'Защитники З1 (слева снизу) и З2 (справа сверху) выстроились на одной линии, открыв зазор. Игрок 2 мгновенно бьёт низом ВРАЗРЕЗ между З1 и З2 на игрока 5!',
           players: [
             { id: 'P1', role: 'att', label: '1', x: 170, y: 55 },
             { id: 'P2', role: 'att', label: '2', x: 95, y: 150 },
             { id: 'P3', role: 'att', label: '3', x: 340, y: 55 },
             { id: 'P4', role: 'att', label: '4', x: 405, y: 210 },
             { id: 'P5', role: 'att', label: '5', x: 265, y: 345 },
-            { id: 'D1', role: 'def', label: 'З1', x: 145, y: 175 },
-            { id: 'D2', role: 'def', label: 'З2', x: 195, y: 130 }
+            { id: 'D1', role: 'def', label: 'З1', x: 130, y: 235 },
+            { id: 'D2', role: 'def', label: 'З2', x: 195, y: 175 }
           ],
           ball: { x: 112, y: 155 },
           passes: [
-            { from: { x: 108, y: 155 }, to: { x: 260, y: 335 }, label: 'ПАС ВРАЗРЕЗ (+1 очко)', primary: true }
+            { from: { x: 108, y: 158 }, to: { x: 260, y: 335 }, label: 'ПАС ВРАЗРЕЗ (+1 очко)', primary: true }
           ],
           movements: [
-            { from: { x: 250, y: 345 }, to: { x: 270, y: 345 }, role: 'att', label: 'Подстройка в створ' }
+            { from: { x: 245, y: 345 }, to: { x: 265, y: 345 }, role: 'att', label: 'Подстройка в створ' }
           ],
           shadows: [
-            { points: '145,175 195,130 330,280 210,335' }
+            { points: '130,235 95,295 165,340' },
+            { points: '195,175 315,120 365,195' }
           ]
         },
         {
-          title: 'Фаза 3: Сброс на третьего в свободную зону',
-          desc: 'Игрок 5 принимает разрезающий пас и в 1 касание переводит мяч на свободного игрока 4 справа, пока защитники разворачиваются.',
+          title: 'Фаза 3: Сброс в 1 касание на третьего в свободную зону',
+          desc: 'Игрок 5 принимает разрезающий пас и в 1 касание переводит мяч на свободного игрока 4 справа (или игрока 3 сверху), пока З1 и З2 разворачиваются.',
           players: [
             { id: 'P1', role: 'att', label: '1', x: 170, y: 55 },
             { id: 'P2', role: 'att', label: '2', x: 95, y: 180 },
             { id: 'P3', role: 'att', label: '3', x: 340, y: 55 },
             { id: 'P4', role: 'att', label: '4', x: 405, y: 210 },
             { id: 'P5', role: 'att', label: '5', x: 265, y: 345 },
-            { id: 'D1', role: 'def', label: 'З1', x: 190, y: 240 },
-            { id: 'D2', role: 'def', label: 'З2', x: 235, y: 215 }
+            { id: 'D1', role: 'def', label: 'З1', x: 175, y: 265 },
+            { id: 'D2', role: 'def', label: 'З2', x: 235, y: 225 }
           ],
           ball: { x: 265, y: 328 },
           passes: [
-            { from: { x: 272, y: 335 }, to: { x: 395, y: 215 }, label: 'Сброс в 1 касание', primary: true }
+            { from: { x: 274, y: 335 }, to: { x: 395, y: 218 }, label: 'Сброс в 1 касание', primary: true },
+            { from: { x: 268, y: 328 }, to: { x: 335, y: 68 }, label: 'Вариант на 3', primary: false }
           ],
           movements: [
-            { from: { x: 235, y: 215 }, to: { x: 330, y: 235 }, role: 'def', label: 'Попытка догнать' }
+            { from: { x: 235, y: 225 }, to: { x: 330, y: 240 }, role: 'def', label: 'Попытка догнать' }
           ],
           shadows: []
         }
@@ -262,8 +266,8 @@ export const RONDOS_RU: RondoItem[] = [
       ],
       phases: [
         {
-          title: 'Фаза 1: Три пути к центру и поиск коридора на (6)',
-          desc: '6 игроков по периметру, опорник (6) в центре. Тройка синих (З1, З2, З3) закрывает центр. Мяч переводят по нижней линии от (7) к (8), чтобы сместить прессинг и открыть коридор на (6).',
+          title: 'Фаза 1: Смещение прессинга и поиск коридора на (6)',
+          desc: '6 игроков по периметру, опорник (6) в центре. Защитник З2 держит (6) в тени перекрытия от игрока (7). Мяч переводят по нижней линии от (7) к (8), а (6) смещается в правый полуфланг.',
           players: [
             { id: 'A1', role: 'att', label: '2', x: 180, y: 45 },
             { id: 'A2', role: 'att', label: '3', x: 320, y: 45 },
@@ -271,26 +275,26 @@ export const RONDOS_RU: RondoItem[] = [
             { id: 'A4', role: 'att', label: '5', x: 415, y: 200 },
             { id: 'A5', role: 'att', label: '7', x: 180, y: 355 },
             { id: 'A6', role: 'att', label: '8', x: 320, y: 355 },
-            { id: 'N6', role: 'neutral', label: '6', x: 255, y: 205 },
-            { id: 'D1', role: 'def', label: 'З1', x: 165, y: 255 },
-            { id: 'D2', role: 'def', label: 'З2', x: 225, y: 235 },
-            { id: 'D3', role: 'def', label: 'З3', x: 220, y: 155 }
+            { id: 'N6', role: 'neutral', label: '6', x: 250, y: 195 },
+            { id: 'D1', role: 'def', label: 'З1', x: 160, y: 270 },
+            { id: 'D2', role: 'def', label: 'З2', x: 220, y: 255 },
+            { id: 'D3', role: 'def', label: 'З3', x: 205, y: 145 }
           ],
           ball: { x: 180, y: 338 },
           passes: [
-            { from: { x: 188, y: 345 }, to: { x: 310, y: 345 }, label: 'Смещение прессинга', primary: true }
+            { from: { x: 190, y: 345 }, to: { x: 308, y: 345 }, label: 'Смещение прессинга', primary: true }
           ],
           movements: [
-            { from: { x: 255, y: 205 }, to: { x: 285, y: 215 }, role: 'neutral', label: 'Отскок (6) из тени' },
-            { from: { x: 165, y: 255 }, to: { x: 265, y: 305 }, role: 'def', label: 'З1 бежит за мячом' }
+            { from: { x: 250, y: 195 }, to: { x: 285, y: 210 }, role: 'neutral', label: 'Отскок (6) из тени' },
+            { from: { x: 220, y: 255 }, to: { x: 255, y: 270 }, role: 'def', label: 'Смещение З2' }
           ],
           shadows: [
-            { points: '225,235 235,175 280,190 270,250' }
+            { points: '220,255 215,175 280,185' }
           ]
         },
         {
-          title: 'Фаза 2: Вход в опорника (6) между линиями',
-          desc: 'Игрок 8 получает мяч. Пока З1 и З2 смещаются, №6 делает шаг в открытое окно между ними и получает вертикальный пас в полуразвороте.',
+          title: 'Фаза 2: Вход в опорника (6) вразрез между З2 и З1',
+          desc: 'Игрок 8 получает мяч. Пока З2 и З1 перестраиваются, №6 открывается в коридоре между ними и принимает вертикальный пас в полуразвороте.',
           players: [
             { id: 'A1', role: 'att', label: '2', x: 180, y: 45 },
             { id: 'A2', role: 'att', label: '3', x: 320, y: 45 },
@@ -298,22 +302,25 @@ export const RONDOS_RU: RondoItem[] = [
             { id: 'A4', role: 'att', label: '5', x: 415, y: 200 },
             { id: 'A5', role: 'att', label: '7', x: 180, y: 355 },
             { id: 'A6', role: 'att', label: '8', x: 320, y: 355 },
-            { id: 'N6', role: 'neutral', label: '6', x: 285, y: 215 },
-            { id: 'D1', role: 'def', label: 'З1', x: 270, y: 300 },
-            { id: 'D2', role: 'def', label: 'З2', x: 225, y: 240 },
-            { id: 'D3', role: 'def', label: 'З3', x: 245, y: 160 }
+            { id: 'N6', role: 'neutral', label: '6', x: 285, y: 210 },
+            { id: 'D1', role: 'def', label: 'З1', x: 345, y: 275 },
+            { id: 'D2', role: 'def', label: 'З2', x: 240, y: 265 },
+            { id: 'D3', role: 'def', label: 'З3', x: 230, y: 155 }
           ],
           ball: { x: 320, y: 338 },
           passes: [
-            { from: { x: 315, y: 335 }, to: { x: 288, y: 228 }, label: 'Пас в (6)', primary: true }
+            { from: { x: 315, y: 335 }, to: { x: 288, y: 222 }, label: 'Пас в (6) вразрез', primary: true }
           ],
           movements: [
-            { from: { x: 225, y: 240 }, to: { x: 270, y: 225 }, role: 'def', label: 'Давление на (6)' }
+            { from: { x: 240, y: 265 }, to: { x: 268, y: 225 }, role: 'def', label: 'Давление З2 на (6)' }
           ],
-          shadows: []
+          shadows: [
+            { points: '240,265 160,190 225,175' },
+            { points: '345,275 365,190 415,235' }
+          ]
         },
         {
-          title: 'Фаза 3: Разворот атаки от (6) в свободную зону (+1 очко)',
+          title: 'Фаза 3: Разворот атаки от (6) в свободную зону (+1 / +2 очка)',
           desc: 'Игрок (6) заранее отсканировал поле и в 1 касание разворачивает мяч на верхнюю грань (игроку 3) или направо (игроку 5), отрезая всю тройку отбирающих!',
           players: [
             { id: 'A1', role: 'att', label: '2', x: 180, y: 45 },
@@ -322,15 +329,15 @@ export const RONDOS_RU: RondoItem[] = [
             { id: 'A4', role: 'att', label: '5', x: 415, y: 200 },
             { id: 'A5', role: 'att', label: '7', x: 180, y: 355 },
             { id: 'A6', role: 'att', label: '8', x: 320, y: 355 },
-            { id: 'N6', role: 'neutral', label: '6', x: 285, y: 215 },
-            { id: 'D1', role: 'def', label: 'З1', x: 285, y: 275 },
-            { id: 'D2', role: 'def', label: 'З2', x: 255, y: 225 },
-            { id: 'D3', role: 'def', label: 'З3', x: 245, y: 165 }
+            { id: 'N6', role: 'neutral', label: '6', x: 285, y: 210 },
+            { id: 'D1', role: 'def', label: 'З1', x: 325, y: 255 },
+            { id: 'D2', role: 'def', label: 'З2', x: 255, y: 230 },
+            { id: 'D3', role: 'def', label: 'З3', x: 235, y: 165 }
           ],
-          ball: { x: 288, y: 202 },
+          ball: { x: 288, y: 196 },
           passes: [
-            { from: { x: 288, y: 205 }, to: { x: 320, y: 60 }, label: 'Выход через (6) (+1 очко)', primary: true },
-            { from: { x: 295, y: 215 }, to: { x: 400, y: 200 }, label: 'Альтернатива на фланг', primary: false }
+            { from: { x: 288, y: 198 }, to: { x: 318, y: 60 }, label: 'Выход через (6) (+2)', primary: true },
+            { from: { x: 298, y: 210 }, to: { x: 400, y: 200 }, label: 'На фланг (+1)', primary: false }
           ],
           movements: [],
           shadows: []
@@ -377,8 +384,8 @@ export const RONDOS_RU: RondoItem[] = [
       ],
       phases: [
         {
-          title: 'Фаза 1: Начало атаки с лицевой и диагональ (6)–(8)',
-          desc: 'Мяч у левой лицевой линии (ЦЗ1 и ЦЗ2). В центре работают два жёлтых хавбека (6 в первой зоне, 8 во второй) на разных диагоналях против двух пар защитников.',
+          title: 'Фаза 1: Расширение через фланг и вход в опорника (6)',
+          desc: 'Центральный защитник (ЦЗ) играет на фланг (ЛЗ), растягивая З1 и З2 по ширине, после чего ЛЗ находит диагональным пасом опорника (6) в кармане.',
           players: [
             { id: 'CB1', role: 'att', label: 'ЦЗ', x: 55, y: 140 },
             { id: 'CB2', role: 'att', label: 'ЦЗ', x: 55, y: 260 },
@@ -388,26 +395,28 @@ export const RONDOS_RU: RondoItem[] = [
             { id: 'W4', role: 'att', label: 'ПВ', x: 345, y: 345 },
             { id: 'CF1', role: 'att', label: 'ФРВ', x: 445, y: 140 },
             { id: 'CF2', role: 'att', label: 'ФРВ', x: 445, y: 260 },
-            { id: 'N6', role: 'neutral', label: '6', x: 175, y: 225 },
-            { id: 'N8', role: 'neutral', label: '8', x: 315, y: 155 },
-            { id: 'D1', role: 'def', label: 'З1', x: 130, y: 155 },
-            { id: 'D2', role: 'def', label: 'З2', x: 140, y: 255 },
-            { id: 'D3', role: 'def', label: 'З3', x: 295, y: 195 },
-            { id: 'D4', role: 'def', label: 'З4', x: 335, y: 255 }
+            { id: 'N6', role: 'neutral', label: '6', x: 185, y: 210 },
+            { id: 'N8', role: 'neutral', label: '8', x: 315, y: 150 },
+            { id: 'D1', role: 'def', label: 'З1', x: 125, y: 140 },
+            { id: 'D2', role: 'def', label: 'З2', x: 145, y: 260 },
+            { id: 'D3', role: 'def', label: 'З3', x: 290, y: 205 },
+            { id: 'D4', role: 'def', label: 'З4', x: 335, y: 260 }
           ],
-          ball: { x: 72, y: 140 },
+          ball: { x: 155, y: 70 },
           passes: [
-            { from: { x: 65, y: 140 }, to: { x: 150, y: 65 }, label: 'На фланг', primary: true },
-            { from: { x: 155, y: 65 }, to: { x: 175, y: 210 }, label: 'Вход в (6)', primary: true }
+            { from: { x: 65, y: 132 }, to: { x: 145, y: 65 }, label: '1. ЦЗ → ЛЗ', primary: false },
+            { from: { x: 158, y: 68 }, to: { x: 182, y: 196 }, label: '2. Вход в (6)', primary: true }
           ],
           movements: [
-            { from: { x: 175, y: 225 }, to: { x: 185, y: 195 }, role: 'neutral', label: 'Открывание (6)' }
+            { from: { x: 175, y: 230 }, to: { x: 185, y: 210 }, role: 'neutral', label: 'Открывание (6)' }
           ],
-          shadows: []
+          shadows: [
+            { points: '125,140 90,190 140,210' }
+          ]
         },
         {
-          title: 'Фаза 2: Вертикальная связка «6 → 8» между линиями',
-          desc: 'Опорник (6) получает пас с фланга, разворачивается и находит проникающим пасом через центральную линию восьмёрку (8)!',
+          title: 'Фаза 2: Диагональная связка «6 → 8» через центральную линию',
+          desc: 'Опорник (6) принимает в полуразвороте и разрезает первую линию прессинга диагональной передачей через центральную линию на восьмёрку (8) во 2-й зоне.',
           players: [
             { id: 'CB1', role: 'att', label: 'ЦЗ', x: 55, y: 140 },
             { id: 'CB2', role: 'att', label: 'ЦЗ', x: 55, y: 260 },
@@ -418,16 +427,45 @@ export const RONDOS_RU: RondoItem[] = [
             { id: 'CF1', role: 'att', label: 'ФРВ', x: 445, y: 140 },
             { id: 'CF2', role: 'att', label: 'ФРВ', x: 445, y: 260 },
             { id: 'N6', role: 'neutral', label: '6', x: 185, y: 195 },
-            { id: 'N8', role: 'neutral', label: '8', x: 315, y: 155 },
+            { id: 'N8', role: 'neutral', label: '8', x: 315, y: 150 },
             { id: 'D1', role: 'def', label: 'З1', x: 155, y: 135 },
-            { id: 'D2', role: 'def', label: 'З2', x: 165, y: 235 },
-            { id: 'D3', role: 'def', label: 'З3', x: 285, y: 205 },
-            { id: 'D4', role: 'def', label: 'З4', x: 335, y: 255 }
+            { id: 'D2', role: 'def', label: 'З2', x: 165, y: 245 },
+            { id: 'D3', role: 'def', label: 'З3', x: 275, y: 215 },
+            { id: 'D4', role: 'def', label: 'З4', x: 340, y: 255 }
           ],
-          ball: { x: 198, y: 192 },
+          ball: { x: 196, y: 192 },
           passes: [
-            { from: { x: 195, y: 192 }, to: { x: 305, y: 158 }, label: 'Связка 6 → 8', primary: true },
-            { from: { x: 325, y: 155 }, to: { x: 432, y: 255 }, label: 'Вывод на ФРВ (+2 очка)', primary: true }
+            { from: { x: 196, y: 192 }, to: { x: 304, y: 154 }, label: '3. Связка 6 → 8', primary: true }
+          ],
+          movements: [
+            { from: { x: 315, y: 170 }, to: { x: 315, y: 150 }, role: 'neutral', label: '№8 выше в полуфланге' },
+            { from: { x: 275, y: 215 }, to: { x: 295, y: 175 }, role: 'def', label: 'З3 выдвигается' }
+          ],
+          shadows: []
+        },
+        {
+          title: 'Фаза 3: Вывод от (8) на нападающих (ФРВ) (+2 очка)',
+          desc: 'Восьмёрка (8) в 1–2 касания доводит мяч до нападающего ФРВ на противоположной лицевой линии, завершая комбинацию «ЦЗ → №6 → №8 → ФРВ» (+2 очка)!',
+          players: [
+            { id: 'CB1', role: 'att', label: 'ЦЗ', x: 55, y: 140 },
+            { id: 'CB2', role: 'att', label: 'ЦЗ', x: 55, y: 260 },
+            { id: 'W1', role: 'att', label: 'ЛЗ', x: 155, y: 55 },
+            { id: 'W2', role: 'att', label: 'ПЗ', x: 155, y: 345 },
+            { id: 'W3', role: 'att', label: 'ЛВ', x: 345, y: 55 },
+            { id: 'W4', role: 'att', label: 'ПВ', x: 345, y: 345 },
+            { id: 'CF1', role: 'att', label: 'ФРВ', x: 445, y: 140 },
+            { id: 'CF2', role: 'att', label: 'ФРВ', x: 445, y: 260 },
+            { id: 'N6', role: 'neutral', label: '6', x: 195, y: 195 },
+            { id: 'N8', role: 'neutral', label: '8', x: 315, y: 150 },
+            { id: 'D1', role: 'def', label: 'З1', x: 165, y: 145 },
+            { id: 'D2', role: 'def', label: 'З2', x: 180, y: 240 },
+            { id: 'D3', role: 'def', label: 'З3', x: 295, y: 185 },
+            { id: 'D4', role: 'def', label: 'З4', x: 345, y: 235 }
+          ],
+          ball: { x: 326, y: 154 },
+          passes: [
+            { from: { x: 326, y: 156 }, to: { x: 434, y: 252 }, label: '4. Вывод на ФРВ (+2 очка)', primary: true },
+            { from: { x: 328, y: 148 }, to: { x: 432, y: 140 }, label: 'Вариант ФРВ1', primary: false }
           ],
           movements: [],
           shadows: []
@@ -474,33 +512,59 @@ export const RONDOS_RU: RondoItem[] = [
       ],
       phases: [
         {
-          title: 'Фаза 1: Стягивание тройки в левом квадрате (4 паса)',
-          desc: 'В левом квадрате 6 атакующих держат мяч против 3 защитников. После 4-го паса дальний игрок (6) заранее открывается в свободный правый квадрат.',
+          title: 'Фаза 1: Стягивание тройки в левом квадрате (3-й и 4-й пас)',
+          desc: 'В левом квадрате 6 атакующих держат мяч, стягивая всех 3 защитников (З1, З2, З3). На 3-м пасе (2 → 4) дальний игрок (6) заранее открывается во второй квадрат.',
           players: [
             { id: 'A1', role: 'att', label: '1', x: 65, y: 120 },
             { id: 'A2', role: 'att', label: '2', x: 65, y: 280 },
             { id: 'A3', role: 'att', label: '3', x: 145, y: 55 },
             { id: 'A4', role: 'att', label: '4', x: 155, y: 345 },
-            { id: 'A5', role: 'att', label: '5', x: 235, y: 160 },
-            { id: 'A6', role: 'att', label: '6', x: 350, y: 270 },
-            { id: 'D1', role: 'def', label: 'З1', x: 115, y: 160 },
-            { id: 'D2', role: 'def', label: 'З2', x: 135, y: 245 },
-            { id: 'D3', role: 'def', label: 'З3', x: 195, y: 190 }
+            { id: 'A5', role: 'att', label: '5', x: 225, y: 140 },
+            { id: 'A6', role: 'att', label: '6', x: 240, y: 265 },
+            { id: 'D1', role: 'def', label: 'З1', x: 110, y: 165 },
+            { id: 'D2', role: 'def', label: 'З2', x: 125, y: 255 },
+            { id: 'D3', role: 'def', label: 'З3', x: 180, y: 200 }
           ],
-          ball: { x: 155, y: 328 },
+          ball: { x: 75, y: 275 },
           passes: [
-            { from: { x: 75, y: 275 }, to: { x: 148, y: 335 }, label: '4-й пас', primary: false },
-            { from: { x: 162, y: 335 }, to: { x: 340, y: 272 }, label: 'ПЕРЕВОД ВО 2-Й КВАДРАТ (+1)', primary: true }
+            { from: { x: 68, y: 132 }, to: { x: 68, y: 268 }, label: '3-й пас', primary: false },
+            { from: { x: 76, y: 282 }, to: { x: 145, y: 338 }, label: '4-й пас (стягивание)', primary: true }
           ],
           movements: [
-            { from: { x: 145, y: 55 }, to: { x: 340, y: 70 }, role: 'att', label: 'Смещение всей группы' },
-            { from: { x: 235, y: 160 }, to: { x: 425, y: 190 }, role: 'att', label: 'Заполнение ширины' }
+            { from: { x: 240, y: 265 }, to: { x: 350, y: 270 }, role: 'att', label: 'Рывок (6) во 2-й квадрат' },
+            { from: { x: 125, y: 255 }, to: { x: 145, y: 300 }, role: 'def', label: 'Тройка сжимается' }
           ],
           shadows: []
         },
         {
-          title: 'Фаза 2: Перестроение во втором квадрате',
-          desc: 'Мяч переведён в правый квадрат. Атакующие быстро занимают новые грани, пока тройка защитников вынуждена бежать через всю площадку.',
+          title: 'Фаза 2: Проникающий перевод во 2-й квадрат (+1 очко)',
+          desc: 'Стянув всех трёх защитников влево, игрок 4 переводит мяч через центральную линию свободному игроку 6, а партнёры синхронно заполняют правый квадрат.',
+          players: [
+            { id: 'A1', role: 'att', label: '1', x: 65, y: 120 },
+            { id: 'A2', role: 'att', label: '2', x: 65, y: 280 },
+            { id: 'A3', role: 'att', label: '3', x: 145, y: 55 },
+            { id: 'A4', role: 'att', label: '4', x: 155, y: 345 },
+            { id: 'A5', role: 'att', label: '5', x: 235, y: 150 },
+            { id: 'A6', role: 'att', label: '6', x: 350, y: 270 },
+            { id: 'D1', role: 'def', label: 'З1', x: 120, y: 180 },
+            { id: 'D2', role: 'def', label: 'З2', x: 145, y: 285 },
+            { id: 'D3', role: 'def', label: 'З3', x: 195, y: 215 }
+          ],
+          ball: { x: 162, y: 335 },
+          passes: [
+            { from: { x: 165, y: 335 }, to: { x: 338, y: 274 }, label: 'ПЕРЕВОД ВО 2-Й КВАДРАТ (+1)', primary: true }
+          ],
+          movements: [
+            { from: { x: 145, y: 55 }, to: { x: 340, y: 65 }, role: 'att', label: 'Смещение группы' },
+            { from: { x: 235, y: 150 }, to: { x: 425, y: 130 }, role: 'att', label: 'Заполнение ширины' }
+          ],
+          shadows: [
+            { points: '145,285 110,200 185,205' }
+          ]
+        },
+        {
+          title: 'Фаза 3: Новое удержание 6 на 3 во втором квадрате',
+          desc: 'Атакующие занимают грани второго квадрата и спокойно контролируют мяч, пока тройка защитников вынуждена бежать через всю площадку.',
           players: [
             { id: 'A1', role: 'att', label: '1', x: 260, y: 180 },
             { id: 'A2', role: 'att', label: '2', x: 330, y: 345 },
@@ -514,9 +578,12 @@ export const RONDOS_RU: RondoItem[] = [
           ],
           ball: { x: 350, y: 255 },
           passes: [
-            { from: { x: 355, y: 260 }, to: { x: 425, y: 130 }, label: 'Развитие в новой зоне', primary: true }
+            { from: { x: 356, y: 258 }, to: { x: 425, y: 130 }, label: 'Развитие в новой зоне', primary: true },
+            { from: { x: 362, y: 272 }, to: { x: 422, y: 278 }, label: 'Ширина справа', primary: false }
           ],
-          movements: [],
+          movements: [
+            { from: { x: 235, y: 200 }, to: { x: 310, y: 205 }, role: 'def', label: 'Тройка бежит в отбор' }
+          ],
           shadows: []
         }
       ]
@@ -562,48 +629,76 @@ export const RONDOS_RU: RondoItem[] = [
       phases: [
         {
           title: 'Фаза 1: Розыгрыш в левой половине и вход в центрального (6)',
-          desc: 'Красные (4 игрока) владеют мячом вместе с 3 жёлтыми нейтральными (Н1 слева, Н6 на центральной линии, Н2 справа). Розыгрыш слева выводит мяч на Н6.',
+          desc: 'Красные (4 игрока) владеют мячом вместе с 3 жёлтыми нейтральными (Н1 слева, Н6 на центральной линии, Н2 справа). Н1 пасует на К1, который находит открывшегося в центре (6).',
           players: [
             { id: 'N1', role: 'neutral', label: 'Н1', x: 55, y: 200 },
-            { id: 'N6', role: 'neutral', label: '6', x: 250, y: 190 },
+            { id: 'N6', role: 'neutral', label: '6', x: 250, y: 195 },
             { id: 'N2', role: 'neutral', label: 'Н2', x: 445, y: 200 },
             { id: 'R1', role: 'att', label: 'К1', x: 150, y: 65 },
             { id: 'R2', role: 'att', label: 'К2', x: 155, y: 335 },
             { id: 'R3', role: 'att', label: 'К3', x: 345, y: 65 },
             { id: 'R4', role: 'att', label: 'К4', x: 345, y: 335 },
-            { id: 'B1', role: 'def', label: 'С1', x: 125, y: 165 },
-            { id: 'B2', role: 'def', label: 'С2', x: 165, y: 245 },
-            { id: 'B3', role: 'def', label: 'С3', x: 225, y: 145 },
-            { id: 'B4', role: 'def', label: 'С4', x: 310, y: 225 }
+            { id: 'B1', role: 'def', label: 'С1', x: 125, y: 155 },
+            { id: 'B2', role: 'def', label: 'С2', x: 165, y: 255 },
+            { id: 'B3', role: 'def', label: 'С3', x: 275, y: 125 },
+            { id: 'B4', role: 'def', label: 'С4', x: 310, y: 235 }
           ],
-          ball: { x: 72, y: 200 },
+          ball: { x: 155, y: 80 },
           passes: [
-            { from: { x: 65, y: 195 }, to: { x: 145, y: 75 }, label: 'Пас 1', primary: true },
-            { from: { x: 155, y: 75 }, to: { x: 242, y: 182 }, label: 'Пас в (6)', primary: true }
+            { from: { x: 65, y: 192 }, to: { x: 142, y: 75 }, label: '1. Н1 → К1', primary: false },
+            { from: { x: 158, y: 78 }, to: { x: 242, y: 185 }, label: '2. Вход в (6)', primary: true }
           ],
-          movements: [],
+          movements: [
+            { from: { x: 250, y: 165 }, to: { x: 250, y: 195 }, role: 'neutral', label: 'Открывание (6)' }
+          ],
           shadows: []
         },
         {
-          title: 'Фаза 2: Перевод через (6) в правую зону на дальнего нейтрального',
-          desc: 'Нейтральный (6) разворачивает атаку в правую половину на К4, который выводит мяч на дальнего нейтрального Н2 (+2 очка).',
+          title: 'Фаза 2: Разворот в пол-оборота через (6) в правую зону',
+          desc: 'Нейтральный (6) заранее проверил плечо, принимает в пол-оборота и переводит мяч в правую половину на открытого К4.',
           players: [
             { id: 'N1', role: 'neutral', label: 'Н1', x: 55, y: 200 },
-            { id: 'N6', role: 'neutral', label: '6', x: 250, y: 190 },
+            { id: 'N6', role: 'neutral', label: '6', x: 250, y: 195 },
             { id: 'N2', role: 'neutral', label: 'Н2', x: 445, y: 200 },
             { id: 'R1', role: 'att', label: 'К1', x: 150, y: 65 },
             { id: 'R2', role: 'att', label: 'К2', x: 155, y: 335 },
             { id: 'R3', role: 'att', label: 'К3', x: 345, y: 65 },
             { id: 'R4', role: 'att', label: 'К4', x: 345, y: 335 },
-            { id: 'B1', role: 'def', label: 'С1', x: 165, y: 155 },
-            { id: 'B2', role: 'def', label: 'С2', x: 205, y: 235 },
-            { id: 'B3', role: 'def', label: 'С3', x: 265, y: 160 },
-            { id: 'B4', role: 'def', label: 'С4', x: 335, y: 235 }
+            { id: 'B1', role: 'def', label: 'С1', x: 155, y: 145 },
+            { id: 'B2', role: 'def', label: 'С2', x: 195, y: 245 },
+            { id: 'B3', role: 'def', label: 'С3', x: 275, y: 135 },
+            { id: 'B4', role: 'def', label: 'С4', x: 325, y: 215 }
           ],
-          ball: { x: 258, y: 195 },
+          ball: { x: 258, y: 198 },
           passes: [
-            { from: { x: 258, y: 198 }, to: { x: 340, y: 325 }, label: 'Перевод зоны', primary: true },
-            { from: { x: 352, y: 325 }, to: { x: 435, y: 208 }, label: 'Доставка на Н2 (+2)', primary: true }
+            { from: { x: 258, y: 202 }, to: { x: 338, y: 325 }, label: '3. Перевод на К4', primary: true },
+            { from: { x: 258, y: 188 }, to: { x: 338, y: 75 }, label: 'Вариант К3', primary: false }
+          ],
+          movements: [
+            { from: { x: 325, y: 215 }, to: { x: 340, y: 285 }, role: 'def', label: 'Смещение С4' }
+          ],
+          shadows: []
+        },
+        {
+          title: 'Фаза 3: Доставка мяча на дальнего нейтрального Н2 (+2 очка)',
+          desc: 'К4 в одно-два касания выводит мяч на дальнего торцевого нейтрального Н2, завершая перевод от Н1 до Н2 через опорного (+2 очка)!',
+          players: [
+            { id: 'N1', role: 'neutral', label: 'Н1', x: 55, y: 200 },
+            { id: 'N6', role: 'neutral', label: '6', x: 250, y: 195 },
+            { id: 'N2', role: 'neutral', label: 'Н2', x: 445, y: 200 },
+            { id: 'R1', role: 'att', label: 'К1', x: 150, y: 65 },
+            { id: 'R2', role: 'att', label: 'К2', x: 155, y: 335 },
+            { id: 'R3', role: 'att', label: 'К3', x: 345, y: 65 },
+            { id: 'R4', role: 'att', label: 'К4', x: 345, y: 335 },
+            { id: 'B1', role: 'def', label: 'С1', x: 185, y: 155 },
+            { id: 'B2', role: 'def', label: 'С2', x: 225, y: 250 },
+            { id: 'B3', role: 'def', label: 'С3', x: 305, y: 145 },
+            { id: 'B4', role: 'def', label: 'С4', x: 340, y: 255 }
+          ],
+          ball: { x: 348, y: 320 },
+          passes: [
+            { from: { x: 352, y: 325 }, to: { x: 438, y: 210 }, label: '4. Доставка на Н2 (+2)', primary: true },
+            { from: { x: 438, y: 192 }, to: { x: 355, y: 75 }, label: 'Продолжение на К3', primary: false }
           ],
           movements: [],
           shadows: []
@@ -651,7 +746,7 @@ export const RONDOS_RU: RondoItem[] = [
       phases: [
         {
           title: 'Фаза 1: Направление паса в угловую ловушку',
-          desc: 'Мяч у верхнего игрока (2). Защитник З1 бежит к нему по дуге справа, перекрывая разворот направо и заставляя отдать пас в левый верхний угол (игроку 1).',
+          desc: 'Мяч у верхнего игрока (2). Защитник З1 бежит к нему по дуге справа, перекрывая разворот направо (на 3) и заставляя отдать пас в левый верхний угол (игроку 1).',
           players: [
             { id: 'A1', role: 'att', label: '1', x: 95, y: 65 },
             { id: 'A2', role: 'att', label: '2', x: 240, y: 45 },
@@ -659,26 +754,26 @@ export const RONDOS_RU: RondoItem[] = [
             { id: 'A4', role: 'att', label: '4', x: 85, y: 225 },
             { id: 'A5', role: 'att', label: '5', x: 415, y: 225 },
             { id: 'A6', role: 'att', label: '6', x: 250, y: 355 },
-            { id: 'D1', role: 'def', label: 'З1', x: 255, y: 120 },
+            { id: 'D1', role: 'def', label: 'З1', x: 255, y: 125 },
             { id: 'D2', role: 'def', label: 'З2', x: 145, y: 165 },
-            { id: 'D3', role: 'def', label: 'З3', x: 215, y: 185 }
+            { id: 'D3', role: 'def', label: 'З3', x: 215, y: 195 }
           ],
           ball: { x: 240, y: 62 },
           passes: [
-            { from: { x: 230, y: 52 }, to: { x: 108, y: 62 }, label: 'Вынужденный пас в угол', primary: true }
+            { from: { x: 228, y: 52 }, to: { x: 108, y: 62 }, label: 'Вынужденный пас в угол', primary: true }
           ],
           movements: [
-            { from: { x: 255, y: 120 }, to: { x: 235, y: 70 }, role: 'def', label: 'Дуга З1 (отсекает право)' },
-            { from: { x: 145, y: 165 }, to: { x: 110, y: 95 }, role: 'def', label: 'Рывок З2 в ловушку' },
-            { from: { x: 215, y: 185 }, to: { x: 125, y: 195 }, role: 'def', label: 'З3 закрывает линию' }
+            { from: { x: 255, y: 125 }, to: { x: 235, y: 68 }, role: 'def', label: 'Дуга З1 (отсекает право)', curve: 22 },
+            { from: { x: 145, y: 165 }, to: { x: 115, y: 95 }, role: 'def', label: 'Рывок З2 в ловушку' },
+            { from: { x: 215, y: 195 }, to: { x: 120, y: 190 }, role: 'def', label: 'З3 закрывает линию' }
           ],
           shadows: [
             { points: '245,80 410,50 410,160' }
           ]
         },
         {
-          title: 'Фаза 2: Захлопывание ловушки в углу (+2 очка обороне)',
-          desc: 'Игрок 1 зажат в левом верхнем углу: З2 атакует в мяч, З1 перекрыл возврат игроку 2, а З3 перекрыл пас вниз игроку 4. Ловушка захлопнулась!',
+          title: 'Фаза 2: Захлопывание ловушки в углу',
+          desc: 'Игрок 1 зажат в левом верхнем углу: З2 плотно атакует в мяч, З1 перекрыл возврат игроку 2, а З3 закрыл линию паса вниз игроку 4. Выхода нет!',
           players: [
             { id: 'A1', role: 'att', label: '1', x: 95, y: 65 },
             { id: 'A2', role: 'att', label: '2', x: 240, y: 45 },
@@ -686,18 +781,42 @@ export const RONDOS_RU: RondoItem[] = [
             { id: 'A4', role: 'att', label: '4', x: 85, y: 225 },
             { id: 'A5', role: 'att', label: '5', x: 415, y: 225 },
             { id: 'A6', role: 'att', label: '6', x: 250, y: 355 },
-            { id: 'D1', role: 'def', label: 'З1', x: 185, y: 70 },
-            { id: 'D2', role: 'def', label: 'З2', x: 118, y: 95 },
-            { id: 'D3', role: 'def', label: 'З3', x: 115, y: 175 }
+            { id: 'D1', role: 'def', label: 'З1', x: 180, y: 68 },
+            { id: 'D2', role: 'def', label: 'З2', x: 122, y: 98 },
+            { id: 'D3', role: 'def', label: 'З3', x: 110, y: 175 }
           ],
           ball: { x: 105, y: 75 },
           passes: [],
           movements: [
-            { from: { x: 118, y: 95 }, to: { x: 102, y: 72 }, role: 'def', label: 'ОТБОР В ЛОВУШКЕ!' }
+            { from: { x: 122, y: 98 }, to: { x: 104, y: 74 }, role: 'def', label: 'Отбор З2 в ловушке!' },
+            { from: { x: 180, y: 68 }, to: { x: 215, y: 55 }, role: 'def', label: 'З1 кроет возврат' },
+            { from: { x: 110, y: 175 }, to: { x: 95, y: 205 }, role: 'def', label: 'З3 кроет бровку' }
           ],
           shadows: [
             { points: '90,50 210,50 150,190 90,190' }
           ]
+        },
+        {
+          title: 'Фаза 3: Отбор и контрольный пас сохранения (+2 очка)',
+          desc: 'З2 чисто отбирает мяч в угловой зоне и сразу отдаёт точный пас партнёру З1 в свободный центр квадрата, фиксируя 2 очка обороне!',
+          players: [
+            { id: 'A1', role: 'att', label: '1', x: 92, y: 58 },
+            { id: 'A2', role: 'att', label: '2', x: 240, y: 45 },
+            { id: 'A3', role: 'att', label: '3', x: 395, y: 65 },
+            { id: 'A4', role: 'att', label: '4', x: 85, y: 225 },
+            { id: 'A5', role: 'att', label: '5', x: 415, y: 225 },
+            { id: 'A6', role: 'att', label: '6', x: 250, y: 355 },
+            { id: 'D1', role: 'def', label: 'З1', x: 225, y: 140 },
+            { id: 'D2', role: 'def', label: 'З2', x: 110, y: 82 },
+            { id: 'D3', role: 'def', label: 'З3', x: 175, y: 220 }
+          ],
+          ball: { x: 122, y: 88 },
+          passes: [
+            { from: { x: 124, y: 90 }, to: { x: 215, y: 136 }, label: 'Пас сохранения (+2 очка)', primary: true },
+            { from: { x: 118, y: 94 }, to: { x: 168, y: 208 }, label: 'Вариант З3', primary: false }
+          ],
+          movements: [],
+          shadows: []
         }
       ]
     }
@@ -754,39 +873,63 @@ export const RONDOS_RU: RondoItem[] = [
             { id: 'P6', role: 'att', label: '6', x: 335, y: 40 },
             { id: 'P7', role: 'att', label: '7', x: 425, y: 130 },
             { id: 'D1', role: 'def', label: 'З1', x: 250, y: 285 },
-            { id: 'D2', role: 'def', label: 'З2', x: 185, y: 215 },
-            { id: 'D3', role: 'def', label: 'З3', x: 305, y: 175 }
+            { id: 'D2', role: 'def', label: 'З2', x: 180, y: 210 },
+            { id: 'D3', role: 'def', label: 'З3', x: 315, y: 165 }
           ],
           ball: { x: 250, y: 342 },
           passes: [
-            { from: { x: 260, y: 348 }, to: { x: 412, y: 255 }, label: '1. Пас А → В', primary: true }
+            { from: { x: 262, y: 348 }, to: { x: 412, y: 255 }, label: '1. Пас А → В', primary: true }
           ],
           movements: [
-            { from: { x: 250, y: 200 }, to: { x: 275, y: 215 }, role: 'neutral', label: 'Подстройка С под сброс' }
+            { from: { x: 250, y: 200 }, to: { x: 280, y: 212 }, role: 'neutral', label: 'Подстройка С под сброс' }
           ],
           shadows: [
-            { points: '250,285 215,190 285,190' }
+            { points: '250,285 210,190 290,190' }
           ]
         },
         {
-          title: 'Фаза 2: Сброс в 1 касание на «третьего» С (+1 очко)',
-          desc: 'Игрок В в 1 касание сбрасывает мяч мимо теней перекрытия точно на «третьего» игрока С во внутренний квадрат, а С разворачивает атаку наверх!',
+          title: 'Фаза 2: Сброс в 1 касание от (В) на «третьего» (С)',
+          desc: 'Пока мяч шёл к В, З1 сместился к флангу, открыв диагональный коридор. В в 1 касание сбрасывает мяч точно на «третьего» игрока С во внутренний квадрат!',
           players: [
             { id: 'PA', role: 'att', label: 'А', x: 250, y: 360 },
             { id: 'PB', role: 'att', label: 'В', x: 425, y: 250 },
-            { id: 'PC', role: 'neutral', label: 'С', x: 275, y: 215 },
+            { id: 'PC', role: 'neutral', label: 'С', x: 280, y: 212 },
             { id: 'P4', role: 'att', label: '4', x: 75, y: 230 },
             { id: 'P5', role: 'att', label: '5', x: 165, y: 40 },
             { id: 'P6', role: 'att', label: '6', x: 335, y: 40 },
             { id: 'P7', role: 'att', label: '7', x: 425, y: 130 },
-            { id: 'D1', role: 'def', label: 'З1', x: 315, y: 275 },
-            { id: 'D2', role: 'def', label: 'З2', x: 195, y: 215 },
-            { id: 'D3', role: 'def', label: 'З3', x: 315, y: 175 }
+            { id: 'D1', role: 'def', label: 'З1', x: 320, y: 280 },
+            { id: 'D2', role: 'def', label: 'З2', x: 185, y: 215 },
+            { id: 'D3', role: 'def', label: 'З3', x: 335, y: 165 }
           ],
           ball: { x: 408, y: 248 },
           passes: [
-            { from: { x: 410, y: 248 }, to: { x: 285, y: 218 }, label: '2. Сброс В → С (1 кас.)', primary: true },
-            { from: { x: 275, y: 205 }, to: { x: 170, y: 55 }, label: '3. Выход наверх', primary: false }
+            { from: { x: 408, y: 246 }, to: { x: 292, y: 215 }, label: '2. Сброс В → С (1 кас.)', primary: true }
+          ],
+          movements: [
+            { from: { x: 320, y: 280 }, to: { x: 365, y: 260 }, role: 'def', label: 'З1 стянут на В' }
+          ],
+          shadows: []
+        },
+        {
+          title: 'Фаза 3: Выход из внутреннего квадрата наверх (+1 очко)',
+          desc: 'С принимает сброс лицом вперёд в свободном от прессинга внутреннем квадрате и сразу выводит мяч наверх на открытого игрока 5 (+1 очко)!',
+          players: [
+            { id: 'PA', role: 'att', label: 'А', x: 250, y: 360 },
+            { id: 'PB', role: 'att', label: 'В', x: 425, y: 250 },
+            { id: 'PC', role: 'neutral', label: 'С', x: 275, y: 200 },
+            { id: 'P4', role: 'att', label: '4', x: 75, y: 230 },
+            { id: 'P5', role: 'att', label: '5', x: 165, y: 40 },
+            { id: 'P6', role: 'att', label: '6', x: 335, y: 40 },
+            { id: 'P7', role: 'att', label: '7', x: 425, y: 130 },
+            { id: 'D1', role: 'def', label: 'З1', x: 335, y: 265 },
+            { id: 'D2', role: 'def', label: 'З2', x: 185, y: 215 },
+            { id: 'D3', role: 'def', label: 'З3', x: 325, y: 165 }
+          ],
+          ball: { x: 270, y: 185 },
+          passes: [
+            { from: { x: 268, y: 185 }, to: { x: 172, y: 55 }, label: '3. Выход наверх (+1 очко)', primary: true },
+            { from: { x: 280, y: 185 }, to: { x: 330, y: 55 }, label: 'Вариант 6', primary: false }
           ],
           movements: [],
           shadows: []
@@ -835,15 +978,15 @@ export const RONDOS_RU: RondoItem[] = [
       ],
       phases: [
         {
-          title: 'Фаза 1: Удержание 4 на 2 во внутреннем квадрате',
-          desc: 'Внутри малого квадрата 10×10 м 4 красных игрока держат мяч против 2 синих (С1, С2). Снаружи по периметру большого квадрата ждут ещё 4 синих (С3–С6).',
+          title: 'Фаза 1: Удержание 4 на 2 и перехват в малом квадрате',
+          desc: 'Внутри малого квадрата 10×10 м 4 красных держат мяч против 2 синих (С1, С2). К1 пытается отдать пас на К2, но С1 читает эпизод и перехватывает мяч!',
           players: [
             { id: 'R1', role: 'att', label: 'К1', x: 250, y: 118 },
             { id: 'R2', role: 'att', label: 'К2', x: 168, y: 200 },
             { id: 'R3', role: 'att', label: 'К3', x: 332, y: 200 },
             { id: 'R4', role: 'att', label: 'К4', x: 250, y: 282 },
-            { id: 'B1', role: 'def', label: 'С1', x: 225, y: 175 },
-            { id: 'B2', role: 'def', label: 'С2', x: 265, y: 225 },
+            { id: 'B1', role: 'def', label: 'С1', x: 210, y: 165 },
+            { id: 'B2', role: 'def', label: 'С2', x: 268, y: 220 },
             { id: 'B3', role: 'def', label: 'С3', x: 250, y: 42 },
             { id: 'B4', role: 'def', label: 'С4', x: 72, y: 200 },
             { id: 'B5', role: 'def', label: 'С5', x: 428, y: 200 },
@@ -851,38 +994,66 @@ export const RONDOS_RU: RondoItem[] = [
           ],
           ball: { x: 250, y: 132 },
           passes: [
-            { from: { x: 245, y: 128 }, to: { x: 225, y: 175 }, label: 'Перехват С1!', primary: true }
+            { from: { x: 242, y: 128 }, to: { x: 212, y: 162 }, label: 'Перехват С1!', primary: true },
+            { from: { x: 205, y: 168 }, to: { x: 175, y: 195 }, label: 'Пас на К2 перекрыт', primary: false }
           ],
-          movements: [],
+          movements: [
+            { from: { x: 230, y: 180 }, to: { x: 210, y: 165 }, role: 'def', label: 'С1 читает пас' }
+          ],
           shadows: []
         },
         {
-          title: 'Фаза 2: Момент потери — Взрывной контрпрессинг (3 секунды!)',
-          desc: 'Синий С1 перехватывает мяч и пытается вывести его наружу на С3 или С4. Все 4 красных мгновенно сжимают кольцо вокруг С1, чтобы вернуть мяч за 3 секунды (+2 очка)!',
+          title: 'Фаза 2: Взрывной контрпрессинг (Правило 3 секунд!)',
+          desc: 'С1 пытается развернуться и вывести мяч наружу на С4, но все 4 красных мгновенно сжимают воронку вокруг мяча и блокируют все линии выхода!',
           players: [
-            { id: 'R1', role: 'att', label: 'К1', x: 245, y: 140 },
-            { id: 'R2', role: 'att', label: 'К2', x: 190, y: 185 },
+            { id: 'R1', role: 'att', label: 'К1', x: 240, y: 135 },
+            { id: 'R2', role: 'att', label: 'К2', x: 180, y: 215 },
             { id: 'R3', role: 'att', label: 'К3', x: 295, y: 195 },
-            { id: 'R4', role: 'att', label: 'К4', x: 245, y: 245 },
-            { id: 'B1', role: 'def', label: 'С1', x: 230, y: 180 },
+            { id: 'R4', role: 'att', label: 'К4', x: 242, y: 248 },
+            { id: 'B1', role: 'def', label: 'С1', x: 220, y: 175 },
             { id: 'B2', role: 'def', label: 'С2', x: 270, y: 215 },
             { id: 'B3', role: 'def', label: 'С3', x: 250, y: 42 },
             { id: 'B4', role: 'def', label: 'С4', x: 72, y: 200 },
             { id: 'B5', role: 'def', label: 'С5', x: 428, y: 200 },
             { id: 'B6', role: 'def', label: 'С6', x: 250, y: 358 }
           ],
-          ball: { x: 225, y: 175 },
+          ball: { x: 212, y: 178 },
           passes: [
-            { from: { x: 220, y: 175 }, to: { x: 85, y: 198 }, label: 'Попытка синих вывести наружу', primary: false }
+            { from: { x: 208, y: 175 }, to: { x: 88, y: 192 }, label: 'Выход наружу накрыт!', primary: false }
           ],
           movements: [
-            { from: { x: 245, y: 140 }, to: { x: 232, y: 170 }, role: 'att', label: 'Контрпрессинг!' },
-            { from: { x: 190, y: 185 }, to: { x: 218, y: 180 }, role: 'att', label: 'Сжатие кольца' },
-            { from: { x: 245, y: 245 }, to: { x: 235, y: 195 }, role: 'att', label: 'Поджимаем!' }
+            { from: { x: 240, y: 135 }, to: { x: 225, y: 165 }, role: 'att', label: 'Контрпрессинг!' },
+            { from: { x: 180, y: 215 }, to: { x: 205, y: 185 }, role: 'att', label: 'Сжатие кольца!' },
+            { from: { x: 242, y: 248 }, to: { x: 230, y: 195 }, role: 'att', label: 'Поджимаем!' }
           ],
           shadows: [
-            { points: '190,140 285,140 285,235 190,235' }
+            { points: '180,135 290,135 290,245 180,245' }
           ]
+        },
+        {
+          title: 'Фаза 3: Возврат мяча за 3 секунды и разворот (+2 очка)',
+          desc: 'Красные возвращают мяч в малом квадрате и сразу отдают точный пас на открытого К1, получая +2 очка за успешный контрпрессинг!',
+          players: [
+            { id: 'R1', role: 'att', label: 'К1', x: 250, y: 118 },
+            { id: 'R2', role: 'att', label: 'К2', x: 205, y: 180 },
+            { id: 'R3', role: 'att', label: 'К3', x: 332, y: 200 },
+            { id: 'R4', role: 'att', label: 'К4', x: 250, y: 282 },
+            { id: 'B1', role: 'def', label: 'С1', x: 230, y: 190 },
+            { id: 'B2', role: 'def', label: 'С2', x: 270, y: 220 },
+            { id: 'B3', role: 'def', label: 'С3', x: 250, y: 42 },
+            { id: 'B4', role: 'def', label: 'С4', x: 72, y: 200 },
+            { id: 'B5', role: 'def', label: 'С5', x: 428, y: 200 },
+            { id: 'B6', role: 'def', label: 'С6', x: 250, y: 358 }
+          ],
+          ball: { x: 212, y: 172 },
+          passes: [
+            { from: { x: 215, y: 168 }, to: { x: 245, y: 126 }, label: 'Возврат и пас (+2 очка)', primary: true },
+            { from: { x: 218, y: 182 }, to: { x: 320, y: 198 }, label: 'Разворот на К3', primary: false }
+          ],
+          movements: [
+            { from: { x: 205, y: 180 }, to: { x: 168, y: 200 }, role: 'att', label: 'Ширина слева' }
+          ],
+          shadows: []
         }
       ]
     }
@@ -926,33 +1097,59 @@ export const RONDOS_RU: RondoItem[] = [
       ],
       phases: [
         {
-          title: 'Фаза 1: Отбор тройкой синих в левом квадрате',
-          desc: 'В левом квадрате 5 красных держат мяч против 3 синих (С1, С2, С3). В правом квадрате ждут свободные С4 и С5. Синий С2 перехватывает пас!',
+          title: 'Фаза 1: Прессинг 5 на 3 и перехват в левом квадрате',
+          desc: 'В левом квадрате 5 красных держат мяч против 3 синих (С1, С2, С3). К4 пытается отдать пас в центр на К5, но синий С2 читает передачу и перехватывает мяч!',
           players: [
             { id: 'R1', role: 'att', label: 'К1', x: 70, y: 120 },
             { id: 'R2', role: 'att', label: 'К2', x: 70, y: 280 },
             { id: 'R3', role: 'att', label: 'К3', x: 155, y: 65 },
             { id: 'R4', role: 'att', label: 'К4', x: 155, y: 335 },
-            { id: 'R5', role: 'att', label: 'К5', x: 230, y: 200 },
+            { id: 'R5', role: 'att', label: 'К5', x: 230, y: 195 },
             { id: 'B1', role: 'def', label: 'С1', x: 125, y: 155 },
-            { id: 'B2', role: 'def', label: 'С2', x: 165, y: 235 },
-            { id: 'B3', role: 'def', label: 'С3', x: 195, y: 145 },
+            { id: 'B2', role: 'def', label: 'С2', x: 180, y: 250 },
+            { id: 'B3', role: 'def', label: 'С3', x: 195, y: 140 },
             { id: 'B4', role: 'def', label: 'С4', x: 325, y: 135 },
             { id: 'B5', role: 'def', label: 'С5', x: 325, y: 265 }
           ],
-          ball: { x: 175, y: 232 },
+          ball: { x: 155, y: 320 },
           passes: [
-            { from: { x: 175, y: 235 }, to: { x: 315, y: 262 }, label: 'Первый пас из зоны давления!', primary: true }
+            { from: { x: 160, y: 322 }, to: { x: 182, y: 258 }, label: 'Перехват С2!', primary: true },
+            { from: { x: 188, y: 245 }, to: { x: 222, y: 202 }, label: 'Пас на К5 перекрыт', primary: false }
           ],
           movements: [
-            { from: { x: 125, y: 155 }, to: { x: 285, y: 80 }, role: 'def', label: 'Рывок синих во 2-ю зону' },
-            { from: { x: 195, y: 145 }, to: { x: 410, y: 195 }, role: 'def', label: 'Открывание в ширину' }
+            { from: { x: 160, y: 235 }, to: { x: 180, y: 250 }, role: 'def', label: 'С2 перехватывает' },
+            { from: { x: 325, y: 265 }, to: { x: 305, y: 265 }, role: 'def', label: 'С5 открывается' }
           ],
           shadows: []
         },
         {
-          title: 'Фаза 2: Новое удержание 5 синих против 3 красных справа',
-          desc: 'Мяч выведен в правый квадрат на С5. Тройка С1–С3 перебежала туда, создав новое рондо 5 на 3 для синих, а 3 красных (К3, К4, К5) бегут в отбор!',
+          title: 'Фаза 2: Первый пас из зоны давления во второй квадрат',
+          desc: 'Сразу после перехвата С2 первым же пасом выводит мяч из зоны контрпрессинга через центральную линию на свободного партнёра С5, а С1 и С3 спринтуют во вторую зону!',
+          players: [
+            { id: 'R1', role: 'att', label: 'К1', x: 85, y: 135 },
+            { id: 'R2', role: 'att', label: 'К2', x: 90, y: 270 },
+            { id: 'R3', role: 'att', label: 'К3', x: 155, y: 80 },
+            { id: 'R4', role: 'att', label: 'К4', x: 160, y: 315 },
+            { id: 'R5', role: 'att', label: 'К5', x: 225, y: 195 },
+            { id: 'B1', role: 'def', label: 'С1', x: 135, y: 155 },
+            { id: 'B2', role: 'def', label: 'С2', x: 180, y: 250 },
+            { id: 'B3', role: 'def', label: 'С3', x: 200, y: 140 },
+            { id: 'B4', role: 'def', label: 'С4', x: 325, y: 135 },
+            { id: 'B5', role: 'def', label: 'С5', x: 315, y: 265 }
+          ],
+          ball: { x: 192, y: 252 },
+          passes: [
+            { from: { x: 192, y: 252 }, to: { x: 302, y: 264 }, label: '1-й пас из зоны давления!', primary: true }
+          ],
+          movements: [
+            { from: { x: 135, y: 155 }, to: { x: 285, y: 80 }, role: 'def', label: 'Рывок синих во 2-ю зону' },
+            { from: { x: 200, y: 140 }, to: { x: 410, y: 195 }, role: 'def', label: 'Открывание в ширину' }
+          ],
+          shadows: []
+        },
+        {
+          title: 'Фаза 3: Новое удержание 5 синих против 3 красных справа (+2 очка)',
+          desc: 'Мяч у С5 в правом квадрате. Тройка С1–С3 перебежала туда, расставившись по периметру для нового удержания 5 на 3, а 3 красных (К3, К4, К5) бегут в отбор!',
           players: [
             { id: 'R1', role: 'att', label: 'К1', x: 145, y: 145 },
             { id: 'R2', role: 'att', label: 'К2', x: 145, y: 255 },
@@ -967,9 +1164,12 @@ export const RONDOS_RU: RondoItem[] = [
           ],
           ball: { x: 345, y: 320 },
           passes: [
-            { from: { x: 352, y: 325 }, to: { x: 422, y: 208 }, label: 'Сохранение контроля 5v3 (+2)', primary: true }
+            { from: { x: 352, y: 325 }, to: { x: 422, y: 210 }, label: 'Сохранение контроля 5v3 (+2)', primary: true },
+            { from: { x: 338, y: 325 }, to: { x: 272, y: 210 }, label: 'Вариант С2', primary: false }
           ],
-          movements: [],
+          movements: [
+            { from: { x: 285, y: 210 }, to: { x: 330, y: 295 }, role: 'att', label: 'Красные бегут в отбор' }
+          ],
           shadows: []
         }
       ]

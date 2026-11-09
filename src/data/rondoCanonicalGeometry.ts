@@ -13,11 +13,13 @@ export interface CanonicalPhaseGeometry {
     from: Point2D;
     to: Point2D;
     primary: boolean;
+    curve?: number;
   }>;
   movements: Array<{
     from: Point2D;
     to: Point2D;
     role: 'att' | 'def' | 'neutral';
+    curve?: number;
   }>;
   shadows: Array<{
     points: string;
@@ -53,11 +55,13 @@ export const extractCanonicalGeometry = (
       from: { x: ps.from.x, y: ps.from.y },
       to: { x: ps.to.x, y: ps.to.y },
       primary: ps.primary,
+      ...(ps.curve !== undefined ? { curve: ps.curve } : {}),
     })),
     movements: ph.movements.map((mv) => ({
       from: { x: mv.from.x, y: mv.from.y },
       to: { x: mv.to.x, y: mv.to.y },
       role: mv.role,
+      ...(mv.curve !== undefined ? { curve: mv.curve } : {}),
     })),
     shadows: ph.shadows.map((sh) => ({ points: sh.points })),
   })),

@@ -288,7 +288,7 @@ export const TacticalCanvas: React.FC<TacticalCanvasProps> = ({
             scene.tokens,
             customPositions
           );
-          const { d, midPoint } = buildCurvedPathD(from, to, mv.curve);
+          const { d } = buildCurvedPathD(from, to, mv.curve);
           const strokeColor =
             mv.role === 'def'
               ? '#93c5fd'
@@ -325,30 +325,6 @@ export const TacticalCanvas: React.FC<TacticalCanvasProps> = ({
                   markerEnd={markerId}
                 />
               )}
-              {mv.label && (
-                <g transform={`translate(${midPoint.x}, ${midPoint.y - 8})`}>
-                  <rect
-                    x={-mv.label.length * 3.1 - 6}
-                    y={-9}
-                    width={mv.label.length * 6.2 + 12}
-                    height={16}
-                    rx={4}
-                    fill="rgba(15, 23, 42, 0.82)"
-                    stroke={strokeColor}
-                    strokeWidth="0.8"
-                  />
-                  <text
-                    x={0}
-                    y={2}
-                    textAnchor="middle"
-                    fill={strokeColor}
-                    fontSize="9.5"
-                    fontWeight="600"
-                  >
-                    {mv.label}
-                  </text>
-                </g>
-              )}
             </g>
           );
         })}
@@ -361,7 +337,7 @@ export const TacticalCanvas: React.FC<TacticalCanvasProps> = ({
             scene.tokens,
             customPositions
           );
-          const { d, midPoint } = buildCurvedPathD(from, to, pass.curve);
+          const { d } = buildCurvedPathD(from, to, pass.curve);
           const strokeColor = pass.primary ? '#facc15' : '#e2e8f0';
           const markerId = pass.primary
             ? `url(#arrow-pass-primary-${uid})`
@@ -389,30 +365,6 @@ export const TacticalCanvas: React.FC<TacticalCanvasProps> = ({
                   strokeDasharray={pass.primary ? undefined : '6 4'}
                   markerEnd={markerId}
                 />
-              )}
-              {pass.label && (
-                <g transform={`translate(${midPoint.x}, ${midPoint.y + 12})`}>
-                  <rect
-                    x={-pass.label.length * 3.3 - 7}
-                    y={-10}
-                    width={pass.label.length * 6.6 + 14}
-                    height={17}
-                    rx={4}
-                    fill="rgba(15, 23, 42, 0.9)"
-                    stroke={strokeColor}
-                    strokeWidth="1"
-                  />
-                  <text
-                    x={0}
-                    y={2}
-                    textAnchor="middle"
-                    fill={strokeColor}
-                    fontSize="10"
-                    fontWeight="700"
-                  >
-                    {pass.label}
-                  </text>
-                </g>
               )}
             </g>
           );
@@ -575,6 +527,94 @@ export const TacticalCanvas: React.FC<TacticalCanvasProps> = ({
           />
         </g>
       )}
+
+      {/* Vector Label Pills (Top Layer with pointer-events: none for crisp legibility) */}
+      <g data-testid="pitch-vector-labels-layer" style={{ pointerEvents: 'none' }}>
+        {showMovements &&
+          movementVectors.map((mv) => {
+            if (!mv.label) return null;
+            const { from, to } = resolveVectorEndpoints(
+              mv,
+              scene.tokens,
+              customPositions
+            );
+            const { midPoint } = buildCurvedPathD(from, to, mv.curve);
+            const strokeColor =
+              mv.role === 'def'
+                ? '#93c5fd'
+                : mv.role === 'neutral'
+                ? '#fde047'
+                : '#fca5a5';
+
+            return (
+              <g
+                key={`lbl-${mv.id}`}
+                transform={`translate(${midPoint.x}, ${midPoint.y - 8})`}
+              >
+                <rect
+                  x={-mv.label.length * 3.1 - 6}
+                  y={-9}
+                  width={mv.label.length * 6.2 + 12}
+                  height={16}
+                  rx={4}
+                  fill="rgba(15, 23, 42, 0.88)"
+                  stroke={strokeColor}
+                  strokeWidth="0.8"
+                />
+                <text
+                  x={0}
+                  y={2}
+                  textAnchor="middle"
+                  fill={strokeColor}
+                  fontSize="9.5"
+                  fontWeight="600"
+                >
+                  {mv.label}
+                </text>
+              </g>
+            );
+          })}
+
+        {showPasses &&
+          passVectors.map((pass) => {
+            if (!pass.label) return null;
+            const { from, to } = resolveVectorEndpoints(
+              pass,
+              scene.tokens,
+              customPositions
+            );
+            const { midPoint } = buildCurvedPathD(from, to, pass.curve);
+            const strokeColor = pass.primary ? '#facc15' : '#e2e8f0';
+
+            return (
+              <g
+                key={`lbl-${pass.id}`}
+                transform={`translate(${midPoint.x}, ${midPoint.y + 12})`}
+              >
+                <rect
+                  x={-pass.label.length * 3.3 - 7}
+                  y={-10}
+                  width={pass.label.length * 6.6 + 14}
+                  height={17}
+                  rx={4}
+                  fill="rgba(15, 23, 42, 0.92)"
+                  stroke={strokeColor}
+                  strokeWidth="1"
+                />
+                <text
+                  x={0}
+                  y={2}
+                  textAnchor="middle"
+                  fill={strokeColor}
+                  fontSize="10"
+                  fontWeight="700"
+                >
+                  {pass.label}
+                </text>
+              </g>
+            );
+          })}
+      </g>
     </svg>
   );
 };

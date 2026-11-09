@@ -76,11 +76,70 @@ describe('Domain & Data Integrity — EN / DE / RU Parity & Canonical Geometry',
       }
       for (const phase of canonical.phases) {
         expect(phase.players.length).toBeGreaterThanOrEqual(4);
+        // At most 1 primary pass per phase so ball animation never skips chained passes
+        const primaryPasses = phase.passes.filter((p) => p.primary);
+        expect(primaryPasses.length).toBeLessThanOrEqual(1);
         for (const p of phase.players) {
           expect(p.x).toBeGreaterThanOrEqual(0);
           expect(p.x).toBeLessThanOrEqual(500);
           expect(p.y).toBeGreaterThanOrEqual(0);
           expect(p.y).toBeLessThanOrEqual(400);
+        }
+      }
+      // Every exercise has 3 clear progressive phases
+      expect(canonical.phases).toHaveLength(3);
+    }
+  });
+
+  it('verifies #1.2 (rondo-2) Phase 2 split pass genuinely goes in-between D1 and D2 and all primary passes avoid colliding with non-involved players', () => {
+    const pointToSegmentDist = (
+      px: number,
+      py: number,
+      x1: number,
+      y1: number,
+      x2: number,
+      y2: number
+    ) => {
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const lenSq = dx * dx + dy * dy;
+      if (lenSq === 0) return Math.hypot(px - x1, py - y1);
+      const t = Math.max(0, Math.min(1, ((px - x1) * dx + (py - y1) * dy) / lenSq));
+      return Math.hypot(px - (x1 + t * dx), py - (y1 + t * dy));
+    };
+
+    // Check #1.2 Phase 2 split pass bisects D1 and D2
+    const rondo2Phase2 = RONDOS_EN[1].diagram.phases[1];
+    const d1 = rondo2Phase2.players.find((p) => p.id === 'D1')!;
+    const d2 = rondo2Phase2.players.find((p) => p.id === 'D2')!;
+    const splitPass = rondo2Phase2.passes.find((p) => p.primary)!;
+
+    // Cross product signs of D1 and D2 relative to splitPass vector must be opposite
+    const vx = splitPass.to.x - splitPass.from.x;
+    const vy = splitPass.to.y - splitPass.from.y;
+    const crossD1 = vx * (d1.y - splitPass.from.y) - vy * (d1.x - splitPass.from.x);
+    const crossD2 = vx * (d2.y - splitPass.from.y) - vy * (d2.x - splitPass.from.x);
+    expect(crossD1 * crossD2).toBeLessThan(0);
+
+    // Verify across all 10 exercises and 30 phases that no primary pass collides with an unintended player token
+    for (const rondo of RONDOS_EN) {
+      for (const phase of rondo.diagram.phases) {
+        for (const pass of phase.passes.filter((p) => p.primary)) {
+          for (const player of phase.players) {
+            const distFromStart = Math.hypot(player.x - pass.from.x, player.y - pass.from.y);
+            const distFromEnd = Math.hypot(player.x - pass.to.x, player.y - pass.to.y);
+            // Skip the passer and receiver endpoints
+            if (distFromStart < 28 || distFromEnd < 28) continue;
+            const clearance = pointToSegmentDist(
+              player.x,
+              player.y,
+              pass.from.x,
+              pass.from.y,
+              pass.to.x,
+              pass.to.y
+            );
+            expect(clearance).toBeGreaterThanOrEqual(22);
+          }
         }
       }
     }

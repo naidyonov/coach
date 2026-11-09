@@ -168,4 +168,50 @@ describe('Domain Logic Property-Based Tests (fast-check)', () => {
       );
     });
   });
+
+  describe('rondoAdapter tactical geometry properties', () => {
+    it('preserves pass/movement curve offsets and shadow variants across arbitrary phase geometries', async () => {
+      const { rondoPhaseToTacticalScene } = await import(
+        '../lib/tactical-board/adapters/rondoAdapter'
+      );
+      const { RONDOS_EN } = await import('../i18n/en');
+
+      fc.assert(
+        fc.property(
+          fc.integer({ min: 0, max: RONDOS_EN.length - 1 }),
+          fc.integer({ min: 0, max: 2 }),
+          fc.integer({ min: -60, max: 60 }),
+          fc.constantFrom('danger' as const, 'solution' as const),
+          (rondoIdx, phaseIdx, curveVal, shadowVariant) => {
+            const baseRondo = structuredClone(RONDOS_EN[rondoIdx]);
+            const phase = baseRondo.diagram.phases[phaseIdx];
+            if (phase.passes.length > 0) {
+              phase.passes[0].curve = curveVal;
+            }
+            if (phase.movements.length > 0) {
+              phase.movements[0].curve = curveVal;
+            }
+            if (phase.shadows.length > 0) {
+              phase.shadows[0].variant = shadowVariant;
+            }
+
+            const result = rondoPhaseToTacticalScene(baseRondo, phaseIdx);
+            expect(result.totalPhases).toBe(3);
+
+            if (phase.passes.length > 0) {
+              const passVec = result.scene.vectors.find((v) => v.id === 'pass-0');
+              expect(passVec?.curve).toBe(curveVal);
+            }
+            if (phase.movements.length > 0) {
+              const mvVec = result.scene.vectors.find((v) => v.id === 'mv-0');
+              expect(mvVec?.curve).toBe(curveVal);
+            }
+            if (phase.shadows.length > 0) {
+              expect(result.scene.shadows[0].variant).toBe(shadowVariant);
+            }
+          }
+        )
+      );
+    });
+  });
 });

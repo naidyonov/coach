@@ -51,65 +51,67 @@ export const RONDOS_EN: RondoItem[] = [
       phases: [
         {
           title: 'Phase 1: Reception & Finding Two Passing Lanes',
-          desc: 'Player A (top) has the ball. Player B offers support on the left, Player C at the bottom. The right side of the grid is vacant. Defender D1 blocks the direct diagonal pass to C with his cover shadow.',
+          desc: 'Player A (top) has the ball. Player B offers support on the left, Player C at the bottom. The right side of the grid is vacant. Defender D1 blocks the direct vertical pass to C with his cover shadow and curves his press toward A.',
           players: [
             { id: 'A', role: 'att', label: 'A', x: 250, y: 55 },
             { id: 'B', role: 'att', label: 'B', x: 95, y: 200 },
             { id: 'V', role: 'att', label: 'C', x: 250, y: 345 },
-            { id: 'D1', role: 'def', label: 'D1', x: 220, y: 170 }
+            { id: 'D1', role: 'def', label: 'D1', x: 250, y: 175 }
           ],
           ball: { x: 250, y: 72 },
           passes: [
-            { from: { x: 250, y: 65 }, to: { x: 110, y: 195 }, label: 'Pass 1', primary: true }
+            { from: { x: 240, y: 65 }, to: { x: 110, y: 190 }, label: 'Pass 1 (45°)', primary: true }
           ],
           movements: [
-            { from: { x: 220, y: 170 }, to: { x: 155, y: 185 }, role: 'def', label: 'Curved press' },
-            { from: { x: 250, y: 55 }, to: { x: 395, y: 180 }, role: 'att', label: 'Run to vacant line' }
+            { from: { x: 250, y: 175 }, to: { x: 155, y: 185 }, role: 'def', label: 'Curved press', curve: -22 },
+            { from: { x: 262, y: 58 }, to: { x: 400, y: 185 }, role: 'att', label: 'Run to vacant line' }
           ],
           shadows: [
-            { points: '220,170 210,340 290,340' }
+            { points: '250,175 205,345 295,345' }
           ]
         },
         {
           title: 'Phase 2: Synchronous Rotation to the Vacant Line',
-          desc: 'While the ball travels to B, Player A sprints onto the vacant right line. Now B immediately has two safe passing options again: C at the bottom and A wide right.',
+          desc: 'While the ball travels to B, Player A sprints onto the vacant right line. Now B immediately has two clean passing options outside D1’s cover shadow: C at the bottom (45°) and A wide right.',
           players: [
             { id: 'A', role: 'att', label: 'A', x: 405, y: 200 },
             { id: 'B', role: 'att', label: 'B', x: 95, y: 200 },
             { id: 'V', role: 'att', label: 'C', x: 250, y: 345 },
-            { id: 'D1', role: 'def', label: 'D1', x: 155, y: 205 }
+            { id: 'D1', role: 'def', label: 'D1', x: 165, y: 145 }
           ],
           ball: { x: 112, y: 200 },
           passes: [
-            { from: { x: 105, y: 205 }, to: { x: 240, y: 335 }, label: 'Pass 2', primary: true },
-            { from: { x: 105, y: 195 }, to: { x: 390, y: 200 }, label: 'Option 2', primary: false }
+            { from: { x: 105, y: 208 }, to: { x: 240, y: 335 }, label: 'Pass 2 (45°)', primary: true },
+            { from: { x: 112, y: 200 }, to: { x: 390, y: 200 }, label: 'Option 2', primary: false }
           ],
           movements: [
-            { from: { x: 155, y: 205 }, to: { x: 230, y: 295 }, role: 'def', label: 'D1 shifts' },
-            { from: { x: 95, y: 200 }, to: { x: 245, y: 55 }, role: 'att', label: 'B rotates top' }
+            { from: { x: 165, y: 145 }, to: { x: 120, y: 185 }, role: 'def', label: 'D1 presses B' },
+            { from: { x: 95, y: 185 }, to: { x: 235, y: 55 }, role: 'att', label: 'B rotates top' }
           ],
           shadows: [
-            { points: '155,205 395,150 395,245' }
+            { points: '165,145 210,60 330,60' }
           ]
         },
         {
           title: 'Phase 3: Completing the Cycle & New Triangle',
-          desc: 'Player C has the ball at the bottom. Player B has already occupied the top line, and A is open on the right. The support triangle geometry is fully restored without pause.',
+          desc: 'Player C has the ball at the bottom. Player B has already occupied the top line, and A is open on the right. Both passing lanes are completely clear of D1, restoring the support triangle without pause.',
           players: [
             { id: 'A', role: 'att', label: 'A', x: 405, y: 200 },
             { id: 'B', role: 'att', label: 'B', x: 250, y: 55 },
             { id: 'V', role: 'att', label: 'C', x: 250, y: 345 },
-            { id: 'D1', role: 'def', label: 'D1', x: 245, y: 280 }
+            { id: 'D1', role: 'def', label: 'D1', x: 195, y: 260 }
           ],
           ball: { x: 250, y: 328 },
           passes: [
-            { from: { x: 255, y: 335 }, to: { x: 395, y: 210 }, label: 'Pass 3', primary: true },
-            { from: { x: 250, y: 330 }, to: { x: 250, y: 70 }, label: 'Split pass', primary: false }
+            { from: { x: 260, y: 335 }, to: { x: 395, y: 210 }, label: 'Pass 3 (45°)', primary: true },
+            { from: { x: 250, y: 325 }, to: { x: 250, y: 72 }, label: 'Split pass', primary: false }
           ],
           movements: [
-            { from: { x: 250, y: 345 }, to: { x: 95, y: 200 }, role: 'att', label: 'Rotate left after pass' }
+            { from: { x: 238, y: 342 }, to: { x: 95, y: 205 }, role: 'att', label: 'Rotate left after pass' }
           ],
-          shadows: []
+          shadows: [
+            { points: '195,260 100,230 100,150' }
+          ]
         }
       ]
     }
@@ -155,67 +157,69 @@ export const RONDOS_EN: RondoItem[] = [
       phases: [
         {
           title: 'Phase 1: Drawing the Defensive Pair Together',
-          desc: 'Players 1 and 2 in the top-left corner exchange short passes, drawing both defenders (D1 and D2) toward the ball.',
+          desc: 'Players 1 and 2 in the top-left corner exchange short passes, drawing both defenders (D1 and D2) toward the ball and opening the central seam.',
           players: [
             { id: 'P1', role: 'att', label: '1', x: 170, y: 55 },
             { id: 'P2', role: 'att', label: '2', x: 95, y: 150 },
             { id: 'P3', role: 'att', label: '3', x: 340, y: 55 },
             { id: 'P4', role: 'att', label: '4', x: 405, y: 210 },
             { id: 'P5', role: 'att', label: '5', x: 250, y: 345 },
-            { id: 'D1', role: 'def', label: 'D1', x: 165, y: 115 },
-            { id: 'D2', role: 'def', label: 'D2', x: 225, y: 165 }
+            { id: 'D1', role: 'def', label: 'D1', x: 165, y: 210 },
+            { id: 'D2', role: 'def', label: 'D2', x: 225, y: 150 }
           ],
           ball: { x: 170, y: 72 },
           passes: [
-            { from: { x: 165, y: 65 }, to: { x: 108, y: 145 }, label: 'Short bait pass', primary: true }
+            { from: { x: 162, y: 65 }, to: { x: 108, y: 142 }, label: 'Short bait pass', primary: true }
           ],
           movements: [
-            { from: { x: 165, y: 115 }, to: { x: 135, y: 145 }, role: 'def', label: 'D1 presses' },
-            { from: { x: 225, y: 165 }, to: { x: 195, y: 135 }, role: 'def', label: 'D2 steps up' }
+            { from: { x: 165, y: 210 }, to: { x: 130, y: 230 }, role: 'def', label: 'D1 presses wide' },
+            { from: { x: 225, y: 150 }, to: { x: 195, y: 170 }, role: 'def', label: 'D2 steps up flat' }
           ],
           shadows: []
         },
         {
-          title: 'Phase 2: Penetrative Split Pass (+1 Point)',
-          desc: 'Defenders D1 and D2 get caught flat. Player 2 instantly fires a firm ground pass right between them to far-side Player 5!',
+          title: 'Phase 2: Penetrative Split Pass Between Defenders (+1 Point)',
+          desc: 'Defenders D1 (left) and D2 (right) get caught flat with a gap between them. Player 2 instantly fires a firm ground pass right through the window between D1 and D2 to far-side Player 5!',
           players: [
             { id: 'P1', role: 'att', label: '1', x: 170, y: 55 },
             { id: 'P2', role: 'att', label: '2', x: 95, y: 150 },
             { id: 'P3', role: 'att', label: '3', x: 340, y: 55 },
             { id: 'P4', role: 'att', label: '4', x: 405, y: 210 },
             { id: 'P5', role: 'att', label: '5', x: 265, y: 345 },
-            { id: 'D1', role: 'def', label: 'D1', x: 145, y: 175 },
-            { id: 'D2', role: 'def', label: 'D2', x: 195, y: 130 }
+            { id: 'D1', role: 'def', label: 'D1', x: 130, y: 235 },
+            { id: 'D2', role: 'def', label: 'D2', x: 195, y: 175 }
           ],
           ball: { x: 112, y: 155 },
           passes: [
-            { from: { x: 108, y: 155 }, to: { x: 260, y: 335 }, label: 'SPLIT PASS (+1 pt)', primary: true }
+            { from: { x: 108, y: 158 }, to: { x: 260, y: 335 }, label: 'SPLIT PASS (+1 pt)', primary: true }
           ],
           movements: [
-            { from: { x: 250, y: 345 }, to: { x: 270, y: 345 }, role: 'att', label: 'Adjust into gap' }
+            { from: { x: 245, y: 345 }, to: { x: 265, y: 345 }, role: 'att', label: 'Adjust into gap' }
           ],
           shadows: [
-            { points: '145,175 195,130 330,280 210,335' }
+            { points: '130,235 95,295 165,340' },
+            { points: '195,175 315,120 365,195' }
           ]
         },
         {
           title: 'Phase 3: One-Touch Layoff into Space',
-          desc: 'Player 5 receives the split pass and plays a 1-touch layoff to free Player 4 on the right while the defenders are turning.',
+          desc: 'Player 5 receives the split pass and plays a 1-touch layoff to free Player 4 on the right while both defenders are turning to recover.',
           players: [
             { id: 'P1', role: 'att', label: '1', x: 170, y: 55 },
             { id: 'P2', role: 'att', label: '2', x: 95, y: 180 },
             { id: 'P3', role: 'att', label: '3', x: 340, y: 55 },
             { id: 'P4', role: 'att', label: '4', x: 405, y: 210 },
             { id: 'P5', role: 'att', label: '5', x: 265, y: 345 },
-            { id: 'D1', role: 'def', label: 'D1', x: 190, y: 240 },
-            { id: 'D2', role: 'def', label: 'D2', x: 235, y: 215 }
+            { id: 'D1', role: 'def', label: 'D1', x: 175, y: 265 },
+            { id: 'D2', role: 'def', label: 'D2', x: 235, y: 225 }
           ],
           ball: { x: 265, y: 328 },
           passes: [
-            { from: { x: 272, y: 335 }, to: { x: 395, y: 215 }, label: '1-touch layoff', primary: true }
+            { from: { x: 274, y: 335 }, to: { x: 395, y: 218 }, label: '1-touch layoff', primary: true },
+            { from: { x: 268, y: 328 }, to: { x: 335, y: 68 }, label: 'Option 3', primary: false }
           ],
           movements: [
-            { from: { x: 235, y: 215 }, to: { x: 330, y: 235 }, role: 'def', label: 'Recovery run' }
+            { from: { x: 235, y: 225 }, to: { x: 330, y: 240 }, role: 'def', label: 'Recovery run' }
           ],
           shadows: []
         }
@@ -263,7 +267,7 @@ export const RONDOS_EN: RondoItem[] = [
       phases: [
         {
           title: 'Phase 1: Shifting the Press to Open the Lane to (#6)',
-          desc: '6 attackers on the perimeter, pivot (#6) in the center. The blue trio (D1, D2, D3) screens the middle. The ball is moved from bottom-left (#7) to (#8) to open the passing lane into (#6).',
+          desc: '6 attackers on the perimeter, pivot (#6) in the center. Defender D2 screens (#6) in his cover shadow. The ball is moved from (#7) to (#8) to shift the press while (#6) drifts laterally into the open window.',
           players: [
             { id: 'A1', role: 'att', label: '2', x: 180, y: 45 },
             { id: 'A2', role: 'att', label: '3', x: 320, y: 45 },
@@ -271,26 +275,26 @@ export const RONDOS_EN: RondoItem[] = [
             { id: 'A4', role: 'att', label: '5', x: 415, y: 200 },
             { id: 'A5', role: 'att', label: '7', x: 180, y: 355 },
             { id: 'A6', role: 'att', label: '8', x: 320, y: 355 },
-            { id: 'N6', role: 'neutral', label: '6', x: 255, y: 205 },
-            { id: 'D1', role: 'def', label: 'D1', x: 165, y: 255 },
-            { id: 'D2', role: 'def', label: 'D2', x: 225, y: 235 },
-            { id: 'D3', role: 'def', label: 'D3', x: 220, y: 155 }
+            { id: 'N6', role: 'neutral', label: '6', x: 250, y: 195 },
+            { id: 'D1', role: 'def', label: 'D1', x: 160, y: 270 },
+            { id: 'D2', role: 'def', label: 'D2', x: 220, y: 255 },
+            { id: 'D3', role: 'def', label: 'D3', x: 205, y: 145 }
           ],
           ball: { x: 180, y: 338 },
           passes: [
-            { from: { x: 188, y: 345 }, to: { x: 310, y: 345 }, label: 'Shift the press', primary: true }
+            { from: { x: 190, y: 345 }, to: { x: 308, y: 345 }, label: 'Shift the press', primary: true }
           ],
           movements: [
-            { from: { x: 255, y: 205 }, to: { x: 285, y: 215 }, role: 'neutral', label: '#6 drifts out of shadow' },
-            { from: { x: 165, y: 255 }, to: { x: 265, y: 305 }, role: 'def', label: 'D1 shifts to ball' }
+            { from: { x: 250, y: 195 }, to: { x: 285, y: 210 }, role: 'neutral', label: '#6 drifts into window' },
+            { from: { x: 220, y: 255 }, to: { x: 255, y: 270 }, role: 'def', label: 'D2 shifts' }
           ],
           shadows: [
-            { points: '225,235 235,175 280,190 270,250' }
+            { points: '220,255 215,175 280,185' }
           ]
         },
         {
           title: 'Phase 2: Finding the Pivot (#6) Between the Lines',
-          desc: 'Player 8 receives the ball. As D1 and D2 shift across, #6 steps into the open window between them and receives a vertical pass on the half-turn.',
+          desc: 'Player 8 receives the ball. As D2 (left) and D1 (right) shift across, #6 steps into the open window between them and receives a vertical pass on the half-turn.',
           players: [
             { id: 'A1', role: 'att', label: '2', x: 180, y: 45 },
             { id: 'A2', role: 'att', label: '3', x: 320, y: 45 },
@@ -298,23 +302,26 @@ export const RONDOS_EN: RondoItem[] = [
             { id: 'A4', role: 'att', label: '5', x: 415, y: 200 },
             { id: 'A5', role: 'att', label: '7', x: 180, y: 355 },
             { id: 'A6', role: 'att', label: '8', x: 320, y: 355 },
-            { id: 'N6', role: 'neutral', label: '6', x: 285, y: 215 },
-            { id: 'D1', role: 'def', label: 'D1', x: 270, y: 300 },
-            { id: 'D2', role: 'def', label: 'D2', x: 225, y: 240 },
-            { id: 'D3', role: 'def', label: 'D3', x: 245, y: 160 }
+            { id: 'N6', role: 'neutral', label: '6', x: 285, y: 210 },
+            { id: 'D1', role: 'def', label: 'D1', x: 345, y: 275 },
+            { id: 'D2', role: 'def', label: 'D2', x: 240, y: 265 },
+            { id: 'D3', role: 'def', label: 'D3', x: 230, y: 155 }
           ],
           ball: { x: 320, y: 338 },
           passes: [
-            { from: { x: 315, y: 335 }, to: { x: 288, y: 228 }, label: 'Entry pass to (6)', primary: true }
+            { from: { x: 315, y: 335 }, to: { x: 288, y: 222 }, label: 'Entry pass to (6)', primary: true }
           ],
           movements: [
-            { from: { x: 225, y: 240 }, to: { x: 270, y: 225 }, role: 'def', label: 'Collapse on (6)' }
+            { from: { x: 240, y: 265 }, to: { x: 268, y: 225 }, role: 'def', label: 'Collapse on (6)' }
           ],
-          shadows: []
+          shadows: [
+            { points: '240,265 160,190 225,175' },
+            { points: '345,275 365,190 415,235' }
+          ]
         },
         {
-          title: 'Phase 3: Pivot (#6) Switches Attack to Free Line (+1 Point)',
-          desc: 'Having pre-scanned the pitch, (#6) plays a 1-touch pass to the top line (Player 3) or wide right (Player 5), bypassing all three defenders!',
+          title: 'Phase 3: Pivot (#6) Switches Attack to Free Line (+2 Points)',
+          desc: 'Having pre-scanned the pitch, (#6) plays a 1-touch pass to the opposite top line (Player 3, +2 pts) or wide right (Player 5, +1 pt), bypassing all three defenders!',
           players: [
             { id: 'A1', role: 'att', label: '2', x: 180, y: 45 },
             { id: 'A2', role: 'att', label: '3', x: 320, y: 45 },
@@ -322,15 +329,15 @@ export const RONDOS_EN: RondoItem[] = [
             { id: 'A4', role: 'att', label: '5', x: 415, y: 200 },
             { id: 'A5', role: 'att', label: '7', x: 180, y: 355 },
             { id: 'A6', role: 'att', label: '8', x: 320, y: 355 },
-            { id: 'N6', role: 'neutral', label: '6', x: 285, y: 215 },
-            { id: 'D1', role: 'def', label: 'D1', x: 285, y: 275 },
-            { id: 'D2', role: 'def', label: 'D2', x: 255, y: 225 },
-            { id: 'D3', role: 'def', label: 'D3', x: 245, y: 165 }
+            { id: 'N6', role: 'neutral', label: '6', x: 285, y: 210 },
+            { id: 'D1', role: 'def', label: 'D1', x: 325, y: 255 },
+            { id: 'D2', role: 'def', label: 'D2', x: 255, y: 230 },
+            { id: 'D3', role: 'def', label: 'D3', x: 235, y: 165 }
           ],
-          ball: { x: 288, y: 202 },
+          ball: { x: 288, y: 196 },
           passes: [
-            { from: { x: 288, y: 205 }, to: { x: 320, y: 60 }, label: 'Exit via (6) (+1 pt)', primary: true },
-            { from: { x: 295, y: 215 }, to: { x: 400, y: 200 }, label: 'Wide option', primary: false }
+            { from: { x: 288, y: 198 }, to: { x: 318, y: 60 }, label: 'Exit via (6) (+2 pts)', primary: true },
+            { from: { x: 298, y: 210 }, to: { x: 400, y: 200 }, label: 'Wide option (+1 pt)', primary: false }
           ],
           movements: [],
           shadows: []
@@ -377,8 +384,8 @@ export const RONDOS_EN: RondoItem[] = [
       ],
       phases: [
         {
-          title: 'Phase 1: Build-Up from Endline & Diagonal Staggering (#6–#8)',
-          desc: 'The ball starts with the Center-Backs (CB) on the left endline. Inside, two yellow midfielders (#6 in Zone 1, #8 in Zone 2) occupy staggered diagonals against two defensive pairs.',
+          title: 'Phase 1: Diagonal Staggering (#6–#8) & Entry into Pivot (#6)',
+          desc: 'Center-Back (CB1) plays wide to Left-Back (LB) to stretch D1 and D2 apart, opening the diagonal entry lane into the dropping pivot (#6).',
           players: [
             { id: 'CB1', role: 'att', label: 'CB', x: 55, y: 140 },
             { id: 'CB2', role: 'att', label: 'CB', x: 55, y: 260 },
@@ -388,26 +395,28 @@ export const RONDOS_EN: RondoItem[] = [
             { id: 'W4', role: 'att', label: 'RW', x: 345, y: 345 },
             { id: 'CF1', role: 'att', label: 'CF', x: 445, y: 140 },
             { id: 'CF2', role: 'att', label: 'CF', x: 445, y: 260 },
-            { id: 'N6', role: 'neutral', label: '6', x: 175, y: 225 },
-            { id: 'N8', role: 'neutral', label: '8', x: 315, y: 155 },
-            { id: 'D1', role: 'def', label: 'D1', x: 130, y: 155 },
-            { id: 'D2', role: 'def', label: 'D2', x: 140, y: 255 },
-            { id: 'D3', role: 'def', label: 'D3', x: 295, y: 195 },
-            { id: 'D4', role: 'def', label: 'D4', x: 335, y: 255 }
+            { id: 'N6', role: 'neutral', label: '6', x: 185, y: 210 },
+            { id: 'N8', role: 'neutral', label: '8', x: 315, y: 150 },
+            { id: 'D1', role: 'def', label: 'D1', x: 125, y: 140 },
+            { id: 'D2', role: 'def', label: 'D2', x: 145, y: 260 },
+            { id: 'D3', role: 'def', label: 'D3', x: 290, y: 205 },
+            { id: 'D4', role: 'def', label: 'D4', x: 335, y: 260 }
           ],
-          ball: { x: 72, y: 140 },
+          ball: { x: 155, y: 70 },
           passes: [
-            { from: { x: 65, y: 140 }, to: { x: 150, y: 65 }, label: 'Out wide', primary: true },
-            { from: { x: 155, y: 65 }, to: { x: 175, y: 210 }, label: 'Entry to (6)', primary: true }
+            { from: { x: 65, y: 132 }, to: { x: 145, y: 65 }, label: '1. CB → LB', primary: false },
+            { from: { x: 158, y: 68 }, to: { x: 182, y: 196 }, label: '2. Entry to (6)', primary: true }
           ],
           movements: [
-            { from: { x: 175, y: 225 }, to: { x: 185, y: 195 }, role: 'neutral', label: '#6 checks to ball' }
+            { from: { x: 175, y: 230 }, to: { x: 185, y: 210 }, role: 'neutral', label: '#6 checks into pocket' }
           ],
-          shadows: []
+          shadows: [
+            { points: '125,140 90,190 140,210' }
+          ]
         },
         {
-          title: 'Phase 2: Vertical "6 → 8" Link Between the Lines',
-          desc: 'Pivot (#6) receives from the flank, turns on the half-turn, and threads a line-breaking pass across the midline to (#8), who feeds the Striker (CF)!',
+          title: 'Phase 2: Vertical "6 → 8" Line-Breaking Link Across Midline',
+          desc: 'Pivot (#6) receives on the half-turn in Zone 1 and threads a diagonal pass across the midline to higher midfielder (#8) in Zone 2.',
           players: [
             { id: 'CB1', role: 'att', label: 'CB', x: 55, y: 140 },
             { id: 'CB2', role: 'att', label: 'CB', x: 55, y: 260 },
@@ -418,16 +427,45 @@ export const RONDOS_EN: RondoItem[] = [
             { id: 'CF1', role: 'att', label: 'CF', x: 445, y: 140 },
             { id: 'CF2', role: 'att', label: 'CF', x: 445, y: 260 },
             { id: 'N6', role: 'neutral', label: '6', x: 185, y: 195 },
-            { id: 'N8', role: 'neutral', label: '8', x: 315, y: 155 },
+            { id: 'N8', role: 'neutral', label: '8', x: 315, y: 150 },
             { id: 'D1', role: 'def', label: 'D1', x: 155, y: 135 },
-            { id: 'D2', role: 'def', label: 'D2', x: 165, y: 235 },
-            { id: 'D3', role: 'def', label: 'D3', x: 285, y: 205 },
-            { id: 'D4', role: 'def', label: 'D4', x: 335, y: 255 }
+            { id: 'D2', role: 'def', label: 'D2', x: 165, y: 245 },
+            { id: 'D3', role: 'def', label: 'D3', x: 275, y: 215 },
+            { id: 'D4', role: 'def', label: 'D4', x: 340, y: 255 }
           ],
-          ball: { x: 198, y: 192 },
+          ball: { x: 196, y: 192 },
           passes: [
-            { from: { x: 195, y: 192 }, to: { x: 305, y: 158 }, label: 'Link 6 → 8', primary: true },
-            { from: { x: 325, y: 155 }, to: { x: 432, y: 255 }, label: 'Feed CF (+2 pts)', primary: true }
+            { from: { x: 196, y: 192 }, to: { x: 304, y: 154 }, label: '3. Link 6 → 8', primary: true }
+          ],
+          movements: [
+            { from: { x: 315, y: 170 }, to: { x: 315, y: 150 }, role: 'neutral', label: '#8 in right half-space' },
+            { from: { x: 275, y: 215 }, to: { x: 295, y: 175 }, role: 'def', label: 'D3 closes #8' }
+          ],
+          shadows: []
+        },
+        {
+          title: 'Phase 3: #8 Feeds Striker (CF) on Opposite Endline (+2 Points)',
+          desc: 'Midfielder (#8) turns forward in Zone 2 and plays a firm pass between the recovering defenders into Striker (CF2) on the far endline (+2 points)!',
+          players: [
+            { id: 'CB1', role: 'att', label: 'CB', x: 55, y: 140 },
+            { id: 'CB2', role: 'att', label: 'CB', x: 55, y: 260 },
+            { id: 'W1', role: 'att', label: 'LB', x: 155, y: 55 },
+            { id: 'W2', role: 'att', label: 'RB', x: 155, y: 345 },
+            { id: 'W3', role: 'att', label: 'LW', x: 345, y: 55 },
+            { id: 'W4', role: 'att', label: 'RW', x: 345, y: 345 },
+            { id: 'CF1', role: 'att', label: 'CF', x: 445, y: 140 },
+            { id: 'CF2', role: 'att', label: 'CF', x: 445, y: 260 },
+            { id: 'N6', role: 'neutral', label: '6', x: 195, y: 195 },
+            { id: 'N8', role: 'neutral', label: '8', x: 315, y: 150 },
+            { id: 'D1', role: 'def', label: 'D1', x: 165, y: 145 },
+            { id: 'D2', role: 'def', label: 'D2', x: 180, y: 240 },
+            { id: 'D3', role: 'def', label: 'D3', x: 295, y: 185 },
+            { id: 'D4', role: 'def', label: 'D4', x: 345, y: 235 }
+          ],
+          ball: { x: 326, y: 154 },
+          passes: [
+            { from: { x: 326, y: 156 }, to: { x: 434, y: 252 }, label: '4. Feed CF (+2 pts)', primary: true },
+            { from: { x: 328, y: 148 }, to: { x: 432, y: 140 }, label: 'Option CF1', primary: false }
           ],
           movements: [],
           shadows: []
@@ -474,33 +512,59 @@ export const RONDOS_EN: RondoItem[] = [
       ],
       phases: [
         {
-          title: 'Phase 1: Drawing the Trio into the Left Grid (4 Passes)',
-          desc: 'In the left grid, 6 attackers keep possession against 3 defenders. On the 4th pass, far-side Player 6 expands early into the vacant right grid.',
+          title: 'Phase 1: Overload Circulation in Grid 1 & "3rd-Pass Trigger"',
+          desc: 'In the left grid, 6 attackers circulate quick short passes to draw all 3 defenders (D1, D2, D3) into a compact block. On the 3rd/4th pass trigger, far-side Player 6 expands early into the vacant right grid!',
           players: [
             { id: 'A1', role: 'att', label: '1', x: 65, y: 120 },
             { id: 'A2', role: 'att', label: '2', x: 65, y: 280 },
             { id: 'A3', role: 'att', label: '3', x: 145, y: 55 },
             { id: 'A4', role: 'att', label: '4', x: 155, y: 345 },
-            { id: 'A5', role: 'att', label: '5', x: 235, y: 160 },
-            { id: 'A6', role: 'att', label: '6', x: 350, y: 270 },
-            { id: 'D1', role: 'def', label: 'D1', x: 115, y: 160 },
-            { id: 'D2', role: 'def', label: 'D2', x: 135, y: 245 },
-            { id: 'D3', role: 'def', label: 'D3', x: 195, y: 190 }
+            { id: 'A5', role: 'att', label: '5', x: 225, y: 140 },
+            { id: 'A6', role: 'att', label: '6', x: 240, y: 265 },
+            { id: 'D1', role: 'def', label: 'D1', x: 110, y: 165 },
+            { id: 'D2', role: 'def', label: 'D2', x: 125, y: 255 },
+            { id: 'D3', role: 'def', label: 'D3', x: 180, y: 200 }
           ],
-          ball: { x: 155, y: 328 },
+          ball: { x: 75, y: 275 },
           passes: [
-            { from: { x: 75, y: 275 }, to: { x: 148, y: 335 }, label: '4th pass', primary: false },
-            { from: { x: 162, y: 335 }, to: { x: 340, y: 272 }, label: 'SWITCH TO GRID 2 (+1)', primary: true }
+            { from: { x: 68, y: 132 }, to: { x: 68, y: 268 }, label: '3rd pass', primary: false },
+            { from: { x: 76, y: 282 }, to: { x: 145, y: 338 }, label: '4th pass (draw trio)', primary: true }
           ],
           movements: [
-            { from: { x: 145, y: 55 }, to: { x: 340, y: 70 }, role: 'att', label: 'Unit shifts across' },
-            { from: { x: 235, y: 160 }, to: { x: 425, y: 190 }, role: 'att', label: 'Fill wide lane' }
+            { from: { x: 240, y: 265 }, to: { x: 350, y: 270 }, role: 'att', label: 'A6 expands to Grid 2!' },
+            { from: { x: 125, y: 255 }, to: { x: 145, y: 300 }, role: 'def', label: 'Trio compacts left' }
           ],
           shadows: []
         },
         {
-          title: 'Phase 2: Re-Establishing Shape in the Second Grid',
-          desc: 'The ball is switched into the right grid. Attackers quickly occupy the new perimeter lines while the 3 defenders are forced to sprint across the pitch.',
+          title: 'Phase 2: Ground Switch Across the Midline into Grid 2 (+1 Point)',
+          desc: 'With all 3 defenders sucked into the bottom-left of Grid 1, Player 4 fires a firm ground switch pass across the midline to wide-open Player 6 in Grid 2!',
+          players: [
+            { id: 'A1', role: 'att', label: '1', x: 65, y: 120 },
+            { id: 'A2', role: 'att', label: '2', x: 65, y: 280 },
+            { id: 'A3', role: 'att', label: '3', x: 145, y: 55 },
+            { id: 'A4', role: 'att', label: '4', x: 155, y: 345 },
+            { id: 'A5', role: 'att', label: '5', x: 235, y: 150 },
+            { id: 'A6', role: 'att', label: '6', x: 350, y: 270 },
+            { id: 'D1', role: 'def', label: 'D1', x: 120, y: 180 },
+            { id: 'D2', role: 'def', label: 'D2', x: 145, y: 285 },
+            { id: 'D3', role: 'def', label: 'D3', x: 195, y: 215 }
+          ],
+          ball: { x: 162, y: 335 },
+          passes: [
+            { from: { x: 165, y: 335 }, to: { x: 338, y: 274 }, label: 'SWITCH TO GRID 2 (+1)', primary: true }
+          ],
+          movements: [
+            { from: { x: 145, y: 55 }, to: { x: 340, y: 65 }, role: 'att', label: 'Unit shifts across' },
+            { from: { x: 235, y: 150 }, to: { x: 425, y: 130 }, role: 'att', label: 'Fill far width' }
+          ],
+          shadows: [
+            { points: '145,285 110,200 185,205' }
+          ]
+        },
+        {
+          title: 'Phase 3: Re-Establishing Shape & Consolidating in Grid 2',
+          desc: 'The ball is switched into the right grid. Attackers quickly occupy the new perimeter lines and circulate the ball while the 3 defenders sprint across the midline to recover.',
           players: [
             { id: 'A1', role: 'att', label: '1', x: 260, y: 180 },
             { id: 'A2', role: 'att', label: '2', x: 330, y: 345 },
@@ -514,9 +578,12 @@ export const RONDOS_EN: RondoItem[] = [
           ],
           ball: { x: 350, y: 255 },
           passes: [
-            { from: { x: 355, y: 260 }, to: { x: 425, y: 130 }, label: 'Circulate in new zone', primary: true }
+            { from: { x: 356, y: 258 }, to: { x: 425, y: 130 }, label: 'Circulate in Grid 2', primary: true },
+            { from: { x: 362, y: 272 }, to: { x: 422, y: 278 }, label: 'Wide support', primary: false }
           ],
-          movements: [],
+          movements: [
+            { from: { x: 235, y: 200 }, to: { x: 310, y: 205 }, role: 'def', label: 'Trio sprints across' }
+          ],
           shadows: []
         }
       ]
@@ -562,48 +629,76 @@ export const RONDOS_EN: RondoItem[] = [
       phases: [
         {
           title: 'Phase 1: Build-Up in Left Half & Entry into Central Pivot (#6)',
-          desc: 'Red (4 players) combines with 3 yellow neutrals (N1 left, #6 on the midline, N2 right). Possession on the left opens an entry pass into #6.',
+          desc: 'Red (4 players) combines with 3 yellow neutrals (N1 left, #6 on the midline, N2 right). Possession on the left opens a diagonal entry pass from R1 into #6.',
           players: [
             { id: 'N1', role: 'neutral', label: 'N1', x: 55, y: 200 },
-            { id: 'N6', role: 'neutral', label: '6', x: 250, y: 190 },
+            { id: 'N6', role: 'neutral', label: '6', x: 250, y: 195 },
             { id: 'N2', role: 'neutral', label: 'N2', x: 445, y: 200 },
             { id: 'R1', role: 'att', label: 'R1', x: 150, y: 65 },
             { id: 'R2', role: 'att', label: 'R2', x: 155, y: 335 },
             { id: 'R3', role: 'att', label: 'R3', x: 345, y: 65 },
             { id: 'R4', role: 'att', label: 'R4', x: 345, y: 335 },
-            { id: 'B1', role: 'def', label: 'B1', x: 125, y: 165 },
-            { id: 'B2', role: 'def', label: 'B2', x: 165, y: 245 },
-            { id: 'B3', role: 'def', label: 'B3', x: 225, y: 145 },
-            { id: 'B4', role: 'def', label: 'B4', x: 310, y: 225 }
+            { id: 'B1', role: 'def', label: 'B1', x: 125, y: 155 },
+            { id: 'B2', role: 'def', label: 'B2', x: 165, y: 255 },
+            { id: 'B3', role: 'def', label: 'B3', x: 275, y: 125 },
+            { id: 'B4', role: 'def', label: 'B4', x: 310, y: 235 }
           ],
-          ball: { x: 72, y: 200 },
+          ball: { x: 155, y: 80 },
           passes: [
-            { from: { x: 65, y: 195 }, to: { x: 145, y: 75 }, label: 'Pass 1', primary: true },
-            { from: { x: 155, y: 75 }, to: { x: 242, y: 182 }, label: 'Entry to (6)', primary: true }
+            { from: { x: 65, y: 192 }, to: { x: 142, y: 75 }, label: '1. N1 → R1', primary: false },
+            { from: { x: 158, y: 78 }, to: { x: 242, y: 185 }, label: '2. Entry to (6)', primary: true }
           ],
-          movements: [],
+          movements: [
+            { from: { x: 250, y: 165 }, to: { x: 250, y: 195 }, role: 'neutral', label: '#6 angles on midline' }
+          ],
           shadows: []
         },
         {
-          title: 'Phase 2: Switch via (#6) into Right Zone to Far Target N2',
-          desc: 'Central neutral (#6) turns and switches play into the right half to R4, who connects with far target neutral N2 (+2 points).',
+          title: 'Phase 2: Central Pivot (#6) Turns & Switches into Right Zone',
+          desc: 'Central neutral (#6) receives on the half-turn along the midline and switches play into the right half to wide support R4 (or R3).',
           players: [
             { id: 'N1', role: 'neutral', label: 'N1', x: 55, y: 200 },
-            { id: 'N6', role: 'neutral', label: '6', x: 250, y: 190 },
+            { id: 'N6', role: 'neutral', label: '6', x: 250, y: 195 },
             { id: 'N2', role: 'neutral', label: 'N2', x: 445, y: 200 },
             { id: 'R1', role: 'att', label: 'R1', x: 150, y: 65 },
             { id: 'R2', role: 'att', label: 'R2', x: 155, y: 335 },
             { id: 'R3', role: 'att', label: 'R3', x: 345, y: 65 },
             { id: 'R4', role: 'att', label: 'R4', x: 345, y: 335 },
-            { id: 'B1', role: 'def', label: 'B1', x: 165, y: 155 },
-            { id: 'B2', role: 'def', label: 'B2', x: 205, y: 235 },
-            { id: 'B3', role: 'def', label: 'B3', x: 265, y: 160 },
-            { id: 'B4', role: 'def', label: 'B4', x: 335, y: 235 }
+            { id: 'B1', role: 'def', label: 'B1', x: 155, y: 145 },
+            { id: 'B2', role: 'def', label: 'B2', x: 195, y: 245 },
+            { id: 'B3', role: 'def', label: 'B3', x: 275, y: 135 },
+            { id: 'B4', role: 'def', label: 'B4', x: 325, y: 215 }
           ],
-          ball: { x: 258, y: 195 },
+          ball: { x: 258, y: 198 },
           passes: [
-            { from: { x: 258, y: 198 }, to: { x: 340, y: 325 }, label: 'Switch zone', primary: true },
-            { from: { x: 352, y: 325 }, to: { x: 435, y: 208 }, label: 'Target N2 (+2)', primary: true }
+            { from: { x: 258, y: 202 }, to: { x: 338, y: 325 }, label: '3. Switch to R4', primary: true },
+            { from: { x: 258, y: 188 }, to: { x: 338, y: 75 }, label: 'Option R3', primary: false }
+          ],
+          movements: [
+            { from: { x: 325, y: 215 }, to: { x: 340, y: 285 }, role: 'def', label: 'B4 shifts wide' }
+          ],
+          shadows: []
+        },
+        {
+          title: 'Phase 3: Connection with Far Endline Target N2 (+2 Points)',
+          desc: 'R4 plays the ball into far target neutral N2 to complete the end-to-end transfer via (#6) for +2 points, then prepares to build back the other way.',
+          players: [
+            { id: 'N1', role: 'neutral', label: 'N1', x: 55, y: 200 },
+            { id: 'N6', role: 'neutral', label: '6', x: 250, y: 195 },
+            { id: 'N2', role: 'neutral', label: 'N2', x: 445, y: 200 },
+            { id: 'R1', role: 'att', label: 'R1', x: 150, y: 65 },
+            { id: 'R2', role: 'att', label: 'R2', x: 155, y: 335 },
+            { id: 'R3', role: 'att', label: 'R3', x: 345, y: 65 },
+            { id: 'R4', role: 'att', label: 'R4', x: 345, y: 335 },
+            { id: 'B1', role: 'def', label: 'B1', x: 185, y: 155 },
+            { id: 'B2', role: 'def', label: 'B2', x: 225, y: 250 },
+            { id: 'B3', role: 'def', label: 'B3', x: 305, y: 145 },
+            { id: 'B4', role: 'def', label: 'B4', x: 340, y: 255 }
+          ],
+          ball: { x: 348, y: 320 },
+          passes: [
+            { from: { x: 352, y: 325 }, to: { x: 438, y: 210 }, label: '4. Target N2 (+2 pts)', primary: true },
+            { from: { x: 438, y: 192 }, to: { x: 355, y: 75 }, label: 'Continuity to R3', primary: false }
           ],
           movements: [],
           shadows: []
@@ -659,26 +754,26 @@ export const RONDOS_EN: RondoItem[] = [
             { id: 'A4', role: 'att', label: '4', x: 85, y: 225 },
             { id: 'A5', role: 'att', label: '5', x: 415, y: 225 },
             { id: 'A6', role: 'att', label: '6', x: 250, y: 355 },
-            { id: 'D1', role: 'def', label: 'D1', x: 255, y: 120 },
+            { id: 'D1', role: 'def', label: 'D1', x: 255, y: 125 },
             { id: 'D2', role: 'def', label: 'D2', x: 145, y: 165 },
-            { id: 'D3', role: 'def', label: 'D3', x: 215, y: 185 }
+            { id: 'D3', role: 'def', label: 'D3', x: 215, y: 195 }
           ],
           ball: { x: 240, y: 62 },
           passes: [
-            { from: { x: 230, y: 52 }, to: { x: 108, y: 62 }, label: 'Forced pass to corner', primary: true }
+            { from: { x: 228, y: 52 }, to: { x: 108, y: 62 }, label: 'Forced pass to corner', primary: true }
           ],
           movements: [
-            { from: { x: 255, y: 120 }, to: { x: 235, y: 70 }, role: 'def', label: 'D1 arc (cuts off right)' },
-            { from: { x: 145, y: 165 }, to: { x: 110, y: 95 }, role: 'def', label: 'D2 jumps into trap' },
-            { from: { x: 215, y: 185 }, to: { x: 125, y: 195 }, role: 'def', label: 'D3 locks sideline' }
+            { from: { x: 255, y: 125 }, to: { x: 235, y: 68 }, role: 'def', label: 'D1 arc (cuts off right)', curve: 22 },
+            { from: { x: 145, y: 165 }, to: { x: 115, y: 95 }, role: 'def', label: 'D2 jumps into trap' },
+            { from: { x: 215, y: 195 }, to: { x: 120, y: 190 }, role: 'def', label: 'D3 locks sideline' }
           ],
           shadows: [
             { points: '245,80 410,50 410,160' }
           ]
         },
         {
-          title: 'Phase 2: Springing the Trap in the Corner (+2 Defense Points)',
-          desc: 'Player 1 is trapped in the top-left corner: D2 engages the ball, D1 blocks the return pass to (2), and D3 blocks the line pass down to (4). The trap snaps shut!',
+          title: 'Phase 2: Springing the Trap in the Corner',
+          desc: 'Player 1 is trapped in the top-left corner: D2 steps in to tackle, D1 locks the return pass to (2), and D3 denies the line pass down to (4).',
           players: [
             { id: 'A1', role: 'att', label: '1', x: 95, y: 65 },
             { id: 'A2', role: 'att', label: '2', x: 240, y: 45 },
@@ -686,18 +781,42 @@ export const RONDOS_EN: RondoItem[] = [
             { id: 'A4', role: 'att', label: '4', x: 85, y: 225 },
             { id: 'A5', role: 'att', label: '5', x: 415, y: 225 },
             { id: 'A6', role: 'att', label: '6', x: 250, y: 355 },
-            { id: 'D1', role: 'def', label: 'D1', x: 185, y: 70 },
-            { id: 'D2', role: 'def', label: 'D2', x: 118, y: 95 },
-            { id: 'D3', role: 'def', label: 'D3', x: 115, y: 175 }
+            { id: 'D1', role: 'def', label: 'D1', x: 180, y: 68 },
+            { id: 'D2', role: 'def', label: 'D2', x: 122, y: 98 },
+            { id: 'D3', role: 'def', label: 'D3', x: 110, y: 175 }
           ],
           ball: { x: 105, y: 75 },
           passes: [],
           movements: [
-            { from: { x: 118, y: 95 }, to: { x: 102, y: 72 }, role: 'def', label: 'REGAIN IN TRAP!' }
+            { from: { x: 122, y: 98 }, to: { x: 104, y: 74 }, role: 'def', label: 'D2 tackles in trap!' },
+            { from: { x: 180, y: 68 }, to: { x: 215, y: 55 }, role: 'def', label: 'D1 locks return' },
+            { from: { x: 110, y: 175 }, to: { x: 95, y: 205 }, role: 'def', label: 'D3 denies line' }
           ],
           shadows: [
             { points: '90,50 210,50 150,190 90,190' }
           ]
+        },
+        {
+          title: 'Phase 3: Regain & Consolidation Pass Inside the Grid (+2 Points)',
+          desc: 'After winning the ball in the corner trap, D2 connects a clean consolidation pass to D1 (or D3) in central space to lock in the +2 defensive points.',
+          players: [
+            { id: 'A1', role: 'att', label: '1', x: 92, y: 58 },
+            { id: 'A2', role: 'att', label: '2', x: 240, y: 45 },
+            { id: 'A3', role: 'att', label: '3', x: 395, y: 65 },
+            { id: 'A4', role: 'att', label: '4', x: 85, y: 225 },
+            { id: 'A5', role: 'att', label: '5', x: 415, y: 225 },
+            { id: 'A6', role: 'att', label: '6', x: 250, y: 355 },
+            { id: 'D1', role: 'def', label: 'D1', x: 225, y: 140 },
+            { id: 'D2', role: 'def', label: 'D2', x: 110, y: 82 },
+            { id: 'D3', role: 'def', label: 'D3', x: 175, y: 220 }
+          ],
+          ball: { x: 122, y: 88 },
+          passes: [
+            { from: { x: 124, y: 90 }, to: { x: 215, y: 136 }, label: 'Secure regain (+2 pts)', primary: true },
+            { from: { x: 118, y: 94 }, to: { x: 168, y: 208 }, label: 'Support outlet D3', primary: false }
+          ],
+          movements: [],
+          shadows: []
         }
       ]
     }
@@ -744,7 +863,7 @@ export const RONDOS_EN: RondoItem[] = [
       phases: [
         {
           title: 'Phase 1: Direct Lane to (C) Blocked — Pass to Second Man (B)',
-          desc: 'Player A at the bottom wants to find central player C inside the inner box, but defender D1 blocks the direct lane. A plays a firm diagonal pass to wide player B!',
+          desc: 'Player A at the bottom wants to find central player C inside the inner box, but defender D1 screens the direct lane. A plays a firm diagonal pass to wide player B!',
           players: [
             { id: 'PA', role: 'att', label: 'A', x: 250, y: 360 },
             { id: 'PB', role: 'att', label: 'B', x: 425, y: 250 },
@@ -754,39 +873,63 @@ export const RONDOS_EN: RondoItem[] = [
             { id: 'P6', role: 'att', label: '6', x: 335, y: 40 },
             { id: 'P7', role: 'att', label: '7', x: 425, y: 130 },
             { id: 'D1', role: 'def', label: 'D1', x: 250, y: 285 },
-            { id: 'D2', role: 'def', label: 'D2', x: 185, y: 215 },
-            { id: 'D3', role: 'def', label: 'D3', x: 305, y: 175 }
+            { id: 'D2', role: 'def', label: 'D2', x: 180, y: 210 },
+            { id: 'D3', role: 'def', label: 'D3', x: 315, y: 165 }
           ],
           ball: { x: 250, y: 342 },
           passes: [
-            { from: { x: 260, y: 348 }, to: { x: 412, y: 255 }, label: '1. Pass A → B', primary: true }
+            { from: { x: 262, y: 348 }, to: { x: 412, y: 255 }, label: '1. Pass A → B', primary: true }
           ],
           movements: [
-            { from: { x: 250, y: 200 }, to: { x: 275, y: 215 }, role: 'neutral', label: 'C angles for layoff' }
+            { from: { x: 250, y: 200 }, to: { x: 280, y: 212 }, role: 'neutral', label: 'C checks into window' }
           ],
           shadows: [
-            { points: '250,285 215,190 285,190' }
+            { points: '250,285 210,190 290,190' }
           ]
         },
         {
-          title: 'Phase 2: 1-Touch Layoff to "Third Man" C (+1 Point)',
-          desc: 'Player B cushions a 1-touch layoff past the cover shadow directly to "Third Man" C inside the inner box, who turns and switches the attack to the top line!',
+          title: 'Phase 2: 1-Touch Layoff from B into "Third Man" C',
+          desc: 'As D1 shifts toward B, Player B cushions a 1-touch layoff around the cover shadow directly into "Third Man" C inside the 5×5 m inner box.',
           players: [
             { id: 'PA', role: 'att', label: 'A', x: 250, y: 360 },
             { id: 'PB', role: 'att', label: 'B', x: 425, y: 250 },
-            { id: 'PC', role: 'neutral', label: 'C', x: 275, y: 215 },
+            { id: 'PC', role: 'neutral', label: 'C', x: 280, y: 212 },
             { id: 'P4', role: 'att', label: '4', x: 75, y: 230 },
             { id: 'P5', role: 'att', label: '5', x: 165, y: 40 },
             { id: 'P6', role: 'att', label: '6', x: 335, y: 40 },
             { id: 'P7', role: 'att', label: '7', x: 425, y: 130 },
-            { id: 'D1', role: 'def', label: 'D1', x: 315, y: 275 },
-            { id: 'D2', role: 'def', label: 'D2', x: 195, y: 215 },
-            { id: 'D3', role: 'def', label: 'D3', x: 315, y: 175 }
+            { id: 'D1', role: 'def', label: 'D1', x: 320, y: 280 },
+            { id: 'D2', role: 'def', label: 'D2', x: 185, y: 215 },
+            { id: 'D3', role: 'def', label: 'D3', x: 335, y: 165 }
           ],
           ball: { x: 408, y: 248 },
           passes: [
-            { from: { x: 410, y: 248 }, to: { x: 285, y: 218 }, label: '2. Layoff B → C (1-touch)', primary: true },
-            { from: { x: 275, y: 205 }, to: { x: 170, y: 55 }, label: '3. Exit to top', primary: false }
+            { from: { x: 408, y: 246 }, to: { x: 292, y: 215 }, label: '2. Layoff B → C (1-touch)', primary: true }
+          ],
+          movements: [
+            { from: { x: 320, y: 280 }, to: { x: 365, y: 260 }, role: 'def', label: 'D1 drawn to B' }
+          ],
+          shadows: []
+        },
+        {
+          title: 'Phase 3: Third Man (C) Breaks Lines to Far Perimeter (+1 Point)',
+          desc: 'Facing forward inside the inner box, C plays a progressive exit pass between D2 and D3 to Player 5 (or 6) on the top perimeter (+1 point).',
+          players: [
+            { id: 'PA', role: 'att', label: 'A', x: 250, y: 360 },
+            { id: 'PB', role: 'att', label: 'B', x: 425, y: 250 },
+            { id: 'PC', role: 'neutral', label: 'C', x: 275, y: 200 },
+            { id: 'P4', role: 'att', label: '4', x: 75, y: 230 },
+            { id: 'P5', role: 'att', label: '5', x: 165, y: 40 },
+            { id: 'P6', role: 'att', label: '6', x: 335, y: 40 },
+            { id: 'P7', role: 'att', label: '7', x: 425, y: 130 },
+            { id: 'D1', role: 'def', label: 'D1', x: 335, y: 265 },
+            { id: 'D2', role: 'def', label: 'D2', x: 185, y: 215 },
+            { id: 'D3', role: 'def', label: 'D3', x: 325, y: 165 }
+          ],
+          ball: { x: 270, y: 185 },
+          passes: [
+            { from: { x: 268, y: 185 }, to: { x: 172, y: 55 }, label: '3. Exit to top (+1 pt)', primary: true },
+            { from: { x: 280, y: 185 }, to: { x: 330, y: 55 }, label: 'Option P6', primary: false }
           ],
           movements: [],
           shadows: []
@@ -835,15 +978,15 @@ export const RONDOS_EN: RondoItem[] = [
       ],
       phases: [
         {
-          title: 'Phase 1: 4v2 Retention Inside the Inner Grid',
-          desc: 'Inside the 10×10 m inner grid, 4 Red players circulate the ball against 2 Blue defenders (B1, B2). Outside on the 22×22 m perimeter, 4 Blue teammates (B3–B6) wait for the breakout pass.',
+          title: 'Phase 1: 4v2 Inner Grid Circulation & Blue Interception',
+          desc: 'Inside the 10×10 m inner grid, 4 Red players circulate against B1 and B2 while B3–B6 wait on the outer perimeter. B1 steps into the passing lane from R1 to R2 and intercepts!',
           players: [
             { id: 'R1', role: 'att', label: 'R1', x: 250, y: 118 },
             { id: 'R2', role: 'att', label: 'R2', x: 168, y: 200 },
             { id: 'R3', role: 'att', label: 'R3', x: 332, y: 200 },
             { id: 'R4', role: 'att', label: 'R4', x: 250, y: 282 },
-            { id: 'B1', role: 'def', label: 'B1', x: 225, y: 175 },
-            { id: 'B2', role: 'def', label: 'B2', x: 265, y: 225 },
+            { id: 'B1', role: 'def', label: 'B1', x: 210, y: 165 },
+            { id: 'B2', role: 'def', label: 'B2', x: 268, y: 220 },
             { id: 'B3', role: 'def', label: 'B3', x: 250, y: 42 },
             { id: 'B4', role: 'def', label: 'B4', x: 72, y: 200 },
             { id: 'B5', role: 'def', label: 'B5', x: 428, y: 200 },
@@ -851,38 +994,66 @@ export const RONDOS_EN: RondoItem[] = [
           ],
           ball: { x: 250, y: 132 },
           passes: [
-            { from: { x: 245, y: 128 }, to: { x: 225, y: 175 }, label: 'B1 intercepts!', primary: true }
+            { from: { x: 242, y: 128 }, to: { x: 212, y: 162 }, label: 'B1 intercepts pass!', primary: true },
+            { from: { x: 205, y: 168 }, to: { x: 175, y: 195 }, label: 'Intended for R2', primary: false }
           ],
-          movements: [],
+          movements: [
+            { from: { x: 230, y: 180 }, to: { x: 210, y: 165 }, role: 'def', label: 'B1 jumps lane' }
+          ],
           shadows: []
         },
         {
-          title: 'Phase 2: Moment of Loss — Explosive Counter-Press (3 Seconds!)',
-          desc: 'Blue B1 intercepts the pass and looks to play out to B3 or B4. All 4 Red players immediately collapse the net around B1 to win the ball back within 3 seconds (+2 points)!',
+          title: 'Phase 2: 3-Second Swarm Counter-Press (Gegenpressing)',
+          desc: 'B1 looks to break out to B4 on the left perimeter, but R1, R2, and R4 immediately collapse the net around B1 within 3 seconds, blocking the exit lane!',
           players: [
-            { id: 'R1', role: 'att', label: 'R1', x: 245, y: 140 },
-            { id: 'R2', role: 'att', label: 'R2', x: 190, y: 185 },
+            { id: 'R1', role: 'att', label: 'R1', x: 240, y: 135 },
+            { id: 'R2', role: 'att', label: 'R2', x: 180, y: 215 },
             { id: 'R3', role: 'att', label: 'R3', x: 295, y: 195 },
-            { id: 'R4', role: 'att', label: 'R4', x: 245, y: 245 },
-            { id: 'B1', role: 'def', label: 'B1', x: 230, y: 180 },
+            { id: 'R4', role: 'att', label: 'R4', x: 242, y: 248 },
+            { id: 'B1', role: 'def', label: 'B1', x: 220, y: 175 },
             { id: 'B2', role: 'def', label: 'B2', x: 270, y: 215 },
             { id: 'B3', role: 'def', label: 'B3', x: 250, y: 42 },
             { id: 'B4', role: 'def', label: 'B4', x: 72, y: 200 },
             { id: 'B5', role: 'def', label: 'B5', x: 428, y: 200 },
             { id: 'B6', role: 'def', label: 'B6', x: 250, y: 358 }
           ],
-          ball: { x: 225, y: 175 },
+          ball: { x: 212, y: 178 },
           passes: [
-            { from: { x: 220, y: 175 }, to: { x: 85, y: 198 }, label: 'Blue breakout attempt', primary: false }
+            { from: { x: 208, y: 175 }, to: { x: 88, y: 192 }, label: 'Breakout blocked!', primary: false }
           ],
           movements: [
-            { from: { x: 245, y: 140 }, to: { x: 232, y: 170 }, role: 'att', label: 'Counter-press!' },
-            { from: { x: 190, y: 185 }, to: { x: 218, y: 180 }, role: 'att', label: 'Swarm the ball' },
-            { from: { x: 245, y: 245 }, to: { x: 235, y: 195 }, role: 'att', label: 'Close the net!' }
+            { from: { x: 240, y: 135 }, to: { x: 225, y: 165 }, role: 'att', label: 'Counter-press!' },
+            { from: { x: 180, y: 215 }, to: { x: 205, y: 185 }, role: 'att', label: 'Swarm & block!' },
+            { from: { x: 242, y: 248 }, to: { x: 230, y: 195 }, role: 'att', label: 'Close the net!' }
           ],
           shadows: [
-            { points: '190,140 285,140 285,235 190,235' }
+            { points: '180,135 290,135 290,245 180,245' }
           ]
+        },
+        {
+          title: 'Phase 3: Counter-Press Regain & Immediate Reset (+2 Points)',
+          desc: 'Red wins the ball back inside the inner box within 3 seconds (+2 points) and immediately plays a reset pass to R1 (or R3) to re-establish the 4v2 diamond.',
+          players: [
+            { id: 'R1', role: 'att', label: 'R1', x: 250, y: 118 },
+            { id: 'R2', role: 'att', label: 'R2', x: 205, y: 180 },
+            { id: 'R3', role: 'att', label: 'R3', x: 332, y: 200 },
+            { id: 'R4', role: 'att', label: 'R4', x: 250, y: 282 },
+            { id: 'B1', role: 'def', label: 'B1', x: 230, y: 190 },
+            { id: 'B2', role: 'def', label: 'B2', x: 270, y: 220 },
+            { id: 'B3', role: 'def', label: 'B3', x: 250, y: 42 },
+            { id: 'B4', role: 'def', label: 'B4', x: 72, y: 200 },
+            { id: 'B5', role: 'def', label: 'B5', x: 428, y: 200 },
+            { id: 'B6', role: 'def', label: 'B6', x: 250, y: 358 }
+          ],
+          ball: { x: 212, y: 172 },
+          passes: [
+            { from: { x: 215, y: 168 }, to: { x: 245, y: 126 }, label: 'Regain & reset (+2 pts)', primary: true },
+            { from: { x: 218, y: 182 }, to: { x: 320, y: 198 }, label: 'Switch to R3', primary: false }
+          ],
+          movements: [
+            { from: { x: 205, y: 180 }, to: { x: 168, y: 200 }, role: 'att', label: 'Re-open left line' }
+          ],
+          shadows: []
         }
       ]
     }
@@ -926,33 +1097,59 @@ export const RONDOS_EN: RondoItem[] = [
       ],
       phases: [
         {
-          title: 'Phase 1: Regain by the Blue Trio in the Left Grid',
-          desc: 'In the left grid, 5 Red players keep the ball against 3 Blue defenders (B1, B2, B3). In the right grid, free teammates B4 and B5 wait. Blue B2 intercepts a pass!',
+          title: 'Phase 1: 5v3 Red Possession in Zone 1 & Blue Interception',
+          desc: 'In the left grid, 5 Red players circulate against 3 Blue defenders (B1, B2, B3) while B4 and B5 wait in Zone 2. B2 anticipates R4’s pass to R5 and intercepts!',
           players: [
             { id: 'R1', role: 'att', label: 'R1', x: 70, y: 120 },
             { id: 'R2', role: 'att', label: 'R2', x: 70, y: 280 },
             { id: 'R3', role: 'att', label: 'R3', x: 155, y: 65 },
             { id: 'R4', role: 'att', label: 'R4', x: 155, y: 335 },
-            { id: 'R5', role: 'att', label: 'R5', x: 230, y: 200 },
+            { id: 'R5', role: 'att', label: 'R5', x: 230, y: 195 },
             { id: 'B1', role: 'def', label: 'B1', x: 125, y: 155 },
-            { id: 'B2', role: 'def', label: 'B2', x: 165, y: 235 },
-            { id: 'B3', role: 'def', label: 'B3', x: 195, y: 145 },
+            { id: 'B2', role: 'def', label: 'B2', x: 180, y: 250 },
+            { id: 'B3', role: 'def', label: 'B3', x: 195, y: 140 },
             { id: 'B4', role: 'def', label: 'B4', x: 325, y: 135 },
             { id: 'B5', role: 'def', label: 'B5', x: 325, y: 265 }
           ],
-          ball: { x: 175, y: 232 },
+          ball: { x: 155, y: 320 },
           passes: [
-            { from: { x: 175, y: 235 }, to: { x: 315, y: 262 }, label: '1st pass out of pressure!', primary: true }
+            { from: { x: 160, y: 322 }, to: { x: 182, y: 258 }, label: 'B2 intercepts!', primary: true },
+            { from: { x: 188, y: 245 }, to: { x: 222, y: 202 }, label: 'Blocked pass to R5', primary: false }
           ],
           movements: [
-            { from: { x: 125, y: 155 }, to: { x: 285, y: 80 }, role: 'def', label: 'Blue sprints to Zone 2' },
-            { from: { x: 195, y: 145 }, to: { x: 410, y: 195 }, role: 'def', label: 'Expand wide' }
+            { from: { x: 160, y: 235 }, to: { x: 180, y: 250 }, role: 'def', label: 'B2 jumps pass' },
+            { from: { x: 325, y: 265 }, to: { x: 305, y: 265 }, role: 'def', label: 'B5 checks to midline' }
           ],
           shadows: []
         },
         {
-          title: 'Phase 2: New 5v3 Blue Possession in the Right Grid',
-          desc: 'The ball is played out into the right grid to B5. Trio B1–B3 sprints across to form a new 5v3 rondo for Blue, while 3 Red players (R3, R4, R5) transition to press!',
+          title: 'Phase 2: First-Time Breakout Pass to Escape Pressure',
+          desc: 'Immediately on regain, B2 plays a first-time breakout pass across the midline to waiting target B5 in Zone 2, while B1 and B3 sprint across to join the attack.',
+          players: [
+            { id: 'R1', role: 'att', label: 'R1', x: 85, y: 135 },
+            { id: 'R2', role: 'att', label: 'R2', x: 90, y: 270 },
+            { id: 'R3', role: 'att', label: 'R3', x: 155, y: 80 },
+            { id: 'R4', role: 'att', label: 'R4', x: 160, y: 315 },
+            { id: 'R5', role: 'att', label: 'R5', x: 225, y: 195 },
+            { id: 'B1', role: 'def', label: 'B1', x: 135, y: 155 },
+            { id: 'B2', role: 'def', label: 'B2', x: 180, y: 250 },
+            { id: 'B3', role: 'def', label: 'B3', x: 200, y: 140 },
+            { id: 'B4', role: 'def', label: 'B4', x: 325, y: 135 },
+            { id: 'B5', role: 'def', label: 'B5', x: 315, y: 265 }
+          ],
+          ball: { x: 192, y: 252 },
+          passes: [
+            { from: { x: 192, y: 252 }, to: { x: 302, y: 264 }, label: '1st pass out of pressure!', primary: true }
+          ],
+          movements: [
+            { from: { x: 135, y: 155 }, to: { x: 285, y: 80 }, role: 'def', label: 'Blue sprints to Zone 2' },
+            { from: { x: 200, y: 140 }, to: { x: 410, y: 195 }, role: 'def', label: 'Expand wide' }
+          ],
+          shadows: []
+        },
+        {
+          title: 'Phase 3: Consolidating New 5v3 Blue Possession in Zone 2 (+2 Points)',
+          desc: 'Trio B1–B3 arrives in Zone 2 to form a new 5v3 shape with B4 and B5, circulating the ball as 3 Red players (R3, R4, R5) transition across to press.',
           players: [
             { id: 'R1', role: 'att', label: 'R1', x: 145, y: 145 },
             { id: 'R2', role: 'att', label: 'R2', x: 145, y: 255 },
@@ -967,9 +1164,12 @@ export const RONDOS_EN: RondoItem[] = [
           ],
           ball: { x: 345, y: 320 },
           passes: [
-            { from: { x: 352, y: 325 }, to: { x: 422, y: 208 }, label: 'Consolidate 5v3 (+2)', primary: true }
+            { from: { x: 352, y: 325 }, to: { x: 422, y: 210 }, label: 'Consolidate 5v3 (+2)', primary: true },
+            { from: { x: 338, y: 325 }, to: { x: 272, y: 210 }, label: 'Option B2', primary: false }
           ],
-          movements: [],
+          movements: [
+            { from: { x: 285, y: 210 }, to: { x: 330, y: 295 }, role: 'att', label: 'Red transitions to press' }
+          ],
           shadows: []
         }
       ]
