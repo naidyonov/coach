@@ -13,7 +13,6 @@ import {
   Sparkles,
   Table,
   Wrench,
-  XCircle,
   Zap,
 } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -596,9 +595,6 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
     lang,
     t,
     rondos,
-    ageBand,
-    setAgeBand,
-    ageBands,
     currentAgeBandInfo,
     getRondoAgeVariant,
     getRondoMethodology,
@@ -736,42 +732,19 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
                   key={concept.id}
                   className="bg-slate-950 border border-slate-800/90 rounded-2xl p-5 flex flex-col justify-between space-y-4 shadow-lg"
                 >
-                  <div className="space-y-2">
-                    <div className="flex items-start justify-between gap-2">
-                      <div>
-                        <h4 className="text-sm font-bold text-white">{concept.title}</h4>
-                        <p className="text-xs text-slate-400 mt-0.5">{concept.subtitle}</p>
-                      </div>
-                      <button
-                        type="button"
-                        data-testid="geometry-mode-toggle"
-                        onClick={() => toggleGeometryMode(concept.id)}
-                        className={`shrink-0 px-3 py-1.5 rounded-xl text-[11px] font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
-                          isSolution
-                            ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40 hover:bg-emerald-500/25'
-                            : 'bg-rose-500/15 text-rose-300 border-rose-500/40 hover:bg-rose-500/25'
-                        }`}
-                      >
-                        {isSolution ? (
-                          <>
-                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                            <span>{t.methodology.geometryModeSolutionBtn}</span>
-                          </>
-                        ) : (
-                          <>
-                            <XCircle className="w-3.5 h-3.5 text-rose-400" />
-                            <span>{t.methodology.geometryModeMistakeBtn}</span>
-                          </>
-                        )}
-                      </button>
+                  <div className="space-y-2.5">
+                    <div>
+                      <h4 className="text-sm font-bold text-white">{concept.title}</h4>
+                      <p className="text-xs text-slate-400 mt-0.5">{concept.subtitle}</p>
                     </div>
 
                     {/* Dual Mode Segmented Switcher */}
                     <div className="grid grid-cols-2 gap-1.5 bg-slate-900 p-1 rounded-xl border border-slate-800">
                       <button
                         type="button"
-                        onClick={() => setGeometryModeExplicit(concept.id, 'mistake')}
-                        className={`py-1.5 px-2.5 rounded-lg text-[11px] font-semibold transition-all cursor-pointer ${
+                        data-testid="geometry-mode-toggle"
+                        onClick={() => toggleGeometryMode(concept.id)}
+                        className={`py-1.5 px-2.5 rounded-lg text-[11px] font-semibold transition-all cursor-pointer truncate ${
                           !isSolution
                             ? 'bg-rose-600/90 text-white shadow'
                             : 'text-slate-400 hover:text-slate-200'
@@ -782,7 +755,7 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
                       <button
                         type="button"
                         onClick={() => setGeometryModeExplicit(concept.id, 'solution')}
-                        className={`py-1.5 px-2.5 rounded-lg text-[11px] font-semibold transition-all cursor-pointer ${
+                        className={`py-1.5 px-2.5 rounded-lg text-[11px] font-semibold transition-all cursor-pointer truncate ${
                           isSolution
                             ? 'bg-emerald-600/90 text-white shadow'
                             : 'text-slate-400 hover:text-slate-200'
@@ -938,7 +911,7 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
       {/* SECTION 4: Master Cheat-Sheet Table of All 10 Rondos (Multi-Age & Scientific Basis) */}
       {showCheatSheet && (
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 overflow-hidden shadow-xl space-y-5">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
             <div>
               <h3 className="text-base font-bold text-white">
                 {t.methodology.tableTitle}
@@ -947,25 +920,9 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
                 {currentAgeBandInfo.label} • {currentAgeBandInfo.stageTitle} ({currentAgeBandInfo.relativeAreaRule})
               </p>
             </div>
-            <div className="flex flex-wrap items-center gap-1.5">
-              {ageBands.map((band) => {
-                const isSelected = ageBand === band.id;
-                return (
-                  <button
-                    key={band.id}
-                    type="button"
-                    onClick={() => setAgeBand(band.id)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
-                      isSelected
-                        ? 'bg-emerald-600 text-white border-emerald-500 shadow'
-                        : 'bg-slate-950 text-slate-300 border-slate-800 hover:border-slate-700 hover:text-white'
-                    }`}
-                  >
-                    {band.label}
-                  </button>
-                );
-              })}
-            </div>
+            <span className="px-2.5 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-extrabold">
+              {currentAgeBandInfo.shortLabel}
+            </span>
           </div>
 
           {/* Age Physiological & Cognitive Profile Card */}

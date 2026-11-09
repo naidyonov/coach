@@ -9,7 +9,6 @@ import {
   Layers,
   Moon,
   Printer,
-  Settings,
   Sparkles,
   Sun,
   Timer,
@@ -181,31 +180,27 @@ export function App() {
     {
       id: 'rondo-series',
       code: '01',
-      title: tr(
-        'Series 01: Anatomy of the Rondo',
-        'Serie 01: Anatomie des Rondos',
-        'Серия 01: Анатомия Рондо'
-      ),
+      title: tr('Rondo', 'Rondo', 'Рондо'),
       subtitle: tr(
-        '10 progressions (3v1 → 8v4) • La Masia basis, m²/player math (U9–Pro)',
-        '10 Progressionen (3v1 → 8v4) • La-Masia-Basis, m²/Spieler-Mathematik (U9–Pro)',
-        '10 прогрессий (3v1 → 8v4) • Базис Ла Масии, расчёт м²/игрока (U9–Pro)'
+        '3v1 → 8v4 progressions • La Masia basis & m²/player math',
+        '3v1 → 8v4 Progressionen • La-Masia-Basis & m²/Spieler',
+        'Прогрессии 3v1 → 8v4 • Базис Ла Масии и м²/игрока'
       ),
       active: true,
-      badge: tr('Active • 10 drills', 'Aktiv • 10 Formen', 'Активно • 10 упр.'),
+      badge: tr('Active', 'Aktiv', 'Активно'),
     },
     {
       id: 'positional-play',
       code: '02',
       title: tr(
-        'Series 02: Positional Play',
-        'Serie 02: Positionsspiel (Juego de Posición)',
-        'Серия 02: Позиционная игра'
+        'Positional Play',
+        'Positionsspiel',
+        'Позиционная игра'
       ),
       subtitle: tr(
-        'Juego de Posición • Half-spaces, diamonds & overloads',
+        'Half-spaces, diamonds & numerical overloads',
         'Halbräume, Rautenbildung & Überzahl schaffen',
-        'Juego de Posición • Полуфланги, ромбы и численный перевес'
+        'Полуфланги, ромбы и численный перевес'
       ),
       active: false,
       badge: tr('Soon', 'Bald', 'Скоро'),
@@ -214,13 +209,13 @@ export function App() {
       id: 'pressing-transitions',
       code: '03',
       title: tr(
-        'Series 03: Pressing & Transitions',
-        'Serie 03: Pressing & Umschaltspiel',
-        'Серия 03: Прессинг и Переходы'
+        'Pressing & Transitions',
+        'Pressing & Umschaltspiel',
+        'Прессинг и Переходы'
       ),
       subtitle: tr(
         'Counter-pressing (6-sec rule), touchline traps & high block',
-        'Gegenpressing (6-Sek.-Regel), Pressingfallen am Flügel & Angriffspressing',
+        'Gegenpressing (6-Sek.-Regel), Pressingfallen & Angriffspressing',
         'Контрпрессинг (правило 6 сек), ловушки на флангах и высокий блок'
       ),
       active: false,
@@ -230,56 +225,36 @@ export function App() {
       id: 'finishing-box',
       code: '04',
       title: tr(
-        'Series 04: Finishing & Box Entries',
-        'Serie 04: Torabschluss & Strafraumbesetzung',
-        'Серия 04: Завершение и Штрафная'
+        'Finishing & Box Entries',
+        'Torabschluss & Strafraum',
+        'Завершение и Штрафная'
       ),
       subtitle: tr(
         'Breaking low blocks, cutbacks & blind-side box runs',
-        'Tiefe Blöcke knacken, Rückpass von der Grundlinie (Cutbacks) & Blind-Side-Läufe',
-        'Вскрытие низкого блока, прострелы (cutbacks) и врывания в слепую зону'
+        'Tiefe Blöcke knacken, Cutbacks & Blind-Side-Läufe',
+        'Вскрытие низкого блока, прострелы и врывания в слепую зону'
       ),
       active: false,
       badge: tr('Soon', 'Bald', 'Скоро'),
     },
   ];
 
-  const emblemBadge =
-    ageBand === 'u10'
-      ? 'U10'
-      : ageBand === 'u12'
-      ? 'U12'
-      : ageBand === 'u14'
-      ? 'U14'
-      : ageBand === 'u16'
-      ? 'U15'
-      : 'PRO';
-
   return (
     <div
       data-theme={themeMode}
-      className="app-shell min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-emerald-500 selection:text-white pb-24 md:pb-12"
+      className="app-shell min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-emerald-500 selection:text-white pb-28 md:pb-12"
     >
       {/* Clean Single-Row Sticky Header */}
       <header className="sticky top-0 z-30 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 shadow-sm">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2 sm:gap-4">
-          {/* LEFT: Platform Identity + Active Training Series Switcher */}
-          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center shadow-md shadow-emerald-600/20 font-black text-xs sm:text-sm tracking-tighter text-white keep-white shrink-0">
-              {emblemBadge}
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2 sm:gap-4">
+          {/* LEFT: Active Training Series Switcher */}
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center shadow-md shadow-emerald-600/20 text-white keep-white shrink-0">
+              <Compass className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
 
             {/* Series Switcher Dropdown */}
             <div className="relative min-w-0" ref={seriesMenuRef}>
-              <div className="flex items-center gap-1.5">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">
-                  {tr('Training Series:', 'Trainingsserie:', 'Направление:')}
-                </span>
-                <span className="hidden sm:inline-block text-[10px] font-semibold px-1.5 py-0.2 rounded bg-slate-800 text-slate-300">
-                  {currentAgeBandInfo.label}
-                </span>
-              </div>
-
               <button
                 type="button"
                 data-testid="series-switcher-btn"
@@ -287,11 +262,11 @@ export function App() {
                   setIsSeriesMenuOpen((v) => !v);
                   setIsSettingsMenuOpen(false);
                 }}
-                className="group flex items-center gap-1.5 text-left max-w-full cursor-pointer focus:outline-none"
+                className="group flex items-center gap-1.5 text-left max-w-full cursor-pointer focus:outline-none py-1"
                 title={t.header.title}
               >
-                <h1 className="text-sm sm:text-base font-extrabold text-white tracking-tight truncate">
-                  {tr('Series 01: Rondo (10)', 'Serie 01: Rondo (10)', 'Серия 01: Рондо (10)')}
+                <h1 className="text-base sm:text-lg font-extrabold text-white tracking-tight truncate">
+                  {tr('Rondo', 'Rondo', 'Рондо')}
                 </h1>
                 <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-slate-800 group-hover:bg-slate-700 text-emerald-400 transition shrink-0">
                   <ChevronDown
@@ -309,22 +284,19 @@ export function App() {
               {isSeriesMenuOpen && (
                 <div
                   data-testid="series-switcher-popover"
-                  className="absolute left-0 mt-2.5 w-80 sm:w-96 rounded-2xl bg-slate-900 border border-slate-700 shadow-2xl p-3 z-50 space-y-2"
+                  className="absolute left-0 mt-2 w-72 sm:w-88 rounded-2xl bg-slate-900 border border-slate-700 shadow-2xl p-3 z-50 space-y-2"
                 >
                   <div className="flex items-center justify-between px-2 py-1 border-b border-slate-800">
                     <div className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-emerald-400">
                       <Compass className="w-3.5 h-3.5" />
                       <span>
                         {tr(
-                          'Coaching Platform Modules',
-                          'Module der Trainerplattform',
-                          'Модули тренерской платформы'
+                          'Training Modules',
+                          'Trainingsmodule',
+                          'Тренерские модули'
                         )}
                       </span>
                     </div>
-                    <span className="text-[10px] font-semibold text-slate-400">
-                      UEFA Pro • U9–Pro
-                    </span>
                   </div>
 
                   <div className="space-y-1.5">
@@ -368,9 +340,9 @@ export function App() {
                     <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                     <span>
                       {tr(
-                        'Currently viewing Series 01 (Rondo). New modules coming soon.',
-                        'Aktuell geöffnet: Serie 01 (Rondo). Weitere Module folgen in Kürze.',
-                        'Сейчас открыта Серия 01 (Рондо). Новые направления скоро появятся.'
+                        'More modules coming soon.',
+                        'Weitere Module folgen in Kürze.',
+                        'Новые модули скоро появятся.'
                       )}
                     </span>
                   </div>
@@ -469,9 +441,8 @@ export function App() {
                 <Moon className="w-3.5 h-3.5 text-emerald-400" />
               )}
               <span className="uppercase font-bold">{lang}</span>
-              <Settings className="w-3.5 h-3.5 text-slate-400" />
               <ChevronDown
-                className={`w-3 h-3 text-slate-400 transition-transform duration-200 ${
+                className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${
                   isSettingsMenuOpen ? 'rotate-180' : ''
                 }`}
               />
@@ -489,7 +460,7 @@ export function App() {
               {/* Age Group Selector inside Settings Menu */}
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                  <span>{tr('Team Age Group', 'Altersklasse', 'Возраст команды')}</span>
+                  <span>{tr('Age Group', 'Altersklasse', 'Возраст')}</span>
                   <span className="text-emerald-400 font-semibold">
                     {currentAgeBandInfo.ageYears}
                   </span>
@@ -502,6 +473,7 @@ export function App() {
                     <button
                       key={band.id}
                       type="button"
+                      data-testid={`age-pill-${band.id}`}
                       onClick={() => setAgeBand(band.id)}
                       className={`py-1.5 px-1.5 rounded-lg text-[11px] font-bold transition-all cursor-pointer truncate ${
                         ageBand === band.id
@@ -518,7 +490,7 @@ export function App() {
               {/* Theme Switcher Section */}
               <div className="space-y-1.5 pt-2 border-t border-slate-800">
                 <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                  <span>{tr('Appearance', 'Darstellung', 'Тема оформления')}</span>
+                  <span>{tr('Appearance', 'Darstellung', 'Тема')}</span>
                   <span>{themeMode === 'light' ? '☀️' : '🌙'}</span>
                 </div>
                 <div
@@ -559,7 +531,7 @@ export function App() {
                 <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400">
                   <span className="flex items-center gap-1">
                     <Globe className="w-3.5 h-3.5 text-emerald-400" />
-                    {tr('Language', 'Sprache / Language', 'Язык / Language')}
+                    {tr('Language', 'Sprache', 'Язык')}
                   </span>
                 </div>
                 <div
@@ -577,7 +549,7 @@ export function App() {
                         : 'text-slate-400 hover:text-white'
                     }`}
                   >
-                    EN • Eng
+                    EN
                   </button>
                   <button
                     type="button"
@@ -589,7 +561,7 @@ export function App() {
                         : 'text-slate-400 hover:text-white'
                     }`}
                   >
-                    DE • Deu
+                    DE
                   </button>
                   <button
                     type="button"
@@ -601,7 +573,7 @@ export function App() {
                         : 'text-slate-400 hover:text-white'
                     }`}
                   >
-                    RU • Рус
+                    RU
                   </button>
                 </div>
               </div>
@@ -626,7 +598,7 @@ export function App() {
       </header>
 
       {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-5">
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 py-3.5 sm:py-5">
         {activeTab === 'catalog' && (
           <CatalogView
             selectedCategory={selectedCategory}
@@ -671,20 +643,20 @@ export function App() {
         )}
       </main>
 
-      {/* Mobile Thumb-Friendly Bottom Navigation Bar */}
+      {/* Mobile Floating Dock Navigation (inset from rounded screen corners & bottom gesture bar) */}
       <nav
         aria-label="Mobile bottom navigation"
         data-testid="mobile-bottom-nav"
-        className="fixed bottom-0 inset-x-0 z-40 md:hidden bg-slate-900/95 backdrop-blur-md border-t border-slate-800 px-2 py-1.5 shadow-2xl"
+        className="fixed bottom-0 inset-x-0 z-40 md:hidden pointer-events-none px-4 pb-[max(0.85rem,env(safe-area-inset-bottom))] pt-1"
       >
-        <div className="grid grid-cols-5 gap-1 max-w-md mx-auto">
+        <div className="pointer-events-auto max-w-md mx-auto bg-slate-900/95 backdrop-blur-xl border border-slate-700/80 rounded-2xl p-1.5 shadow-2xl shadow-black/60 grid grid-cols-5 gap-1">
           <button
             type="button"
             onClick={() => setActiveTab('catalog')}
-            className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[11px] font-semibold transition-all ${
+            className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[11px] font-semibold transition-all cursor-pointer ${
               activeTab === 'catalog'
-                ? 'bg-emerald-600/20 text-emerald-400 border border-emerald-500/30'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                : 'text-slate-400 hover:text-slate-200 border border-transparent'
             }`}
           >
             <Layers className="w-4 h-4 mb-0.5" />
@@ -694,10 +666,10 @@ export function App() {
           <button
             type="button"
             onClick={() => setActiveTab('monthly')}
-            className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[11px] font-semibold transition-all ${
+            className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[11px] font-semibold transition-all cursor-pointer ${
               activeTab === 'monthly'
-                ? 'bg-emerald-600/20 text-emerald-400 border border-emerald-500/30'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                : 'text-slate-400 hover:text-slate-200 border border-transparent'
             }`}
           >
             <Calendar className="w-4 h-4 mb-0.5" />
@@ -707,10 +679,10 @@ export function App() {
           <button
             type="button"
             onClick={() => setActiveTab('methodology')}
-            className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[11px] font-semibold transition-all ${
+            className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[11px] font-semibold transition-all cursor-pointer ${
               activeTab === 'methodology'
-                ? 'bg-emerald-600/20 text-emerald-400 border border-emerald-500/30'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                : 'text-slate-400 hover:text-slate-200 border border-transparent'
             }`}
           >
             <BookOpen className="w-4 h-4 mb-0.5" />
@@ -720,10 +692,10 @@ export function App() {
           <button
             type="button"
             onClick={() => setActiveTab('timer')}
-            className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[11px] font-semibold transition-all ${
+            className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[11px] font-semibold transition-all cursor-pointer ${
               activeTab === 'timer'
-                ? 'bg-emerald-600/20 text-emerald-400 border border-emerald-500/30'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                : 'text-slate-400 hover:text-slate-200 border border-transparent'
             }`}
           >
             <Timer className="w-4 h-4 mb-0.5" />
@@ -733,9 +705,9 @@ export function App() {
           <button
             type="button"
             onClick={() => setShowPrintModal(true)}
-            className="flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[11px] font-semibold text-emerald-300 bg-slate-800/80 border border-emerald-500/20"
+            className="flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[11px] font-semibold text-slate-400 hover:text-emerald-300 border border-transparent transition-all cursor-pointer"
           >
-            <Printer className="w-4 h-4 mb-0.5" />
+            <Printer className="w-4 h-4 mb-0.5 text-emerald-400" />
             <span className="truncate max-w-full">{t.nav.printCardShort}</span>
           </button>
         </div>

@@ -3,8 +3,6 @@ import {
   Calendar,
   ChevronLeft,
   ChevronRight,
-  ChevronUp,
-  ChevronDown,
   Users,
   Maximize2,
   Clock,
@@ -15,7 +13,6 @@ import {
   Layers,
   MessageSquare,
   Timer,
-  LayoutGrid,
   GraduationCap,
   Microscope,
   Compass,
@@ -47,7 +44,6 @@ export interface CatalogViewProps {
 type DrillBriefTab = 'goals' | 'science' | 'cues' | 'squad';
 
 export const CatalogView: React.FC<CatalogViewProps> = ({
-  selectedCategory,
   onSelectCategory,
   selectedRondo,
   onSelectRondoId,
@@ -78,31 +74,25 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
     getSquadOrganizationAdvice,
   } = useLanguage();
 
-  // Default to false so the user immediately sees the Tactical Pitch & active drill without 10 cards pushing it down
-  const [isCatalogExpanded, setIsCatalogExpanded] = useState<boolean>(false);
   const [briefTab, setBriefTab] = useState<DrillBriefTab>('goals');
 
-  const filteredRondos =
-    selectedCategory === 'all'
-      ? rondos
-      : rondos.filter((r) => r.category === selectedCategory);
+  const categoryItems = categories.filter((c) => c.id !== 'all');
 
   const currentRondoIdx = Math.max(
     0,
-    filteredRondos.findIndex((r) => r.id === selectedRondo.id)
+    rondos.findIndex((r) => r.id === selectedRondo.id)
   );
 
   const handlePrevRondo = () => {
-    if (filteredRondos.length === 0) return;
-    const prevIdx =
-      (currentRondoIdx - 1 + filteredRondos.length) % filteredRondos.length;
-    onSelectRondoId(filteredRondos[prevIdx].id);
+    if (rondos.length === 0) return;
+    const prevIdx = (currentRondoIdx - 1 + rondos.length) % rondos.length;
+    onSelectRondoId(rondos[prevIdx].id);
   };
 
   const handleNextRondo = () => {
-    if (filteredRondos.length === 0) return;
-    const nextIdx = (currentRondoIdx + 1) % filteredRondos.length;
-    onSelectRondoId(filteredRondos[nextIdx].id);
+    if (rondos.length === 0) return;
+    const nextIdx = (currentRondoIdx + 1) % rondos.length;
+    onSelectRondoId(rondos[nextIdx].id);
   };
 
   const phases = selectedRondo.diagram.phases;
@@ -122,113 +112,34 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
 
   return (
     <div className="space-y-4">
-      {/* Unified Drill Navigator Bar: Categories + Age Group Selector + Quick Stepper */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 shadow-sm space-y-3">
-        {/* Top Row: Category Pills + Expand/Collapse All Cards Drawer Button */}
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center overflow-x-auto sm:flex-wrap gap-1.5 pb-1 sm:pb-0 no-scrollbar">
-            {categories.map((cat) => {
-              const isActive = selectedCategory === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  type="button"
-                  onClick={() => onSelectCategory(cat.id)}
-                  className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer border ${
-                    isActive
-                      ? `${cat.color} text-white keep-white border-white/20 shadow-sm`
-                      : 'bg-slate-950 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white'
-                  }`}
-                >
-                  <span className={`w-1.5 h-1.5 rounded-full ${cat.dot}`} />
-                  <span>{cat.name}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          <button
-            type="button"
-            data-testid="toggle-catalog-grid-btn"
-            onClick={() => setIsCatalogExpanded((prev) => !prev)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-200 border border-slate-800 text-xs font-semibold transition cursor-pointer shrink-0 ml-auto"
-          >
-            <LayoutGrid className="w-3.5 h-3.5 text-emerald-400" />
-            {isCatalogExpanded ? (
-              <>
-                <span>
-                  {lang === 'ru'
-                    ? 'Скрыть каталог'
-                    : lang === 'de'
-                    ? 'Karten ausblenden'
-                    : 'Hide Cards'}
-                </span>
-                <ChevronUp className="w-3.5 h-3.5 text-slate-400" />
-              </>
-            ) : (
-              <>
-                <span>
-                  {lang === 'ru'
-                    ? `Все карточки (${filteredRondos.length})`
-                    : lang === 'de'
-                    ? `Alle Karten (${filteredRondos.length})`
-                    : `Browse Cards (${filteredRondos.length})`}
-                </span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-              </>
-            )}
-          </button>
+      {/* Compact Drill Navigator: Tactical Themes + Quick Rondo Stepper */}
+      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-2.5 sm:p-3.5 shadow-sm space-y-2">
+        {/* Category Theme Pills */}
+        <div className="flex items-center overflow-x-auto sm:flex-wrap gap-1.5 no-scrollbar">
+          {categoryItems.map((cat) => {
+            const isActive = selectedRondo.category === cat.id;
+            return (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => onSelectCategory(cat.id)}
+                className={`shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-semibold transition cursor-pointer border ${
+                  isActive
+                    ? `${cat.color} text-white keep-white border-white/20 shadow-sm`
+                    : 'bg-slate-950 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white'
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full ${cat.dot}`} />
+                <span>{cat.name}</span>
+              </button>
+            );
+          })}
         </div>
 
-        {/* Multi-Age Group Selector Bar (U9-U10 | U11-U12 | U13-U14 | U15-U16 | U17+/Pro) */}
-        <div
-          data-testid="age-band-selector"
-          className="bg-slate-950/90 border border-slate-800/80 rounded-xl px-3 py-2 flex flex-wrap items-center justify-between gap-2"
-        >
-          <div className="flex items-center gap-2">
-            <GraduationCap className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span className="text-xs font-bold text-slate-300">
-              {lang === 'ru'
-                ? 'Возрастная адаптация:'
-                : lang === 'de'
-                ? 'Altersanpassung:'
-                : 'Age Adaptation:'}
-            </span>
-            <span className="hidden md:inline-block text-[11px] text-slate-400">
-              {currentAgeBandInfo.stageTitle} •{' '}
-              <strong className="text-emerald-400">
-                {currentAgeBandInfo.relativeAreaRule}
-              </strong>
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
-            {ageBands.map((band) => {
-              const isSelected = ageBand === band.id;
-              return (
-                <button
-                  key={band.id}
-                  type="button"
-                  data-testid={`age-pill-${band.id}`}
-                  onClick={() => setAgeBand(band.id)}
-                  title={`${band.label} — ${band.stageTitle}`}
-                  className={`shrink-0 px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer border ${
-                    isSelected
-                      ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-sm'
-                      : 'bg-slate-900 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white'
-                  }`}
-                >
-                  {band.shortLabel}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Quick Rondo Stepper Bar (1.1 -> 5.2) with Short Titles */}
+        {/* Quick Rondo Stepper Bar (1.1 -> 5.2) */}
         <div
           data-testid="quick-rondo-stepper"
-          className="bg-slate-950/80 border border-slate-800/80 rounded-xl px-2 py-1.5 flex items-center justify-between gap-2"
+          className="bg-slate-950/80 border border-slate-800/80 rounded-xl px-2 py-1.5 flex items-center justify-between gap-1.5"
         >
           <button
             type="button"
@@ -247,7 +158,7 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
           </button>
 
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 flex-1">
-            {filteredRondos.map((r) => {
+            {rondos.map((r) => {
               const isSelected = r.id === selectedRondo.id;
               return (
                 <button
@@ -293,56 +204,6 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
-
-        {/* Collapsible 10-Card Visual Drawer (Expanded on demand) */}
-        {isCatalogExpanded && (
-          <div className="pt-2 border-t border-slate-800/80 flex overflow-x-auto sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 pb-1 sm:pb-0 snap-x snap-mandatory no-scrollbar">
-            {filteredRondos.map((rondo) => {
-              const isSelected = rondo.id === selectedRondo.id;
-              const rondoAgeVar = getRondoAgeVariant(rondo.id);
-              return (
-                <button
-                  key={rondo.id}
-                  type="button"
-                  onClick={() => {
-                    onSelectRondoId(rondo.id);
-                    setIsCatalogExpanded(false);
-                  }}
-                  className={`snap-start shrink-0 w-60 sm:w-auto text-left p-3 rounded-xl border transition-all cursor-pointer flex flex-col justify-between ${
-                    isSelected
-                      ? 'bg-emerald-950/70 border-emerald-500 ring-1 ring-emerald-500/50 shadow-md'
-                      : 'bg-slate-950/80 border-slate-800 hover:bg-slate-800/70 hover:border-slate-700'
-                  }`}
-                >
-                  <div>
-                    <div className="flex items-center justify-between gap-1.5 mb-1.5">
-                      <span className="text-xs font-black text-emerald-400">
-                        {t.catalog.numberPrefix}{rondo.number}
-                      </span>
-                      <span
-                        className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${rondo.badgeColor}`}
-                      >
-                        {rondo.categoryName}
-                      </span>
-                    </div>
-                    <div className="text-xs sm:text-sm font-bold text-white line-clamp-2 mb-2">
-                      {rondo.shortTitle || rondo.title}
-                    </div>
-                  </div>
-
-                  <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-                    <span className="truncate max-w-[55%] font-medium text-slate-300">
-                      {rondoAgeVar.formatOverride || rondo.format.split(' ')[0]}
-                    </span>
-                    <span className="text-emerald-300/90 font-mono truncate">
-                      {rondoAgeVar.baseGrid.split('(')[0].trim()}
-                    </span>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        )}
       </div>
 
       {/* Main Two-Column Workspace: Left Tactical Stage (7 cols) + Right Coaching Brief (5 cols) */}
@@ -351,10 +212,10 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
         <div className="lg:col-span-7">
           <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
             {/* Selected Rondo Hero Header */}
-            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-3 border-b border-slate-800">
-              <div className="space-y-1">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+              <div className="space-y-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-md bg-emerald-500 text-slate-950 text-xs font-black">
+                  <span className="px-2 py-0.5 rounded-md bg-emerald-500 text-slate-950 text-xs font-black">
                     {t.catalog.numberPrefix}{selectedRondo.number}
                   </span>
                   <span
@@ -362,19 +223,16 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                   >
                     {selectedRondo.categoryName}
                   </span>
-                  <span className="px-2 py-0.5 rounded-md bg-slate-800 text-emerald-300 text-xs font-bold">
-                    {currentAgeBandInfo.shortLabel}
-                  </span>
                   <span className="text-xs text-slate-400 font-medium">
-                    • {activeAgeVariant.formatOverride || selectedRondo.playersCount}
+                    {activeAgeVariant.formatOverride || selectedRondo.playersCount}
                   </span>
                 </div>
-                <h2 className="text-lg sm:text-xl font-extrabold text-white tracking-tight">
+                <h2 className="text-base sm:text-xl font-extrabold text-white tracking-tight leading-snug">
                   {selectedRondo.title}
                 </h2>
               </div>
 
-              <div className="flex flex-wrap items-center gap-2 shrink-0">
+              <div className="flex items-center gap-2 shrink-0">
                 {onOpenTimerForRondo && (
                   <button
                     type="button"
@@ -383,13 +241,7 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                     className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-xs font-bold transition cursor-pointer"
                   >
                     <Timer className="w-3.5 h-3.5" />
-                    <span>
-                      {lang === 'ru'
-                        ? 'Таймер'
-                        : lang === 'de'
-                        ? 'Platz-Timer'
-                        : 'Drill Timer'}
-                    </span>
+                    <span>{t.nav.timerShort}</span>
                   </button>
                 )}
 
@@ -641,11 +493,7 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                     <span className="flex items-center gap-1.5">
                       <GraduationCap className="w-4 h-4 shrink-0" />
                       <span>
-                        {lang === 'ru'
-                          ? `Методический фокус для ${currentAgeBandInfo.label}`
-                          : lang === 'de'
-                          ? `Methodischer Fokus für ${currentAgeBandInfo.label}`
-                          : `Coaching Focus for ${currentAgeBandInfo.label}`}
+                        {currentAgeBandInfo.shortLabel} • {currentAgeBandInfo.stageTitle}
                       </span>
                     </span>
                   </div>
@@ -704,22 +552,22 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
               </div>
             )}
 
-            {/* TAB 2: Methodological Provenance & Scientific Basis ("Базис и первоисточник") */}
+            {/* TAB 2: Methodological Provenance & Scientific Basis */}
             {briefTab === 'science' && (
               <div
                 data-testid="scientific-basis-panel"
                 className="space-y-3"
               >
-                {/* 1. Coaching School & Historical Origin */}
+                {/* Coaching School & Historical Origin */}
                 <div className="p-3.5 rounded-xl bg-emerald-950/25 border border-emerald-800/40 space-y-1">
                   <div className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-emerald-400">
                     <Sparkles className="w-3.5 h-3.5 shrink-0" />
                     <span>
                       {lang === 'ru'
-                        ? '1. Первоисточник и тренерская школа'
+                        ? 'Первоисточник и школа'
                         : lang === 'de'
-                        ? '1. Methodische Herkunft & Trainerschule'
-                        : '1. Coaching Lineage & Origin School'}
+                        ? 'Methodische Herkunft'
+                        : 'Coaching Lineage & Origin'}
                     </span>
                   </div>
                   <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
@@ -727,16 +575,16 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                   </p>
                 </div>
 
-                {/* 2. Sports Science & Relative Area (m²/player) Math */}
+                {/* Sports Science & Relative Area (m²/player) Math */}
                 <div className="p-3.5 rounded-xl bg-blue-950/25 border border-blue-800/40 space-y-1">
                   <div className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-blue-400">
                     <Microscope className="w-3.5 h-3.5 shrink-0" />
                     <span>
                       {lang === 'ru'
-                        ? '2. Научное обоснование (м²/игрока, биомеханика, сканирование)'
+                        ? 'Научное обоснование (м²/игрока)'
                         : lang === 'de'
-                        ? '2. Sportwissenschaftliche Basis (m²/Spieler, Biomechanik & Schulterblick)'
-                        : '2. Scientific Basis (m²/player, Biomechanics & Scanning)'}
+                        ? 'Sportwissenschaftliche Basis (m²/Spieler)'
+                        : 'Scientific Basis (m²/player & Scanning)'}
                     </span>
                   </div>
                   <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
@@ -744,16 +592,16 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                   </p>
                 </div>
 
-                {/* 3. Match Transfer (11v11 / 9v9 / 7v7 Phase & Zone) */}
+                {/* Match Transfer (11v11 / 9v9 / 7v7 Phase & Zone) */}
                 <div className="p-3.5 rounded-xl bg-amber-950/25 border border-amber-800/40 space-y-1">
                   <div className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-amber-400">
                     <Compass className="w-3.5 h-3.5 shrink-0" />
                     <span>
                       {lang === 'ru'
-                        ? '3. Прямой перенос в матч (Зона и игровая ситуация)'
+                        ? 'Перенос в матч'
                         : lang === 'de'
-                        ? '3. Direkter Spieltransfer (Spielfeldzone & Spielsituation 11v11)'
-                        : '3. Direct Match Transfer (Pitch Zone & Game Situation)'}
+                        ? 'Direkter Spieltransfer'
+                        : 'Match Transfer'}
                     </span>
                   </div>
                   <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
@@ -761,15 +609,15 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                   </p>
                 </div>
 
-                {/* 4. Multi-Age Scaling Table for this Specific Drill */}
+                {/* Multi-Age Scaling Table for this Specific Drill */}
                 <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
                   <div className="text-xs font-extrabold uppercase tracking-wider text-slate-300 flex items-center justify-between">
                     <span>
                       {lang === 'ru'
-                        ? 'Шкала площадей по возрастам (U9 → Pro)'
+                        ? 'Площади по возрастам'
                         : lang === 'de'
-                        ? 'Flächen- & Altersmatrix (U9 → Pro)'
-                        : 'Age Scaling Matrix (U9 → Pro)'}
+                        ? 'Flächen- & Altersmatrix'
+                        : 'Age Scaling Matrix'}
                     </span>
                     <span className="text-[10px] text-emerald-400 font-mono">
                       ApP (m²/pl)

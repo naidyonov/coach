@@ -1,12 +1,12 @@
 import { CategoryItem, MonthlySessionItem, RondoItem, UIStrings } from './types';
 
 export const CATEGORIES_RU: CategoryItem[] = [
-  { id: 'all', name: 'Все 10 рондо', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
-  { id: 'retention', name: '1. Удержание', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
-  { id: 'progression', name: '2. Продвижение', color: 'bg-blue-600', dot: 'bg-blue-400' },
-  { id: 'switch', name: '3. Перевод игры', color: 'bg-amber-600', dot: 'bg-amber-400' },
-  { id: 'defense', name: '4. Оборона и «Третий»', color: 'bg-rose-600', dot: 'bg-rose-400' },
-  { id: 'transition', name: '5. Переход', color: 'bg-purple-600', dot: 'bg-purple-400' }
+  { id: 'all', name: 'Все', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
+  { id: 'retention', name: 'Удержание', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
+  { id: 'progression', name: 'Продвижение', color: 'bg-blue-600', dot: 'bg-blue-400' },
+  { id: 'switch', name: 'Перевод игры', color: 'bg-amber-600', dot: 'bg-amber-400' },
+  { id: 'defense', name: 'Прессинг и 3-й', color: 'bg-rose-600', dot: 'bg-rose-400' },
+  { id: 'transition', name: 'Переход', color: 'bg-purple-600', dot: 'bg-purple-400' }
 ];
 
 export const RONDOS_RU: RondoItem[] = [
@@ -976,86 +976,93 @@ export const RONDOS_RU: RondoItem[] = [
   }
 ];
 
-export const generateMonthlyPlanRu = (rondo: RondoItem): MonthlySessionItem[] => {
+export const generateMonthlyPlanRu = (
+  rondo: RondoItem,
+  ageVariant?: { baseGrid: string; intensiveGrid: string; timing: string }
+): MonthlySessionItem[] => {
+  const baseGrid = ageVariant?.baseGrid || rondo.dimensionsU15.base;
+  const intensiveGrid = ageVariant?.intensiveGrid || rondo.dimensionsU15.intensive;
+  const baseTiming = ageVariant?.timing || rondo.timingU15;
+
   return [
     {
       session: 1,
       week: 'Неделя 1 (Вторник)',
-      stage: 'Ступень 1 (База — Атака)',
+      stage: 'Ступень 1 • База',
       stageBadge: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-      focusSide: 'Фокус: Владеющие мячом',
+      focusSide: 'Атака',
       goal: rondo.id === 'rondo-3'
         ? 'Мяч до центрального опорника (6) и разворот дальше на свободную грань'
-        : `Освоение геометрии «${rondo.title}»: ${rondo.attackGoal.split('.')[0]}`,
-      conditions: `${rondo.dimensionsU15.base}. Ограничение: 2–3 касания. Счёт пока без штрафов — учим правильный профиль корпуса и открывание до приёма.`,
-      loadU15: rondo.timingU15
+        : rondo.attackGoal.split('.')[0],
+      conditions: `${baseGrid}. Ограничение: 2–3 касания. Счёт пока без штрафов — учим правильный профиль корпуса и открывание до приёма.`,
+      loadU15: baseTiming
     },
     {
       session: 2,
       week: 'Неделя 1 (Четверг)',
-      stage: 'Ступень 1 (База — Оборона)',
+      stage: 'Ступень 1 • База',
       stageBadge: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
-      focusSide: 'Фокус: Отбирающие',
+      focusSide: 'Оборона',
       goal: rondo.id === 'rondo-3'
         ? 'Отбирающим — закрыть центр (перекрывать тенью игрока №6)'
-        : `Структура прессинга: ${rondo.defenseGoal.split('.')[0]}`,
-      conditions: `${rondo.dimensionsU15.base}. Тренер останавливает эпизод (Freeze), если защитники выстроились в одну линию и открыли коридор в центр.`,
-      loadU15: rondo.timingU15
+        : rondo.defenseGoal.split('.')[0],
+      conditions: `${baseGrid}. Тренер останавливает эпизод (Freeze), если защитники выстроились в одну линию и открыли коридор в центр.`,
+      loadU15: baseTiming
     },
     {
       session: 3,
       week: 'Неделя 2 (Вторник)',
-      stage: 'Ступень 2 (Усложнение — Счёт)',
+      stage: 'Ступень 2 • Счёт',
       stageBadge: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
-      focusSide: 'Фокус: Целевой счёт у атаки',
+      focusSide: 'Целевой счёт атаки',
       goal: rondo.id === 'rondo-3'
         ? 'В счёт идут ТОЛЬКО пасы через центрального игрока (6)'
-        : `Целевое действие в счёт: ${rondo.scoringRule.split('.')[0]}`,
-      conditions: `Площадка стандартная, строго 2 касания. Перепасовка по периметру очков не даёт — очки начисляются только за решение ключевой задачи рондо.`,
-      loadU15: rondo.timingU15
+        : rondo.scoringRule.split('.')[0],
+      conditions: `${baseGrid}, строго 2 касания. Перепасовка по периметру очков не даёт — очки начисляются только за решение ключевой задачи рондо.`,
+      loadU15: baseTiming
     },
     {
       session: 4,
       week: 'Неделя 2 (Четверг)',
-      stage: 'Ступень 2 (Усложнение — Прессинг)',
+      stage: 'Ступень 2 • Прессинг',
       stageBadge: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
-      focusSide: 'Фокус: Согласованное давление',
+      focusSide: 'Согласованный отбор',
       goal: rondo.id === 'rondo-3'
         ? 'Отбирающим — давить согласованно (1 в мяч, 2 закрывают линии и №6)'
         : 'Синхронный триггер прессинга на сильную передачу или закрытый приём',
       conditions: `Вводится двойной счёт: очки считают и владеющие, и отбирающие. Смена тройки/пары отбирающих каждые 1.5–2 минуты для максимальной интенсивности.`,
-      loadU15: rondo.timingU15
+      loadU15: baseTiming
     },
     {
       session: 5,
       week: 'Неделя 3 (Вторник)',
-      stage: 'Ступень 3 (Скорость решения)',
+      stage: 'Ступень 3 • Скорость',
       stageBadge: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
-      focusSide: 'Фокус: Быстрее и точнее',
+      focusSide: 'Быстрота решений',
       goal: rondo.id === 'rondo-3'
         ? 'Центральный игрок (6) играет быстрее и точнее (строго в 1 касание)'
-        : `Интенсивный режим: ${rondo.progressions[2].desc}`,
-      conditions: `Площадка сужается до ${rondo.dimensionsU15.intensive}. Ключевой/центральный игрок играет в 1 касание, периметр — 1–2 касания.`,
-      loadU15: '4 серии × 2 мин (высокий пульс 85–90% ЧСС макс)'
+        : rondo.progressions[2].desc,
+      conditions: `Площадка сужается до ${intensiveGrid}. Ключевой/центральный игрок играет в 1 касание, периметр — 1–2 касания.`,
+      loadU15: baseTiming
     },
     {
       session: 6,
       week: 'Неделя 3 (Четверг)',
-      stage: 'Ступень 3 (Лимит пасов и Ставка)',
+      stage: 'Ступень 3 • Ставка',
       stageBadge: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
-      focusSide: 'Фокус: Соревнование на максимум',
+      focusSide: 'Соревнование',
       goal: rondo.id === 'rondo-3'
         ? 'Отбирающим — отобрать мяч или вынудить ошибку за 6 пасов'
         : 'Лимит 6 пасов на отбор + введение «Ставки» для проигравшей группы',
       conditions: `Рондо полностью освоено — вводится соревновательная ставка (упражнение на реакцию/ускорение для уступившей команды). Если оборона отбирает за 6 пасов — +2 очка.`,
-      loadU15: '4 серии × 2 мин | Отдых: 1 мин'
+      loadU15: baseTiming
     },
     {
       session: 7,
       week: 'Неделя 4 (Вторник)',
-      stage: 'Ступень «Выше» (Связка на 3-го)',
+      stage: 'Уровень выше • 3-й',
       stageBadge: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
-      focusSide: 'Мост к позиционной игре',
+      focusSide: 'Мост к позиции',
       goal: 'Переход в Рондо Бартолини «Через третьего» (комбинации А → В в 1 касание → С)',
       conditions: 'Внешний квадрат 16×16 м с внутренним квадратом 5×5 м. Если прямой пас закрыт — находим партнёра через сброс в одно касание от третьего игрока.',
       loadU15: '4 серии × 2.5 мин | Отдых: 45 сек'
@@ -1063,9 +1070,9 @@ export const generateMonthlyPlanRu = (rondo: RondoItem): MonthlySessionItem[] =>
     {
       session: 8,
       week: 'Неделя 4 (Четверг)',
-      stage: 'Ступень «Выше» (Перенос в игру)',
+      stage: 'Уровень выше • Игра',
       stageBadge: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-      focusSide: 'Итоговая позиционная игра',
+      focusSide: 'Игра 4v4+3',
       goal: 'Позиционная игра 4 на 4 + 3 нейтральных (все цели месяца в одной игре)',
       conditions: 'Площадка 24×16 м, разделённая пунктиром. Очки начисляются за все освоенные элементы месяца: пас через (6), комбинацию на третьего, перевод зоны и контрпрессинг 3 сек.',
       loadU15: '3 серии × 4 мин | Отдых: 1 мин'
@@ -1110,15 +1117,15 @@ export const UI_RU: UIStrings = {
     }
   },
   nav: {
-    catalog: '10 Рондо + Схемы',
-    catalogShort: '10 Рондо',
-    monthly: 'План на месяц (8 тр.)',
-    monthlyShort: 'План (8 тр.)',
-    methodology: 'Методология U15',
-    methodologyShort: 'Методология',
-    timer: 'Полевой Таймер',
+    catalog: 'Рондо',
+    catalogShort: 'Рондо',
+    monthly: 'План на месяц',
+    monthlyShort: 'План',
+    methodology: 'Методология',
+    methodologyShort: 'Теория',
+    timer: 'Таймер',
     timerShort: 'Таймер',
-    printCard: 'Карточка на поле',
+    printCard: 'Печать',
     printCardShort: 'Печать',
     printCardTooltip: 'Открыть карточку для печати или сохранения в PDF'
   },
@@ -1128,7 +1135,7 @@ export const UI_RU: UIStrings = {
     numberPrefix: '№',
     metersSuffix: 'м',
     exerciseLabel: 'Упражнение',
-    openMonthlyPlanBtn: 'Открыть план на месяц для этого рондо',
+    openMonthlyPlanBtn: 'План на месяц',
     stepByStepTitle: 'Пошаговая анимация фаз упражнения:',
     phaseLabel: 'Фаза',
     prevPhase: 'Пред. фаза',
@@ -1145,12 +1152,12 @@ export const UI_RU: UIStrings = {
     legendPossession: 'Владеющие',
     legendDefenders: 'Отбирающие',
     legendNeutral: 'Опорник (6) / Нейтр.',
-    squadCalcTitle: 'Адаптация под численность вашей группы U15 на тренировке:',
+    squadCalcTitle: 'Организация под состав:',
     playersTodayLabel: 'Игроков сегодня:',
     playersUnit: 'чел.',
-    pitchSizeLabel: 'Площадка (14–15 лет)',
+    pitchSizeLabel: 'Площадка',
     intensivePrefix: 'Интенсив:',
-    dosageLabel: 'Дозировка (U15)',
+    dosageLabel: 'Дозировка',
     formatPrefix: 'Формат:',
     problemTitle: 'Проблема в игре → Зачем ставим это рондо',
     conditionsAndGoalsTitle: 'Условия и задачи обеим сторонам',
@@ -1158,11 +1165,11 @@ export const UI_RU: UIStrings = {
     defenseGoalTitle: 'Отбирающим (Оборона)',
     scoringRuleTitle: 'Правило счёта (Цель → Счёт)',
     progressionsTitle: '3 ступени прогрессии (От простого к максимальному)',
-    coachingCuesTitle: 'Что требовать по ходу (Подсказки тренера U15):'
+    coachingCuesTitle: 'Подсказки тренера:'
   },
   monthly: {
-    matrixBadge: 'Матрица периодизации • 4 недели / 8 тренировок',
-    planTitlePrefix: 'План на месяц для:',
+    matrixBadge: '4 недели • 8 тренировок',
+    planTitlePrefix: 'План:',
     planSubtitle: 'По методологии модуля: тренировки 1–6 чередуют фокус между атакой и обороной по 3 ступеням сложности, а тренировки 7–8 переносят навык в игру «через третьего» и позиционную игру 4 на 4 + 3.',
     selectRondoLabel: 'Выберите основное рондо месяца:',
     progressPrefix: 'Прогресс цикла:',
@@ -1170,10 +1177,10 @@ export const UI_RU: UIStrings = {
     progressSuffix: 'тренировок проведено',
     progressHint: 'Нажимайте на галочку у тренировки, чтобы отмечать проведённые занятия',
     sessionLabel: 'Тренировка',
-    loadPrefix: 'Нагрузка U15:',
+    loadPrefix: '',
     completedBadge: 'Проведено',
-    markCompletedBtn: 'Отметить как проведённую',
-    sessionStructureTitle: 'Куда ставить рондо в структуре 90-минутной тренировки (U15 / 14–15 лет)',
+    markCompletedBtn: 'Отметить',
+    sessionStructureTitle: 'Структура 90-минутной тренировки',
     sessionBlocks: [
       {
         step: '1. Активация (15 мин)',
@@ -1203,11 +1210,11 @@ export const UI_RU: UIStrings = {
     ]
   },
   methodology: {
-    tabAll: 'Все разделы',
-    tabPrinciples: '1. Микропринципы и U15',
-    tabGeometry: '2. Геометрия, корпус и тень',
-    tabInterventions: '3. Стоп-кадры и подсказ тренера',
-    tabCheatSheet: '4. Сводная таблица 10 рондо',
+    tabAll: 'Все',
+    tabPrinciples: 'Принципы',
+    tabGeometry: 'Геометрия',
+    tabInterventions: 'Стоп-кадры',
+    tabCheatSheet: 'Таблица',
     cards: [
       {
         title: '1. Микропринципы («Школа Барселоны»)',

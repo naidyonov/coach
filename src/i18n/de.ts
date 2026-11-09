@@ -1,12 +1,12 @@
 import { CategoryItem, MonthlySessionItem, RondoItem, UIStrings } from './types';
 
 export const CATEGORIES_DE: CategoryItem[] = [
-  { id: 'all', name: 'Alle 10 Rondos', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
-  { id: 'retention', name: '1. Ballsicherung', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
-  { id: 'progression', name: '2. Raumgewinn & Zentrum', color: 'bg-blue-600', dot: 'bg-blue-400' },
-  { id: 'switch', name: '3. Spielverlagerung', color: 'bg-amber-600', dot: 'bg-amber-400' },
-  { id: 'defense', name: '4. Pressing & 3. Mann', color: 'bg-rose-600', dot: 'bg-rose-400' },
-  { id: 'transition', name: '5. Umschalten & Gegenpressing', color: 'bg-purple-600', dot: 'bg-purple-400' }
+  { id: 'all', name: 'Alle', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
+  { id: 'retention', name: 'Ballsicherung', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
+  { id: 'progression', name: 'Raumgewinn', color: 'bg-blue-600', dot: 'bg-blue-400' },
+  { id: 'switch', name: 'Spielverlagerung', color: 'bg-amber-600', dot: 'bg-amber-400' },
+  { id: 'defense', name: 'Pressing & 3. Mann', color: 'bg-rose-600', dot: 'bg-rose-400' },
+  { id: 'transition', name: 'Umschalten', color: 'bg-purple-600', dot: 'bg-purple-400' }
 ];
 
 export const RONDOS_DE: RondoItem[] = [
@@ -976,86 +976,93 @@ export const RONDOS_DE: RondoItem[] = [
   }
 ];
 
-export const generateMonthlyPlanDe = (rondo: RondoItem): MonthlySessionItem[] => {
+export const generateMonthlyPlanDe = (
+  rondo: RondoItem,
+  ageVariant?: { baseGrid: string; intensiveGrid: string; timing: string }
+): MonthlySessionItem[] => {
+  const baseGrid = ageVariant?.baseGrid || rondo.dimensionsU15.base;
+  const intensiveGrid = ageVariant?.intensiveGrid || rondo.dimensionsU15.intensive;
+  const baseTiming = ageVariant?.timing || rondo.timingU15;
+
   return [
     {
       session: 1,
       week: 'Woche 1 (Dienstag)',
-      stage: 'Stufe 1 (Basis — Ballbesitz)',
+      stage: 'Stufe 1 • Basis',
       stageBadge: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-      focusSide: 'Fokus: Spieler in Ballbesitz',
+      focusSide: 'Angriff',
       goal: rondo.id === 'rondo-3'
         ? 'Den zentralen Sechser (#6) anspielen und auf eine freie Außenlinie auflösen'
-        : `Raumgeometrie von „${rondo.title}“ beherrschen: ${rondo.attackGoal.split('.')[0]}`,
-      conditions: `${rondo.dimensionsU15.base}. Kontaktbegrenzung: 2–3 Kontakte. Noch kein Punktabzug — Fokus auf offene Spielstellung (Vororientierung) und frühe Anspielwinkel vor der Ballannahme.`,
-      loadU15: rondo.timingU15
+        : rondo.attackGoal.split('.')[0],
+      conditions: `${baseGrid}. Kontaktbegrenzung: 2–3 Kontakte. Noch kein Punktabzug — Fokus auf offene Spielstellung (Vororientierung) und frühe Anspielwinkel vor der Ballannahme.`,
+      loadU15: baseTiming
     },
     {
       session: 2,
       week: 'Woche 1 (Donnerstag)',
-      stage: 'Stufe 1 (Basis — Gegen den Ball)',
+      stage: 'Stufe 1 • Basis',
       stageBadge: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
-      focusSide: 'Fokus: Pressing-Verteidiger',
+      focusSide: 'Pressing & Abwehr',
       goal: rondo.id === 'rondo-3'
         ? 'Verteidiger: Zentrum schließen (Sechser #6 im Deckungsschatten halten)'
-        : `Pressing-Struktur: ${rondo.defenseGoal.split('.')[0]}`,
-      conditions: `${rondo.dimensionsU15.base}. Der Trainer nutzt „Freeze“-Coaching, sobald die Verteidiger flach auf einer Linie stehen und die Schnittstelle öffnen.`,
-      loadU15: rondo.timingU15
+        : rondo.defenseGoal.split('.')[0],
+      conditions: `${baseGrid}. Der Trainer nutzt „Freeze“-Coaching, sobald die Verteidiger flach auf einer Linie stehen und die Schnittstelle öffnen.`,
+      loadU15: baseTiming
     },
     {
       session: 3,
       week: 'Woche 2 (Dienstag)',
-      stage: 'Stufe 2 (Aufbau — Ziel-Wertung)',
+      stage: 'Stufe 2 • Aufbau',
       stageBadge: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
-      focusSide: 'Fokus: Taktische Punktwertung Angriff',
+      focusSide: 'Ziel-Wertung Angriff',
       goal: rondo.id === 'rondo-3'
         ? 'NUR Sequenzen über den zentralen Sechser (#6) zählen als Punkt'
-        : `Zielaktion für Punkte: ${rondo.scoringRule.split('.')[0]}`,
-      conditions: `Standard-Feldgröße, strikt 2 Kontakte. Reine Außenzirkulation bringt 0 Punkte — Punkte gibt es ausschließlich für das taktische Kernprinzip.`,
-      loadU15: rondo.timingU15
+        : rondo.scoringRule.split('.')[0],
+      conditions: `${baseGrid}, strikt 2 Kontakte. Reine Außenzirkulation bringt 0 Punkte — Punkte gibt es ausschließlich für das taktische Kernprinzip.`,
+      loadU15: baseTiming
     },
     {
       session: 4,
       week: 'Woche 2 (Donnerstag)',
-      stage: 'Stufe 2 (Aufbau — Kollektives Pressing)',
+      stage: 'Stufe 2 • Aufbau',
       stageBadge: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
-      focusSide: 'Fokus: Synchrones Anlaufen',
+      focusSide: 'Kollektives Pressing',
       goal: rondo.id === 'rondo-3'
         ? 'Verteidiger: Als geschlossene Einheit pressen (1 läuft an, 2 schließen Passwege & #6)'
         : 'Synchrones Pressing-Signal bei geschlossenem Körper oder unsauberem ersten Kontakt',
       conditions: `Doppelte Punktwertung aktiv: Sowohl Angreifer als auch Verteidiger sammeln Punkte. Wechsel der Verteidigergruppe alle 1,5–2 Minuten für maximale Intensität.`,
-      loadU15: rondo.timingU15
+      loadU15: baseTiming
     },
     {
       session: 5,
       week: 'Woche 3 (Dienstag)',
-      stage: 'Stufe 3 (Handlungsschnelligkeit)',
+      stage: 'Stufe 3 • Tempo',
       stageBadge: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
-      focusSide: 'Fokus: Maximales Tempo & Präzision',
+      focusSide: 'Handlungsschnelligkeit',
       goal: rondo.id === 'rondo-3'
         ? 'Zentraler Sechser (#6) agiert handlungsschnell (strikt 1 Kontakt)'
-        : `Intensiv-Modus: ${rondo.progressions[2].desc}`,
-      conditions: `Feld verengt auf ${rondo.dimensionsU15.intensive}. Zentrumsspieler mit 1 Kontakt, Außenspieler 1–2 Kontakte.`,
-      loadU15: '4 Durchgänge × 2 Min. (85–90 % HFmax)'
+        : rondo.progressions[2].desc,
+      conditions: `Feld verengt auf ${intensiveGrid}. Zentrumsspieler mit 1 Kontakt, Außenspieler 1–2 Kontakte.`,
+      loadU15: baseTiming
     },
     {
       session: 6,
       week: 'Woche 3 (Donnerstag)',
-      stage: 'Stufe 3 (Passlimit & Wettkampf)',
+      stage: 'Stufe 3 • Wettkampf',
       stageBadge: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
-      focusSide: 'Fokus: Maximaler Wettkampfdruck',
+      focusSide: 'Wettkampfdruck',
       goal: rondo.id === 'rondo-3'
         ? 'Verteidiger: Ballgewinn oder erzwungener Fehler innerhalb von 6 Pässen'
         : '6-Pässe-Limit für die Abwehr + Wettkampf-Konsequenz für das Verliererteam',
       conditions: `Die Technik sitzt — jetzt folgt der Wettkampfmodus (kurzer Antritt/Reaktionssprint für die unterlegene Gruppe). Ballgewinn unter 6 Pässen bringt +2 Punkte für die Abwehr.`,
-      loadU15: '4 Durchgänge × 2 Min. | Pause: 1 Min.'
+      loadU15: baseTiming
     },
     {
       session: 7,
       week: 'Woche 4 (Dienstag)',
-      stage: 'Nächste Stufe (Dritter Mann)',
+      stage: 'Nächste Stufe • 3. Mann',
       stageBadge: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
-      focusSide: 'Brücke zum Positionsspiel',
+      focusSide: 'Positionsspiel-Brücke',
       goal: 'Übergang ins Bartolini-Rondo „Dritter Mann“ (A → B Direktablage → C)',
       conditions: '16×16 m Außenfeld mit 5×5 m Innenquadrat. Ist der direkte Passweg verstellt, wird der Zielspieler über eine 1-Kontakt-Ablage (Steil-Klatsch) freigespielt.',
       loadU15: '4 Durchgänge × 2,5 Min. | Pause: 45 Sek.'
@@ -1063,9 +1070,9 @@ export const generateMonthlyPlanDe = (rondo: RondoItem): MonthlySessionItem[] =>
     {
       session: 8,
       week: 'Woche 4 (Donnerstag)',
-      stage: 'Nächste Stufe (Spieltransfer)',
+      stage: 'Nächste Stufe • Transfer',
       stageBadge: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-      focusSide: 'Abschluss-Positionsspiel',
+      focusSide: '4v4+3 Spiel',
       goal: 'Positionsspiel 4 gegen 4 + 3 Neutrale (Synthese aller Monatsziele)',
       conditions: '24×16 m Feld mit gestrichelter Mittellinie. Punkte addieren sich für jedes gelernte Monatsprinzip: Pass über (#6), Dritter Mann, Zonenverlagerung und 3-Sek.-Gegenpressing.',
       loadU15: '3 Durchgänge × 4 Min. | Pause: 1 Min.'
@@ -1110,16 +1117,16 @@ export const UI_DE: UIStrings = {
     }
   },
   nav: {
-    catalog: '10 Rondos + Taktiktafel',
-    catalogShort: '10 Rondos',
-    monthly: 'Monatsplan (8 Einh.)',
-    monthlyShort: 'Monatsplan',
-    methodology: 'Methodik & Geometrie',
+    catalog: 'Rondos',
+    catalogShort: 'Rondos',
+    monthly: 'Monatsplan',
+    monthlyShort: 'Plan',
+    methodology: 'Methodik',
     methodologyShort: 'Methodik',
-    timer: 'Platz-Timer',
+    timer: 'Timer',
     timerShort: 'Timer',
-    printCard: 'Druckkarte (PDF)',
-    printCardShort: 'Drucken',
+    printCard: 'Druckkarte',
+    printCardShort: 'Druck',
     printCardTooltip: 'Trainingskarte drucken oder als PDF speichern'
   },
   catalog: {
@@ -1128,7 +1135,7 @@ export const UI_DE: UIStrings = {
     numberPrefix: '#',
     metersSuffix: 'm',
     exerciseLabel: 'Übungsform',
-    openMonthlyPlanBtn: '8-Einheiten-Monatsplan für dieses Rondo öffnen',
+    openMonthlyPlanBtn: 'Monatsplan',
     stepByStepTitle: 'Schritt-für-Schritt-Phasenanimation:',
     phaseLabel: 'Phase',
     prevPhase: 'Vorherige Phase',
@@ -1145,12 +1152,12 @@ export const UI_DE: UIStrings = {
     legendPossession: 'Ballbesitz',
     legendDefenders: 'Verteidiger',
     legendNeutral: 'Sechser (6) / Neutral',
-    squadCalcTitle: 'Feldaufbau an heutige Kaderstärke anpassen:',
+    squadCalcTitle: 'Feldaufbau nach Kaderstärke:',
     playersTodayLabel: 'Spieler heute:',
     playersUnit: 'Sp.',
-    pitchSizeLabel: 'Feldgröße & Fläche',
+    pitchSizeLabel: 'Feldgröße',
     intensivePrefix: 'Intensiv:',
-    dosageLabel: 'Belastung / Pause',
+    dosageLabel: 'Belastung',
     formatPrefix: 'Format:',
     problemTitle: 'Spielproblem → Warum wir dieses Rondo trainieren',
     conditionsAndGoalsTitle: 'Regeln & Coaching-Ziele für beide Teams',
@@ -1158,11 +1165,11 @@ export const UI_DE: UIStrings = {
     defenseGoalTitle: 'Gegen den Ball (Pressing)',
     scoringRuleTitle: 'Punktesystem (Lernziel → Wertung)',
     progressionsTitle: '3 Methodische Progressionsstufen (Basis bis Maximalintensität)',
-    coachingCuesTitle: 'Live-Coaching-Kommandos auf dem Platz:'
+    coachingCuesTitle: 'Coaching-Kommandos:'
   },
   monthly: {
-    matrixBadge: 'Periodisierungs-Matrix • 4 Wochen / 8 Einheiten',
-    planTitlePrefix: 'Monatsplan für:',
+    matrixBadge: '4 Wochen • 8 Einheiten',
+    planTitlePrefix: 'Monatsplan:',
     planSubtitle: 'Methodischer Aufbau: Die Einheiten 1–6 wechseln den Fokus zwischen Ballbesitz und Pressing über 3 Komplexitätsstufen; die Einheiten 7–8 übertragen das Prinzip in das Spiel über den Dritten Mann und das 4v4+3-Positionsspiel.',
     selectRondoLabel: 'Schwerpunkt-Rondo des Monats wählen:',
     progressPrefix: 'Zyklus-Fortschritt:',
@@ -1170,10 +1177,10 @@ export const UI_DE: UIStrings = {
     progressSuffix: 'Einheiten abgeschlossen',
     progressHint: 'Klicke auf eine Trainingskarte, um sie als erledigt zu markieren',
     sessionLabel: 'Einheit',
-    loadPrefix: 'Belastung:',
+    loadPrefix: '',
     completedBadge: 'Absolviert',
-    markCompletedBtn: 'Als erledigt markieren',
-    sessionStructureTitle: 'Einbettung des Rondos in eine 90-minütige Trainingseinheit',
+    markCompletedBtn: 'Abhaken',
+    sessionStructureTitle: 'Aufbau einer 90-Minuten-Einheit',
     sessionBlocks: [
       {
         step: '1. Aktivierung (15 Min.)',
@@ -1203,11 +1210,11 @@ export const UI_DE: UIStrings = {
     ]
   },
   methodology: {
-    tabAll: 'Alle Bereiche',
-    tabPrinciples: '1. Mikro-Prinzipien & Steuerung',
-    tabGeometry: '2. Geometrie, Stellung & Deckungsschatten',
-    tabInterventions: '3. „Freeze“-Coaching & Korrekturen',
-    tabCheatSheet: '4. Master-Tabelle (Alle 10 Rondos)',
+    tabAll: 'Alle',
+    tabPrinciples: 'Prinzipien',
+    tabGeometry: 'Geometrie',
+    tabInterventions: 'Freeze-Coaching',
+    tabCheatSheet: 'Master-Tabelle',
     cards: [
       {
         title: '1. Mikro-Prinzipien („La-Masia-Schule“)',

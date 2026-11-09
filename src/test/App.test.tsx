@@ -75,8 +75,8 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
   it('filters by tactical categories and selects different rondos', () => {
     renderApp();
 
-    // Click category "2. Progression"
-    const progressionBtn = screen.getByRole('button', { name: /2\. Progression/i });
+    // Click category "Progression"
+    const progressionBtn = screen.getByRole('button', { name: /^Progression$/i });
     fireEvent.click(progressionBtn);
 
     // Rondo 2.1 should now be active
@@ -84,11 +84,11 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
       screen.getAllByText(/7v3 Rondo: Progression Through Pivot \(#6\)/i).length
     ).toBeGreaterThan(0);
 
-    // Click category "5. Transition"
-    const transitionBtn = screen.getByRole('button', { name: /5\. Transition/i });
+    // Click category "Transition"
+    const transitionBtn = screen.getByRole('button', { name: /^Transition$/i });
     fireEvent.click(transitionBtn);
 
-    // Rondo 5.2 should be available and selectable
+    // Rondo 5.1 should be active
     expect(
       screen.getAllByText(/Escape Pressure Zone/i).length
     ).toBeGreaterThan(0);
@@ -99,18 +99,18 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
 
     const mainNav = screen.getByRole('navigation', { name: /main navigation/i });
 
-    // 1. Navigate to Monthly Plan (8 Sess.)
+    // 1. Navigate to Monthly Plan
     fireEvent.click(within(mainNav).getByRole('button', { name: /Monthly Plan/i }));
     expect(
-      screen.getByText(/Periodization Matrix • 4 Weeks \/ 8 Sessions/i)
+      screen.getByText(/4 Weeks • 8 Sessions/i)
     ).toBeInTheDocument();
 
     // Toggle a session card completion
     const session3Text = screen.getByText(/Week 2 \(Tuesday\)/i);
     fireEvent.click(session3Text);
 
-    // 2. Navigate to U15 Methodology
-    fireEvent.click(within(mainNav).getByRole('button', { name: /U15 Methodology/i }));
+    // 2. Navigate to Methodology
+    fireEvent.click(within(mainNav).getByRole('button', { name: /Methodology/i }));
     expect(
       screen.getByText(/1\. Micro-Principles \("Barcelona School"\)/i)
     ).toBeInTheDocument();
@@ -118,16 +118,16 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
       screen.getByText(/Master Cheat-Sheet: Grid Dimensions/i)
     ).toBeInTheDocument();
 
-    // 3. Navigate to Pitch Timer
-    fireEvent.click(within(mainNav).getByRole('button', { name: /Pitch Timer/i }));
+    // 3. Navigate to Timer
+    fireEvent.click(within(mainNav).getByRole('button', { name: /Timer/i }));
     expect(
       screen.getByText(/Rondo Interval Set Timer \(with Coach Whistle\)/i)
     ).toBeInTheDocument();
 
     // 4. Open Printable Coach Card modal
-    fireEvent.click(within(mainNav).getByRole('button', { name: /Pitch Print Card/i }));
+    fireEvent.click(within(mainNav).getByRole('button', { name: /Print Card/i }));
     expect(
-      screen.getByText(/Training Session Drill Card • U15/i)
+      screen.getByText(/Training Session Drill Card/i)
     ).toBeInTheDocument();
 
     // Close modal
@@ -154,11 +154,11 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
     fireEvent.click(darkBtn);
     expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
 
-    // Open Training Series Switcher popover to see Series 01: Rondo and upcoming modules
+    // Open Training Series Switcher popover to see Rondo and upcoming modules
     const seriesBtn = screen.getByTestId('series-switcher-btn');
     fireEvent.click(seriesBtn);
     expect(
-      screen.getByText(/Series 02: Positional Play/i)
+      screen.getByText(/Positional Play/i)
     ).toBeInTheDocument();
   });
 
@@ -215,7 +215,7 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
     renderApp();
 
     const mainNav = screen.getByRole('navigation', { name: /main navigation/i });
-    fireEvent.click(within(mainNav).getByRole('button', { name: /U15 Methodology/i }));
+    fireEvent.click(within(mainNav).getByRole('button', { name: /Methodology/i }));
 
     // Check Interactive Geometry section & toggle Mistake vs Solution mode
     const geometryToggles = screen.getAllByTestId('geometry-mode-toggle');
@@ -226,22 +226,24 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
     expect(screen.getAllByText(/FREEZE!/i).length).toBeGreaterThanOrEqual(6);
   });
 
-  it('switches age bands (U9–U10 through U17+ / Pro) and renders the Methodological & Scientific Basis tab', () => {
+  it('switches age bands (U9-10 through U17+) in the Settings dropdown and renders the Methodological & Scientific Basis tab', () => {
     renderApp();
 
-    // Verify Age Band Selector is rendered in the Catalog view
-    const ageSelector = screen.getByTestId('age-band-selector');
-    expect(ageSelector).toBeInTheDocument();
+    // Verify Age Band Selector is rendered inside Settings dropdown
+    const settingsAgeSwitcher = screen.getByTestId('settings-age-switcher');
+    expect(settingsAgeSwitcher).toBeInTheDocument();
 
-    // Switch to U9–U10 (Foundation Stage)
+    // Switch to U9-10 (Foundation Stage)
     const u10Pill = screen.getByTestId('age-pill-u10');
+    expect(u10Pill).toHaveTextContent('U9-10');
     fireEvent.click(u10Pill);
     expect(
       screen.getAllByText(/Foundation Stage \(Funino \/ Game Discovery\)/i).length
     ).toBeGreaterThan(0);
 
-    // Switch to U17+ / Pro (High Performance)
+    // Switch to U17+ (High Performance)
     const proPill = screen.getByTestId('age-pill-u18_pro');
+    expect(proPill).toHaveTextContent('U17+');
     fireEvent.click(proPill);
     expect(
       screen.getAllByText(/High Performance & Adult Football/i).length

@@ -158,12 +158,16 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       categories:
         lang === 'ru' ? CATEGORIES_RU : lang === 'de' ? CATEGORIES_DE : CATEGORIES_EN,
       rondos: lang === 'ru' ? RONDOS_RU : lang === 'de' ? RONDOS_DE : RONDOS_EN,
-      generateMonthlyPlan:
-        lang === 'ru'
-          ? generateMonthlyPlanRu
+      generateMonthlyPlan: (rondo: RondoItem) => {
+        const variant =
+          (ageMatrix[rondo.id] || ageMatrix['rondo-1'])[ageBand] ||
+          (ageMatrix[rondo.id] || ageMatrix['rondo-1'])['u16'];
+        return lang === 'ru'
+          ? generateMonthlyPlanRu(rondo, variant)
           : lang === 'de'
-          ? generateMonthlyPlanDe
-          : generateMonthlyPlanEn,
+          ? generateMonthlyPlanDe(rondo, variant)
+          : generateMonthlyPlanEn(rondo, variant);
+      },
       getSquadOrganizationAdvice:
         lang === 'ru'
           ? getSquadOrganizationAdviceRu

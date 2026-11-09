@@ -1,12 +1,12 @@
 import { CategoryItem, MonthlySessionItem, RondoItem, UIStrings } from './types';
 
 export const CATEGORIES_EN: CategoryItem[] = [
-  { id: 'all', name: 'All 10 Rondos', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
-  { id: 'retention', name: '1. Ball Retention', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
-  { id: 'progression', name: '2. Progression', color: 'bg-blue-600', dot: 'bg-blue-400' },
-  { id: 'switch', name: '3. Switching Play', color: 'bg-amber-600', dot: 'bg-amber-400' },
-  { id: 'defense', name: '4. Pressing & 3rd Man', color: 'bg-rose-600', dot: 'bg-rose-400' },
-  { id: 'transition', name: '5. Transition', color: 'bg-purple-600', dot: 'bg-purple-400' }
+  { id: 'all', name: 'All', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
+  { id: 'retention', name: 'Ball Retention', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
+  { id: 'progression', name: 'Progression', color: 'bg-blue-600', dot: 'bg-blue-400' },
+  { id: 'switch', name: 'Switching Play', color: 'bg-amber-600', dot: 'bg-amber-400' },
+  { id: 'defense', name: 'Pressing & 3rd Man', color: 'bg-rose-600', dot: 'bg-rose-400' },
+  { id: 'transition', name: 'Transition', color: 'bg-purple-600', dot: 'bg-purple-400' }
 ];
 
 export const RONDOS_EN: RondoItem[] = [
@@ -976,86 +976,93 @@ export const RONDOS_EN: RondoItem[] = [
   }
 ];
 
-export const generateMonthlyPlanEn = (rondo: RondoItem): MonthlySessionItem[] => {
+export const generateMonthlyPlanEn = (
+  rondo: RondoItem,
+  ageVariant?: { baseGrid: string; intensiveGrid: string; timing: string }
+): MonthlySessionItem[] => {
+  const baseGrid = ageVariant?.baseGrid || rondo.dimensionsU15.base;
+  const intensiveGrid = ageVariant?.intensiveGrid || rondo.dimensionsU15.intensive;
+  const baseTiming = ageVariant?.timing || rondo.timingU15;
+
   return [
     {
       session: 1,
       week: 'Week 1 (Tuesday)',
-      stage: 'Stage 1 (Foundation — Attack)',
+      stage: 'Stage 1 • Foundation',
       stageBadge: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-      focusSide: 'Focus: In-Possession Players',
+      focusSide: 'Attack',
       goal: rondo.id === 'rondo-3'
         ? 'Feed the central pivot (#6) and switch play onto a vacant perimeter line'
-        : `Mastering the geometry of "${rondo.title}": ${rondo.attackGoal.split('.')[0]}`,
-      conditions: `${rondo.dimensionsU15.base}. Touch limit: 2–3 touches. No score penalties yet — focus on open body shape (Perfilación) and early support angles before receiving.`,
-      loadU15: rondo.timingU15
+        : rondo.attackGoal.split('.')[0],
+      conditions: `${baseGrid}. Touch limit: 2–3 touches. No score penalties yet — focus on open body shape (Perfilación) and early support angles before receiving.`,
+      loadU15: baseTiming
     },
     {
       session: 2,
       week: 'Week 1 (Thursday)',
-      stage: 'Stage 1 (Foundation — Defense)',
+      stage: 'Stage 1 • Foundation',
       stageBadge: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
-      focusSide: 'Focus: Pressing Defenders',
+      focusSide: 'Defense',
       goal: rondo.id === 'rondo-3'
         ? 'Defenders: screen the center (keep pivot #6 in your cover shadow)'
-        : `Pressing structure: ${rondo.defenseGoal.split('.')[0]}`,
-      conditions: `${rondo.dimensionsU15.base}. Coach uses "Freeze" interventions whenever defenders get caught flat on one line and expose the central lane.`,
-      loadU15: rondo.timingU15
+        : rondo.defenseGoal.split('.')[0],
+      conditions: `${baseGrid}. Coach uses "Freeze" interventions whenever defenders get caught flat on one line and expose the central lane.`,
+      loadU15: baseTiming
     },
     {
       session: 3,
       week: 'Week 2 (Tuesday)',
-      stage: 'Stage 2 (Complexity — Target Score)',
+      stage: 'Stage 2 • Complexity',
       stageBadge: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
-      focusSide: 'Focus: Tactical Scoring for Attack',
+      focusSide: 'Attack Scoring',
       goal: rondo.id === 'rondo-3'
         ? 'ONLY sequences played through the central pivot (#6) count for points'
-        : `Target scoring action: ${rondo.scoringRule.split('.')[0]}`,
-      conditions: `Standard grid size, strictly 2 touches. Perimeter circulation scores 0 points — points are awarded solely for executing the primary tactical objective.`,
-      loadU15: rondo.timingU15
+        : rondo.scoringRule.split('.')[0],
+      conditions: `${baseGrid}, strictly 2 touches. Perimeter circulation scores 0 points — points are awarded solely for executing the primary tactical objective.`,
+      loadU15: baseTiming
     },
     {
       session: 4,
       week: 'Week 2 (Thursday)',
-      stage: 'Stage 2 (Complexity — Coordinated Press)',
+      stage: 'Stage 2 • Complexity',
       stageBadge: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
-      focusSide: 'Focus: Synchronized Pressing',
+      focusSide: 'Synchronized Press',
       goal: rondo.id === 'rondo-3'
         ? 'Defenders: press as a coordinated unit (1 presses ball, 2 screen lines & #6)'
         : 'Synchronized pressing trigger on a firm pass or closed-body reception',
       conditions: `Dual scoring system active: both attackers and defenders track points. Rotate pressing pairs/trios every 1.5–2 minutes to maintain peak intensity.`,
-      loadU15: rondo.timingU15
+      loadU15: baseTiming
     },
     {
       session: 5,
       week: 'Week 3 (Tuesday)',
-      stage: 'Stage 3 (Decision Speed)',
+      stage: 'Stage 3 • Speed',
       stageBadge: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
-      focusSide: 'Focus: Faster & Sharper Execution',
+      focusSide: 'Decision Speed',
       goal: rondo.id === 'rondo-3'
         ? 'Central pivot (#6) plays faster and sharper (strictly 1-touch)'
-        : `High-intensity mode: ${rondo.progressions[2].desc}`,
-      conditions: `Grid tightened to ${rondo.dimensionsU15.intensive}. Central/target player restricted to 1 touch, perimeter players 1–2 touches.`,
-      loadU15: '4 sets × 2 min (high heart rate 85–90% HRmax)'
+        : rondo.progressions[2].desc,
+      conditions: `Grid tightened to ${intensiveGrid}. Central/target player restricted to 1 touch, perimeter players 1–2 touches.`,
+      loadU15: baseTiming
     },
     {
       session: 6,
       week: 'Week 3 (Thursday)',
-      stage: 'Stage 3 (Pass Limit & Stakes)',
+      stage: 'Stage 3 • Stakes',
       stageBadge: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
-      focusSide: 'Focus: Peak Competition',
+      focusSide: 'Competition',
       goal: rondo.id === 'rondo-3'
         ? 'Defenders: regain possession or force an error within 6 passes'
         : '6-pass limit for defense + competitive "Stakes" for the losing group',
       conditions: `Rondo mechanics are now mastered — introduce competitive stakes (short explosive sprint/reaction drill for the losing group). Regain within 6 passes awards +2 points to defense.`,
-      loadU15: '4 sets × 2 min | Rest: 1 min'
+      loadU15: baseTiming
     },
     {
       session: 7,
       week: 'Week 4 (Tuesday)',
-      stage: 'Next Level (Third-Man Link)',
+      stage: 'Next Level • 3rd Man',
       stageBadge: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
-      focusSide: 'Bridge to Positional Play',
+      focusSide: 'Positional Bridge',
       goal: 'Progression into Bartolini "Third-Man" Rondo (A → B 1-touch layoff → C)',
       conditions: '16×16 m outer grid with a 5×5 m inner box. When the direct passing lane is blocked, unlock the target player via a 1-touch third-man bounce pass.',
       loadU15: '4 sets × 2.5 min | Rest: 45 sec'
@@ -1063,9 +1070,9 @@ export const generateMonthlyPlanEn = (rondo: RondoItem): MonthlySessionItem[] =>
     {
       session: 8,
       week: 'Week 4 (Thursday)',
-      stage: 'Next Level (Game Transfer)',
+      stage: 'Next Level • Transfer',
       stageBadge: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-      focusSide: 'Capstone Positional Game',
+      focusSide: '4v4+3 Game',
       goal: '4v4 + 3 Neutrals Positional Game (combining all monthly objectives)',
       conditions: '24×16 m pitch bisected by a dashed midline. Points stack for every mastered element of the month: pass via (#6), third-man combination, zone switch, and 3-sec counter-press.',
       loadU15: '3 sets × 4 min | Rest: 1 min'
@@ -1110,15 +1117,15 @@ export const UI_EN: UIStrings = {
     }
   },
   nav: {
-    catalog: '10 Rondos + Board',
-    catalogShort: '10 Rondos',
-    monthly: 'Monthly Plan (8 Sess.)',
-    monthlyShort: '8-Sess. Plan',
-    methodology: 'U15 Methodology',
-    methodologyShort: 'Methodology',
-    timer: 'Pitch Timer',
+    catalog: 'Rondos',
+    catalogShort: 'Rondos',
+    monthly: 'Monthly Plan',
+    monthlyShort: 'Plan',
+    methodology: 'Methodology',
+    methodologyShort: 'Guide',
+    timer: 'Timer',
     timerShort: 'Timer',
-    printCard: 'Pitch Print Card',
+    printCard: 'Print Card',
     printCardShort: 'Print',
     printCardTooltip: 'Open printable coach card or save as PDF'
   },
@@ -1128,7 +1135,7 @@ export const UI_EN: UIStrings = {
     numberPrefix: '#',
     metersSuffix: 'm',
     exerciseLabel: 'Drill',
-    openMonthlyPlanBtn: 'Open 8-Session Monthly Plan for This Rondo',
+    openMonthlyPlanBtn: 'Monthly Plan',
     stepByStepTitle: 'Step-by-Step Phase Animation:',
     phaseLabel: 'Phase',
     prevPhase: 'Prev Phase',
@@ -1145,12 +1152,12 @@ export const UI_EN: UIStrings = {
     legendPossession: 'In Possession',
     legendDefenders: 'Defenders',
     legendNeutral: 'Pivot (6) / Neutral',
-    squadCalcTitle: 'Adapt Setup for Today’s U15 Squad Attendance:',
+    squadCalcTitle: 'Squad Attendance Setup:',
     playersTodayLabel: 'Players today:',
     playersUnit: 'pl.',
-    pitchSizeLabel: 'Grid Size (14–15 yrs)',
+    pitchSizeLabel: 'Grid Size',
     intensivePrefix: 'Intensive:',
-    dosageLabel: 'Work / Rest (U15)',
+    dosageLabel: 'Work / Rest',
     formatPrefix: 'Format:',
     problemTitle: 'Game Problem → Why We Use This Rondo',
     conditionsAndGoalsTitle: 'Conditions & Objectives for Both Sides',
@@ -1158,11 +1165,11 @@ export const UI_EN: UIStrings = {
     defenseGoalTitle: 'Out of Possession (Defense)',
     scoringRuleTitle: 'Scoring System (Objective → Score)',
     progressionsTitle: '3 Progression Stages (Foundation to Peak Intensity)',
-    coachingCuesTitle: 'Live Coaching Cues (U15 Voice Prompts):'
+    coachingCuesTitle: 'Coaching Cues:'
   },
   monthly: {
-    matrixBadge: 'Periodization Matrix • 4 Weeks / 8 Sessions',
-    planTitlePrefix: 'Monthly Plan for:',
+    matrixBadge: '4 Weeks • 8 Sessions',
+    planTitlePrefix: 'Monthly Plan:',
     planSubtitle: 'Following module methodology: Sessions 1–6 alternate focus between attack and defense across 3 complexity stages, while Sessions 7–8 transfer the skill into Third-Man combinations and the 4v4+3 positional game.',
     selectRondoLabel: 'Select Primary Rondo of the Month:',
     progressPrefix: 'Cycle Progress:',
@@ -1170,10 +1177,10 @@ export const UI_EN: UIStrings = {
     progressSuffix: 'sessions completed',
     progressHint: 'Click any session card to mark or unmark it as completed',
     sessionLabel: 'Session',
-    loadPrefix: 'U15 Load:',
+    loadPrefix: '',
     completedBadge: 'Completed',
-    markCompletedBtn: 'Mark as completed',
-    sessionStructureTitle: 'Where the Rondo Fits in a 90-Minute U15 Training Session (14–15 yrs)',
+    markCompletedBtn: 'Mark done',
+    sessionStructureTitle: '90-Minute Session Structure',
     sessionBlocks: [
       {
         step: '1. Activation (15 min)',
@@ -1203,11 +1210,11 @@ export const UI_EN: UIStrings = {
     ]
   },
   methodology: {
-    tabAll: 'All Sections',
-    tabPrinciples: '1. Micro-Principles & U15',
-    tabGeometry: '2. Geometry, Body Shape & Cover Shadow',
-    tabInterventions: '3. Coach Freeze & Interventions',
-    tabCheatSheet: '4. 10 Rondos Master Table',
+    tabAll: 'All',
+    tabPrinciples: 'Principles',
+    tabGeometry: 'Geometry',
+    tabInterventions: 'Freeze Cues',
+    tabCheatSheet: 'Master Table',
     cards: [
       {
         title: '1. Micro-Principles ("Barcelona School")',

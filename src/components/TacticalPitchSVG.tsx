@@ -385,117 +385,136 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
       onTouchEnd={handleTouchEnd}
     >
       {/* Top Bar with Grid Label, Legend, and Fullscreen Toggle */}
-      <div className="bg-slate-900/95 px-3 sm:px-4 py-2.5 flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 text-xs">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="font-semibold text-emerald-300 tracking-wide">
-            {gridLabel}
-          </span>
-          {hasCustomPositions && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[11px] font-medium">
-              <Move className="w-3 h-3" />
-              {lang === 'ru'
-                ? 'Своя расстановка'
-                : lang === 'de'
-                ? 'Eigene Aufstellung'
-                : 'Custom Setup'}
+      <div className="bg-slate-900/95 px-3 sm:px-4 py-2 border-b border-slate-800 text-xs space-y-1.5 sm:space-y-0 sm:flex sm:items-center sm:justify-between gap-2">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+            <span className="font-semibold text-emerald-300 tracking-wide truncate">
+              {gridLabel}
             </span>
-          )}
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3.5 text-slate-300">
-          <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-full bg-red-500 inline-block border border-white/80 shadow-sm" />
-            <span>{t.catalog.legendPossession}</span>
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-full bg-blue-500 inline-block border border-white/80 shadow-sm" />
-            <span>{t.catalog.legendDefenders}</span>
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-full bg-amber-400 inline-block border border-slate-900 shadow-sm" />
-            <span>{t.catalog.legendNeutral}</span>
-          </span>
+            {hasCustomPositions && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[11px] font-medium shrink-0">
+                <Move className="w-3 h-3" />
+                {lang === 'ru'
+                  ? 'Своя'
+                  : lang === 'de'
+                  ? 'Eigen'
+                  : 'Custom'}
+              </span>
+            )}
+          </div>
 
           <button
             type="button"
             onClick={() => setIsFullscreen(!isFullscreen)}
             title={isFullscreen ? t.catalog.fullscreenExit : t.catalog.fullscreenEnter}
-            className="ml-1 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer print:hidden"
+            className="sm:hidden inline-flex items-center justify-center p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer print:hidden shrink-0"
+          >
+            {isFullscreen ? (
+              <Minimize2 className="w-3.5 h-3.5 text-emerald-400" />
+            ) : (
+              <Maximize2 className="w-3.5 h-3.5 text-emerald-400" />
+            )}
+          </button>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between sm:justify-end gap-2 sm:gap-3.5 text-[11px] sm:text-xs text-slate-300">
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3.5">
+            <span className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-red-500 inline-block border border-white/80 shadow-sm" />
+              <span>{t.catalog.legendPossession}</span>
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block border border-white/80 shadow-sm" />
+              <span>{t.catalog.legendDefenders}</span>
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block border border-slate-900 shadow-sm" />
+              <span>{t.catalog.legendNeutral}</span>
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setIsFullscreen(!isFullscreen)}
+            title={isFullscreen ? t.catalog.fullscreenExit : t.catalog.fullscreenEnter}
+            className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer print:hidden"
           >
             {isFullscreen ? (
               <>
                 <Minimize2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="hidden sm:inline">{t.catalog.fullscreenExit}</span>
+                <span className="hidden md:inline">{t.catalog.fullscreenExit}</span>
               </>
             ) : (
               <>
                 <Maximize2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="hidden sm:inline">{t.catalog.fullscreenEnter}</span>
+                <span className="hidden md:inline">{t.catalog.fullscreenEnter}</span>
               </>
             )}
           </button>
         </div>
       </div>
 
-      {/* Interactive Pitch Controls Bar: Auto-Play, Speed, Replay Pass, and Whiteboard Reset */}
-      <div className="bg-slate-900/80 px-3 sm:px-4 py-2 flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 text-xs print:hidden">
-        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-          {/* Auto-Play / Pause Button */}
-          <button
-            type="button"
-            data-testid={inModal ? 'pitch-autoplay-btn-modal' : 'pitch-autoplay-btn'}
-            onClick={() => setIsPlaying((prev) => !prev)}
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold transition cursor-pointer border ${
-              isPlaying
-                ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-sm shadow-emerald-500/20'
-                : 'bg-slate-800 hover:bg-slate-700 text-emerald-300 border-slate-700'
-            }`}
-          >
-            {isPlaying ? (
-              <>
-                <Pause className="w-3.5 h-3.5 fill-current" />
-                <span>{lang === 'ru' ? 'Пауза' : 'Pause'}</span>
-              </>
-            ) : (
-              <>
-                <Play className="w-3.5 h-3.5 fill-current" />
-                <span>
-                  {lang === 'ru'
-                    ? 'Авто-показ'
-                    : lang === 'de'
-                    ? 'Auto-Play'
-                    : 'Auto-Play'}
-                </span>
-              </>
-            )}
-          </button>
-
-          {/* Replay Current Pass Trajectory Button */}
-          {primaryPass && (
+      {/* Interactive Pitch Controls Bar: Auto-Play, Replay Pass, Speed, and Whiteboard Reset */}
+      <div className="bg-slate-900/80 px-3 sm:px-4 py-2 flex flex-wrap items-center justify-between gap-1.5 border-b border-slate-800/80 text-xs print:hidden">
+        <div className="flex items-center gap-1.5 flex-wrap flex-1 justify-between sm:justify-start">
+          <div className="flex items-center gap-1.5">
+            {/* Auto-Play / Pause Button */}
             <button
               type="button"
-              data-testid={inModal ? 'pitch-replay-pass-btn-modal' : 'pitch-replay-pass-btn'}
-              onClick={handleReplayPass}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer"
-              title={
-                lang === 'ru'
-                  ? 'Повторить траекторию паса в текущей фазе'
-                  : lang === 'de'
-                  ? 'Passweg in dieser Phase wiederholen'
-                  : 'Replay pass trajectory in current phase'
-              }
+              data-testid={inModal ? 'pitch-autoplay-btn-modal' : 'pitch-autoplay-btn'}
+              onClick={() => setIsPlaying((prev) => !prev)}
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold transition cursor-pointer border ${
+                isPlaying
+                  ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-sm shadow-emerald-500/20'
+                  : 'bg-slate-800 hover:bg-slate-700 text-emerald-300 border-slate-700'
+              }`}
             >
-              <RefreshCw className={`w-3.5 h-3.5 text-amber-400 ${isPassAnimating && !isPlaying ? 'animate-spin' : ''}`} />
-              <span>
-                {lang === 'ru'
-                  ? 'Повтор паса'
-                  : lang === 'de'
-                  ? 'Pass wiederholen'
-                  : 'Replay Pass'}
-              </span>
+              {isPlaying ? (
+                <>
+                  <Pause className="w-3.5 h-3.5 fill-current" />
+                  <span>{lang === 'ru' ? 'Пауза' : 'Pause'}</span>
+                </>
+              ) : (
+                <>
+                  <Play className="w-3.5 h-3.5 fill-current" />
+                  <span>
+                    {lang === 'ru'
+                      ? 'Авто-показ'
+                      : lang === 'de'
+                      ? 'Auto-Play'
+                      : 'Auto-Play'}
+                  </span>
+                </>
+              )}
             </button>
-          )}
+
+            {/* Replay Current Pass Trajectory Button */}
+            {primaryPass && (
+              <button
+                type="button"
+                data-testid={inModal ? 'pitch-replay-pass-btn-modal' : 'pitch-replay-pass-btn'}
+                onClick={handleReplayPass}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer"
+                title={
+                  lang === 'ru'
+                    ? 'Повторить траекторию паса в текущей фазе'
+                    : lang === 'de'
+                    ? 'Passweg in dieser Phase wiederholen'
+                    : 'Replay pass trajectory in current phase'
+                }
+              >
+                <RefreshCw className={`w-3.5 h-3.5 text-amber-400 ${isPassAnimating && !isPlaying ? 'animate-spin' : ''}`} />
+                <span>
+                  {lang === 'ru'
+                    ? 'Повтор паса'
+                    : lang === 'de'
+                    ? 'Pass'
+                    : 'Replay Pass'}
+                </span>
+              </button>
+            )}
+          </div>
 
           {/* Speed Selector Pill */}
           <div className="inline-flex items-center rounded-lg bg-slate-950/80 p-0.5 border border-slate-800">
@@ -504,7 +523,7 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
                 key={spd}
                 type="button"
                 onClick={() => setPlaybackSpeed(spd)}
-                className={`px-2 py-0.5 rounded-md text-[11px] font-semibold transition cursor-pointer ${
+                className={`px-1.5 sm:px-2 py-0.5 rounded-md text-[11px] font-semibold transition cursor-pointer ${
                   playbackSpeed === spd
                     ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
                     : 'text-slate-400 hover:text-slate-200'

@@ -30,8 +30,8 @@ export interface RondoAgeVariant {
 export const AGE_BANDS_RU: AgeBandInfo[] = [
   {
     id: 'u10',
-    shortLabel: 'U9–U10',
-    label: 'U9–U10 (8–10 лет)',
+    shortLabel: 'U9-10',
+    label: 'U9-10 (8–10 лет)',
     ageYears: '8–10 лет',
     stageTitle: 'Базовый этап (Funino / Открытие игры)',
     relativeAreaRule: '+25–35% площади (24–35 м²/игр.)',
@@ -42,8 +42,8 @@ export const AGE_BANDS_RU: AgeBandInfo[] = [
   },
   {
     id: 'u12',
-    shortLabel: 'U11–U12',
-    label: 'U11–U12 (11–12 лет)',
+    shortLabel: 'U11-12',
+    label: 'U11-12 (11–12 лет)',
     ageYears: '11–12 лет',
     stageTitle: 'Золотой возраст моторного обучения',
     relativeAreaRule: '+15–20% площади (20–28 м²/игр.)',
@@ -54,8 +54,8 @@ export const AGE_BANDS_RU: AgeBandInfo[] = [
   },
   {
     id: 'u14',
-    shortLabel: 'U13–U14',
-    label: 'U13–U14 (13–14 лет)',
+    shortLabel: 'U13-14',
+    label: 'U13-14 (13–14 лет)',
     ageYears: '13–14 лет',
     stageTitle: 'Переход к формату 11×11 (Контроль PHV)',
     relativeAreaRule: '+8–10% площади (18–26 м²/игр.)',
@@ -66,8 +66,8 @@ export const AGE_BANDS_RU: AgeBandInfo[] = [
   },
   {
     id: 'u16',
-    shortLabel: 'U15–U16',
-    label: 'U15–U16 (15–16 лет)',
+    shortLabel: 'U15-16',
+    label: 'U15-16 (15–16 лет)',
     ageYears: '15–16 лет',
     stageTitle: 'Тактическая скорость и специализация',
     relativeAreaRule: '100% Эталон (16–24 м²/игр.)',
@@ -78,8 +78,8 @@ export const AGE_BANDS_RU: AgeBandInfo[] = [
   },
   {
     id: 'u18_pro',
-    shortLabel: 'U17+ / Pro',
-    label: 'U17+ и Взрослые (Pro)',
+    shortLabel: 'U17+',
+    label: 'U17+ / Pro',
     ageYears: '17+ лет / Взрослые',
     stageTitle: 'Высшее спортивное мастерство (Экстремальная плотность)',
     relativeAreaRule: '-10–18% площади (11–19 м²/игр.)',
@@ -93,8 +93,8 @@ export const AGE_BANDS_RU: AgeBandInfo[] = [
 export const AGE_BANDS_EN: AgeBandInfo[] = [
   {
     id: 'u10',
-    shortLabel: 'U9–U10',
-    label: 'U9–U10 (8–10 yrs)',
+    shortLabel: 'U9-10',
+    label: 'U9-10 (8–10 yrs)',
     ageYears: '8–10 yrs',
     stageTitle: 'Foundation Stage (Funino / Game Discovery)',
     relativeAreaRule: '+25–35% Area (24–35 m²/pl)',
@@ -105,8 +105,8 @@ export const AGE_BANDS_EN: AgeBandInfo[] = [
   },
   {
     id: 'u12',
-    shortLabel: 'U11–U12',
-    label: 'U11–U12 (11–12 yrs)',
+    shortLabel: 'U11-12',
+    label: 'U11-12 (11–12 yrs)',
     ageYears: '11–12 yrs',
     stageTitle: 'Golden Age of Motor Learning',
     relativeAreaRule: '+15–20% Area (20–28 m²/pl)',
@@ -117,8 +117,8 @@ export const AGE_BANDS_EN: AgeBandInfo[] = [
   },
   {
     id: 'u14',
-    shortLabel: 'U13–U14',
-    label: 'U13–U14 (13–14 yrs)',
+    shortLabel: 'U13-14',
+    label: 'U13-14 (13–14 yrs)',
     ageYears: '13–14 yrs',
     stageTitle: 'Transition to 11v11 (PHV Growth Management)',
     relativeAreaRule: '+8–10% Area (18–26 m²/pl)',
@@ -129,8 +129,8 @@ export const AGE_BANDS_EN: AgeBandInfo[] = [
   },
   {
     id: 'u16',
-    shortLabel: 'U15–U16',
-    label: 'U15–U16 (15–16 yrs)',
+    shortLabel: 'U15-16',
+    label: 'U15-16 (15–16 yrs)',
     ageYears: '15–16 yrs',
     stageTitle: 'Tactical Speed & Positional Specialization',
     relativeAreaRule: '100% Baseline (16–24 m²/pl)',
@@ -141,8 +141,8 @@ export const AGE_BANDS_EN: AgeBandInfo[] = [
   },
   {
     id: 'u18_pro',
-    shortLabel: 'U17+ / Pro',
-    label: 'U17+ & Seniors (Pro)',
+    shortLabel: 'U17+',
+    label: 'U17+ / Pro',
     ageYears: '17+ yrs / Seniors',
     stageTitle: 'High Performance & Adult Football (Extreme Density)',
     relativeAreaRule: '-10–18% Area (11–19 m²/pl)',
@@ -1186,8 +1186,8 @@ export const RONDO_AGE_MATRIX_EN: Record<string, Record<AgeBandId, RondoAgeVaria
 export const AGE_BANDS_DE: AgeBandInfo[] = [
   {
     id: 'u10',
-    shortLabel: 'U9–U10',
-    label: 'U9–U10 (8–10 J.)',
+    shortLabel: 'U9-10',
+    label: 'U9-10 (8–10 J.)',
     ageYears: '8–10 Jahre',
     stageTitle: 'Grundlagentraining (Funino / Spielintelligenz entdecken)',
     relativeAreaRule: '+25–35 % Fläche (24–35 m²/Sp.)',
@@ -1198,8 +1198,8 @@ export const AGE_BANDS_DE: AgeBandInfo[] = [
   },
   {
     id: 'u12',
-    shortLabel: 'U11–U12',
-    label: 'U11–U12 (11–12 J.)',
+    shortLabel: 'U11-12',
+    label: 'U11-12 (11–12 J.)',
     ageYears: '11–12 Jahre',
     stageTitle: 'Goldenes Lernalter der Motorik',
     relativeAreaRule: '+15–20 % Fläche (20–28 m²/Sp.)',
@@ -1210,8 +1210,8 @@ export const AGE_BANDS_DE: AgeBandInfo[] = [
   },
   {
     id: 'u14',
-    shortLabel: 'U13–U14',
-    label: 'U13–U14 (13–14 J.)',
+    shortLabel: 'U13-14',
+    label: 'U13-14 (13–14 J.)',
     ageYears: '13–14 Jahre',
     stageTitle: 'Aufbautraining: Übergang zum 11-gegen-11 (PHV-Steuerung)',
     relativeAreaRule: '+8–10 % Fläche (18–26 m²/Sp.)',
@@ -1222,8 +1222,8 @@ export const AGE_BANDS_DE: AgeBandInfo[] = [
   },
   {
     id: 'u16',
-    shortLabel: 'U15–U16',
-    label: 'U15–U16 (15–16 J.)',
+    shortLabel: 'U15-16',
+    label: 'U15-16 (15–16 J.)',
     ageYears: '15–16 Jahre',
     stageTitle: 'Leistungstraining: Handlungsschnelligkeit & Spezialisierung',
     relativeAreaRule: '100 % Referenzwert (16–24 m²/Sp.)',
@@ -1234,8 +1234,8 @@ export const AGE_BANDS_DE: AgeBandInfo[] = [
   },
   {
     id: 'u18_pro',
-    shortLabel: 'U17+ / Pro',
-    label: 'U17+ & Aktive (Pro)',
+    shortLabel: 'U17+',
+    label: 'U17+ / Pro',
     ageYears: '17+ J. / Herren & Profis',
     stageTitle: 'Hochleistungstraining & Erwachsenenfußball (Maximaler Raum-/Zeitdruck)',
     relativeAreaRule: '-10–18 % Fläche (11–19 m²/Sp.)',
