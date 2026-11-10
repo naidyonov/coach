@@ -189,14 +189,11 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
             data-testid="activation-rubric-showcase"
             className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-2 sm:p-3 max-h-32 sm:max-h-56 overflow-y-auto space-y-2 sm:space-y-3"
           >
-            {visibleRubrics.map((rubric, rubricIdx) => {
+            {visibleRubrics.map((rubric) => {
               const drillsInRubric = rondos.filter(
                 (r) => r.category === rubric.id
               );
               if (drillsInRubric.length === 0) return null;
-              const rubricHeading = /^\d+\./.test(rubric.name.trim())
-                ? rubric.name
-                : `${rubricIdx + 1}. ${rubric.name}`;
               return (
                 <div key={rubric.id} className="space-y-1.5">
                   {/* Rubric Section Title */}
@@ -206,7 +203,7 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                         className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${rubric.dot} shrink-0`}
                       />
                       <h3 className="text-[11px] sm:text-xs font-bold text-slate-200 tracking-tight truncate">
-                        {rubricHeading}
+                        {rubric.name}
                       </h3>
                     </div>
                     <span className="text-[10px] sm:text-[11px] text-slate-400 font-medium shrink-0">

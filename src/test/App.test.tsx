@@ -260,7 +260,7 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
     ).toBeInTheDocument();
   });
 
-  it('switches to the Activation (Einstieg) module via Series Switcher or 4-Block Session Bar, renders 6-Rubric Showcase & 3-Phase Progression Ladder, and hides Monthly Plan in Activation', () => {
+  it('switches to the Activation module via Series Switcher or 4-Block Session Bar, renders 6-Rubric Showcase & 3-Phase Progression Ladder, and hides Monthly Plan in Activation', () => {
     renderApp();
 
     // 1. Verify 4-Block Training Session Flow Bar is rendered in header
@@ -277,7 +277,7 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
     const seriesBtn = screen.getByTestId('series-switcher-btn');
     expect(seriesBtn).toHaveTextContent(/Activation/i);
     expect(
-      screen.getAllByText(/Coerver & Funino 4-Minigoal Team Arena/i).length
+      screen.getAllByText(/Coerver & Funino 4-Minigoal Arena: Ball Control, Color Gates & 1v1 Breakouts/i).length
     ).toBeGreaterThan(0);
 
     // 2. Verify Monthly Plan tab is NOT present in Activation mode (only 3 clean tabs)
@@ -298,7 +298,7 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
     const rubricCardAct11 = screen.getByTestId('rubric-card-act-11');
     fireEvent.click(rubricCardAct11);
     expect(
-      screen.getAllByText(/SFV 02_d "Aus den Zonen dribbeln & 4gg4 mit Dribbelzonen"/i).length
+      screen.getAllByText(/Breakout from 3 Dribble Zones & 4v4 on 4 Mini-Goals \(SFV\)/i).length
     ).toBeGreaterThan(0);
 
     // Toggle collapse/expand of the Rubric Showcase Grid
@@ -314,7 +314,7 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
     });
     fireEvent.click(firstTouchCategoryBtn);
     expect(
-      screen.getAllByText(/SFV "Zentrum-Stern" Team Circuit: 6-to-6 Directional Reception/i).length
+      screen.getAllByText(/SFV Central Box: Directional First Touch & 6-to-6 Rotation on 4 Mini-Goals/i).length
     ).toBeGreaterThan(0);
 
     const defendingCategoryBtn = screen.getByRole('button', {
@@ -322,13 +322,13 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
     });
     fireEvent.click(defendingCategoryBtn);
     expect(
-      screen.getAllByText(/SFV 11_d "5m-Tore durchdribbeln & Bälle jagen": 1v1 Defending/i).length
+      screen.getAllByText(/Dribbling Through 5m Gates & 1v1 Ball Recovery with Counter on 4 Mini-Goals \(SFV\)/i).length
     ).toBeGreaterThan(0);
 
-    // 6. Navigate to Methodology & OFP inside Activation module and toggle all 4 Biomechanics & Touch SVG diagrams
+    // 6. Navigate to Methodology & Conditioning inside Activation module and toggle all 4 Biomechanics & Touch SVG diagrams
     fireEvent.click(within(mainNav).getByRole('button', { name: /Methodology/i }));
     expect(
-      screen.getByText(/1\. SFV Einstieg & 3-Phase Single-Drill Progression/i)
+      screen.getByText(/1\. 3-Phase Single-Drill Progression \(SFV \/ UEFA Methodology\)/i)
     ).toBeInTheDocument();
 
     const geometryToggles = screen.getAllByTestId('geometry-mode-toggle');

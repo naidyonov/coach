@@ -413,13 +413,13 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
       { x: 425, y: 345 },
     ],
     goals: [
-      { id: 'act4-lg1', x: 250, y: 38, size: 'large', facing: 'bottom', label: 'GK Goal' },
+      { id: 'act4-lg1', x: 250, y: 38, size: 'large', facing: 'bottom', label: 'GK' },
       { id: 'act4-m1', x: 140, y: 362, size: 'mini', facing: 'top', label: 'M1' },
       { id: 'act4-m2', x: 360, y: 362, size: 'mini', facing: 'top', label: 'M2' },
     ],
     gates: [
-      { id: 'act4-gt1', p1: { x: 95, y: 115 }, p2: { x: 125, y: 95 }, color: 'amber', label: 'L' },
-      { id: 'act4-gt2', p1: { x: 375, y: 95 }, p2: { x: 405, y: 115 }, color: 'cyan', label: 'R' },
+      { id: 'act4-gt1', p1: { x: 95, y: 115 }, p2: { x: 125, y: 95 }, color: 'amber', label: 'L1' },
+      { id: 'act4-gt2', p1: { x: 375, y: 95 }, p2: { x: 405, y: 115 }, color: 'cyan', label: 'R1' },
       { id: 'act4-gt3', p1: { x: 95, y: 285 }, p2: { x: 125, y: 305 }, color: 'cyan', label: 'L2' },
       { id: 'act4-gt4', p1: { x: 375, y: 305 }, p2: { x: 405, y: 285 }, color: 'amber', label: 'R2' },
     ],
@@ -434,8 +434,8 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
           { id: 'A4', role: 'att', label: 'R1', x: 390, y: 125 },
           { id: 'A5', role: 'att', label: 'L2', x: 110, y: 275 },
           { id: 'A6', role: 'att', label: 'R2', x: 390, y: 275 },
-          { id: 'D1', role: 'neutral', label: 'M1', x: 215, y: 175 },
-          { id: 'D2', role: 'neutral', label: 'M2', x: 285, y: 225 },
+          { id: 'D1', role: 'neutral', label: 'D1', x: 215, y: 175 },
+          { id: 'D2', role: 'neutral', label: 'D2', x: 285, y: 225 },
         ],
         ball: { x: 215, y: 314 },
         balls: [{ x: 285, y: 86 }],
@@ -523,10 +523,10 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
       { x: 250, y: 200 },
     ],
     goals: [
-      { id: 'act5-g1', x: 162, y: 36, size: 'mini', facing: 'bottom', label: 'Q1 Tor' },
-      { id: 'act5-g2', x: 338, y: 36, size: 'mini', facing: 'bottom', label: 'Q2 Tor' },
-      { id: 'act5-g3', x: 162, y: 364, size: 'mini', facing: 'top', label: 'Q3 Tor' },
-      { id: 'act5-g4', x: 338, y: 364, size: 'mini', facing: 'top', label: 'Q4 Tor' },
+      { id: 'act5-g1', x: 162, y: 36, size: 'mini', facing: 'bottom', label: 'M1' },
+      { id: 'act5-g2', x: 338, y: 36, size: 'mini', facing: 'bottom', label: 'M2' },
+      { id: 'act5-g3', x: 162, y: 364, size: 'mini', facing: 'top', label: 'M3' },
+      { id: 'act5-g4', x: 338, y: 364, size: 'mini', facing: 'top', label: 'M4' },
     ],
     phases: [
       {
@@ -951,10 +951,10 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
       { id: 'act9-g4', x: 438, y: 200, size: 'mini', facing: 'left', label: 'M4' },
     ],
     gates: [
-      { id: 'act9-gt1', p1: { x: 155, y: 115 }, p2: { x: 195, y: 115 }, color: 'amber', label: '5m-1' },
-      { id: 'act9-gt2', p1: { x: 305, y: 115 }, p2: { x: 345, y: 115 }, color: 'cyan', label: '5m-2' },
-      { id: 'act9-gt3', p1: { x: 155, y: 285 }, p2: { x: 195, y: 285 }, color: 'rose', label: '5m-3' },
-      { id: 'act9-gt4', p1: { x: 305, y: 285 }, p2: { x: 345, y: 285 }, color: 'emerald', label: '5m-4' },
+      { id: 'act9-gt1', p1: { x: 155, y: 115 }, p2: { x: 195, y: 115 }, color: 'amber', label: 'G1' },
+      { id: 'act9-gt2', p1: { x: 305, y: 115 }, p2: { x: 345, y: 115 }, color: 'cyan', label: 'G2' },
+      { id: 'act9-gt3', p1: { x: 155, y: 285 }, p2: { x: 195, y: 285 }, color: 'rose', label: 'G3' },
+      { id: 'act9-gt4', p1: { x: 305, y: 285 }, p2: { x: 345, y: 285 }, color: 'emerald', label: 'G4' },
     ],
     phases: [
       {
@@ -991,9 +991,9 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
           { id: 'A4', role: 'att', label: 'A4', x: 365, y: 275 },
           { id: 'A5', role: 'att', label: 'A5', x: 250, y: 140 },
           { id: 'A6', role: 'att', label: 'A6', x: 250, y: 260 },
-          { id: 'D1', role: 'def', label: 'J1', x: 175, y: 155 },
-          { id: 'D2', role: 'def', label: 'J2', x: 315, y: 155 },
-          { id: 'D3', role: 'def', label: 'J3', x: 205, y: 245 },
+          { id: 'D1', role: 'def', label: 'D1', x: 175, y: 155 },
+          { id: 'D2', role: 'def', label: 'D2', x: 315, y: 155 },
+          { id: 'D3', role: 'def', label: 'D3', x: 205, y: 245 },
         ],
         ball: { x: 144, y: 125 },
         balls: [
@@ -1022,9 +1022,9 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
           { id: 'A3', role: 'att', label: 'A3', x: 135, y: 265 },
           { id: 'A4', role: 'att', label: 'A4', x: 335, y: 285 },
           { id: 'A5', role: 'att', label: 'A5', x: 250, y: 195 },
-          { id: 'D1', role: 'def', label: 'J1', x: 190, y: 105 },
-          { id: 'D2', role: 'def', label: 'J2', x: 340, y: 185 },
-          { id: 'D3', role: 'def', label: 'J3', x: 215, y: 295 },
+          { id: 'D1', role: 'def', label: 'D1', x: 190, y: 105 },
+          { id: 'D2', role: 'def', label: 'D2', x: 340, y: 185 },
+          { id: 'D3', role: 'def', label: 'D3', x: 215, y: 295 },
         ],
         ball: { x: 196, y: 92 },
         balls: [
@@ -1158,7 +1158,7 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
 
   // ==========================================================================
   // act-11 (1.3): SFV 02_d "Aus den Zonen dribbeln & 4gg4 mit Dribbelzonen"
-  // 16 cones = outer square + 3 internal 4-cone Dribbelzonen + 10 players + 4 balls
+  // 16 cones = outer square + 3 internal 4-cone Dribbelzonen + 4 outer Mini-Goals
   // ==========================================================================
   'act-11': {
     type: 'concentric_square',
@@ -1183,6 +1183,12 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
       { x: 205, y: 320 },
       { x: 295, y: 320 },
     ],
+    goals: [
+      { id: 'act11-g1', x: 250, y: 34, size: 'mini', facing: 'bottom', label: 'M1' },
+      { id: 'act11-g2', x: 250, y: 366, size: 'mini', facing: 'top', label: 'M2' },
+      { id: 'act11-g3', x: 54, y: 200, size: 'mini', facing: 'right', label: 'M3' },
+      { id: 'act11-g4', x: 446, y: 200, size: 'mini', facing: 'left', label: 'M4' },
+    ],
     phases: [
       {
         players: [
@@ -1190,10 +1196,10 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
           { id: 'A2', role: 'att', label: 'A2', x: 350, y: 125 },
           { id: 'A3', role: 'att', label: 'A3', x: 250, y: 280 },
           { id: 'A4', role: 'att', label: 'A4', x: 150, y: 265 },
-          { id: 'N1', role: 'neutral', label: 'W1', x: 245, y: 80 },
-          { id: 'N2', role: 'neutral', label: 'W2', x: 415, y: 215 },
-          { id: 'N3', role: 'neutral', label: 'W3', x: 355, y: 295 },
-          { id: 'N4', role: 'neutral', label: 'W4', x: 90, y: 220 },
+          { id: 'N1', role: 'neutral', label: 'N1', x: 245, y: 80 },
+          { id: 'N2', role: 'neutral', label: 'N2', x: 415, y: 215 },
+          { id: 'N3', role: 'neutral', label: 'N3', x: 355, y: 295 },
+          { id: 'N4', role: 'neutral', label: 'N4', x: 90, y: 220 },
         ],
         ball: { x: 164, y: 122 },
         balls: [
@@ -1218,10 +1224,10 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
           { id: 'A2', role: 'att', label: 'A2', x: 350, y: 125 },
           { id: 'A3', role: 'att', label: 'A3', x: 250, y: 280 },
           { id: 'A4', role: 'att', label: 'A4', x: 250, y: 185 },
-          { id: 'N1', role: 'neutral', label: 'W1', x: 82, y: 125 },
-          { id: 'N2', role: 'neutral', label: 'W2', x: 350, y: 60 },
-          { id: 'N3', role: 'neutral', label: 'W3', x: 160, y: 280 },
-          { id: 'N4', role: 'neutral', label: 'W4', x: 415, y: 250 },
+          { id: 'N1', role: 'neutral', label: 'N1', x: 82, y: 125 },
+          { id: 'N2', role: 'neutral', label: 'N2', x: 350, y: 60 },
+          { id: 'N3', role: 'neutral', label: 'N3', x: 160, y: 280 },
+          { id: 'N4', role: 'neutral', label: 'N4', x: 415, y: 250 },
         ],
         ball: { x: 95, y: 125 },
         balls: [
@@ -1273,7 +1279,7 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
 
   // ==========================================================================
   // act-12 (1.4): SFV 03_d "Doppelpass & Ins Feld dribbeln" (1v1 Line Entry)
-  // 8 cones = Concentric Inner/Outer Square + 8-10 players + 4 balls
+  // 8 cones = Concentric Inner/Outer Square + 4 outer Mini-Goals
   // ==========================================================================
   'act-12': {
     type: 'concentric_square',
@@ -1287,6 +1293,12 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
       { x: 155, y: 285 },
       { x: 345, y: 285 },
     ],
+    goals: [
+      { id: 'act12-g1', x: 250, y: 34, size: 'mini', facing: 'bottom', label: 'M1' },
+      { id: 'act12-g2', x: 250, y: 366, size: 'mini', facing: 'top', label: 'M2' },
+      { id: 'act12-g3', x: 58, y: 200, size: 'mini', facing: 'right', label: 'M3' },
+      { id: 'act12-g4', x: 442, y: 200, size: 'mini', facing: 'left', label: 'M4' },
+    ],
     phases: [
       {
         players: [
@@ -1294,10 +1306,10 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
           { id: 'A2', role: 'att', label: 'A2', x: 295, y: 165 },
           { id: 'A3', role: 'att', label: 'A3', x: 205, y: 235 },
           { id: 'A4', role: 'att', label: 'A4', x: 295, y: 235 },
-          { id: 'N1', role: 'neutral', label: 'S1', x: 250, y: 115 },
-          { id: 'N2', role: 'neutral', label: 'S2', x: 345, y: 200 },
-          { id: 'N3', role: 'neutral', label: 'S3', x: 250, y: 285 },
-          { id: 'N4', role: 'neutral', label: 'S4', x: 155, y: 200 },
+          { id: 'N1', role: 'neutral', label: 'N1', x: 250, y: 115 },
+          { id: 'N2', role: 'neutral', label: 'N2', x: 345, y: 200 },
+          { id: 'N3', role: 'neutral', label: 'N3', x: 250, y: 285 },
+          { id: 'N4', role: 'neutral', label: 'N4', x: 155, y: 200 },
         ],
         ball: { x: 215, y: 154 },
         balls: [
@@ -1377,7 +1389,7 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
 
   // ==========================================================================
   // act-13 (4.3): SFV 04_d "Von Seite zu Seite & Vom 2gg2 zum 4gg4"
-  // 4 outer cones + 8-10 players (central players + 4 endline target players)
+  // 4 outer cones + 2 Large Goals (G1 & G2) + 8-10 players
   // ==========================================================================
   'act-13': {
     type: 'single_square',
@@ -1387,6 +1399,10 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
       { x: 100, y: 335 },
       { x: 400, y: 335 },
     ],
+    goals: [
+      { id: 'act13-lg1', x: 52, y: 200, size: 'large', facing: 'right', label: 'G1' },
+      { id: 'act13-lg2', x: 448, y: 200, size: 'large', facing: 'left', label: 'G2' },
+    ],
     phases: [
       {
         players: [
@@ -1394,10 +1410,10 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
           { id: 'A2', role: 'att', label: 'A2', x: 185, y: 130 },
           { id: 'A3', role: 'att', label: 'A3', x: 295, y: 155 },
           { id: 'A4', role: 'att', label: 'A4', x: 428, y: 145 },
-          { id: 'N1', role: 'neutral', label: 'B1', x: 72, y: 255 },
-          { id: 'N2', role: 'neutral', label: 'B2', x: 205, y: 245 },
-          { id: 'N3', role: 'neutral', label: 'B3', x: 315, y: 265 },
-          { id: 'N4', role: 'neutral', label: 'B4', x: 428, y: 255 },
+          { id: 'N1', role: 'neutral', label: 'N1', x: 72, y: 255 },
+          { id: 'N2', role: 'neutral', label: 'N2', x: 205, y: 245 },
+          { id: 'N3', role: 'neutral', label: 'N3', x: 315, y: 265 },
+          { id: 'N4', role: 'neutral', label: 'N4', x: 428, y: 255 },
         ],
         ball: { x: 308, y: 152 },
         balls: [{ x: 192, y: 248 }],
@@ -1418,10 +1434,10 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
           { id: 'A2', role: 'att', label: 'A2', x: 185, y: 145 },
           { id: 'A3', role: 'att', label: 'A3', x: 315, y: 145 },
           { id: 'A4', role: 'att', label: 'A4', x: 428, y: 145 },
-          { id: 'N1', role: 'neutral', label: 'B1', x: 72, y: 255 },
-          { id: 'N2', role: 'neutral', label: 'B2', x: 185, y: 255 },
-          { id: 'N3', role: 'neutral', label: 'B3', x: 315, y: 255 },
-          { id: 'N4', role: 'neutral', label: 'B4', x: 428, y: 255 },
+          { id: 'N1', role: 'neutral', label: 'N1', x: 72, y: 255 },
+          { id: 'N2', role: 'neutral', label: 'N2', x: 185, y: 255 },
+          { id: 'N3', role: 'neutral', label: 'N3', x: 315, y: 255 },
+          { id: 'N4', role: 'neutral', label: 'N4', x: 428, y: 255 },
         ],
         ball: { x: 170, y: 145 },
         balls: [{ x: 330, y: 255 }],
@@ -1490,11 +1506,11 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
           { id: 'A2', role: 'att', label: 'A2', x: 215, y: 105 },
           { id: 'A3', role: 'att', label: 'A3', x: 155, y: 235 },
           { id: 'A4', role: 'att', label: 'A4', x: 245, y: 195 },
-          { id: 'N1', role: 'neutral', label: 'B1', x: 325, y: 125 },
-          { id: 'N2', role: 'neutral', label: 'B2', x: 375, y: 195 },
-          { id: 'N3', role: 'neutral', label: 'B3', x: 315, y: 255 },
-          { id: 'D1', role: 'def', label: 'W1', x: 195, y: 300 },
-          { id: 'D2', role: 'def', label: 'W2', x: 285, y: 305 },
+          { id: 'N1', role: 'neutral', label: 'N1', x: 325, y: 125 },
+          { id: 'N2', role: 'neutral', label: 'N2', x: 375, y: 195 },
+          { id: 'N3', role: 'neutral', label: 'N3', x: 315, y: 255 },
+          { id: 'D1', role: 'def', label: 'D1', x: 195, y: 300 },
+          { id: 'D2', role: 'def', label: 'D2', x: 285, y: 305 },
         ],
         ball: { x: 222, y: 92 },
         balls: [
@@ -1518,11 +1534,11 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
           { id: 'A2', role: 'att', label: 'A2', x: 275, y: 135 },
           { id: 'A3', role: 'att', label: 'A3', x: 185, y: 155 },
           { id: 'A4', role: 'att', label: 'A4', x: 235, y: 255 },
-          { id: 'N1', role: 'neutral', label: 'B1', x: 345, y: 115 },
-          { id: 'N2', role: 'neutral', label: 'B2', x: 355, y: 265 },
-          { id: 'N3', role: 'neutral', label: 'B3', x: 135, y: 125 },
-          { id: 'D1', role: 'def', label: 'W1', x: 195, y: 305 },
-          { id: 'D2', role: 'def', label: 'W2', x: 305, y: 305 },
+          { id: 'N1', role: 'neutral', label: 'N1', x: 345, y: 115 },
+          { id: 'N2', role: 'neutral', label: 'N2', x: 355, y: 265 },
+          { id: 'N3', role: 'neutral', label: 'N3', x: 135, y: 125 },
+          { id: 'D1', role: 'def', label: 'D1', x: 195, y: 305 },
+          { id: 'D2', role: 'def', label: 'D2', x: 305, y: 305 },
         ],
         ball: { x: 288, y: 140 },
         balls: [{ x: 122, y: 132 }],
@@ -1544,8 +1560,8 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
           { id: 'A2', role: 'att', label: 'A2', x: 135, y: 185 },
           { id: 'A3', role: 'att', label: 'A3', x: 355, y: 165 },
           { id: 'A4', role: 'att', label: 'A4', x: 295, y: 285 },
-          { id: 'N1', role: 'neutral', label: 'J1', x: 245, y: 175 },
-          { id: 'N2', role: 'neutral', label: 'J2', x: 215, y: 245 },
+          { id: 'N1', role: 'neutral', label: 'N1', x: 245, y: 175 },
+          { id: 'N2', role: 'neutral', label: 'N2', x: 215, y: 245 },
           { id: 'D1', role: 'def', label: 'D1', x: 185, y: 145 },
           { id: 'D2', role: 'def', label: 'D2', x: 305, y: 155 },
           { id: 'D3', role: 'def', label: 'D3', x: 175, y: 235 },
@@ -1568,7 +1584,7 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
 
   // ==========================================================================
   // act-15 (3.3): SFV 09_d "9-Felder-Einstieg" (3x3 Grid Scanning & Freilaufen)
-  // 16 cones = 3x3 9-zone grid + 10 players (4v4 + 2 Neutrals)
+  // 16 cones = 3x3 9-zone grid + 4 outer Mini-Goals + 10 players (4v4 + 2 Neutrals)
   // ==========================================================================
   'act-15': {
     type: 'single_square',
@@ -1592,6 +1608,12 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
       { x: 193, y: 350 },
       { x: 307, y: 350 },
     ],
+    goals: [
+      { id: 'act15-g1', x: 250, y: 36, size: 'mini', facing: 'bottom', label: 'M1' },
+      { id: 'act15-g2', x: 250, y: 364, size: 'mini', facing: 'top', label: 'M2' },
+      { id: 'act15-g3', x: 64, y: 200, size: 'mini', facing: 'right', label: 'M3' },
+      { id: 'act15-g4', x: 436, y: 200, size: 'mini', facing: 'left', label: 'M4' },
+    ],
     phases: [
       {
         players: [
@@ -1601,9 +1623,9 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
           { id: 'A4', role: 'att', label: 'A4', x: 136, y: 300 },
           { id: 'N1', role: 'neutral', label: 'N1', x: 250, y: 200 },
           { id: 'N2', role: 'neutral', label: 'N2', x: 364, y: 300 },
-          { id: 'D1', role: 'def', label: 'B1', x: 364, y: 100 },
-          { id: 'D2', role: 'def', label: 'B2', x: 136, y: 200 },
-          { id: 'D3', role: 'def', label: 'B3', x: 250, y: 300 },
+          { id: 'D1', role: 'def', label: 'D1', x: 364, y: 100 },
+          { id: 'D2', role: 'def', label: 'D2', x: 136, y: 200 },
+          { id: 'D3', role: 'def', label: 'D3', x: 250, y: 300 },
         ],
         ball: { x: 150, y: 100 },
         balls: [{ x: 150, y: 200 }],
@@ -1625,9 +1647,9 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
           { id: 'A4', role: 'att', label: 'A4', x: 250, y: 300 },
           { id: 'N1', role: 'neutral', label: 'N1', x: 364, y: 200 },
           { id: 'N2', role: 'neutral', label: 'N2', x: 136, y: 300 },
-          { id: 'D1', role: 'def', label: 'B1', x: 364, y: 100 },
-          { id: 'D2', role: 'def', label: 'B2', x: 250, y: 200 },
-          { id: 'D3', role: 'def', label: 'B3', x: 364, y: 300 },
+          { id: 'D1', role: 'def', label: 'D1', x: 364, y: 100 },
+          { id: 'D2', role: 'def', label: 'D2', x: 250, y: 200 },
+          { id: 'D3', role: 'def', label: 'D3', x: 364, y: 300 },
         ],
         ball: { x: 264, y: 112 },
         balls: [{ x: 150, y: 300 }],
@@ -1676,7 +1698,7 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
 
   // ==========================================================================
   // act-16 (6.2): SFV 12_d "Pylonentore schliessen & 2 Teams gegen 1 Team"
-  // 4 outer cones + 6 internal 2m colored Cone Gates + 10 players (3 teams)
+  // 4 outer cones + 4 outer Mini-Goals + 6 internal 2m colored Cone Gates + 10 players
   // ==========================================================================
   'act-16': {
     type: 'single_square',
@@ -1686,13 +1708,19 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
       { x: 70, y: 350 },
       { x: 430, y: 350 },
     ],
+    goals: [
+      { id: 'act16-g1', x: 250, y: 36, size: 'mini', facing: 'bottom', label: 'M1' },
+      { id: 'act16-g2', x: 250, y: 364, size: 'mini', facing: 'top', label: 'M2' },
+      { id: 'act16-g3', x: 56, y: 200, size: 'mini', facing: 'right', label: 'M3' },
+      { id: 'act16-g4', x: 444, y: 200, size: 'mini', facing: 'left', label: 'M4' },
+    ],
     gates: [
-      { id: 'act16-gt1', p1: { x: 165, y: 90 }, p2: { x: 165, y: 125 }, color: 'amber', label: 'T1' },
-      { id: 'act16-gt2', p1: { x: 335, y: 90 }, p2: { x: 335, y: 125 }, color: 'cyan', label: 'T2' },
-      { id: 'act16-gt3', p1: { x: 230, y: 185 }, p2: { x: 270, y: 185 }, color: 'rose', label: 'T3' },
-      { id: 'act16-gt4', p1: { x: 140, y: 215 }, p2: { x: 175, y: 215 }, color: 'emerald', label: 'T4' },
-      { id: 'act16-gt5', p1: { x: 165, y: 275 }, p2: { x: 165, y: 310 }, color: 'cyan', label: 'T5' },
-      { id: 'act16-gt6', p1: { x: 335, y: 275 }, p2: { x: 335, y: 310 }, color: 'amber', label: 'T6' },
+      { id: 'act16-gt1', p1: { x: 165, y: 90 }, p2: { x: 165, y: 125 }, color: 'amber', label: 'G1' },
+      { id: 'act16-gt2', p1: { x: 335, y: 90 }, p2: { x: 335, y: 125 }, color: 'cyan', label: 'G2' },
+      { id: 'act16-gt3', p1: { x: 230, y: 185 }, p2: { x: 270, y: 185 }, color: 'rose', label: 'G3' },
+      { id: 'act16-gt4', p1: { x: 140, y: 215 }, p2: { x: 175, y: 215 }, color: 'emerald', label: 'G4' },
+      { id: 'act16-gt5', p1: { x: 165, y: 275 }, p2: { x: 165, y: 310 }, color: 'cyan', label: 'G5' },
+      { id: 'act16-gt6', p1: { x: 335, y: 275 }, p2: { x: 335, y: 310 }, color: 'amber', label: 'G6' },
     ],
     phases: [
       {

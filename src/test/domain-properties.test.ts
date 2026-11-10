@@ -363,6 +363,88 @@ describe('Domain Logic Property-Based Tests (fast-check)', () => {
         )
       );
     });
+
+    it('enforces trilingual coaching terminology purity and zero raw PDF filename codes across all 16 Activation drills', async () => {
+      const { ACTIVATIONS_EN, ACTIVATIONS_DE, ACTIVATIONS_RU } = await import(
+        '../i18n/activationData'
+      );
+
+      expect(ACTIVATIONS_EN.length).toBe(16);
+      expect(ACTIVATIONS_DE.length).toBe(16);
+      expect(ACTIVATIONS_RU.length).toBe(16);
+
+      const rawPdfCodeRegex = /\b(02_d|03_d|04_d|05_d|07_d|09_d|10_d|11_d|12_d)\b/i;
+      const untranslatedGermanInRuEnRegex =
+        /\b(Körperstabilität|Pylonentore|Dribbelzonen|Doppelpass|Wandspieler|Direktabschluss|Gegner binden|Passwege schliessen)\b/i;
+
+      fc.assert(
+        fc.property(
+          fc.integer({ min: 0, max: 15 }),
+          fc.integer({ min: 0, max: 2 }),
+          (drillIdx, phaseIdx) => {
+            const en = ACTIVATIONS_EN[drillIdx];
+            const de = ACTIVATIONS_DE[drillIdx];
+            const ru = ACTIVATIONS_RU[drillIdx];
+
+            expect(en.id).toBe(de.id);
+            expect(en.id).toBe(ru.id);
+            expect(en.number).toBe(de.number);
+            expect(en.number).toBe(ru.number);
+            expect(en.category).toBe(de.category);
+            expect(en.category).toBe(ru.category);
+
+            const enText = [
+              en.title,
+              en.shortTitle,
+              en.problemInGame,
+              en.attackGoal,
+              en.defenseGoal,
+              en.scoringRule,
+              en.progressions[phaseIdx].level,
+              en.progressions[phaseIdx].desc,
+              en.diagram.phases[phaseIdx].title,
+              en.diagram.phases[phaseIdx].desc,
+              ...en.coachingCues,
+            ].join(' ');
+
+            const deText = [
+              de.title,
+              de.shortTitle,
+              de.problemInGame,
+              de.attackGoal,
+              de.defenseGoal,
+              de.scoringRule,
+              de.progressions[phaseIdx].level,
+              de.progressions[phaseIdx].desc,
+              de.diagram.phases[phaseIdx].title,
+              de.diagram.phases[phaseIdx].desc,
+              ...de.coachingCues,
+            ].join(' ');
+
+            const ruText = [
+              ru.title,
+              ru.shortTitle,
+              ru.problemInGame,
+              ru.attackGoal,
+              ru.defenseGoal,
+              ru.scoringRule,
+              ru.progressions[phaseIdx].level,
+              ru.progressions[phaseIdx].desc,
+              ru.diagram.phases[phaseIdx].title,
+              ru.diagram.phases[phaseIdx].desc,
+              ...ru.coachingCues,
+            ].join(' ');
+
+            expect(enText).not.toMatch(rawPdfCodeRegex);
+            expect(deText).not.toMatch(rawPdfCodeRegex);
+            expect(ruText).not.toMatch(rawPdfCodeRegex);
+
+            expect(enText).not.toMatch(untranslatedGermanInRuEnRegex);
+            expect(ruText).not.toMatch(untranslatedGermanInRuEnRegex);
+          }
+        )
+      );
+    });
   });
 });
 
