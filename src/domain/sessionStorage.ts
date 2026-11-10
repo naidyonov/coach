@@ -1,4 +1,4 @@
-import { AgeBandId, Language } from '../i18n/types';
+import { ActiveModuleId, AgeBandId, Language } from '../i18n/types';
 
 export type ThemeMode = 'dark' | 'light';
 
@@ -6,6 +6,7 @@ export const COMPLETED_SESSIONS_STORAGE_KEY = 'coach_completed_sessions';
 export const THEME_STORAGE_KEY = 'coach_theme_mode';
 export const LANG_STORAGE_KEY = 'coach_app_lang';
 export const AGE_STORAGE_KEY = 'coach_age_band';
+export const ACTIVE_MODULE_STORAGE_KEY = 'coach_active_module';
 
 export const VALID_AGE_BANDS: AgeBandId[] = [
   'u10',
@@ -13,6 +14,11 @@ export const VALID_AGE_BANDS: AgeBandId[] = [
   'u14',
   'u16',
   'u18_pro',
+];
+
+export const VALID_ACTIVE_MODULES: ActiveModuleId[] = [
+  'rondo-series',
+  'activation-series',
 ];
 
 export const loadCompletedSessions = (): number[] => {
@@ -100,3 +106,26 @@ export const saveAgeBand = (ageBand: AgeBandId): void => {
     // Ignore storage errors
   }
 };
+
+export const loadInitialActiveModule = (): ActiveModuleId => {
+  try {
+    const saved = window.localStorage.getItem(
+      ACTIVE_MODULE_STORAGE_KEY
+    ) as ActiveModuleId | null;
+    if (saved && VALID_ACTIVE_MODULES.includes(saved)) {
+      return saved;
+    }
+  } catch {
+    // Ignore storage errors
+  }
+  return 'rondo-series';
+};
+
+export const saveActiveModule = (moduleId: ActiveModuleId): void => {
+  try {
+    window.localStorage.setItem(ACTIVE_MODULE_STORAGE_KEY, moduleId);
+  } catch {
+    // Ignore storage errors
+  }
+};
+

@@ -25,6 +25,24 @@ export type SquadSetupPattern =
   | {
       type: 'standard_rotating_unit';
       playersCount: number;
+    }
+  | {
+      type: 'activation_parallel_boxes';
+      playersCount: number;
+      boxes: number;
+      playersPerBox: number;
+    }
+  | {
+      type: 'activation_diamond_circuits';
+      playersCount: number;
+      circuits: number;
+      playersPerCircuit: number;
+    }
+  | {
+      type: 'activation_duel_stations';
+      playersCount: number;
+      stations: number;
+      pairsCount: number;
     };
 
 export const computeSquadSetup = (
@@ -58,8 +76,40 @@ export const computeSquadSetup = (
         };
   }
 
+  if (rondoId === 'act-7' || rondoId === 'act-8') {
+    const circuits = safeCount >= 14 ? 2 : 1;
+    return {
+      type: 'activation_diamond_circuits',
+      playersCount: safeCount,
+      circuits,
+      playersPerCircuit: Math.ceil(safeCount / circuits),
+    };
+  }
+
+  if (rondoId === 'act-9' || rondoId === 'act-10') {
+    const pairsCount = Math.floor(safeCount / 2);
+    const stations = Math.max(1, Math.ceil(pairsCount / 3));
+    return {
+      type: 'activation_duel_stations',
+      playersCount: safeCount,
+      stations,
+      pairsCount,
+    };
+  }
+
+  if (rondoId.startsWith('act-')) {
+    const boxes = safeCount >= 14 ? 2 : 1;
+    return {
+      type: 'activation_parallel_boxes',
+      playersCount: safeCount,
+      boxes,
+      playersPerBox: Math.ceil(safeCount / boxes),
+    };
+  }
+
   return {
     type: 'standard_rotating_unit',
     playersCount: safeCount,
   };
 };
+

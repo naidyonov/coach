@@ -1,6 +1,17 @@
 export type Language = 'en' | 'de' | 'ru';
 
-export type CategoryId = 'all' | 'retention' | 'progression' | 'switch' | 'defense' | 'transition';
+export type ActiveModuleId = 'rondo-series' | 'activation-series';
+
+export type RondoCategoryId = 'retention' | 'progression' | 'switch' | 'defense' | 'transition';
+
+export type ActivationCategoryId =
+  | 'mastery'
+  | 'first_touch'
+  | 'dribbling_space'
+  | 'passing_scanning'
+  | 'biomotor_duels';
+
+export type CategoryId = 'all' | RondoCategoryId | ActivationCategoryId;
 
 export type RoleMode = 'coach' | 'players' | 'parents';
 
@@ -126,7 +137,15 @@ export interface SessionStructureBlock {
 }
 
 export interface GeometryConceptItem {
-  id: 'angles-45' | 'body-shape' | 'cover-shadow' | 'third-man';
+  id:
+    | 'angles-45'
+    | 'body-shape'
+    | 'cover-shadow'
+    | 'third-man'
+    | 'first-touch-escape'
+    | 'scan-before-touch'
+    | 'deceleration-axis'
+    | 'shielding-base';
   title: string;
   subtitle: string;
   mistakeLabel: string;

@@ -259,7 +259,65 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
       within(basisPanel).getByText(/FC Barcelona \(La Masia\)/i)
     ).toBeInTheDocument();
   });
+
+  it('switches to the Activation (Einstieg) module via Series Switcher, filters independent categories, switches languages, and renders 4 Activation Biomechanics SVG diagrams', () => {
+    renderApp();
+
+    // Open Series Switcher and click Activation (Einstieg)
+    const seriesBtn = screen.getByTestId('series-switcher-btn');
+    fireEvent.click(seriesBtn);
+
+    const activationModuleCard = screen.getByTestId('series-module-activation-series');
+    fireEvent.click(activationModuleCard);
+
+    // Header should now show Activation
+    expect(seriesBtn).toHaveTextContent(/Activation/i);
+    expect(
+      screen.getAllByText(/Coerver Traffic Box: Ball Mastery & 1v1 Feint Progression/i).length
+    ).toBeGreaterThan(0);
+
+    // Filter by independent Activation categories
+    const firstTouchCategoryBtn = screen.getByRole('button', {
+      name: /First Touch & Directional Reception/i,
+    });
+    fireEvent.click(firstTouchCategoryBtn);
+    expect(
+      screen.getAllByText(/SFV Star & Color Gates: Directional First Touch Into Space/i).length
+    ).toBeGreaterThan(0);
+
+    const biomotorCategoryBtn = screen.getByRole('button', {
+      name: /Body Strength, Balance & Explosivity/i,
+    });
+    fireEvent.click(biomotorCategoryBtn);
+    expect(
+      screen.getAllByText(/FIFA 11\+ & Ball Shielding Duel/i).length
+    ).toBeGreaterThan(0);
+
+    // Navigate to Methodology inside Activation module and toggle all 4 Biomechanics & Touch SVG diagrams
+    const mainNav = screen.getByRole('navigation', { name: /main navigation/i });
+    fireEvent.click(within(mainNav).getByRole('button', { name: /Methodology/i }));
+    expect(
+      screen.getByText(/1\. SFV Einstieg & 3-Phase Single-Drill Progression/i)
+    ).toBeInTheDocument();
+
+    const geometryToggles = screen.getAllByTestId('geometry-mode-toggle');
+    expect(geometryToggles.length).toBe(4);
+    for (const toggleBtn of geometryToggles) {
+      fireEvent.click(toggleBtn);
+    }
+
+    // Switch to Russian (RU) while in Activation module
+    const langSwitcher = screen.getByTestId('lang-switcher');
+    fireEvent.click(within(langSwitcher).getByRole('button', { name: /russian/i }));
+    expect(seriesBtn).toHaveTextContent(/Активация/i);
+
+    // Switch back to Rondo module
+    fireEvent.click(seriesBtn);
+    fireEvent.click(screen.getByTestId('series-module-rondo-series'));
+    expect(seriesBtn).toHaveTextContent(/Рондо/i);
+  });
 });
+
 
 
 

@@ -584,6 +584,337 @@ const GeometryMiniPitchSVG: React.FC<{
           </text>
         </g>
       )}
+
+      {/* ACTIVATION CONCEPT 1: DIRECTIONAL FIRST TOUCH (MITNAHME) VS DEAD-BALL STOP */}
+      {conceptId === 'first-touch-escape' && (
+        <g>
+          {/* Central 5x5 star zone */}
+          <rect
+            x="140"
+            y="72"
+            width="80"
+            height="70"
+            fill="rgba(59, 130, 246, 0.08)"
+            stroke="rgba(59, 130, 246, 0.45)"
+            strokeWidth="1.5"
+            strokeDasharray="3 3"
+          />
+          {/* Entry pass from A1 */}
+          <line
+            x1="180"
+            y1="176"
+            x2="180"
+            y2="122"
+            stroke="#fbbf24"
+            strokeWidth="2.5"
+            markerEnd={`url(#arrow-warn-${conceptId})`}
+          />
+          {!isSolution ? (
+            <>
+              {/* D1 closes down stationary N1 */}
+              <line
+                x1="125"
+                y1="107"
+                x2="165"
+                y2="107"
+                stroke="#f87171"
+                strokeWidth="2.5"
+                strokeDasharray="4 3"
+                markerEnd={`url(#arrow-bad-${conceptId})`}
+              />
+              <text x="180" y="45" textAnchor="middle" fill="#fca5a5" fontSize="10" fontWeight="bold">
+                {lbl(
+                  'Dead stop under sole → D1 traps!',
+                  'Totstopp unter Sohle → D1 stellt zu!',
+                  'Стоп на месте → D1 накрыл!'
+                )}
+              </text>
+            </>
+          ) : (
+            <>
+              {/* Dynamic first touch out of box into space */}
+              <line
+                x1="190"
+                y1="105"
+                x2="285"
+                y2="82"
+                stroke="#34d399"
+                strokeWidth="2.5"
+                markerEnd={`url(#arrow-ok-${conceptId})`}
+              />
+              <text x="245" y="62" textAnchor="middle" fill="#6ee7b7" fontSize="10" fontWeight="bold">
+                {lbl(
+                  '1st touch = 1st step into space!',
+                  '1. Kontakt = 1. Schritt in den Raum!',
+                  '1-е касание = уход в свободную зону!'
+                )}
+              </text>
+            </>
+          )}
+          <circle cx="180" cy="185" r="12" fill="#ef4444" stroke="#fff" strokeWidth="2" />
+          <text x="180" y="189" textAnchor="middle" fill="#fff" fontSize="9" fontWeight="bold">
+            A1
+          </text>
+          <circle
+            cx={isSolution ? 205 : 180}
+            cy={isSolution ? 102 : 107}
+            r="12"
+            fill="#eab308"
+            stroke="#fff"
+            strokeWidth="2"
+          />
+          <text
+            x={isSolution ? 205 : 180}
+            y={isSolution ? 106 : 111}
+            textAnchor="middle"
+            fill="#0f172a"
+            fontSize="9"
+            fontWeight="bold"
+          >
+            N1
+          </text>
+          <circle
+            cx={isSolution ? 222 : 180}
+            cy={isSolution ? 96 : 118}
+            r="4.5"
+            fill="#fff"
+            stroke="#1e293b"
+            strokeWidth="1.5"
+          />
+          <circle cx="115" cy="107" r="11" fill="#3b82f6" stroke="#fff" strokeWidth="2" />
+          <text x="115" y="111" textAnchor="middle" fill="#fff" fontSize="9" fontWeight="bold">
+            D1
+          </text>
+        </g>
+      )}
+
+      {/* ACTIVATION CONCEPT 2: PRE-SCANNING & COLOR GATE ORIENTATION */}
+      {conceptId === 'scan-before-touch' && (
+        <g>
+          {/* Pass from bottom A1 to central N1 */}
+          <line
+            x1="180"
+            y1="176"
+            x2="180"
+            y2="122"
+            stroke="#fbbf24"
+            strokeWidth="2.5"
+            markerEnd={`url(#arrow-warn-${conceptId})`}
+          />
+          {isSolution ? (
+            <>
+              {/* Visual scan cone toward open right gate */}
+              <polygon
+                points="180,108 275,35 315,95"
+                fill="rgba(52, 211, 153, 0.18)"
+                stroke="rgba(52, 211, 153, 0.45)"
+                strokeWidth="1"
+                strokeDasharray="3 3"
+              />
+              <line
+                x1="192"
+                y1="104"
+                x2="292"
+                y2="62"
+                stroke="#34d399"
+                strokeWidth="2.5"
+                markerEnd={`url(#arrow-ok-${conceptId})`}
+              />
+              <text x="235" y="42" textAnchor="middle" fill="#6ee7b7" fontSize="10" fontWeight="bold">
+                {lbl(
+                  'Scanned during flight → free gate!',
+                  'Im Ballflug gescannt → freies Tor!',
+                  'Сканирование в полёте → выход!'
+                )}
+              </text>
+            </>
+          ) : (
+            <>
+              {/* Blind turn into D1 on the left */}
+              <line
+                x1="168"
+                y1="104"
+                x2="108"
+                y2="68"
+                stroke="#f87171"
+                strokeWidth="2.5"
+                strokeDasharray="4 3"
+                markerEnd={`url(#arrow-bad-${conceptId})`}
+              />
+              <text x="180" y="42" textAnchor="middle" fill="#fca5a5" fontSize="10" fontWeight="bold">
+                {lbl(
+                  'No scan → turns straight into D1!',
+                  'Kein Scan → dreht direkt in D1!',
+                  'Без сканирования → разворот в D1!'
+                )}
+              </text>
+            </>
+          )}
+          <circle cx="180" cy="185" r="12" fill="#ef4444" stroke="#fff" strokeWidth="2" />
+          <text x="180" y="189" textAnchor="middle" fill="#fff" fontSize="9" fontWeight="bold">
+            A1
+          </text>
+          <circle cx="180" cy="108" r="12" fill="#eab308" stroke="#fff" strokeWidth="2" />
+          <text x="180" y="112" textAnchor="middle" fill="#0f172a" fontSize="9" fontWeight="bold">
+            N1
+          </text>
+          <circle cx="95" cy="60" r="11" fill="#3b82f6" stroke="#fff" strokeWidth="2" />
+          <text x="95" y="64" textAnchor="middle" fill="#fff" fontSize="9" fontWeight="bold">
+            D1
+          </text>
+          <circle cx="302" cy="55" r="11" fill="#10b981" stroke="#fff" strokeWidth="2" />
+          <text x="302" y="59" textAnchor="middle" fill="#fff" fontSize="9" fontWeight="bold">
+            G2
+          </text>
+        </g>
+      )}
+
+      {/* ACTIVATION CONCEPT 3: ECCENTRIC BRAKING & KNEE-OVER-TOE AXIS (FIFA 11+) */}
+      {conceptId === 'deceleration-axis' && (
+        <g>
+          {/* Braking zone box */}
+          <rect
+            x="145"
+            y="78"
+            width="70"
+            height="55"
+            rx="6"
+            fill={isSolution ? 'rgba(16, 185, 129, 0.14)' : 'rgba(239, 68, 68, 0.14)'}
+            stroke={isSolution ? '#34d399' : '#f87171'}
+            strokeWidth="1.5"
+            strokeDasharray="3 3"
+          />
+          {!isSolution ? (
+            <>
+              <line
+                x1="80"
+                y1="145"
+                x2="215"
+                y2="95"
+                stroke="#f87171"
+                strokeWidth="2.5"
+                strokeDasharray="4 3"
+                markerEnd={`url(#arrow-bad-${conceptId})`}
+              />
+              <text x="180" y="45" textAnchor="middle" fill="#fca5a5" fontSize="10" fontWeight="bold">
+                {lbl(
+                  'Tall chest + knee valgus → overruns cut!',
+                  'Hohe Hüfte + Knie-Valgus → überläuft!',
+                  'Прямые ноги + вальгус колена → снос!'
+                )}
+              </text>
+            </>
+          ) : (
+            <>
+              {/* 3 braking steps + sharp 45 deg cut */}
+              <line
+                x1="80"
+                y1="145"
+                x2="172"
+                y2="108"
+                stroke="#fbbf24"
+                strokeWidth="2.5"
+                markerEnd={`url(#arrow-warn-${conceptId})`}
+              />
+              <line
+                x1="182"
+                y1="102"
+                x2="295"
+                y2="52"
+                stroke="#34d399"
+                strokeWidth="2.5"
+                markerEnd={`url(#arrow-ok-${conceptId})`}
+              />
+              <text x="180" y="45" textAnchor="middle" fill="#6ee7b7" fontSize="10" fontWeight="bold">
+                {lbl(
+                  '3 low braking steps → explosive 45° cut!',
+                  '3 tiefe Bremsschritte → 45°-Explosiv-Cut!',
+                  '3 низких шага стопа → взрывной срез 45°!'
+                )}
+              </text>
+            </>
+          )}
+          <circle cx="75" cy="148" r="12" fill="#ef4444" stroke="#fff" strokeWidth="2" />
+          <text x="75" y="152" textAnchor="middle" fill="#fff" fontSize="9" fontWeight="bold">
+            A1
+          </text>
+          <circle cx="180" cy="105" r="12" fill={isSolution ? '#10b981' : '#f87171'} stroke="#fff" strokeWidth="2" />
+          <text x="180" y="109" textAnchor="middle" fill="#fff" fontSize="9" fontWeight="bold">
+            A1
+          </text>
+          <circle cx="305" cy="48" r="11" fill="#eab308" stroke="#fff" strokeWidth="2" />
+          <text x="305" y="52" textAnchor="middle" fill="#0f172a" fontSize="9" fontWeight="bold">
+            G1
+          </text>
+        </g>
+      )}
+
+      {/* ACTIVATION CONCEPT 4: WIDE-BASE BALL SHIELDING & FOREARM SENSOR */}
+      {conceptId === 'shielding-base' && (
+        <g>
+          {/* Defender B1 pressing from top */}
+          <circle cx="180" cy="78" r="12" fill="#3b82f6" stroke="#fff" strokeWidth="2" />
+          <text x="180" y="82" textAnchor="middle" fill="#fff" fontSize="9" fontWeight="bold">
+            B1
+          </text>
+          {/* Attacker A1 shielding */}
+          <circle cx="180" cy="118" r="12" fill="#ef4444" stroke="#fff" strokeWidth="2" />
+          <text x="180" y="122" textAnchor="middle" fill="#fff" fontSize="9" fontWeight="bold">
+            A1
+          </text>
+          {!isSolution ? (
+            <>
+              {/* Ball exposed on near side */}
+              <circle cx="165" cy="96" r="4.5" fill="#fff" stroke="#1e293b" strokeWidth="1.5" />
+              <line
+                x1="175"
+                y1="86"
+                x2="166"
+                y2="95"
+                stroke="#f87171"
+                strokeWidth="2.5"
+                markerEnd={`url(#arrow-bad-${conceptId})`}
+              />
+              <text x="180" y="42" textAnchor="middle" fill="#fca5a5" fontSize="10" fontWeight="bold">
+                {lbl(
+                  'Narrow stance + near foot → easy tackle!',
+                  'Schmaler Stand + naher Fuß → Ballverlust!',
+                  'Узкая стойка + ближняя нога → потеря!'
+                )}
+              </text>
+            </>
+          ) : (
+            <>
+              {/* Wide shielding bar + ball on far foot + spin arrow */}
+              <rect
+                x="156"
+                y="98"
+                width="48"
+                height="7"
+                rx="3.5"
+                fill="#10b981"
+                stroke="#fff"
+                strokeWidth="1.5"
+              />
+              <circle cx="180" cy="142" r="4.5" fill="#fff" stroke="#1e293b" strokeWidth="1.5" />
+              <path
+                d="M 192,118 Q 245,105 265,60"
+                fill="none"
+                stroke="#34d399"
+                strokeWidth="2.5"
+                markerEnd={`url(#arrow-ok-${conceptId})`}
+              />
+              <text x="180" y="42" textAnchor="middle" fill="#6ee7b7" fontSize="10" fontWeight="bold">
+                {lbl(
+                  'Wide base + far foot + forearm sensor → spin!',
+                  'Breite Basis + ferner Fuß + Schutzarm → Spin!',
+                  'Широкая база + дальняя нога → разворот!'
+                )}
+              </text>
+            </>
+          )}
+        </g>
+      )}
     </svg>
   );
 };
@@ -605,6 +936,10 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
     'body-shape': 'solution',
     'cover-shadow': 'solution',
     'third-man': 'solution',
+    'first-touch-escape': 'solution',
+    'scan-before-touch': 'solution',
+    'deceleration-axis': 'solution',
+    'shielding-base': 'solution',
   });
 
   const toggleGeometryMode = (id: string) => {

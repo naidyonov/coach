@@ -36,6 +36,8 @@ export function App() {
   const {
     lang,
     setLang,
+    activeModule,
+    setActiveModule,
     ageBand,
     setAgeBand,
     ageBands,
@@ -143,7 +145,7 @@ export function App() {
   const tr = (enText: string, deText: string, ruText: string) =>
     lang === 'ru' ? ruText : lang === 'de' ? deText : enText;
 
-  const seriesHub = getSeriesHubData(lang);
+  const seriesHub = getSeriesHubData(lang, activeModule);
   const trainingSeriesModules = seriesHub.modules;
 
   return (
@@ -173,7 +175,7 @@ export function App() {
                 title={t.header.title}
               >
                 <h1 className="text-base sm:text-lg font-extrabold text-white tracking-tight truncate">
-                  {tr('Rondo', 'Rondo', 'Рондо')}
+                  {seriesHub.activeRondoName}
                 </h1>
                 <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-slate-800 group-hover:bg-slate-700 text-emerald-400 transition shrink-0">
                   <ChevronDown
@@ -207,40 +209,61 @@ export function App() {
                   </div>
 
                   <div className="space-y-1.5">
-                    {trainingSeriesModules.map((mod) => (
-                      <div
-                        key={mod.id}
-                        onClick={() => {
-                          if (mod.active) setIsSeriesMenuOpen(false);
-                        }}
-                        className={`p-2.5 rounded-xl border transition-all ${
-                          mod.active
-                            ? 'bg-emerald-950/30 border-emerald-500/50 cursor-pointer'
-                            : 'bg-slate-950/60 border-slate-800/80 opacity-75'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between gap-2 mb-0.5">
-                          <span className="text-xs font-bold text-white flex items-center gap-1.5">
-                            {mod.active && (
-                              <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                            )}
-                            {mod.title}
-                          </span>
-                          <span
-                            className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${
-                              mod.active
-                                ? 'bg-emerald-500 text-slate-950'
-                                : 'bg-slate-800 text-slate-400'
-                            }`}
-                          >
-                            {mod.badge}
-                          </span>
+                    {trainingSeriesModules.map((mod) => {
+                      const isCurrent = mod.id === activeModule;
+                      return (
+                        <div
+                          key={mod.id}
+                          data-testid={`series-module-${mod.id}`}
+                          onClick={() => {
+                            if (mod.active) {
+                              if (
+                                mod.id === 'rondo-series' ||
+                                mod.id === 'activation-series'
+                              ) {
+                                setActiveModule(mod.id);
+                                setSelectedCategory('all');
+                                setSelectedRondoId(
+                                  mod.id === 'activation-series' ? 'act-1' : 'rondo-1'
+                                );
+                                setPhaseIndex(0);
+                              }
+                              setIsSeriesMenuOpen(false);
+                            }
+                          }}
+                          className={`p-2.5 rounded-xl border transition-all ${
+                            isCurrent
+                              ? 'bg-emerald-950/30 border-emerald-500/50 cursor-pointer'
+                              : mod.active
+                              ? 'bg-slate-950/90 border-slate-700 hover:border-emerald-500/40 cursor-pointer'
+                              : 'bg-slate-950/60 border-slate-800/80 opacity-75'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between gap-2 mb-0.5">
+                            <span className="text-xs font-bold text-white flex items-center gap-1.5">
+                              {isCurrent && (
+                                <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                              )}
+                              {mod.title}
+                            </span>
+                            <span
+                              className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${
+                                isCurrent
+                                  ? 'bg-emerald-500 text-slate-950'
+                                  : mod.active
+                                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                                  : 'bg-slate-800 text-slate-400'
+                              }`}
+                            >
+                              {mod.badge}
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-slate-400 leading-snug">
+                            {mod.subtitle}
+                          </p>
                         </div>
-                        <p className="text-[11px] text-slate-400 leading-snug">
-                          {mod.subtitle}
-                        </p>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
 
                   <div className="px-2 pt-1 text-[11px] text-slate-400 flex items-center gap-1.5">

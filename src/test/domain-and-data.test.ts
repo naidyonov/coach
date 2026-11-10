@@ -35,6 +35,30 @@ import {
   extractCanonicalGeometry,
   RONDO_CANONICAL_GEOMETRY,
 } from '../data/rondoCanonicalGeometry';
+import { ACTIVATION_CANONICAL_GEOMETRY } from '../data/activationCanonicalGeometry';
+import {
+  ACTIVATION_AGE_MATRIX_DE,
+  ACTIVATION_AGE_MATRIX_EN,
+  ACTIVATION_AGE_MATRIX_RU,
+  ACTIVATION_CATEGORIES_DE,
+  ACTIVATION_CATEGORIES_EN,
+  ACTIVATION_CATEGORIES_RU,
+  ACTIVATION_METHODOLOGY_DE,
+  ACTIVATION_METHODOLOGY_EN,
+  ACTIVATION_METHODOLOGY_RU,
+  ACTIVATIONS_DE,
+  ACTIVATIONS_EN,
+  ACTIVATIONS_RU,
+  UI_ACTIVATION_DE,
+  UI_ACTIVATION_EN,
+  UI_ACTIVATION_RU,
+  generateActivationMonthlyPlanDe,
+  generateActivationMonthlyPlanEn,
+  generateActivationMonthlyPlanRu,
+  getActivationSquadAdviceDe,
+  getActivationSquadAdviceEn,
+  getActivationSquadAdviceRu,
+} from '../i18n/activationData';
 import { classifySessionFocus } from '../domain/periodization';
 import {
   loadCompletedSessions,
@@ -45,10 +69,13 @@ import {
   saveLanguage,
   loadInitialAgeBand,
   saveAgeBand,
+  loadInitialActiveModule,
+  saveActiveModule,
   COMPLETED_SESSIONS_STORAGE_KEY,
   THEME_STORAGE_KEY,
   LANG_STORAGE_KEY,
   AGE_STORAGE_KEY,
+  ACTIVE_MODULE_STORAGE_KEY,
 } from '../domain/sessionStorage';
 
 describe('Domain & Data Integrity — EN / DE / RU Parity & Canonical Geometry', () => {
@@ -91,7 +118,64 @@ describe('Domain & Data Integrity — EN / DE / RU Parity & Canonical Geometry',
     }
   });
 
-  it('verifies #1.2 (rondo-2) Phase 2 split pass genuinely goes in-between D1 and D2 and all primary passes avoid colliding with non-involved players', () => {
+  it('enforces 100% canonical geometry & trilingual parity across EN, DE, and RU for all 10 Activation drills', () => {
+    expect(ACTIVATIONS_EN).toHaveLength(10);
+    expect(ACTIVATIONS_DE).toHaveLength(10);
+    expect(ACTIVATIONS_RU).toHaveLength(10);
+
+    expect(ACTIVATION_CATEGORIES_EN.map((c) => c.id)).toEqual(
+      ACTIVATION_CATEGORIES_DE.map((c) => c.id)
+    );
+    expect(ACTIVATION_CATEGORIES_EN.map((c) => c.id)).toEqual(
+      ACTIVATION_CATEGORIES_RU.map((c) => c.id)
+    );
+
+    for (let i = 0; i < 10; i++) {
+      const enGeom = extractCanonicalGeometry(ACTIVATIONS_EN[i]);
+      const deGeom = extractCanonicalGeometry(ACTIVATIONS_DE[i]);
+      const ruGeom = extractCanonicalGeometry(ACTIVATIONS_RU[i]);
+      const canonical = ACTIVATION_CANONICAL_GEOMETRY[ACTIVATIONS_EN[i].id];
+
+      expect(enGeom).toEqual(deGeom);
+      expect(enGeom).toEqual(ruGeom);
+      expect(enGeom.diagramType).toBe(canonical.type);
+      expect(enGeom.cones).toEqual(canonical.cones);
+      expect(enGeom.phases).toHaveLength(3);
+      expect(canonical.phases).toHaveLength(3);
+
+      for (const phase of canonical.phases) {
+        expect(phase.players.length).toBeGreaterThanOrEqual(4);
+        const primaryPasses = phase.passes.filter((p) => p.primary);
+        expect(primaryPasses.length).toBeLessThanOrEqual(1);
+        for (const p of phase.players) {
+          expect(p.x).toBeGreaterThanOrEqual(0);
+          expect(p.x).toBeLessThanOrEqual(500);
+          expect(p.y).toBeGreaterThanOrEqual(0);
+          expect(p.y).toBeLessThanOrEqual(400);
+        }
+      }
+
+      const id = ACTIVATIONS_EN[i].id;
+      expect(ACTIVATION_METHODOLOGY_EN[id]).toBeDefined();
+      expect(ACTIVATION_METHODOLOGY_DE[id]).toBeDefined();
+      expect(ACTIVATION_METHODOLOGY_RU[id]).toBeDefined();
+
+      for (const band of AGE_BANDS_EN) {
+        expect(ACTIVATION_AGE_MATRIX_EN[id][band.id].baseGrid.length).toBeGreaterThan(0);
+        expect(ACTIVATION_AGE_MATRIX_DE[id][band.id].baseGrid.length).toBeGreaterThan(0);
+        expect(ACTIVATION_AGE_MATRIX_RU[id][band.id].baseGrid.length).toBeGreaterThan(0);
+      }
+    }
+
+    expect(UI_ACTIVATION_EN.methodology.geometryConcepts).toHaveLength(4);
+    expect(UI_ACTIVATION_DE.methodology.geometryConcepts).toHaveLength(4);
+    expect(UI_ACTIVATION_RU.methodology.geometryConcepts).toHaveLength(4);
+    expect(UI_ACTIVATION_EN.methodology.interventions).toHaveLength(6);
+    expect(UI_ACTIVATION_DE.methodology.interventions).toHaveLength(6);
+    expect(UI_ACTIVATION_RU.methodology.interventions).toHaveLength(6);
+  });
+
+  it('verifies #1.2 (rondo-2) Phase 2 split pass genuinely goes in-between D1 and D2 and all primary passes in Rondos & Activations avoid colliding with non-involved players', () => {
     const pointToSegmentDist = (
       px: number,
       py: number,
@@ -121,9 +205,9 @@ describe('Domain & Data Integrity — EN / DE / RU Parity & Canonical Geometry',
     const crossD2 = vx * (d2.y - splitPass.from.y) - vy * (d2.x - splitPass.from.x);
     expect(crossD1 * crossD2).toBeLessThan(0);
 
-    // Verify across all 10 exercises and 30 phases that no primary pass collides with an unintended player token
-    for (const rondo of RONDOS_EN) {
-      for (const phase of rondo.diagram.phases) {
+    // Verify across all 20 exercises (10 Rondos + 10 Activations) and 60 phases that no primary pass collides with an unintended player token
+    for (const drill of [...RONDOS_EN, ...ACTIVATIONS_EN]) {
+      for (const phase of drill.diagram.phases) {
         for (const pass of phase.passes.filter((p) => p.primary)) {
           for (const player of phase.players) {
             const distFromStart = Math.hypot(player.x - pass.from.x, player.y - pass.from.y);
@@ -177,7 +261,7 @@ describe('Domain & Data Integrity — EN / DE / RU Parity & Canonical Geometry',
     expect(UI_RU.methodology.interventions).toHaveLength(6);
   });
 
-  it('generates 8-session monthly plans across EN, DE, and RU for rondo-3 and non-rondo-3 drills', () => {
+  it('generates 8-session monthly plans across EN, DE, and RU for rondo and activation drills', () => {
     const rondo1 = RONDOS_EN[0];
     const rondo3En = RONDOS_EN[2];
     const rondo1De = RONDOS_DE[0];
@@ -204,7 +288,21 @@ describe('Domain & Data Integrity — EN / DE / RU Parity & Canonical Geometry',
       timing: '4x2.5m',
     });
 
-    for (const plan of [planEn1, planEn3, planDe1, planDe3, planRu1, planRu3]) {
+    const actPlanEn = generateActivationMonthlyPlanEn(ACTIVATIONS_EN[0]);
+    const actPlanDe = generateActivationMonthlyPlanDe(ACTIVATIONS_DE[0]);
+    const actPlanRu = generateActivationMonthlyPlanRu(ACTIVATIONS_RU[0]);
+
+    for (const plan of [
+      planEn1,
+      planEn3,
+      planDe1,
+      planDe3,
+      planRu1,
+      planRu3,
+      actPlanEn,
+      actPlanDe,
+      actPlanRu,
+    ]) {
       expect(plan).toHaveLength(8);
       expect(classifySessionFocus(plan[0])).toBe('attack');
       expect(classifySessionFocus(plan[1])).toBe('defense');
@@ -220,7 +318,7 @@ describe('Domain & Data Integrity — EN / DE / RU Parity & Canonical Geometry',
     expect(classifySessionFocus({ session: 99, focusSide: '4v4+3 Game' })).toBe('other');
   });
 
-  it('computes squad organization advice across all rondo types and player counts in EN, DE, and RU', () => {
+  it('computes squad organization advice across all rondo and activation types in EN, DE, and RU', () => {
     const r1 = RONDOS_EN[0]; // rondo-1
     const r2 = RONDOS_EN[1]; // rondo-2
     const r3 = RONDOS_EN[2]; // rondo-3
@@ -238,6 +336,16 @@ describe('Domain & Data Integrity — EN / DE / RU Parity & Canonical Geometry',
       expect(fn(20, r3).length).toBeGreaterThan(10);
       expect(fn(16, r4).length).toBeGreaterThan(10);
     }
+
+    for (const fn of [
+      getActivationSquadAdviceEn,
+      getActivationSquadAdviceDe,
+      getActivationSquadAdviceRu,
+    ]) {
+      expect(fn(14, ACTIVATIONS_EN[0]).length).toBeGreaterThan(10); // parallel boxes
+      expect(fn(16, ACTIVATIONS_EN[6]).length).toBeGreaterThan(10); // diamond circuits
+      expect(fn(12, ACTIVATIONS_EN[8]).length).toBeGreaterThan(10); // duel stations
+    }
   });
 });
 
@@ -247,7 +355,7 @@ describe('Domain Storage Service — Persistence & Error Resilience', () => {
     vi.restoreAllMocks();
   });
 
-  it('loads and saves completed sessions, theme, language, and ageBand accurately', () => {
+  it('loads and saves completed sessions, theme, language, ageBand, and activeModule accurately', () => {
     expect(loadCompletedSessions()).toEqual([1, 2]);
     saveCompletedSessions([1, 2, 5]);
     expect(loadCompletedSessions()).toEqual([1, 2, 5]);
@@ -263,6 +371,10 @@ describe('Domain Storage Service — Persistence & Error Resilience', () => {
     expect(loadInitialAgeBand()).toBe('u16');
     saveAgeBand('u12');
     expect(loadInitialAgeBand()).toBe('u12');
+
+    expect(loadInitialActiveModule()).toBe('rondo-series');
+    saveActiveModule('activation-series');
+    expect(loadInitialActiveModule()).toBe('activation-series');
   });
 
   it('recovers gracefully from corrupted JSON or storage exceptions', () => {
@@ -284,6 +396,9 @@ describe('Domain Storage Service — Persistence & Error Resilience', () => {
     window.localStorage.setItem(AGE_STORAGE_KEY, 'u99');
     expect(loadInitialAgeBand()).toBe('u16');
 
+    window.localStorage.setItem(ACTIVE_MODULE_STORAGE_KEY, 'unknown-module');
+    expect(loadInitialActiveModule()).toBe('rondo-series');
+
     // Simulate localStorage throwing SecurityError / QuotaExceededError
     vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
       throw new Error('Storage disabled');
@@ -296,10 +411,13 @@ describe('Domain Storage Service — Persistence & Error Resilience', () => {
     expect(loadInitialTheme()).toBe('dark');
     expect(loadInitialLanguage()).toBe('en');
     expect(loadInitialAgeBand()).toBe('u16');
+    expect(loadInitialActiveModule()).toBe('rondo-series');
 
     expect(() => saveCompletedSessions([1])).not.toThrow();
     expect(() => saveTheme('light')).not.toThrow();
     expect(() => saveLanguage('ru')).not.toThrow();
     expect(() => saveAgeBand('u10')).not.toThrow();
+    expect(() => saveActiveModule('activation-series')).not.toThrow();
   });
 });
+

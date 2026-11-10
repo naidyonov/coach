@@ -23,6 +23,16 @@ export const RONDO_TIMER_PRESETS: Record<string, TimerDosagePreset> = {
   'rondo-8': { work: 150, rest: 60, sets: 4 },
   'rondo-9': { work: 120, rest: 45, sets: 4 },
   'rondo-10': { work: 150, rest: 45, sets: 4 },
+  'act-1': { work: 180, rest: 30, sets: 3 },
+  'act-2': { work: 180, rest: 30, sets: 3 },
+  'act-3': { work: 180, rest: 30, sets: 3 },
+  'act-4': { work: 180, rest: 35, sets: 3 },
+  'act-5': { work: 180, rest: 30, sets: 3 },
+  'act-6': { work: 210, rest: 35, sets: 3 },
+  'act-7': { work: 180, rest: 30, sets: 3 },
+  'act-8': { work: 210, rest: 40, sets: 3 },
+  'act-9': { work: 150, rest: 45, sets: 3 },
+  'act-10': { work: 150, rest: 45, sets: 3 },
 };
 
 export const getRondoTimerPreset = (

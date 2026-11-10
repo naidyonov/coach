@@ -10,8 +10,60 @@ import {
   DEFAULT_TIMER_PRESET,
 } from '../domain/timerDosage';
 import { classifySessionFocus } from '../domain/periodization';
+import {
+  clampActivationMinutes,
+  computeActivationPhaseSplit,
+  TrainingDayProfile,
+} from '../domain/activationCalculator';
+import { AgeBandId } from '../i18n/types';
 
 describe('Domain Logic Property-Based Tests (fast-check)', () => {
+  describe('activationCalculator properties', () => {
+    it('clampActivationMinutes is idempotent and always bounds result within [10, 25]', () => {
+      fc.assert(
+        fc.property(fc.double({ min: -500, max: 500, noNaN: true }), (minutes) => {
+          const clamped = clampActivationMinutes(minutes);
+          expect(clamped).toBeGreaterThanOrEqual(10);
+          expect(clamped).toBeLessThanOrEqual(25);
+          expect(Number.isInteger(clamped)).toBe(true);
+          expect(clampActivationMinutes(clamped)).toBe(clamped);
+        })
+      );
+    });
+
+    it('computeActivationPhaseSplit preserves sum invariant (raiseMin + activateMin + potentiateMin === totalMinutes) and PHV safety across all inputs', () => {
+      const ageArb = fc.constantFrom<AgeBandId>('u10', 'u12', 'u14', 'u16', 'u18_pro');
+      const dayArb = fc.constantFrom<TrainingDayProfile>('md-4', 'md-3', 'md-2', 'md-1');
+
+      fc.assert(
+        fc.property(
+          fc.integer({ min: -50, max: 100 }),
+          ageArb,
+          dayArb,
+          (rawMinutes, ageBand, dayProfile) => {
+            const split = computeActivationPhaseSplit(rawMinutes, ageBand, dayProfile);
+            expect(split.totalMinutes).toBeGreaterThanOrEqual(10);
+            expect(split.totalMinutes).toBeLessThanOrEqual(25);
+            expect(split.raiseMin + split.activateMin + split.potentiateMin).toBe(
+              split.totalMinutes
+            );
+            expect(split.raiseMin).toBeGreaterThanOrEqual(2);
+            expect(split.activateMin).toBeGreaterThanOrEqual(2);
+            expect(split.potentiateMin).toBeGreaterThanOrEqual(2);
+            expect(split.setsRecommended).toBe(3);
+            expect(split.workSecPerSet).toBeGreaterThanOrEqual(90);
+            expect(split.phvSafe).toBe(true);
+
+            if (ageBand === 'u14') {
+              expect(split.activateMin).toBeGreaterThanOrEqual(split.raiseMin);
+              expect(split.activateMin).toBeGreaterThanOrEqual(split.potentiateMin);
+            }
+          }
+        )
+      );
+    });
+  });
+
   describe('squadCalculator properties', () => {
     it('always clamps playersCount to integer >= 4 regardless of input', () => {
       fc.assert(
@@ -71,6 +123,51 @@ describe('Domain Logic Property-Based Tests (fast-check)', () => {
         })
       );
     });
+
+    it('correctly computes Activation squad setups for act-1..10 without zero-capacity stations', () => {
+      const actIds = [
+        'act-1',
+        'act-2',
+        'act-3',
+        'act-4',
+        'act-5',
+        'act-6',
+        'act-7',
+        'act-8',
+        'act-9',
+        'act-10',
+      ];
+      fc.assert(
+        fc.property(
+          fc.integer({ min: 4, max: 40 }),
+          fc.constantFrom(...actIds),
+          (playersCount, actId) => {
+            const setup = computeSquadSetup(playersCount, actId);
+            if (actId === 'act-7' || actId === 'act-8') {
+              expect(setup.type).toBe('activation_diamond_circuits');
+              if (setup.type === 'activation_diamond_circuits') {
+                expect(setup.circuits * setup.playersPerCircuit).toBeGreaterThanOrEqual(
+                  setup.playersCount
+                );
+              }
+            } else if (actId === 'act-9' || actId === 'act-10') {
+              expect(setup.type).toBe('activation_duel_stations');
+              if (setup.type === 'activation_duel_stations') {
+                expect(setup.pairsCount).toBeGreaterThanOrEqual(2);
+                expect(setup.stations).toBeGreaterThanOrEqual(1);
+              }
+            } else {
+              expect(setup.type).toBe('activation_parallel_boxes');
+              if (setup.type === 'activation_parallel_boxes') {
+                expect(setup.boxes * setup.playersPerBox).toBeGreaterThanOrEqual(
+                  setup.playersCount
+                );
+              }
+            }
+          }
+        )
+      );
+    });
   });
 
   describe('timerDosage properties', () => {
@@ -120,7 +217,7 @@ describe('Domain Logic Property-Based Tests (fast-check)', () => {
       );
     });
 
-    it('getRondoTimerPreset returns valid positive presets for any rondo ID', () => {
+    it('getRondoTimerPreset returns valid positive presets for any rondo or activation ID', () => {
       fc.assert(
         fc.property(fc.string(), (id) => {
           const preset = getRondoTimerPreset(id);
@@ -170,21 +267,23 @@ describe('Domain Logic Property-Based Tests (fast-check)', () => {
   });
 
   describe('rondoAdapter tactical geometry properties', () => {
-    it('preserves pass/movement curve offsets and shadow variants across arbitrary phase geometries', async () => {
+    it('preserves pass/movement curve offsets and shadow variants across arbitrary Rondo & Activation phase geometries', async () => {
       const { rondoPhaseToTacticalScene } = await import(
         '../lib/tactical-board/adapters/rondoAdapter'
       );
       const { RONDOS_EN } = await import('../i18n/en');
+      const { ACTIVATIONS_EN } = await import('../i18n/activationData');
+      const allDrills = [...RONDOS_EN, ...ACTIVATIONS_EN];
 
       fc.assert(
         fc.property(
-          fc.integer({ min: 0, max: RONDOS_EN.length - 1 }),
+          fc.integer({ min: 0, max: allDrills.length - 1 }),
           fc.integer({ min: 0, max: 2 }),
           fc.integer({ min: -60, max: 60 }),
           fc.constantFrom('danger' as const, 'solution' as const),
-          (rondoIdx, phaseIdx, curveVal, shadowVariant) => {
-            const baseRondo = structuredClone(RONDOS_EN[rondoIdx]);
-            const phase = baseRondo.diagram.phases[phaseIdx];
+          (drillIdx, phaseIdx, curveVal, shadowVariant) => {
+            const baseDrill = structuredClone(allDrills[drillIdx]);
+            const phase = baseDrill.diagram.phases[phaseIdx];
             if (phase.passes.length > 0) {
               phase.passes[0].curve = curveVal;
             }
@@ -195,7 +294,7 @@ describe('Domain Logic Property-Based Tests (fast-check)', () => {
               phase.shadows[0].variant = shadowVariant;
             }
 
-            const result = rondoPhaseToTacticalScene(baseRondo, phaseIdx);
+            const result = rondoPhaseToTacticalScene(baseDrill, phaseIdx);
             expect(result.totalPhases).toBe(3);
 
             if (phase.passes.length > 0) {
@@ -215,3 +314,4 @@ describe('Domain Logic Property-Based Tests (fast-check)', () => {
     });
   });
 });
+
