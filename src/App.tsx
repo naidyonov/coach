@@ -216,17 +216,22 @@ export function App() {
                           key={mod.id}
                           data-testid={`series-module-${mod.id}`}
                           onClick={() => {
-                            if (mod.active) {
+                            if (
+                              mod.active &&
+                              (mod.id === 'rondo-series' ||
+                                mod.id === 'activation-series')
+                            ) {
+                              setActiveModule(mod.id);
+                              setSelectedCategory('all');
+                              setSelectedRondoId(
+                                mod.id === 'activation-series' ? 'act-1' : 'rondo-1'
+                              );
+                              setPhaseIndex(0);
                               if (
-                                mod.id === 'rondo-series' ||
-                                mod.id === 'activation-series'
+                                mod.id === 'activation-series' &&
+                                activeTab === 'monthly'
                               ) {
-                                setActiveModule(mod.id);
-                                setSelectedCategory('all');
-                                setSelectedRondoId(
-                                  mod.id === 'activation-series' ? 'act-1' : 'rondo-1'
-                                );
-                                setPhaseIndex(0);
+                                setActiveTab('catalog');
                               }
                               setIsSeriesMenuOpen(false);
                             }
@@ -268,13 +273,7 @@ export function App() {
 
                   <div className="px-2 pt-1 text-[11px] text-slate-400 flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                    <span>
-                      {tr(
-                        'More modules coming soon.',
-                        'Weitere Module folgen in Kürze.',
-                        'Новые модули скоро появятся.'
-                      )}
-                    </span>
+                    <span>{seriesHub.moreSoon}</span>
                   </div>
                 </div>
               )}
@@ -299,18 +298,20 @@ export function App() {
               <span>{t.nav.catalog}</span>
             </button>
 
-            <button
-              type="button"
-              onClick={() => setActiveTab('monthly')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                activeTab === 'monthly'
-                  ? 'bg-emerald-600 text-white keep-white shadow-sm'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
-              }`}
-            >
-              <Calendar className="w-3.5 h-3.5" />
-              <span>{t.nav.monthly}</span>
-            </button>
+            {activeModule !== 'activation-series' && (
+              <button
+                type="button"
+                onClick={() => setActiveTab('monthly')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                  activeTab === 'monthly'
+                    ? 'bg-emerald-600 text-white keep-white shadow-sm'
+                    : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                }`}
+              >
+                <Calendar className="w-3.5 h-3.5" />
+                <span>{t.nav.monthly}</span>
+              </button>
+            )}
 
             <button
               type="button"
@@ -525,6 +526,79 @@ export function App() {
             </div>
           </div>
         </div>
+
+        {/* 4-Block Training Session Flow Bar: 1. Activation -> 2. Rondo -> 3. Positional Play -> 4. Final Game */}
+        <div
+          data-testid="training-blocks-bar"
+          className="bg-slate-950/85 border-t border-slate-800/80"
+        >
+          <div className="max-w-7xl mx-auto px-3 sm:px-6 py-1.5 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+            <span className="hidden lg:inline-block text-[11px] font-bold uppercase tracking-wider text-slate-400 mr-1 shrink-0">
+              {seriesHub.sessionBarLabel}
+            </span>
+            {trainingSeriesModules.map((mod, idx) => {
+              const isCurrent = mod.id === activeModule;
+              return (
+                <React.Fragment key={mod.id}>
+                  {idx > 0 && (
+                    <span
+                      aria-hidden="true"
+                      className="text-slate-600 text-xs font-bold select-none shrink-0"
+                    >
+                      →
+                    </span>
+                  )}
+                  <button
+                    type="button"
+                    data-testid={`block-pill-${mod.id}`}
+                    disabled={!mod.active}
+                    onClick={() => {
+                      if (
+                        mod.active &&
+                        (mod.id === 'rondo-series' ||
+                          mod.id === 'activation-series')
+                      ) {
+                        setActiveModule(mod.id);
+                        setSelectedCategory('all');
+                        setSelectedRondoId(
+                          mod.id === 'activation-series' ? 'act-1' : 'rondo-1'
+                        );
+                        setPhaseIndex(0);
+                        if (
+                          mod.id === 'activation-series' &&
+                          activeTab === 'monthly'
+                        ) {
+                          setActiveTab('catalog');
+                        }
+                      }
+                    }}
+                    title={mod.subtitle}
+                    className={`shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold transition border ${
+                      isCurrent
+                        ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-sm cursor-pointer'
+                        : mod.active
+                        ? 'bg-slate-900 text-slate-200 border-slate-800 hover:bg-slate-800 hover:border-emerald-500/40 cursor-pointer'
+                        : 'bg-slate-900/40 text-slate-500 border-slate-800/50 cursor-not-allowed'
+                    }`}
+                  >
+                    <span>{mod.shortStep}</span>
+                    <span
+                      className={`text-[10px] px-1.5 py-0.2 rounded font-semibold ${
+                        isCurrent
+                          ? 'bg-slate-950/20 text-slate-950'
+                          : mod.active
+                          ? 'bg-emerald-500/15 text-emerald-400'
+                          : 'bg-slate-800/80 text-slate-400'
+                      }`}
+                    >
+                      {mod.active ? mod.duration : mod.badge}
+                    </span>
+                  </button>
+                </React.Fragment>
+              );
+            })}
+          </div>
+        </div>
       </header>
 
       {/* Main Content Area */}
@@ -550,7 +624,7 @@ export function App() {
           />
         )}
 
-        {activeTab === 'monthly' && (
+        {activeTab === 'monthly' && activeModule !== 'activation-series' && (
           <MonthlyPlanView
             selectedRondo={selectedRondo}
             onSelectRondoId={handleSelectRondoId}
@@ -579,7 +653,11 @@ export function App() {
         data-testid="mobile-bottom-nav"
         className="fixed bottom-0 inset-x-0 z-40 md:hidden pointer-events-none px-4 pb-[max(0.85rem,env(safe-area-inset-bottom))] pt-1"
       >
-        <div className="pointer-events-auto max-w-md mx-auto bg-slate-900/95 backdrop-blur-xl border border-slate-700/80 rounded-2xl p-1.5 shadow-2xl shadow-black/60 grid grid-cols-5 gap-1">
+        <div
+          className={`pointer-events-auto max-w-md mx-auto bg-slate-900/95 backdrop-blur-xl border border-slate-700/80 rounded-2xl p-1.5 shadow-2xl shadow-black/60 grid gap-1 ${
+            activeModule === 'activation-series' ? 'grid-cols-4' : 'grid-cols-5'
+          }`}
+        >
           <button
             type="button"
             onClick={() => setActiveTab('catalog')}
@@ -593,18 +671,20 @@ export function App() {
             <span className="truncate max-w-full">{t.nav.catalogShort}</span>
           </button>
 
-          <button
-            type="button"
-            onClick={() => setActiveTab('monthly')}
-            className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[11px] font-semibold transition-all cursor-pointer ${
-              activeTab === 'monthly'
-                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                : 'text-slate-400 hover:text-slate-200 border border-transparent'
-            }`}
-          >
-            <Calendar className="w-4 h-4 mb-0.5" />
-            <span className="truncate max-w-full">{t.nav.monthlyShort}</span>
-          </button>
+          {activeModule !== 'activation-series' && (
+            <button
+              type="button"
+              onClick={() => setActiveTab('monthly')}
+              className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[11px] font-semibold transition-all cursor-pointer ${
+                activeTab === 'monthly'
+                  ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                  : 'text-slate-400 hover:text-slate-200 border border-transparent'
+              }`}
+            >
+              <Calendar className="w-4 h-4 mb-0.5" />
+              <span className="truncate max-w-full">{t.nav.monthlyShort}</span>
+            </button>
+          )}
 
           <button
             type="button"

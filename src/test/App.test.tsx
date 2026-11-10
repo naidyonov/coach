@@ -158,8 +158,8 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
     const seriesBtn = screen.getByTestId('series-switcher-btn');
     fireEvent.click(seriesBtn);
     expect(
-      screen.getByText(/Positional Play/i)
-    ).toBeInTheDocument();
+      screen.getAllByText(/Positional Play/i).length
+    ).toBeGreaterThan(0);
   });
 
   it('supports Interactive Pitch Board 2.0 controls (Auto-Play, Replay Pass, Speed, and Tokens)', () => {
@@ -260,25 +260,56 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
     ).toBeInTheDocument();
   });
 
-  it('switches to the Activation (Einstieg) module via Series Switcher, filters independent categories, switches languages, and renders 4 Activation Biomechanics SVG diagrams', () => {
+  it('switches to the Activation (Einstieg) module via Series Switcher or 4-Block Session Bar, renders 6-Rubric Showcase & 3-Phase Progression Ladder, and hides Monthly Plan in Activation', () => {
     renderApp();
 
-    // Open Series Switcher and click Activation (Einstieg)
+    // 1. Verify 4-Block Training Session Flow Bar is rendered in header
+    const blocksBar = screen.getByTestId('training-blocks-bar');
+    expect(blocksBar).toBeInTheDocument();
+    const actBlockPill = screen.getByTestId('block-pill-activation-series');
+    const rondoBlockPill = screen.getByTestId('block-pill-rondo-series');
+    expect(actBlockPill).toHaveTextContent(/1\. Activation/i);
+    expect(rondoBlockPill).toHaveTextContent(/2\. Rondo/i);
+
+    // Click Block 1: Activation directly from the 4-Block Training Session Bar
+    fireEvent.click(actBlockPill);
+
     const seriesBtn = screen.getByTestId('series-switcher-btn');
-    fireEvent.click(seriesBtn);
-
-    const activationModuleCard = screen.getByTestId('series-module-activation-series');
-    fireEvent.click(activationModuleCard);
-
-    // Header should now show Activation
     expect(seriesBtn).toHaveTextContent(/Activation/i);
     expect(
       screen.getAllByText(/Coerver & Funino 4-Minigoal Team Arena/i).length
     ).toBeGreaterThan(0);
 
-    // Filter by independent SFV Activation categories
+    // 2. Verify Monthly Plan tab is NOT present in Activation mode (only 3 clean tabs)
+    const mainNav = screen.getByRole('navigation', { name: /main navigation/i });
+    expect(within(mainNav).queryByRole('button', { name: /Monthly Plan/i })).not.toBeInTheDocument();
+
+    // 3. Verify 3-Phase Progression Ladder is displayed front-and-center in the Activation card
+    const progressionLadder = screen.getByTestId('activation-progression-ladder');
+    expect(progressionLadder).toBeInTheDocument();
+    expect(within(progressionLadder).getAllByText(/Phase 1/i).length).toBeGreaterThan(0);
+    expect(within(progressionLadder).getAllByText(/Phase 2/i).length).toBeGreaterThan(0);
+    expect(within(progressionLadder).getAllByText(/Phase 3/i).length).toBeGreaterThan(0);
+
+    // 4. Verify 6-Rubric Showcase Grid and selecting an exercise card
+    const rubricShowcase = screen.getByTestId('activation-rubric-showcase');
+    expect(rubricShowcase).toBeInTheDocument();
+    const rubricCardAct11 = screen.getByTestId('rubric-card-act-11');
+    fireEvent.click(rubricCardAct11);
+    expect(
+      screen.getAllByText(/SFV 02_d "Aus den Zonen dribbeln & 4gg4 mit Dribbelzonen"/i).length
+    ).toBeGreaterThan(0);
+
+    // Toggle collapse/expand of the Rubric Showcase Grid
+    const toggleShowcaseBtn = screen.getByTestId('toggle-rubric-showcase-btn');
+    fireEvent.click(toggleShowcaseBtn);
+    expect(screen.queryByTestId('activation-rubric-showcase')).not.toBeInTheDocument();
+    fireEvent.click(toggleShowcaseBtn);
+    expect(screen.getByTestId('activation-rubric-showcase')).toBeInTheDocument();
+
+    // 5. Filter by independent SFV Activation categories
     const firstTouchCategoryBtn = screen.getByRole('button', {
-      name: /First Touch & Directional Reception/i,
+      name: /2\. First Touch & Directional Reception/i,
     });
     fireEvent.click(firstTouchCategoryBtn);
     expect(
@@ -286,15 +317,14 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
     ).toBeGreaterThan(0);
 
     const defendingCategoryBtn = screen.getByRole('button', {
-      name: /1v1 Defending & Closing Passing Lanes/i,
+      name: /6\. 1v1 Defending & Closing Passing Lanes/i,
     });
     fireEvent.click(defendingCategoryBtn);
     expect(
       screen.getAllByText(/SFV 11_d "5m-Tore durchdribbeln & Bälle jagen": 1v1 Defending/i).length
     ).toBeGreaterThan(0);
 
-    // Navigate to Methodology inside Activation module and toggle all 4 Biomechanics & Touch SVG diagrams
-    const mainNav = screen.getByRole('navigation', { name: /main navigation/i });
+    // 6. Navigate to Methodology & OFP inside Activation module and toggle all 4 Biomechanics & Touch SVG diagrams
     fireEvent.click(within(mainNav).getByRole('button', { name: /Methodology/i }));
     expect(
       screen.getByText(/1\. SFV Einstieg & 3-Phase Single-Drill Progression/i)
@@ -306,12 +336,12 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
       fireEvent.click(toggleBtn);
     }
 
-    // Switch to Russian (RU) while in Activation module
+    // 7. Switch to Russian (RU) while in Activation module
     const langSwitcher = screen.getByTestId('lang-switcher');
     fireEvent.click(within(langSwitcher).getByRole('button', { name: /russian/i }));
     expect(seriesBtn).toHaveTextContent(/Активация/i);
 
-    // Switch back to Rondo module
+    // 8. Switch back to Rondo module via Series Switcher
     fireEvent.click(seriesBtn);
     fireEvent.click(screen.getByTestId('series-module-rondo-series'));
     expect(seriesBtn).toHaveTextContent(/Рондо/i);

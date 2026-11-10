@@ -44,6 +44,7 @@ export interface CatalogViewProps {
 type DrillBriefTab = 'goals' | 'science' | 'cues' | 'squad';
 
 export const CatalogView: React.FC<CatalogViewProps> = ({
+  selectedCategory,
   onSelectCategory,
   selectedRondo,
   onSelectRondoId,
@@ -63,6 +64,7 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
   const {
     lang,
     t,
+    activeModule,
     ageBand,
     setAgeBand,
     ageBands,
@@ -75,24 +77,34 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
   } = useLanguage();
 
   const [briefTab, setBriefTab] = useState<DrillBriefTab>('goals');
+  const [isShowcaseExpanded, setIsShowcaseExpanded] = useState<boolean>(true);
 
+  const isActivation = activeModule === 'activation-series';
   const categoryItems = categories.filter((c) => c.id !== 'all');
+
+  // In Activation mode, order exercises by Rubric order so prev/next and showcase are always grouped logically
+  const orderedRondos = isActivation
+    ? categoryItems.flatMap((cat) =>
+        rondos.filter((r) => r.category === cat.id)
+      )
+    : rondos;
 
   const currentRondoIdx = Math.max(
     0,
-    rondos.findIndex((r) => r.id === selectedRondo.id)
+    orderedRondos.findIndex((r) => r.id === selectedRondo.id)
   );
 
   const handlePrevRondo = () => {
-    if (rondos.length === 0) return;
-    const prevIdx = (currentRondoIdx - 1 + rondos.length) % rondos.length;
-    onSelectRondoId(rondos[prevIdx].id);
+    if (orderedRondos.length === 0) return;
+    const prevIdx =
+      (currentRondoIdx - 1 + orderedRondos.length) % orderedRondos.length;
+    onSelectRondoId(orderedRondos[prevIdx].id);
   };
 
   const handleNextRondo = () => {
-    if (rondos.length === 0) return;
-    const nextIdx = (currentRondoIdx + 1) % rondos.length;
-    onSelectRondoId(rondos[nextIdx].id);
+    if (orderedRondos.length === 0) return;
+    const nextIdx = (currentRondoIdx + 1) % orderedRondos.length;
+    onSelectRondoId(orderedRondos[nextIdx].id);
   };
 
   const phases = selectedRondo.diagram.phases;
@@ -110,33 +122,189 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
   const activeAgeVariant = getRondoAgeVariant(selectedRondo.id);
   const methodologyBasis = getRondoMethodology(selectedRondo.id);
 
+  // Sibling exercises within the active rubric (for clean 2-4 pill switcher in Activation)
+  const activeRubricRondos = isActivation
+    ? rondos.filter((r) => r.category === selectedRondo.category)
+    : rondos;
+
+  // Rubrics to display in the Activation Rubric Showcase Grid
+  const visibleRubrics =
+    selectedCategory === 'all'
+      ? categoryItems
+      : categoryItems.filter((c) => c.id === selectedCategory);
+
   return (
     <div className="space-y-4">
-      {/* Compact Drill Navigator: Tactical Themes + Quick Rondo Stepper */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-2.5 sm:p-3.5 shadow-sm space-y-2">
-        {/* Category Theme Pills */}
-        <div className="flex items-center overflow-x-auto sm:flex-wrap gap-1.5 no-scrollbar">
-          {categoryItems.map((cat) => {
-            const isActive = selectedRondo.category === cat.id;
-            return (
+      {/* Drill Navigator: Rubric Showcase Grid (Activation) OR Compact Theme Stepper (Rondo) */}
+      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-2.5 sm:p-3.5 shadow-sm space-y-2.5">
+        {/* Category / Rubric Filter Pills */}
+        <div className="flex items-center justify-between gap-2 flex-wrap">
+          <div className="flex items-center overflow-x-auto sm:flex-wrap gap-1.5 no-scrollbar flex-1">
+            {isActivation && (
               <button
-                key={cat.id}
                 type="button"
-                onClick={() => onSelectCategory(cat.id)}
-                className={`shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-semibold transition cursor-pointer border ${
-                  isActive
-                    ? `${cat.color} text-white keep-white border-white/20 shadow-sm`
+                onClick={() => onSelectCategory('all')}
+                className={`shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold transition cursor-pointer border ${
+                  selectedCategory === 'all'
+                    ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-sm'
                     : 'bg-slate-950 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white'
                 }`}
               >
-                <span className={`w-1.5 h-1.5 rounded-full ${cat.dot}`} />
-                <span>{cat.name}</span>
+                <span>
+                  {lang === 'ru'
+                    ? `Все 6 рубрик (${rondos.length})`
+                    : lang === 'de'
+                    ? `Alle 6 Rubriken (${rondos.length})`
+                    : `All 6 Rubrics (${rondos.length})`}
+                </span>
               </button>
-            );
-          })}
+            )}
+
+            {categoryItems.map((cat) => {
+              const isActive = isActivation
+                ? selectedCategory === cat.id ||
+                  (selectedCategory === 'all' &&
+                    selectedRondo.category === cat.id)
+                : selectedRondo.category === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => onSelectCategory(cat.id)}
+                  className={`shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-semibold transition cursor-pointer border ${
+                    isActive
+                      ? `${cat.color} text-white keep-white border-white/20 shadow-sm`
+                      : 'bg-slate-950 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white'
+                  }`}
+                >
+                  <span className={`w-1.5 h-1.5 rounded-full ${cat.dot}`} />
+                  <span>{cat.name}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {isActivation && (
+            <button
+              type="button"
+              data-testid="toggle-rubric-showcase-btn"
+              onClick={() => setIsShowcaseExpanded((v) => !v)}
+              className="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-950 hover:bg-slate-800 text-emerald-400 border border-slate-800 text-xs font-bold transition cursor-pointer"
+            >
+              <Layers className="w-3.5 h-3.5" />
+              <span>
+                {isShowcaseExpanded
+                  ? lang === 'ru'
+                    ? 'Свернуть витрину'
+                    : lang === 'de'
+                    ? 'Rubriken einklappen'
+                    : 'Collapse Rubrics'
+                  : lang === 'ru'
+                  ? `Витрина по рубрикам (${rondos.length})`
+                  : lang === 'de'
+                  ? `Alle Rubriken zeigen (${rondos.length})`
+                  : `Show Rubric Grid (${rondos.length})`}
+              </span>
+            </button>
+          )}
         </div>
 
-        {/* Quick Rondo Stepper Bar (1.1 -> 5.2) */}
+        {/* ACTIVATION RUBRIC SHOWCASE GRID (Grouped by 6 Rubrics with Section Headers & Cards) */}
+        {isActivation && isShowcaseExpanded && (
+          <div
+            data-testid="activation-rubric-showcase"
+            className="bg-slate-950/75 border border-slate-800/90 rounded-xl p-3 space-y-4"
+          >
+            {visibleRubrics.map((rubric, rubricIdx) => {
+              const drillsInRubric = rondos.filter(
+                (r) => r.category === rubric.id
+              );
+              if (drillsInRubric.length === 0) return null;
+              return (
+                <div key={rubric.id} className="space-y-2">
+                  {/* Rubric Section Title */}
+                  <div className="flex items-center justify-between gap-2 border-b border-slate-800/80 pb-1.5">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`w-2.5 h-2.5 rounded-full ${rubric.dot} shrink-0`}
+                      />
+                      <h3 className="text-xs sm:text-sm font-extrabold text-white tracking-tight">
+                        {selectedCategory === 'all'
+                          ? `${rubricIdx + 1}. ${rubric.name}`
+                          : rubric.name}
+                      </h3>
+                    </div>
+                    <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-slate-900 text-slate-400 border border-slate-800">
+                      {drillsInRubric.length}{' '}
+                      {lang === 'ru'
+                        ? 'упр.'
+                        : lang === 'de'
+                        ? 'Übungen'
+                        : 'drills'}
+                    </span>
+                  </div>
+
+                  {/* Cards Grid inside Rubric */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                    {drillsInRubric.map((drill) => {
+                      const isCurrent = drill.id === selectedRondo.id;
+                      const shortGrid = drill.dimensionsU15.base.split('(')[0].trim();
+                      const shortPlayers = drill.playersCount.split('(')[0].trim();
+                      return (
+                        <button
+                          key={drill.id}
+                          type="button"
+                          data-testid={`rubric-card-${drill.id}`}
+                          onClick={() => onSelectRondoId(drill.id)}
+                          className={`text-left p-3 rounded-xl border transition-all flex flex-col justify-between gap-2 cursor-pointer ${
+                            isCurrent
+                              ? 'bg-emerald-950/35 border-emerald-500 shadow-md shadow-emerald-950/50'
+                              : 'bg-slate-900/90 border-slate-800 hover:border-slate-700 hover:bg-slate-900'
+                          }`}
+                        >
+                          <div className="space-y-1">
+                            <div className="flex items-center justify-between gap-1.5">
+                              <span
+                                className={`text-xs font-extrabold leading-snug ${
+                                  isCurrent ? 'text-emerald-300' : 'text-white'
+                                }`}
+                              >
+                                {drill.shortTitle || drill.title}
+                              </span>
+                              {isCurrent && (
+                                <span className="px-1.5 py-0.5 rounded bg-emerald-500 text-slate-950 text-[10px] font-black shrink-0">
+                                  {lang === 'ru'
+                                    ? 'Открыто'
+                                    : lang === 'de'
+                                    ? 'Aktiv'
+                                    : 'Active'}
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[11px] text-slate-400 line-clamp-2 leading-snug">
+                              {drill.title}
+                            </p>
+                          </div>
+
+                          <div className="pt-1.5 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-1.5 text-[10px]">
+                            <span className="text-slate-300 font-semibold truncate max-w-[65%]">
+                              {shortGrid}
+                            </span>
+                            <span className="px-1.5 py-0.5 rounded bg-slate-950 text-emerald-400 font-bold border border-slate-800">
+                              3 {lang === 'ru' ? 'фазы' : lang === 'de' ? 'Phasen' : 'phases'} • {shortPlayers}
+                            </span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Quick Stepper Bar (In Activation: shows ONLY the 2-4 sibling drills of the current rubric without confusing numbers; In Rondo: shows 1.1 -> 5.2) */}
         <div
           data-testid="quick-rondo-stepper"
           className="bg-slate-950/80 border border-slate-800/80 rounded-xl px-2 py-1.5 flex items-center justify-between gap-1.5"
@@ -158,7 +326,12 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
           </button>
 
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 flex-1">
-            {rondos.map((r) => {
+            {isActivation && (
+              <span className="hidden sm:inline-block text-[11px] font-bold text-slate-400 px-1.5 shrink-0">
+                {selectedRondo.categoryName}:
+              </span>
+            )}
+            {activeRubricRondos.map((r) => {
               const isSelected = r.id === selectedRondo.id;
               return (
                 <button
@@ -173,12 +346,18 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                       : 'bg-slate-900 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white'
                   }`}
                 >
-                  <span className="font-extrabold">
-                    {t.catalog.numberPrefix}{r.number}
-                  </span>
+                  {!isActivation && (
+                    <span className="font-extrabold">
+                      {t.catalog.numberPrefix}{r.number}
+                    </span>
+                  )}
                   <span
-                    className={`hidden xl:inline truncate max-w-[115px] font-medium text-[11px] ${
-                      isSelected ? 'text-slate-950 font-semibold' : 'text-slate-400'
+                    className={`${
+                      isActivation
+                        ? 'inline truncate max-w-[200px]'
+                        : 'hidden xl:inline truncate max-w-[115px]'
+                    } font-medium text-[11px] ${
+                      isSelected ? 'text-slate-950 font-bold' : 'text-slate-300'
                     }`}
                   >
                     {r.shortTitle || r.title}
@@ -211,13 +390,15 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
         {/* LEFT COLUMN (7 cols): Hero Drill Header + Interactive Pitch + Step-by-Step Phase Bar */}
         <div className="lg:col-span-7">
           <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
-            {/* Selected Rondo Hero Header */}
+            {/* Selected Rondo / Activation Hero Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
               <div className="space-y-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="px-2 py-0.5 rounded-md bg-emerald-500 text-slate-950 text-xs font-black">
-                    {t.catalog.numberPrefix}{selectedRondo.number}
-                  </span>
+                  {!isActivation && (
+                    <span className="px-2 py-0.5 rounded-md bg-emerald-500 text-slate-950 text-xs font-black">
+                      {t.catalog.numberPrefix}{selectedRondo.number}
+                    </span>
+                  )}
                   <span
                     className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border ${selectedRondo.badgeColor}`}
                   >
@@ -245,14 +426,16 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                   </button>
                 )}
 
-                <button
-                  type="button"
-                  onClick={onOpenMonthlyPlan}
-                  className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white keep-white text-xs font-bold shadow-sm transition cursor-pointer"
-                >
-                  <Calendar className="w-3.5 h-3.5" />
-                  <span>{t.catalog.openMonthlyPlanBtn}</span>
-                </button>
+                {!isActivation && (
+                  <button
+                    type="button"
+                    onClick={onOpenMonthlyPlan}
+                    className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white keep-white text-xs font-bold shadow-sm transition cursor-pointer"
+                  >
+                    <Calendar className="w-3.5 h-3.5" />
+                    <span>{t.catalog.openMonthlyPlanBtn}</span>
+                  </button>
+                )}
               </div>
             </div>
 
@@ -481,9 +664,71 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
               </button>
             </div>
 
-            {/* TAB 1: Age Pedagogical Focus, Game Problem, Attack/Defense Goals & Scoring Rules */}
+            {/* TAB 1: Age Pedagogical Focus, 3-Phase Progression (Activation), Game Problem, Attack/Defense Goals & Scoring Rules */}
             {briefTab === 'goals' && (
               <div className="space-y-3">
+                {/* In Activation mode: Interactive 3-Phase Progression Ladder front-and-center */}
+                {isActivation && (
+                  <div
+                    data-testid="activation-progression-ladder"
+                    className="bg-slate-950/85 border border-emerald-500/40 rounded-xl p-3.5 space-y-2"
+                  >
+                    <div className="flex items-center justify-between gap-2 text-xs font-extrabold uppercase tracking-wider text-emerald-400">
+                      <span className="flex items-center gap-1.5">
+                        <Layers className="w-3.5 h-3.5 shrink-0" />
+                        <span>{t.catalog.progressionsTitle}</span>
+                      </span>
+                      <span className="text-[10px] text-slate-400 font-semibold">
+                        {lang === 'ru'
+                          ? 'Нажмите фазу → на доску'
+                          : lang === 'de'
+                          ? 'Phase klicken → Board'
+                          : 'Click phase → Board'}
+                      </span>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      {selectedRondo.progressions.map((prog, idx) => {
+                        const isCurrPhase = safePhaseIndex === idx;
+                        return (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => onPhaseChange(idx)}
+                            className={`w-full text-left p-2.5 rounded-xl border text-xs leading-relaxed transition cursor-pointer ${
+                              isCurrPhase
+                                ? 'bg-emerald-950/40 border-emerald-500 shadow-sm'
+                                : 'bg-slate-900/80 border-slate-800 hover:border-slate-700'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between gap-2 mb-0.5">
+                              <span
+                                className={`font-extrabold ${
+                                  isCurrPhase ? 'text-emerald-300' : 'text-white'
+                                }`}
+                              >
+                                {prog.level}
+                              </span>
+                              <span
+                                className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${
+                                  isCurrPhase
+                                    ? 'bg-emerald-500 text-slate-950'
+                                    : 'bg-slate-800 text-slate-400'
+                                }`}
+                              >
+                                {t.catalog.phaseLabel} {idx + 1}
+                              </span>
+                            </div>
+                            <span className="text-slate-300 block">
+                              {prog.desc}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
                 {/* Age-Specific Pedagogical Focus Banner */}
                 <div
                   data-testid="age-coaching-focus-box"

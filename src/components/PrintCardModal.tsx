@@ -20,6 +20,7 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
   const {
     lang,
     t,
+    activeModule,
     generateMonthlyPlan,
     currentAgeBandInfo,
     getRondoAgeVariant,
@@ -30,6 +31,7 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
     return null;
   }
 
+  const isActivation = activeModule === 'activation-series';
   const monthlySessions = generateMonthlyPlan(selectedRondo);
   const ageVariant = getRondoAgeVariant(selectedRondo.id);
   const methodology = getRondoMethodology(selectedRondo.id);
@@ -49,7 +51,9 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
               </span>
             </div>
             <h2 className="text-xl sm:text-2xl font-black text-white mt-0.5">
-              {t.catalog.numberPrefix}{selectedRondo.number} • {selectedRondo.title}
+              {isActivation
+                ? selectedRondo.title
+                : `${t.catalog.numberPrefix}${selectedRondo.number} • ${selectedRondo.title}`}
             </h2>
           </div>
 
@@ -199,37 +203,64 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
           </div>
         </div>
 
-        {/* 8-Session Monthly Progression Summary */}
+        {/* Bottom Section: 3-Phase Progression (for Activation) OR 8-Session Monthly Plan (for Rondo) */}
         <div className="pt-3 border-t border-slate-800">
-          <h3 className="text-xs font-extrabold uppercase tracking-wider text-emerald-400 mb-2.5">
-            {t.printModal.monthlyProgressionTitle}
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 text-xs">
-            {monthlySessions.map((item) => (
-              <div
-                key={item.session}
-                className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-1 mb-1">
-                    <span className="font-black text-emerald-400">
-                      {t.printModal.sessionShortPrefix} #{item.session}
-                    </span>
-                    <span className="text-[10px] text-slate-400">{item.week}</span>
+          {isActivation ? (
+            <>
+              <h3 className="text-xs font-extrabold uppercase tracking-wider text-emerald-400 mb-2.5">
+                {t.catalog.progressionsTitle}
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+                {selectedRondo.progressions.map((prog, idx) => (
+                  <div
+                    key={idx}
+                    className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1"
+                  >
+                    <div className="font-bold text-emerald-300 leading-snug">
+                      {prog.level}
+                    </div>
+                    <p className="text-slate-300 text-[11px] leading-relaxed">
+                      {prog.desc}
+                    </p>
                   </div>
-                  <div className="font-bold text-white mb-1 leading-snug">
-                    {item.stage}
-                  </div>
-                  <p className="text-slate-300 text-[11px] leading-snug mb-1.5">
-                    {item.goal}
-                  </p>
-                </div>
-                <div className="text-[10px] text-amber-300/90 font-mono pt-1 border-t border-slate-800/80">
-                  {item.loadU15}
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </>
+          ) : (
+            <>
+              <h3 className="text-xs font-extrabold uppercase tracking-wider text-emerald-400 mb-2.5">
+                {t.printModal.monthlyProgressionTitle}
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 text-xs">
+                {monthlySessions.map((item) => (
+                  <div
+                    key={item.session}
+                    className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between gap-1 mb-1">
+                        <span className="font-black text-emerald-400">
+                          {t.printModal.sessionShortPrefix} #{item.session}
+                        </span>
+                        <span className="text-[10px] text-slate-400">
+                          {item.week}
+                        </span>
+                      </div>
+                      <div className="font-bold text-white mb-1 leading-snug">
+                        {item.stage}
+                      </div>
+                      <p className="text-slate-300 text-[11px] leading-snug mb-1.5">
+                        {item.goal}
+                      </p>
+                    </div>
+                    <div className="text-[10px] text-amber-300/90 font-mono pt-1 border-t border-slate-800/80">
+                      {item.loadU15}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -14,33 +14,33 @@ import { computeSquadSetup } from '../domain/squadCalculator';
 // ============================================================================
 
 export const ACTIVATION_CATEGORIES_EN: CategoryItem[] = [
-  { id: 'all', name: 'All 16 Activations', color: 'bg-slate-600', dot: 'bg-slate-400' },
-  { id: 'mastery', name: 'Ball Mastery & 1v1 Feints', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
-  { id: 'first_touch', name: 'First Touch & Directional Reception', color: 'bg-blue-600', dot: 'bg-blue-400' },
-  { id: 'dribbling_space', name: 'Scanning, Free Space & 9-Zone Grid', color: 'bg-amber-600', dot: 'bg-amber-400' },
-  { id: 'passing_scanning', name: 'Passing, Build-Up & Combinations', color: 'bg-purple-600', dot: 'bg-purple-400' },
-  { id: 'finishing', name: 'Finishing on Mini-Goals & 2v1 Overloads', color: 'bg-cyan-600', dot: 'bg-cyan-400' },
-  { id: 'defending', name: '1v1 Defending & Closing Passing Lanes', color: 'bg-rose-600', dot: 'bg-rose-400' },
+  { id: 'all', name: 'All 6 Rubrics (16 Drills)', color: 'bg-slate-600', dot: 'bg-slate-400' },
+  { id: 'mastery', name: '1. Ball Mastery & 1v1 Feints', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
+  { id: 'first_touch', name: '2. First Touch & Directional Reception', color: 'bg-blue-600', dot: 'bg-blue-400' },
+  { id: 'dribbling_space', name: '3. Scanning, Free Space & 9-Zone Grid', color: 'bg-amber-600', dot: 'bg-amber-400' },
+  { id: 'passing_scanning', name: '4. Passing, Build-Up & Combinations', color: 'bg-purple-600', dot: 'bg-purple-400' },
+  { id: 'finishing', name: '5. Finishing on Mini-Goals & 2v1 Overloads', color: 'bg-cyan-600', dot: 'bg-cyan-400' },
+  { id: 'defending', name: '6. 1v1 Defending & Closing Passing Lanes', color: 'bg-rose-600', dot: 'bg-rose-400' },
 ];
 
 export const ACTIVATION_CATEGORIES_DE: CategoryItem[] = [
-  { id: 'all', name: 'Alle 16 Einstiege', color: 'bg-slate-600', dot: 'bg-slate-400' },
-  { id: 'mastery', name: 'Ballgefühl & 1-gegen-1-Dribbling', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
-  { id: 'first_touch', name: 'Erster Ballkontakt & Mitnahme', color: 'bg-blue-600', dot: 'bg-blue-400' },
-  { id: 'dribbling_space', name: 'Freilaufen, 9-Felder & Freie Zonen', color: 'bg-amber-600', dot: 'bg-amber-400' },
-  { id: 'passing_scanning', name: 'Passspiel, Spielaufbau & Kombinationen', color: 'bg-purple-600', dot: 'bg-purple-400' },
-  { id: 'finishing', name: 'Torschuss auf Minitore & 2gg1-Überzahl', color: 'bg-cyan-600', dot: 'bg-cyan-400' },
-  { id: 'defending', name: '1gg1 Defensiv & Passwege schliessen', color: 'bg-rose-600', dot: 'bg-rose-400' },
+  { id: 'all', name: 'Alle 6 Rubriken (16 Einstiege)', color: 'bg-slate-600', dot: 'bg-slate-400' },
+  { id: 'mastery', name: '1. Ballgefühl & 1-gegen-1-Dribbling', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
+  { id: 'first_touch', name: '2. Erster Ballkontakt & Mitnahme', color: 'bg-blue-600', dot: 'bg-blue-400' },
+  { id: 'dribbling_space', name: '3. Freilaufen, 9-Felder & Freie Zonen', color: 'bg-amber-600', dot: 'bg-amber-400' },
+  { id: 'passing_scanning', name: '4. Passspiel, Spielaufbau & Kombinationen', color: 'bg-purple-600', dot: 'bg-purple-400' },
+  { id: 'finishing', name: '5. Torschuss auf Minitore & 2gg1-Überzahl', color: 'bg-cyan-600', dot: 'bg-cyan-400' },
+  { id: 'defending', name: '6. 1gg1 Defensiv & Passwege schliessen', color: 'bg-rose-600', dot: 'bg-rose-400' },
 ];
 
 export const ACTIVATION_CATEGORIES_RU: CategoryItem[] = [
-  { id: 'all', name: 'Все 16 упражнений активации', color: 'bg-slate-600', dot: 'bg-slate-400' },
-  { id: 'mastery', name: 'Дриблинг, контроль мяча и 1v1 в атаке', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
-  { id: 'first_touch', name: 'Первое касание и приём в движение', color: 'bg-blue-600', dot: 'bg-blue-400' },
-  { id: 'dribbling_space', name: 'Открывание, поиск свободных зон и 9 квадратов', color: 'bg-amber-600', dot: 'bg-amber-400' },
-  { id: 'passing_scanning', name: 'Пас, вариативный розыгрыш и комбинаторика', color: 'bg-purple-600', dot: 'bg-purple-400' },
-  { id: 'finishing', name: 'Завершение на мини-ворота и большинство 2v1', color: 'bg-cyan-600', dot: 'bg-cyan-400' },
-  { id: 'defending', name: 'Оборона 1-в-1 и перекрытие линий паса', color: 'bg-rose-600', dot: 'bg-rose-400' },
+  { id: 'all', name: 'Все 6 рубрик (16 упражнений)', color: 'bg-slate-600', dot: 'bg-slate-400' },
+  { id: 'mastery', name: '1. Чувство мяча, дриблинг и финты 1v1', color: 'bg-emerald-600', dot: 'bg-emerald-400' },
+  { id: 'first_touch', name: '2. Первое касание и приём в движение', color: 'bg-blue-600', dot: 'bg-blue-400' },
+  { id: 'dribbling_space', name: '3. Поиск свободных зон и квадрат 9 зон', color: 'bg-amber-600', dot: 'bg-amber-400' },
+  { id: 'passing_scanning', name: '4. Пас, розыгрыш и комбинаторика', color: 'bg-purple-600', dot: 'bg-purple-400' },
+  { id: 'finishing', name: '5. Завершение на мини-ворота и 2v1', color: 'bg-cyan-600', dot: 'bg-cyan-400' },
+  { id: 'defending', name: '6. Оборона 1v1 и перекрытие линий паса', color: 'bg-rose-600', dot: 'bg-rose-400' },
 ];
 
 // ============================================================================
@@ -2824,12 +2824,12 @@ export const UI_ACTIVATION_EN: UIStrings = {
     },
   },
   nav: {
-    catalog: 'Activations',
+    catalog: 'Exercises',
     catalogShort: 'Drills',
     monthly: 'Monthly Plan',
     monthlyShort: 'Plan',
-    methodology: 'Methodology',
-    methodologyShort: 'Guide',
+    methodology: 'Methodology & OFP',
+    methodologyShort: 'Method & OFP',
     timer: 'Timer',
     timerShort: 'Timer',
     printCard: 'Print Card',
@@ -3508,12 +3508,12 @@ export const UI_ACTIVATION_RU: UIStrings = {
     },
   },
   nav: {
-    catalog: 'Активация',
+    catalog: 'Упражнения',
     catalogShort: 'Упражнения',
     monthly: 'План на месяц',
     monthlyShort: 'План',
-    methodology: 'Методика',
-    methodologyShort: 'Теория',
+    methodology: 'Методика и ОФП',
+    methodologyShort: 'Методика',
     timer: 'Таймер',
     timerShort: 'Таймер',
     printCard: 'Печать карточки',
