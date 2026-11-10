@@ -37,7 +37,7 @@ const GeometryMiniPitchSVG: React.FC<{
   return (
     <svg
       viewBox="0 0 360 215"
-      className="w-full h-auto rounded-xl border border-slate-800 bg-emerald-950/90 shadow-inner select-none"
+      className="geometry-mini-pitch w-full h-auto rounded-xl border border-slate-800 bg-emerald-950/90 shadow-inner select-none"
     >
       <defs>
         <pattern
@@ -1007,26 +1007,27 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
         })}
       </div>
 
-      {/* SECTION 1: 3 Core Methodology Cards */}
+      {/* SECTION 1: 3 Core Methodology Cards (Clean Divided Lists Instead of Nested Boxes) */}
       {showPrinciples && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           {t.methodology.cards.map((card, idx) => (
             <div
               key={idx}
-              className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl"
+              className="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-5 sm:p-6 shadow-sm"
             >
-              <div
-                className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 ${card.iconBg}`}
-              >
-                {renderIcon(card.icon)}
+              <div className="flex items-center gap-3 mb-4">
+                <div
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${card.iconBg}`}
+                >
+                  {renderIcon(card.icon)}
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
+                  {card.title}
+                </h3>
               </div>
-              <h3 className="text-lg font-bold text-white mb-3">{card.title}</h3>
-              <ul className="space-y-3 text-xs text-slate-300 leading-relaxed">
+              <ul className="divide-y divide-slate-800/60 text-xs text-slate-300 leading-relaxed">
                 {card.bullets.map((bullet, bIdx) => (
-                  <li
-                    key={bIdx}
-                    className="bg-slate-950 p-3 rounded-xl border border-slate-800"
-                  >
+                  <li key={bIdx} className="py-3 first:pt-0 last:pb-0">
                     <strong className={`${bullet.accentColor} block mb-0.5`}>
                       {bullet.title}
                     </strong>
@@ -1041,23 +1042,17 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
 
       {/* SECTION 2: Interactive Tactical Geometry, Body Shape & Cover Shadow */}
       {showGeometry && (
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-5">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-800 pb-4">
-            <div>
-              <div className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full mb-2">
-                <Compass className="w-3.5 h-3.5" />
-                <span>{t.methodology.tabGeometry}</span>
-              </div>
-              <h3 className="text-lg font-bold text-white">
-                {t.methodology.geometrySectionTitle}
-              </h3>
-              <p className="text-xs text-slate-400 mt-0.5">
-                {t.methodology.geometrySectionSubtitle}
-              </p>
-            </div>
+        <div className="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-5 sm:p-6 shadow-sm space-y-5">
+          <div className="border-b border-slate-800/80 pb-3.5">
+            <h3 className="text-lg font-bold text-white">
+              {t.methodology.geometrySectionTitle}
+            </h3>
+            <p className="text-xs text-slate-400 mt-0.5">
+              {t.methodology.geometrySectionSubtitle}
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {t.methodology.geometryConcepts.map((concept) => {
               const currentMode = geometryModes[concept.id] || 'solution';
               const isSolution = currentMode === 'solution';
@@ -1065,7 +1060,7 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
               return (
                 <div
                   key={concept.id}
-                  className="bg-slate-950 border border-slate-800/90 rounded-2xl p-5 flex flex-col justify-between space-y-4 shadow-lg"
+                  className="bg-slate-950/70 border border-slate-800/80 rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4"
                 >
                   <div className="space-y-2.5">
                     <div>
@@ -1108,37 +1103,40 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
                     lang={lang}
                   />
 
-                  {/* Explanation Box */}
-                  <div
-                    className={`p-3.5 rounded-xl border text-xs leading-relaxed transition-colors ${
-                      isSolution
-                        ? 'bg-emerald-950/30 border-emerald-500/30 text-emerald-100'
-                        : 'bg-rose-950/30 border-rose-500/30 text-rose-100'
-                    }`}
-                  >
-                    <div className="font-bold mb-1 flex items-center gap-1.5">
-                      {isSolution ? (
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                      ) : (
-                        <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
-                      )}
-                      <span>
-                        {isSolution ? concept.solutionLabel : concept.mistakeLabel}
-                      </span>
+                  {/* Unified Explanation & Coaching Cue Footer (No Double Box) */}
+                  <div className="space-y-2.5 pt-1">
+                    <div
+                      className={`border-l-2 pl-3 py-0.5 text-xs leading-relaxed ${
+                        isSolution ? 'border-emerald-500' : 'border-rose-500'
+                      }`}
+                    >
+                      <div
+                        className={`font-bold mb-0.5 flex items-center gap-1.5 ${
+                          isSolution ? 'text-emerald-400' : 'text-rose-400'
+                        }`}
+                      >
+                        {isSolution ? (
+                          <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                        ) : (
+                          <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+                        )}
+                        <span>
+                          {isSolution ? concept.solutionLabel : concept.mistakeLabel}
+                        </span>
+                      </div>
+                      <p className="text-slate-300">
+                        {isSolution ? concept.solutionDesc : concept.mistakeDesc}
+                      </p>
                     </div>
-                    <p className="text-slate-300">
-                      {isSolution ? concept.solutionDesc : concept.mistakeDesc}
-                    </p>
-                  </div>
 
-                  {/* Live Coaching Cue */}
-                  <div className="bg-slate-900/90 border border-amber-500/25 rounded-xl p-3 flex items-start gap-2.5">
-                    <MessageSquare className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                    <div className="text-xs">
-                      <span className="font-bold text-amber-300 mr-1.5">
-                        {t.methodology.geometryCueLabel}
-                      </span>
-                      <span className="text-slate-200 italic">{concept.coachingCue}</span>
+                    <div className="pt-2 border-t border-slate-800/60 flex items-start gap-2 text-xs">
+                      <MessageSquare className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                      <div>
+                        <span className="font-bold text-amber-300 mr-1.5">
+                          {t.methodology.geometryCueLabel}
+                        </span>
+                        <span className="text-slate-200 italic">{concept.coachingCue}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1148,14 +1146,10 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
         </div>
       )}
 
-      {/* SECTION 3: 6 Coach Freeze & Live Interventions */}
+      {/* SECTION 3: 6 Coach Freeze & Live Interventions (Calm Divided Rows Instead of 24 Nested Boxes) */}
       {showInterventions && (
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-5">
-          <div className="border-b border-slate-800 pb-4">
-            <div className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded-full mb-2">
-              <Octagon className="w-3.5 h-3.5" />
-              <span>{t.methodology.tabInterventions}</span>
-            </div>
+        <div className="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-5 sm:p-6 shadow-sm space-y-5">
+          <div className="border-b border-slate-800/80 pb-3.5">
             <h3 className="text-lg font-bold text-white">
               {t.methodology.interventionsSectionTitle}
             </h3>
@@ -1168,15 +1162,15 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
             {t.methodology.interventions.map((item) => (
               <div
                 key={item.rondoId}
-                className="bg-slate-950 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between space-y-4 hover:border-slate-700 transition-colors shadow-lg"
+                className="bg-slate-950/70 border border-slate-800/80 rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4 hover:border-slate-700 transition-colors"
               >
                 <div className="space-y-3">
                   {/* Card Header */}
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-mono text-xs font-bold px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                    <span className="font-mono text-xs font-bold text-emerald-400">
                       #{item.rondoNumber}
                     </span>
-                    <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-rose-500/15 text-rose-300 border border-rose-500/30 flex items-center gap-1">
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-rose-500/10 text-rose-300 border border-rose-500/20 flex items-center gap-1">
                       <Octagon className="w-3 h-3" />
                       FREEZE!
                     </span>
@@ -1186,44 +1180,46 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
                     {item.title}
                   </h4>
 
-                  {/* 1. Symptom */}
-                  <div className="bg-slate-900/80 border border-slate-800/90 rounded-xl p-3 text-xs space-y-1">
-                    <div className="font-bold text-rose-400 flex items-center gap-1.5">
-                      <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
-                      <span>{t.methodology.symptomLabel}</span>
+                  <div className="divide-y divide-slate-800/60 text-xs">
+                    {/* 1. Symptom */}
+                    <div className="pb-2.5 space-y-0.5">
+                      <div className="font-semibold text-rose-400 flex items-center gap-1.5">
+                        <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+                        <span>{t.methodology.symptomLabel}</span>
+                      </div>
+                      <p className="text-slate-300 leading-relaxed">{item.symptom}</p>
                     </div>
-                    <p className="text-slate-300 leading-relaxed">{item.symptom}</p>
-                  </div>
 
-                  {/* 2. Freeze Trigger */}
-                  <div className="bg-slate-900/80 border border-slate-800/90 rounded-xl p-3 text-xs space-y-1">
-                    <div className="font-bold text-amber-400 flex items-center gap-1.5">
-                      <Octagon className="w-3.5 h-3.5 shrink-0" />
-                      <span>{t.methodology.freezeTriggerLabel}</span>
+                    {/* 2. Freeze Trigger */}
+                    <div className="py-2.5 space-y-0.5">
+                      <div className="font-semibold text-amber-400 flex items-center gap-1.5">
+                        <Octagon className="w-3.5 h-3.5 shrink-0" />
+                        <span>{t.methodology.freezeTriggerLabel}</span>
+                      </div>
+                      <p className="text-slate-300 leading-relaxed">{item.freezeTrigger}</p>
                     </div>
-                    <p className="text-slate-300 leading-relaxed">{item.freezeTrigger}</p>
-                  </div>
 
-                  {/* 3. Socratic Guided Question */}
-                  <div className="bg-blue-950/25 border border-blue-500/30 rounded-xl p-3 text-xs space-y-1">
-                    <div className="font-bold text-blue-300 flex items-center gap-1.5">
-                      <HelpCircle className="w-3.5 h-3.5 shrink-0" />
-                      <span>{t.methodology.guidedQuestionLabel}</span>
+                    {/* 3. Socratic Guided Question */}
+                    <div className="py-2.5 space-y-0.5">
+                      <div className="font-semibold text-blue-300 flex items-center gap-1.5">
+                        <HelpCircle className="w-3.5 h-3.5 shrink-0" />
+                        <span>{t.methodology.guidedQuestionLabel}</span>
+                      </div>
+                      <p className="text-blue-100 italic leading-relaxed">
+                        {item.guidedQuestion}
+                      </p>
                     </div>
-                    <p className="text-blue-100 italic leading-relaxed">
-                      {item.guidedQuestion}
-                    </p>
-                  </div>
 
-                  {/* 4. 15-Second Micro-Fix */}
-                  <div className="bg-emerald-950/25 border border-emerald-500/30 rounded-xl p-3 text-xs space-y-1">
-                    <div className="font-bold text-emerald-300 flex items-center gap-1.5">
-                      <Wrench className="w-3.5 h-3.5 shrink-0" />
-                      <span>{t.methodology.microCorrectionLabel}</span>
+                    {/* 4. 15-Second Micro-Fix */}
+                    <div className="pt-2.5 space-y-0.5">
+                      <div className="font-semibold text-emerald-300 flex items-center gap-1.5">
+                        <Wrench className="w-3.5 h-3.5 shrink-0" />
+                        <span>{t.methodology.microCorrectionLabel}</span>
+                      </div>
+                      <p className="text-slate-200 leading-relaxed">
+                        {item.microCorrection}
+                      </p>
                     </div>
-                    <p className="text-slate-200 leading-relaxed">
-                      {item.microCorrection}
-                    </p>
                   </div>
                 </div>
 
@@ -1231,7 +1227,7 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
                 <button
                   type="button"
                   onClick={() => onSelectRondoAndOpenCatalog(item.rondoId)}
-                  className="w-full py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-emerald-600/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer"
+                  className="w-full py-2 px-3 rounded-xl bg-slate-900 hover:bg-emerald-600/20 text-emerald-300 border border-slate-800 hover:border-emerald-500/30 text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>{t.methodology.openRondoInCatalogBtn}</span>

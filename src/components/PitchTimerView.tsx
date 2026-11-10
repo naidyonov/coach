@@ -152,9 +152,9 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+      <div className="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-5 sm:p-6 shadow-xl space-y-5">
         {/* Top Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-5">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
               {t.timer.badge}
@@ -169,7 +169,7 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
           <button
             type="button"
             onClick={() => setSoundEnabled(!soundEnabled)}
-            className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all ${
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
               soundEnabled
                 ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300'
                 : 'bg-slate-800 border-slate-700 text-slate-400'
@@ -186,7 +186,7 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
 
         {/* Active Rondo One-Tap Preset Banner */}
         {selectedRondo && rondoPreset && (
-          <div className="mb-4">
+          <div>
             <button
               type="button"
               data-testid="timer-active-rondo-preset-btn"
@@ -195,14 +195,14 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
               }
               className={`w-full flex flex-wrap items-center justify-between gap-2 px-4 py-3 rounded-xl border text-left transition-all cursor-pointer ${
                 isRondoPresetActive
-                  ? 'bg-emerald-500/20 border-emerald-500 text-emerald-200 shadow-md shadow-emerald-950/50'
-                  : 'bg-slate-950/90 border-emerald-500/40 hover:border-emerald-400 text-slate-200'
+                  ? 'bg-emerald-500/15 border-emerald-500/60 text-emerald-200 shadow-sm'
+                  : 'bg-slate-950/70 border-slate-800 hover:border-emerald-500/40 text-slate-200'
               }`}
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <Zap className="w-4 h-4 text-amber-400 shrink-0" />
                 <div>
-                  <div className="text-xs font-extrabold text-emerald-300">
+                  <div className="text-xs font-bold text-emerald-300">
                     {lang === 'ru'
                       ? `Загрузить дозировку выбранного рондо №${selectedRondo.number}`
                       : lang === 'de'
@@ -224,137 +224,17 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
           </div>
         )}
 
-        {/* Standard Presets */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-6">
-          <button
-            type="button"
-            onClick={() => applyPreset(90, 30, 4)}
-            className={`px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all ${
-              workSeconds === 90 && restSeconds === 30 && totalSets === 4
-                ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300'
-                : 'bg-slate-950 border-slate-800 hover:border-emerald-500/50 text-slate-200'
-            }`}
-          >
-            {t.timer.presets.small}
-          </button>
-          <button
-            type="button"
-            onClick={() => applyPreset(150, 45, 4)}
-            className={`px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all ${
-              workSeconds === 150 && restSeconds === 45 && totalSets === 4
-                ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300'
-                : 'bg-slate-950 border-slate-800 hover:border-emerald-500/50 text-slate-200'
-            }`}
-          >
-            {t.timer.presets.medium}
-          </button>
-          <button
-            type="button"
-            onClick={() => applyPreset(240, 60, 3)}
-            className={`px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all ${
-              workSeconds === 240 && restSeconds === 60 && totalSets === 3
-                ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300'
-                : 'bg-slate-950 border-slate-800 hover:border-emerald-500/50 text-slate-200'
-            }`}
-          >
-            {t.timer.presets.positional}
-          </button>
-        </div>
-
-        {/* Quick Thumb-Friendly +/- Controls */}
-        <div className="grid grid-cols-3 gap-3 mb-6">
-          <div className="bg-slate-950 border border-slate-800 rounded-xl p-3 text-center">
-            <div className="text-[11px] font-bold text-slate-400 uppercase mb-1.5">
-              {t.timer.customWorkLabel}
-            </div>
-            <div className="flex items-center justify-between gap-1">
-              <button
-                type="button"
-                onClick={() => adjustWork(-15)}
-                aria-label="Decrease work time"
-                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
-              >
-                <Minus className="w-3.5 h-3.5" />
-              </button>
-              <span className="font-mono font-bold text-sm text-emerald-400">
-                {formatTime(workSeconds)}
-              </span>
-              <button
-                type="button"
-                onClick={() => adjustWork(15)}
-                aria-label="Increase work time"
-                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
-              >
-                <Plus className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
-
-          <div className="bg-slate-950 border border-slate-800 rounded-xl p-3 text-center">
-            <div className="text-[11px] font-bold text-slate-400 uppercase mb-1.5">
-              {t.timer.customRestLabel}
-            </div>
-            <div className="flex items-center justify-between gap-1">
-              <button
-                type="button"
-                onClick={() => adjustRest(-5)}
-                aria-label="Decrease rest time"
-                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
-              >
-                <Minus className="w-3.5 h-3.5" />
-              </button>
-              <span className="font-mono font-bold text-sm text-amber-400">
-                {restSeconds}
-                {t.timer.secondsUnit}
-              </span>
-              <button
-                type="button"
-                onClick={() => adjustRest(5)}
-                aria-label="Increase rest time"
-                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
-              >
-                <Plus className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
-
-          <div className="bg-slate-950 border border-slate-800 rounded-xl p-3 text-center">
-            <div className="text-[11px] font-bold text-slate-400 uppercase mb-1.5">
-              {t.timer.customSetsLabel}
-            </div>
-            <div className="flex items-center justify-between gap-1">
-              <button
-                type="button"
-                onClick={() => adjustSets(-1)}
-                aria-label="Decrease sets"
-                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
-              >
-                <Minus className="w-3.5 h-3.5" />
-              </button>
-              <span className="font-mono font-bold text-sm text-white">{totalSets}</span>
-              <button
-                type="button"
-                onClick={() => adjustSets(1)}
-                aria-label="Increase sets"
-                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
-              >
-                <Plus className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Countdown Display */}
+        {/* Main Countdown Display (Front and Center for On-Pitch Glanceability) */}
         <div
-          className={`rounded-2xl p-8 text-center border-2 transition-all mb-6 ${
+          className={`rounded-2xl p-6 sm:p-8 text-center border transition-all ${
             isWorkPhase
-              ? 'bg-emerald-950/30 border-emerald-500/40'
-              : 'bg-amber-950/30 border-amber-500/40'
+              ? 'bg-emerald-950/25 border-emerald-500/40'
+              : 'bg-amber-950/25 border-amber-500/40'
           }`}
         >
           <div className="text-xs font-bold uppercase tracking-widest mb-2 flex items-center justify-center gap-2">
             <Timer className="w-4 h-4 text-slate-400" />
-            <span className="text-slate-400">
+            <span className="text-slate-300">
               {t.timer.setLabel} {currentSet} {t.timer.ofLabel} {totalSets}
             </span>
             <span className="text-slate-600">•</span>
@@ -363,11 +243,11 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
             </span>
           </div>
 
-          <div className="text-6xl sm:text-7xl font-mono font-black text-white tracking-tight my-4">
+          <div className="text-6xl sm:text-7xl font-mono font-black text-white tracking-tight my-3">
             {formatTime(timeLeft)}
           </div>
 
-          <div className="flex items-center justify-center gap-3 mt-6">
+          <div className="flex items-center justify-center gap-3 mt-5">
             <button
               type="button"
               onClick={() => {
@@ -376,7 +256,7 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
                 }
                 setIsRunning(!isRunning);
               }}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg ${
+              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg cursor-pointer ${
                 isRunning
                   ? 'bg-amber-500 hover:bg-amber-400 text-slate-950'
                   : 'bg-emerald-500 hover:bg-emerald-400 text-slate-950'
@@ -398,7 +278,7 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
                 setIsWorkPhase(true);
                 setTimeLeft(workSeconds);
               }}
-              className="flex items-center gap-2 px-4 py-3 rounded-xl font-semibold text-sm bg-slate-800 hover:bg-slate-700 text-slate-200 transition-all"
+              className="flex items-center gap-2 px-4 py-3 rounded-xl font-semibold text-sm bg-slate-800 hover:bg-slate-700 text-slate-200 transition-all cursor-pointer"
             >
               <RotateCcw className="w-4 h-4" />
               {t.timer.resetBtn}
@@ -406,11 +286,138 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
           </div>
         </div>
 
+        {/* Presets & Custom +/- Dosage Controls (Calmly grouped below clock, dimmed while running) */}
+        <div
+          className={`space-y-3 pt-2 border-t border-slate-800/70 transition-opacity ${
+            isRunning ? 'opacity-70' : 'opacity-100'
+          }`}
+        >
+          {/* Standard Presets */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <button
+              type="button"
+              onClick={() => applyPreset(90, 30, 4)}
+              className={`px-3 py-2 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${
+                workSeconds === 90 && restSeconds === 30 && totalSets === 4
+                  ? 'bg-emerald-500/15 border-emerald-500/60 text-emerald-300'
+                  : 'bg-slate-950/70 border-slate-800 hover:border-emerald-500/40 text-slate-300'
+              }`}
+            >
+              {t.timer.presets.small}
+            </button>
+            <button
+              type="button"
+              onClick={() => applyPreset(150, 45, 4)}
+              className={`px-3 py-2 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${
+                workSeconds === 150 && restSeconds === 45 && totalSets === 4
+                  ? 'bg-emerald-500/15 border-emerald-500/60 text-emerald-300'
+                  : 'bg-slate-950/70 border-slate-800 hover:border-emerald-500/40 text-slate-300'
+              }`}
+            >
+              {t.timer.presets.medium}
+            </button>
+            <button
+              type="button"
+              onClick={() => applyPreset(240, 60, 3)}
+              className={`px-3 py-2 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${
+                workSeconds === 240 && restSeconds === 60 && totalSets === 3
+                  ? 'bg-emerald-500/15 border-emerald-500/60 text-emerald-300'
+                  : 'bg-slate-950/70 border-slate-800 hover:border-emerald-500/40 text-slate-300'
+              }`}
+            >
+              {t.timer.presets.positional}
+            </button>
+          </div>
+
+          {/* Quick Thumb-Friendly +/- Controls */}
+          <div className="grid grid-cols-3 gap-2.5">
+            <div className="bg-slate-950/70 border border-slate-800/80 rounded-xl p-2.5 text-center">
+              <div className="text-[11px] font-semibold text-slate-400 uppercase mb-1">
+                {t.timer.customWorkLabel}
+              </div>
+              <div className="flex items-center justify-between gap-1">
+                <button
+                  type="button"
+                  onClick={() => adjustWork(-15)}
+                  aria-label="Decrease work time"
+                  className="p-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-200 transition-colors cursor-pointer"
+                >
+                  <Minus className="w-3.5 h-3.5" />
+                </button>
+                <span className="font-mono font-bold text-sm text-emerald-400">
+                  {formatTime(workSeconds)}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => adjustWork(15)}
+                  aria-label="Increase work time"
+                  className="p-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-200 transition-colors cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+
+            <div className="bg-slate-950/70 border border-slate-800/80 rounded-xl p-2.5 text-center">
+              <div className="text-[11px] font-semibold text-slate-400 uppercase mb-1">
+                {t.timer.customRestLabel}
+              </div>
+              <div className="flex items-center justify-between gap-1">
+                <button
+                  type="button"
+                  onClick={() => adjustRest(-5)}
+                  aria-label="Decrease rest time"
+                  className="p-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-200 transition-colors cursor-pointer"
+                >
+                  <Minus className="w-3.5 h-3.5" />
+                </button>
+                <span className="font-mono font-bold text-sm text-amber-400">
+                  {restSeconds}
+                  {t.timer.secondsUnit}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => adjustRest(5)}
+                  aria-label="Increase rest time"
+                  className="p-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-200 transition-colors cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+
+            <div className="bg-slate-950/70 border border-slate-800/80 rounded-xl p-2.5 text-center">
+              <div className="text-[11px] font-semibold text-slate-400 uppercase mb-1">
+                {t.timer.customSetsLabel}
+              </div>
+              <div className="flex items-center justify-between gap-1">
+                <button
+                  type="button"
+                  onClick={() => adjustSets(-1)}
+                  aria-label="Decrease sets"
+                  className="p-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-200 transition-colors cursor-pointer"
+                >
+                  <Minus className="w-3.5 h-3.5" />
+                </button>
+                <span className="font-mono font-bold text-sm text-white">{totalSets}</span>
+                <button
+                  type="button"
+                  onClick={() => adjustSets(1)}
+                  aria-label="Increase sets"
+                  className="p-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-200 transition-colors cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Live On-Pitch Reference Card for the Active Rondo */}
         {selectedRondo && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 border-t border-slate-800">
-            <div className="p-3.5 rounded-xl bg-amber-950/20 border border-amber-800/40">
-              <div className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-amber-400 mb-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 border-t border-slate-800/70">
+            <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800/80">
+              <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-400 mb-1">
                 <Trophy className="w-3.5 h-3.5 shrink-0" />
                 <span>{t.catalog.scoringRuleTitle}</span>
               </div>
@@ -419,8 +426,8 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
               </p>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
-              <div className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-emerald-400 mb-1.5">
+            <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800/80">
+              <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1.5">
                 <MessageSquare className="w-3.5 h-3.5 shrink-0" />
                 <span>{t.catalog.coachingCuesTitle}</span>
               </div>

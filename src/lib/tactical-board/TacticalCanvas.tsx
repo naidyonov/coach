@@ -7,9 +7,11 @@ import {
 } from './types';
 import {
   buildCurvedPathD,
+  deconflictVectorLabelPositions,
   deriveGridZonesFromCones,
   pointsToSvgPathD,
   resolveVectorEndpoints,
+  VectorLabelBox,
 } from './geometry';
 
 export interface TacticalCanvasProps {
@@ -763,93 +765,143 @@ export const TacticalCanvas: React.FC<TacticalCanvasProps> = ({
         </g>
       )}
 
-      {/* Vector Label Pills (Top Layer with pointer-events: none for crisp legibility) */}
+      {/* Vector Label Pills (Top Layer with collision avoidance & pointer-events: none) */}
       <g data-testid="pitch-vector-labels-layer" style={{ pointerEvents: 'none' }}>
-        {showMovements &&
-          movementVectors.map((mv) => {
-            if (!mv.label) return null;
-            const { from, to } = resolveVectorEndpoints(
-              mv,
-              scene.tokens,
-              customPositions
-            );
-            const { midPoint } = buildCurvedPathD(from, to, mv.curve);
-            const strokeColor =
-              mv.role === 'def'
-                ? '#93c5fd'
-                : mv.role === 'neutral'
-                ? '#fde047'
-                : '#fca5a5';
+        {(() => {
+          const activeBallPos = ballCoords || scene.ball;
+          const tokenObstacles: Point2D[] = [
+            ...scene.tokens.map((t) => customPositions[t.id] || { x: t.x, y: t.y }),
+            ...(activeBallPos ? [activeBallPos] : []),
+          ];
 
-            return (
-              <g
-                key={`lbl-${mv.id}`}
-                transform={`translate(${midPoint.x}, ${midPoint.y - 8})`}
-              >
-                <rect
-                  x={-mv.label.length * 3.1 - 6}
-                  y={-9}
-                  width={mv.label.length * 6.2 + 12}
-                  height={16}
-                  rx={4}
-                  fill="rgba(15, 23, 42, 0.88)"
-                  stroke={strokeColor}
-                  strokeWidth="0.8"
-                />
-                <text
-                  x={0}
-                  y={2}
-                  textAnchor="middle"
-                  fill={strokeColor}
-                  fontSize="9.5"
-                  fontWeight="600"
-                >
-                  {mv.label}
-                </text>
-              </g>
-            );
-          })}
+          const rawLabels: VectorLabelBox[] = [];
+          if (showMovements) {
+            for (const mv of movementVectors) {
+              if (!mv.label) continue;
+              const { from, to } = resolveVectorEndpoints(
+                mv,
+                scene.tokens,
+                customPositions
+              );
+              const { midPoint } = buildCurvedPathD(from, to, mv.curve);
+              rawLabels.push({
+                id: `mv-${mv.id}`,
+                x: midPoint.x,
+                y: midPoint.y - 10,
+                width: mv.label.length * 6.0 + 12,
+                height: 16,
+              });
+            }
+          }
+          if (showPasses) {
+            for (const pass of passVectors) {
+              if (!pass.label) continue;
+              const { from, to } = resolveVectorEndpoints(
+                pass,
+                scene.tokens,
+                customPositions
+              );
+              const { midPoint } = buildCurvedPathD(from, to, pass.curve);
+              rawLabels.push({
+                id: `pass-${pass.id}`,
+                x: midPoint.x,
+                y: midPoint.y + 12,
+                width: pass.label.length * 6.4 + 14,
+                height: 17,
+              });
+            }
+          }
 
-        {showPasses &&
-          passVectors.map((pass) => {
-            if (!pass.label) return null;
-            const { from, to } = resolveVectorEndpoints(
-              pass,
-              scene.tokens,
-              customPositions
-            );
-            const { midPoint } = buildCurvedPathD(from, to, pass.curve);
-            const strokeColor = pass.primary ? '#facc15' : '#e2e8f0';
+          const deconflicted = deconflictVectorLabelPositions(
+            rawLabels,
+            tokenObstacles
+          );
 
-            return (
-              <g
-                key={`lbl-${pass.id}`}
-                transform={`translate(${midPoint.x}, ${midPoint.y + 12})`}
-              >
-                <rect
-                  x={-pass.label.length * 3.3 - 7}
-                  y={-10}
-                  width={pass.label.length * 6.6 + 14}
-                  height={17}
-                  rx={4}
-                  fill="rgba(15, 23, 42, 0.92)"
-                  stroke={strokeColor}
-                  strokeWidth="1"
-                />
-                <text
-                  x={0}
-                  y={2}
-                  textAnchor="middle"
-                  fill={strokeColor}
-                  fontSize="10"
-                  fontWeight="700"
-                >
-                  {pass.label}
-                </text>
-              </g>
-            );
-          })}
+          return (
+            <>
+              {showMovements &&
+                movementVectors.map((mv) => {
+                  if (!mv.label) return null;
+                  const pos = deconflicted[`mv-${mv.id}`];
+                  if (!pos) return null;
+                  const strokeColor =
+                    mv.role === 'def'
+                      ? '#93c5fd'
+                      : mv.role === 'neutral'
+                      ? '#fde047'
+                      : '#fca5a5';
+                  const pillW = mv.label.length * 6.0 + 12;
+
+                  return (
+                    <g
+                      key={`lbl-${mv.id}`}
+                      transform={`translate(${pos.x}, ${pos.y})`}
+                    >
+                      <rect
+                        x={-pillW / 2}
+                        y={-8}
+                        width={pillW}
+                        height={16}
+                        rx={5}
+                        fill="rgba(15, 23, 42, 0.85)"
+                        stroke={strokeColor}
+                        strokeWidth="0.8"
+                      />
+                      <text
+                        x={0}
+                        y={3}
+                        textAnchor="middle"
+                        fill={strokeColor}
+                        fontSize="9.5"
+                        fontWeight="600"
+                      >
+                        {mv.label}
+                      </text>
+                    </g>
+                  );
+                })}
+
+              {showPasses &&
+                passVectors.map((pass) => {
+                  if (!pass.label) return null;
+                  const pos = deconflicted[`pass-${pass.id}`];
+                  if (!pos) return null;
+                  const strokeColor = pass.primary ? '#facc15' : '#e2e8f0';
+                  const pillW = pass.label.length * 6.4 + 14;
+
+                  return (
+                    <g
+                      key={`lbl-${pass.id}`}
+                      transform={`translate(${pos.x}, ${pos.y})`}
+                    >
+                      <rect
+                        x={-pillW / 2}
+                        y={-8.5}
+                        width={pillW}
+                        height={17}
+                        rx={5}
+                        fill="rgba(15, 23, 42, 0.88)"
+                        stroke={strokeColor}
+                        strokeWidth="0.9"
+                      />
+                      <text
+                        x={0}
+                        y={3}
+                        textAnchor="middle"
+                        fill={strokeColor}
+                        fontSize="10"
+                        fontWeight="700"
+                      >
+                        {pass.label}
+                      </text>
+                    </g>
+                  );
+                })}
+            </>
+          );
+        })()}
       </g>
     </svg>
   );
 };
+

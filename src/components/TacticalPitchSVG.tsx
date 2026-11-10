@@ -25,6 +25,7 @@ export interface TacticalPitchSVGProps {
   showPasses: boolean;
   showMovements: boolean;
   showShadows: boolean;
+  compactHeader?: boolean;
 }
 
 export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
@@ -34,6 +35,7 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
   showPasses,
   showMovements,
   showShadows,
+  compactHeader = false,
 }) => {
   const { lang, t } = useLanguage();
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -100,95 +102,44 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
 
   const renderBoardContent = (inModal = false) => (
     <div
-      className={`tactical-pitch-canvas relative rounded-2xl overflow-hidden border border-emerald-800/80 bg-emerald-950 shadow-2xl select-none ${
+      className={`tactical-pitch-canvas relative rounded-2xl overflow-hidden border border-emerald-800/70 bg-emerald-950 shadow-xl select-none ${
         inModal ? 'w-full max-w-5xl mx-auto' : 'w-full'
       }`}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Top Bar with Grid Label, Legend, and Fullscreen Toggle */}
-      <div className="bg-slate-900/95 px-3 sm:px-4 py-2 border-b border-slate-800 text-xs space-y-1.5 sm:space-y-0 sm:flex sm:items-center sm:justify-between gap-2">
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 min-w-0">
-            <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-            <span className="font-semibold text-emerald-300 tracking-wide truncate">
-              {scene.gridLabel}
-            </span>
-            {hasCustomPositions && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[11px] font-medium shrink-0">
-                <Move className="w-3 h-3" />
+      {/* Unified Single-Row Top Bar: Grid Dimension + Playback Controls + Fullscreen */}
+      <div className="bg-slate-900/95 px-3 sm:px-4 py-2 border-b border-slate-800/80 text-xs flex flex-wrap items-center justify-between gap-2">
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+          <span className="font-semibold text-emerald-300 tracking-wide truncate">
+            {scene.gridLabel}
+          </span>
+          {hasCustomPositions && !compactHeader && (
+            <button
+              type="button"
+              data-testid={
+                inModal
+                  ? 'pitch-reset-positions-btn-modal'
+                  : 'pitch-reset-positions-btn'
+              }
+              onClick={handleResetPositions}
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-[11px] font-medium transition cursor-pointer shrink-0 print:hidden"
+            >
+              <RotateCcw className="w-3 h-3" />
+              <span>
                 {lang === 'ru'
-                  ? 'Своя'
+                  ? 'Сбросить расстановку'
                   : lang === 'de'
-                  ? 'Eigen'
-                  : 'Custom'}
+                  ? 'Positionen zurücksetzen'
+                  : 'Reset Positions'}
               </span>
-            )}
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setIsFullscreen(!isFullscreen)}
-            title={
-              isFullscreen ? t.catalog.fullscreenExit : t.catalog.fullscreenEnter
-            }
-            className="sm:hidden inline-flex items-center justify-center p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer print:hidden shrink-0"
-          >
-            {isFullscreen ? (
-              <Minimize2 className="w-3.5 h-3.5 text-emerald-400" />
-            ) : (
-              <Maximize2 className="w-3.5 h-3.5 text-emerald-400" />
-            )}
-          </button>
+            </button>
+          )}
         </div>
 
-        <div className="flex flex-wrap items-center justify-between sm:justify-end gap-2 sm:gap-3.5 text-[11px] sm:text-xs text-slate-300">
-          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3.5">
-            <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500 inline-block border border-white/80 shadow-sm" />
-              <span>{t.catalog.legendPossession}</span>
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block border border-white/80 shadow-sm" />
-              <span>{t.catalog.legendDefenders}</span>
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block border border-slate-900 shadow-sm" />
-              <span>{t.catalog.legendNeutral}</span>
-            </span>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setIsFullscreen(!isFullscreen)}
-            title={
-              isFullscreen ? t.catalog.fullscreenExit : t.catalog.fullscreenEnter
-            }
-            className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer print:hidden"
-          >
-            {isFullscreen ? (
-              <>
-                <Minimize2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="hidden md:inline">
-                  {t.catalog.fullscreenExit}
-                </span>
-              </>
-            ) : (
-              <>
-                <Maximize2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="hidden md:inline">
-                  {t.catalog.fullscreenEnter}
-                </span>
-              </>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Interactive Pitch Controls Bar: Auto-Play, Replay Pass, Speed, and Whiteboard Reset */}
-      <div className="bg-slate-900/80 px-3 sm:px-4 py-2 flex flex-wrap items-center justify-between gap-1.5 border-b border-slate-800/80 text-xs print:hidden">
-        <div className="flex items-center gap-1.5 flex-wrap flex-1 justify-between sm:justify-start">
-          <div className="flex items-center gap-1.5">
+        {!compactHeader && (
+          <div className="flex flex-wrap items-center gap-1.5 print:hidden">
             {/* Auto-Play / Pause Button */}
             <button
               type="button"
@@ -198,8 +149,8 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
               onClick={() => setIsPlaying((prev) => !prev)}
               className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold transition cursor-pointer border ${
                 isPlaying
-                  ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-sm shadow-emerald-500/20'
-                  : 'bg-slate-800 hover:bg-slate-700 text-emerald-300 border-slate-700'
+                  ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-sm'
+                  : 'bg-slate-800/90 hover:bg-slate-700 text-emerald-300 border-slate-700/80'
               }`}
             >
               {isPlaying ? (
@@ -231,7 +182,7 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
                     : 'pitch-replay-pass-btn'
                 }
                 onClick={handleReplayPass}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700/80 transition cursor-pointer"
                 title={
                   lang === 'ru'
                     ? 'Повторить траекторию паса в текущей фазе'
@@ -245,7 +196,7 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
                     isPassAnimating && !isPlaying ? 'animate-spin' : ''
                   }`}
                 />
-                <span>
+                <span className="hidden sm:inline">
                   {lang === 'ru'
                     ? 'Повтор паса'
                     : lang === 'de'
@@ -254,60 +205,54 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
                 </span>
               </button>
             )}
-          </div>
 
-          {/* Speed Selector Pill */}
-          <div className="inline-flex items-center rounded-lg bg-slate-950/80 p-0.5 border border-slate-800">
-            {([0.75, 1, 1.5] as const).map((spd) => (
-              <button
-                key={spd}
-                type="button"
-                onClick={() => setPlaybackSpeed(spd)}
-                className={`px-1.5 sm:px-2 py-0.5 rounded-md text-[11px] font-semibold transition cursor-pointer ${
-                  playbackSpeed === spd
-                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                {spd}x
-              </button>
-            ))}
-          </div>
-        </div>
+            {/* Speed Selector Pill */}
+            <div className="inline-flex items-center rounded-lg bg-slate-950/80 p-0.5 border border-slate-800">
+              {([0.75, 1, 1.5] as const).map((spd) => (
+                <button
+                  key={spd}
+                  type="button"
+                  onClick={() => setPlaybackSpeed(spd)}
+                  className={`px-1.5 py-0.5 rounded-md text-[11px] font-semibold transition cursor-pointer ${
+                    playbackSpeed === spd
+                      ? 'bg-emerald-500/20 text-emerald-300'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  {spd}x
+                </button>
+              ))}
+            </div>
 
-        {/* Whiteboard Helper & Reset Button */}
-        <div className="flex items-center gap-2">
-          {hasCustomPositions ? (
+            {/* Fullscreen Toggle Button */}
             <button
               type="button"
-              data-testid={
-                inModal
-                  ? 'pitch-reset-positions-btn-modal'
-                  : 'pitch-reset-positions-btn'
+              onClick={() => setIsFullscreen(!isFullscreen)}
+              title={
+                isFullscreen
+                  ? t.catalog.fullscreenExit
+                  : t.catalog.fullscreenEnter
               }
-              onClick={handleResetPositions}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-semibold transition cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700/80 transition cursor-pointer"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>
-                {lang === 'ru'
-                  ? 'Сбросить расстановку'
-                  : lang === 'de'
-                  ? 'Positionen zurücksetzen'
-                  : 'Reset Positions'}
-              </span>
+              {isFullscreen ? (
+                <>
+                  <Minimize2 className="w-3.5 h-3.5 text-emerald-400" />
+                  <span className="hidden xl:inline">
+                    {t.catalog.fullscreenExit}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <Maximize2 className="w-3.5 h-3.5 text-emerald-400" />
+                  <span className="hidden xl:inline">
+                    {t.catalog.fullscreenEnter}
+                  </span>
+                </>
+              )}
             </button>
-          ) : (
-            <span className="hidden md:inline-flex items-center gap-1 text-[11px] text-slate-400">
-              <Move className="w-3 h-3 text-emerald-400/80" />
-              {lang === 'ru'
-                ? 'Доска тренера: перетаскивайте игроков и мяч'
-                : lang === 'de'
-                ? 'Taktiktafel: Spieler & Ball frei verschieben'
-                : 'Coach Whiteboard: drag players & ball'}
-            </span>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Standalone Tactical Canvas Engine */}
@@ -333,6 +278,35 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
         onSvgPointerMove={handleSvgPointerMove}
         onSvgPointerUp={handleSvgPointerUp}
       />
+
+      {/* Quiet Bottom Micro-Footer: Role Legend & Whiteboard Hint */}
+      <div className="bg-slate-900/95 px-3 sm:px-4 py-1.5 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-300">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-red-500 inline-block border border-white/70" />
+            <span>{t.catalog.legendPossession}</span>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-blue-500 inline-block border border-white/70" />
+            <span>{t.catalog.legendDefenders}</span>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-amber-400 inline-block border border-slate-900" />
+            <span>{t.catalog.legendNeutral}</span>
+          </span>
+        </div>
+
+        {!compactHeader && (
+          <span className="hidden md:inline-flex items-center gap-1 text-[11px] text-slate-400 print:hidden">
+            <Move className="w-3 h-3 text-emerald-400/80" />
+            {lang === 'ru'
+              ? 'Доска тренера: перетаскивайте игроков и мяч'
+              : lang === 'de'
+              ? 'Taktiktafel: Spieler & Ball frei verschieben'
+              : 'Coach Whiteboard: drag players & ball'}
+          </span>
+        )}
+      </div>
     </div>
   );
 
@@ -365,90 +339,60 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
 
           <div className="my-auto w-full">{renderBoardContent(true)}</div>
 
-          {/* Quick Phase Stepper Controls in Fullscreen */}
-          <div className="w-full max-w-5xl mx-auto mt-3 bg-slate-900/90 border border-slate-800 rounded-xl p-3 sm:p-4">
-            <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-              <div className="flex flex-wrap items-center gap-1.5">
-                {onPhaseChange && (
-                  <button
-                    type="button"
-                    onClick={() =>
-                      onPhaseChange(
-                        (safePhaseIndex - 1 + totalPhases) % totalPhases
-                      )
-                    }
-                    aria-label={t.catalog.prevPhase}
-                    className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 cursor-pointer"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                )}
-
-                <div className="flex flex-wrap items-center gap-1.5">
-                  {Array.from({ length: totalPhases }, (_, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={() => onPhaseChange && onPhaseChange(idx)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
-                        safePhaseIndex === idx
-                          ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20'
-                          : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-                      }`}
-                    >
-                      {t.catalog.phaseLabel} {idx + 1}
-                    </button>
-                  ))}
-                </div>
-
-                {onPhaseChange && (
-                  <button
-                    type="button"
-                    onClick={() =>
-                      onPhaseChange((safePhaseIndex + 1) % totalPhases)
-                    }
-                    aria-label={t.catalog.nextPhase}
-                    className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 cursor-pointer"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                )}
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setIsPlaying((prev) => !prev)}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer border ${
-                  isPlaying
-                    ? 'bg-emerald-500 text-slate-950 border-emerald-400'
-                    : 'bg-slate-800 hover:bg-slate-700 text-emerald-300 border-slate-700'
-                }`}
-              >
-                {isPlaying ? (
-                  <>
-                    <Pause className="w-3.5 h-3.5 fill-current" />
-                    <span>{lang === 'ru' ? 'Пауза' : 'Pause'}</span>
-                  </>
-                ) : (
-                  <>
-                    <Play className="w-3.5 h-3.5 fill-current" />
-                    <span>
-                      {lang === 'ru'
-                        ? 'Авто-показ фаз'
-                        : lang === 'de'
-                        ? 'Phasen Auto-Play'
-                        : 'Auto-Play Phases'}
-                    </span>
-                  </>
-                )}
-              </button>
-            </div>
-
-            <div className="text-xs sm:text-sm">
+          {/* Quick Phase Stepper Controls in Fullscreen (No duplicate Auto-Play button) */}
+          <div className="w-full max-w-5xl mx-auto mt-3 bg-slate-900/90 border border-slate-800 rounded-xl p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="text-xs sm:text-sm min-w-0">
               <div className="font-bold text-emerald-400 mb-0.5">
                 {phaseTitle}
               </div>
               <p className="text-slate-300 leading-relaxed">{phaseDesc}</p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-1.5 shrink-0">
+              {onPhaseChange && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    onPhaseChange(
+                      (safePhaseIndex - 1 + totalPhases) % totalPhases
+                    )
+                  }
+                  aria-label={t.catalog.prevPhase}
+                  className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 cursor-pointer"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+              )}
+
+              <div className="flex flex-wrap items-center gap-1.5">
+                {Array.from({ length: totalPhases }, (_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => onPhaseChange && onPhaseChange(idx)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+                      safePhaseIndex === idx
+                        ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20'
+                        : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    }`}
+                  >
+                    {t.catalog.phaseLabel} {idx + 1}
+                  </button>
+                ))}
+              </div>
+
+              {onPhaseChange && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    onPhaseChange((safePhaseIndex + 1) % totalPhases)
+                  }
+                  aria-label={t.catalog.nextPhase}
+                  className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 cursor-pointer"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              )}
             </div>
           </div>
         </div>

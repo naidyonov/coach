@@ -17,7 +17,7 @@
   }
 
   html[data-theme='light'] body {
-    background-color: #f1f5f9;
+    background-color: #f6f8f5;
     color: #0f172a;
   }
 }
@@ -43,21 +43,23 @@
    Preserves authentic turf inside .tactical-pitch-canvas and svg elements
    ========================================================================== */
 html[data-theme='light'] .app-shell {
-  background-color: #f1f5f9 !important;
+  background-color: #f6f8f5 !important;
   color: #0f172a !important;
 }
 
 /* Primary Surfaces */
 html[data-theme='light'] :not(.tactical-pitch-canvas) > .bg-slate-950,
 html[data-theme='light'] .bg-slate-950:not(.tactical-pitch-canvas *) {
-  background-color: #f8fafc !important;
+  background-color: #f8faf8 !important;
 }
 
 html[data-theme='light'] .bg-slate-950\/90:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-slate-950\/85:not(.tactical-pitch-canvas *),
 html[data-theme='light'] .bg-slate-950\/80:not(.tactical-pitch-canvas *),
+html[data-theme='light'] .bg-slate-950\/75:not(.tactical-pitch-canvas *),
 html[data-theme='light'] .bg-slate-950\/70:not(.tactical-pitch-canvas *),
 html[data-theme='light'] .bg-slate-950\/60:not(.tactical-pitch-canvas *) {
-  background-color: #f1f5f9 !important;
+  background-color: #f1f5f2 !important;
 }
 
 html[data-theme='light'] .bg-slate-900:not(.tactical-pitch-canvas *),
@@ -65,7 +67,7 @@ html[data-theme='light'] .bg-slate-900\/95:not(.tactical-pitch-canvas *),
 html[data-theme='light'] .bg-slate-900\/90:not(.tactical-pitch-canvas *),
 html[data-theme='light'] .bg-slate-900\/80:not(.tactical-pitch-canvas *) {
   background-color: #ffffff !important;
-  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04) !important;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 1px 3px -1px rgba(15, 23, 42, 0.03) !important;
 }
 
 html[data-theme='light'] .bg-slate-800:not(.tactical-pitch-canvas *),

@@ -86,11 +86,12 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
               showPasses={true}
               showMovements={true}
               showShadows={true}
+              compactHeader={true}
             />
 
             {/* Methodological & Scientific Basis Summary on Print Card */}
-            <div className="p-3 rounded-xl bg-slate-950/90 border border-emerald-500/30 text-xs space-y-2">
-              <div>
+            <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 text-xs divide-y divide-slate-800/60">
+              <div className="pb-2">
                 <div className="font-bold text-emerald-400 uppercase tracking-wider text-[10px]">
                   {lang === 'ru'
                     ? 'Методическая школа и первоисточник'
@@ -102,7 +103,7 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
                   {methodology.originSchool}
                 </p>
               </div>
-              <div>
+              <div className="py-2">
                 <div className="font-bold text-cyan-400 uppercase tracking-wider text-[10px]">
                   {lang === 'ru'
                     ? 'Научный и биомеханический базис'
@@ -114,7 +115,7 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
                   {methodology.scientificBasis}
                 </p>
               </div>
-              <div>
+              <div className="pt-2">
                 <div className="font-bold text-amber-400 uppercase tracking-wider text-[10px]">
                   {lang === 'ru'
                     ? 'Перенос в матч 11×11'
@@ -130,7 +131,7 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
           </div>
 
           <div className="md:col-span-6 space-y-3 text-xs">
-            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5">
+            <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 space-y-1.5">
               <div>
                 <span className="text-slate-400 font-semibold">
                   {t.printModal.dimensionsLabel}{' '}
@@ -155,40 +156,43 @@ export const PrintCardModal: React.FC<PrintCardModalProps> = ({
                   {ageVariant.timing} • {ageVariant.touchesRule}
                 </span>
               </div>
-              <div className="pt-1 border-t border-slate-800/80 text-emerald-300">
+              <div className="pt-1.5 border-t border-slate-800/70 text-emerald-300">
                 <span className="font-bold">{currentAgeBandInfo.label}: </span>
                 <span>{ageVariant.ageCoachingFocus}</span>
               </div>
             </div>
 
-            <div className="p-3 rounded-xl bg-red-950/20 border border-red-800/40">
-              <div className="font-bold text-red-400 mb-0.5">
-                {t.printModal.attackGoalLabel}
+            {/* Unified Attack, Defense & Scoring Card */}
+            <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 divide-y divide-slate-800/60">
+              <div className="pb-2.5">
+                <div className="font-bold text-red-400 mb-0.5">
+                  {t.printModal.attackGoalLabel}
+                </div>
+                <p className="text-slate-200 leading-relaxed">
+                  {selectedRondo.attackGoal}
+                </p>
               </div>
-              <p className="text-slate-200 leading-relaxed">
-                {selectedRondo.attackGoal}
-              </p>
+
+              <div className="py-2.5">
+                <div className="font-bold text-blue-400 mb-0.5">
+                  {t.printModal.defenseGoalLabel}
+                </div>
+                <p className="text-slate-200 leading-relaxed">
+                  {selectedRondo.defenseGoal}
+                </p>
+              </div>
+
+              <div className="pt-2.5">
+                <div className="font-bold text-amber-400 mb-0.5">
+                  {t.printModal.scoringRuleLabel}
+                </div>
+                <p className="text-slate-200 leading-relaxed">
+                  {selectedRondo.scoringRule}
+                </p>
+              </div>
             </div>
 
-            <div className="p-3 rounded-xl bg-blue-950/20 border border-blue-800/40">
-              <div className="font-bold text-blue-400 mb-0.5">
-                {t.printModal.defenseGoalLabel}
-              </div>
-              <p className="text-slate-200 leading-relaxed">
-                {selectedRondo.defenseGoal}
-              </p>
-            </div>
-
-            <div className="p-3 rounded-xl bg-amber-950/20 border border-amber-800/40">
-              <div className="font-bold text-amber-400 mb-0.5">
-                {t.printModal.scoringRuleLabel}
-              </div>
-              <p className="text-slate-200 leading-relaxed">
-                {selectedRondo.scoringRule}
-              </p>
-            </div>
-
-            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800">
+            <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80">
               <div className="font-bold text-emerald-400 mb-1">
                 {t.catalog.coachingCuesTitle}
               </div>

@@ -143,19 +143,21 @@ export const MonthlyPlanView: React.FC<MonthlyPlanViewProps> = ({
                 <h4 className="text-sm font-bold text-white mb-2 leading-snug">
                   {item.goal}
                 </h4>
-                <p className="text-xs text-slate-300 leading-relaxed mb-3.5 bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+                <p className="text-xs text-slate-300 leading-relaxed mb-3.5 border-l-2 border-slate-700 pl-3 py-0.5">
                   {item.conditions}
                 </p>
               </div>
 
               <div className="flex items-center justify-between gap-2 text-xs pt-2.5 border-t border-slate-800/60">
-                <span className="text-slate-300 flex items-center gap-1.5 font-semibold min-w-0">
+                <span className="text-slate-300 flex items-center gap-1.5 font-medium min-w-0">
                   <Clock className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                   <span className="truncate">{item.loadU15}</span>
                 </span>
                 <span
-                  className={`shrink-0 font-semibold flex items-center gap-1 ${
-                    isDone ? 'text-emerald-400' : 'text-slate-500 group-hover:text-slate-300'
+                  className={`shrink-0 font-semibold flex items-center gap-1 px-2.5 py-0.5 rounded-full transition-colors ${
+                    isDone
+                      ? 'bg-emerald-500/15 text-emerald-400'
+                      : 'text-slate-400 group-hover:bg-slate-800 group-hover:text-slate-200'
                   }`}
                 >
                   <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />

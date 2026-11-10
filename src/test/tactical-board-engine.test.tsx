@@ -154,6 +154,20 @@ describe('Tactical Board Engine — Pure Geometry & Math', () => {
 
     expect(deriveGridZonesFromCones('full_pitch', [])).toEqual([]);
   });
+
+  it('deconflicts overlapping vector labels and nudges away from token obstacles', async () => {
+    const { deconflictVectorLabelPositions } = await import(
+      '../lib/tactical-board/geometry'
+    );
+    const res = deconflictVectorLabelPositions(
+      [
+        { id: 'mv-1', x: 250, y: 200, width: 70, height: 16 },
+        { id: 'pass-1', x: 250, y: 202, width: 75, height: 17 },
+      ],
+      [{ x: 250, y: 200 }]
+    );
+    expect(Math.abs(res['mv-1'].y - res['pass-1'].y)).toBeGreaterThanOrEqual(16);
+  });
 });
 
 describe('Tactical Board Engine — Controller Hook & Canvas Manual Drawing Modes', () => {

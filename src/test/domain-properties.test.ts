@@ -327,6 +327,43 @@ describe('Domain Logic Property-Based Tests (fast-check)', () => {
         )
       );
     });
+
+    it('deconflictVectorLabelPositions always bounds label centers inside pitch bounds and separates colliding identical labels', async () => {
+      const { deconflictVectorLabelPositions, DEFAULT_PITCH_BOUNDS } =
+        await import('../lib/tactical-board/geometry');
+
+      fc.assert(
+        fc.property(
+          fc.integer({ min: -100, max: 600 }),
+          fc.integer({ min: -100, max: 500 }),
+          fc.integer({ min: 30, max: 140 }),
+          (x, y, width) => {
+            const labels = [
+              { id: 'lbl-1', x, y, width, height: 16 },
+              { id: 'lbl-2', x, y, width, height: 16 },
+            ];
+            const obstacles = [{ x, y }];
+            const res = deconflictVectorLabelPositions(
+              labels,
+              obstacles,
+              DEFAULT_PITCH_BOUNDS
+            );
+
+            expect(res['lbl-1']).toBeDefined();
+            expect(res['lbl-2']).toBeDefined();
+            for (const pt of [res['lbl-1'], res['lbl-2']]) {
+              expect(pt.x).toBeGreaterThanOrEqual(DEFAULT_PITCH_BOUNDS.minX);
+              expect(pt.x).toBeLessThanOrEqual(DEFAULT_PITCH_BOUNDS.maxX);
+              expect(pt.y).toBeGreaterThanOrEqual(DEFAULT_PITCH_BOUNDS.minY);
+              expect(pt.y).toBeLessThanOrEqual(DEFAULT_PITCH_BOUNDS.maxY);
+            }
+            // Identical input positions must be separated vertically
+            expect(res['lbl-1'].y).not.toBe(res['lbl-2'].y);
+          }
+        )
+      );
+    });
   });
 });
+
 

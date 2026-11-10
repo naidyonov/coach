@@ -427,3 +427,79 @@ export const deriveGridZonesFromCones = (
 
   return [];
 };
+
+export interface VectorLabelBox {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export const deconflictVectorLabelPositions = (
+  labels: VectorLabelBox[],
+  obstacles: Point2D[] = [],
+  bounds: Bounds2D = DEFAULT_PITCH_BOUNDS
+): Record<string, Point2D> => {
+  const placed: VectorLabelBox[] = [];
+  const result: Record<string, Point2D> = {};
+
+  const clampLabelCenter = (
+    x: number,
+    y: number,
+    width: number,
+    height: number
+  ): Point2D => {
+    const halfW = Math.min(width / 2, (bounds.maxX - bounds.minX) / 2);
+    const halfH = Math.min(height / 2, (bounds.maxY - bounds.minY) / 2);
+    return {
+      x: Math.round(
+        Math.max(bounds.minX + halfW, Math.min(bounds.maxX - halfW, x))
+      ),
+      y: Math.round(
+        Math.max(bounds.minY + halfH, Math.min(bounds.maxY - halfH, y))
+      ),
+    };
+  };
+
+  for (const item of labels) {
+    const w = Math.max(24, item.width);
+    const h = Math.max(14, item.height);
+    let { x, y } = clampLabelCenter(item.x, item.y, w, h);
+
+    // 1. Nudge away from nearby player/ball tokens so labels never obscure tokens
+    for (const obs of obstacles) {
+      const minDx = w / 2 + 12;
+      const minDy = h / 2 + 15;
+      if (Math.abs(x - obs.x) < minDx && Math.abs(y - obs.y) < minDy) {
+        const pushUp = y <= obs.y;
+        const targetY = pushUp ? obs.y - minDy - 2 : obs.y + minDy + 2;
+        const clamped = clampLabelCenter(x, targetY, w, h);
+        x = clamped.x;
+        y = clamped.y;
+      }
+    }
+
+    // 2. Pairwise deconfliction with already placed vector labels
+    for (let pass = 0; pass < 2; pass++) {
+      for (const prev of placed) {
+        const minDx = (w + prev.width) / 2 + 4;
+        const minDy = (h + prev.height) / 2 + 4;
+        if (Math.abs(x - prev.x) < minDx && Math.abs(y - prev.y) < minDy) {
+          const preferDown =
+            y >= prev.y && prev.y + minDy + h / 2 <= bounds.maxY;
+          const nextY = preferDown ? prev.y + minDy : prev.y - minDy;
+          const clamped = clampLabelCenter(x, nextY, w, h);
+          x = clamped.x;
+          y = clamped.y;
+        }
+      }
+    }
+
+    placed.push({ id: item.id, x, y, width: w, height: h });
+    result[item.id] = { x, y };
+  }
+
+  return result;
+};
+

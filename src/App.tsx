@@ -339,11 +339,16 @@ export function App() {
               <span>{t.nav.timer}</span>
             </button>
 
+            <span
+              className="h-4 w-px bg-slate-800 mx-0.5"
+              aria-hidden="true"
+            />
+
             <button
               type="button"
               onClick={() => setShowPrintModal(true)}
               title={t.nav.printCardTooltip}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all cursor-pointer"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-all cursor-pointer"
             >
               <Printer className="w-3.5 h-3.5 text-emerald-400" />
               <span className="hidden lg:inline">{t.nav.printCard}</span>
@@ -361,17 +366,20 @@ export function App() {
               }}
               aria-expanded={isSettingsMenuOpen}
               aria-label={tr('Interface settings', 'Einstellungen', 'Настройки интерфейса')}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-200 border border-slate-800 text-xs font-semibold transition cursor-pointer"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-950/90 hover:bg-slate-800 text-slate-200 border border-slate-800 text-xs font-semibold transition cursor-pointer"
             >
-              <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-extrabold text-[11px]">
+              <span className="text-emerald-400 font-bold">
                 {currentAgeBandInfo.shortLabel}
+              </span>
+              <span className="text-slate-700" aria-hidden="true">
+                •
               </span>
               {themeMode === 'light' ? (
                 <Sun className="w-3.5 h-3.5 text-amber-400" />
               ) : (
                 <Moon className="w-3.5 h-3.5 text-emerald-400" />
               )}
-              <span className="uppercase font-bold">{lang}</span>
+              <span className="uppercase font-bold text-slate-300">{lang}</span>
               <ChevronDown
                 className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${
                   isSettingsMenuOpen ? 'rotate-180' : ''
@@ -382,7 +390,7 @@ export function App() {
             {/* Dropdown Panel */}
             <div
               data-testid="settings-dropdown-panel"
-              className={`absolute right-0 top-full mt-2 w-72 rounded-2xl bg-slate-900 border border-slate-700 shadow-2xl p-3.5 z-50 space-y-3.5 transition-all ${
+              className={`absolute right-0 top-full mt-2 w-72 rounded-2xl bg-slate-900 border border-slate-700/80 shadow-2xl p-4 z-50 space-y-3.5 transition-all ${
                 isSettingsMenuOpen
                   ? 'opacity-100 visible translate-y-0'
                   : 'opacity-0 invisible -translate-y-1 pointer-events-none'
@@ -527,13 +535,13 @@ export function App() {
           </div>
         </div>
 
-        {/* 4-Block Training Session Flow Bar: 1. Activation -> 2. Rondo -> 3. Positional Play -> 4. Final Game */}
+        {/* Calm 4-Block Training Session Flow Ribbon: 1. Activation -> 2. Rondo -> 3. Positional Play -> 4. Final Game */}
         <div
           data-testid="training-blocks-bar"
-          className="bg-slate-950/85 border-t border-slate-800/80"
+          className="bg-slate-950/60 border-t border-slate-800/60"
         >
-          <div className="max-w-7xl mx-auto px-3 sm:px-6 py-1.5 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-            <span className="hidden lg:inline-block text-[11px] font-bold uppercase tracking-wider text-slate-400 mr-1 shrink-0">
+          <div className="max-w-7xl mx-auto px-3 sm:px-6 py-1 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+            <span className="hidden lg:inline-block text-[11px] font-semibold text-slate-400 mr-1 shrink-0">
               {seriesHub.sessionBarLabel}
             </span>
             {trainingSeriesModules.map((mod, idx) => {
@@ -543,7 +551,7 @@ export function App() {
                   {idx > 0 && (
                     <span
                       aria-hidden="true"
-                      className="text-slate-600 text-xs font-bold select-none shrink-0"
+                      className="text-slate-600 text-xs select-none shrink-0"
                     >
                       →
                     </span>
@@ -573,25 +581,25 @@ export function App() {
                       }
                     }}
                     title={mod.subtitle}
-                    className={`shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold transition border ${
+                    className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition border ${
                       isCurrent
-                        ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-sm cursor-pointer'
+                        ? 'bg-emerald-500 text-slate-950 border-emerald-400 font-bold shadow-sm cursor-pointer'
                         : mod.active
-                        ? 'bg-slate-900 text-slate-200 border-slate-800 hover:bg-slate-800 hover:border-emerald-500/40 cursor-pointer'
-                        : 'bg-slate-900/40 text-slate-500 border-slate-800/50 cursor-not-allowed'
+                        ? 'bg-slate-900/80 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white cursor-pointer'
+                        : 'bg-transparent text-slate-500 border-transparent opacity-60 cursor-not-allowed'
                     }`}
                   >
                     <span>{mod.shortStep}</span>
                     <span
-                      className={`text-[10px] px-1.5 py-0.2 rounded font-semibold ${
+                      className={`text-[10px] font-medium ${
                         isCurrent
-                          ? 'bg-slate-950/20 text-slate-950'
+                          ? 'text-slate-950/80'
                           : mod.active
-                          ? 'bg-emerald-500/15 text-emerald-400'
-                          : 'bg-slate-800/80 text-slate-400'
+                          ? 'text-emerald-400'
+                          : 'text-slate-500'
                       }`}
                     >
-                      {mod.active ? mod.duration : mod.badge}
+                      {mod.active ? mod.duration : `(${mod.badge})`}
                     </span>
                   </button>
                 </React.Fragment>
