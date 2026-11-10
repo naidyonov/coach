@@ -47,6 +47,21 @@ export const rondoPhaseToTacticalScene = (
     gridLabel: rondo.diagram.gridLabel,
     hasCornerTraps: rondo.id === 'rondo-7',
     cones: rondo.diagram.cones,
+    goals: rondo.diagram.goals?.map((g, idx) => ({
+      id: g.id || `goal-${idx}`,
+      x: g.x,
+      y: g.y,
+      size: g.size,
+      facing: g.facing,
+      label: g.label,
+    })),
+    gates: rondo.diagram.gates?.map((gt, idx) => ({
+      id: gt.id || `gate-${idx}`,
+      p1: gt.p1,
+      p2: gt.p2,
+      color: gt.color,
+      label: gt.label,
+    })),
     tokens: phase.players.map((p) => ({
       id: p.id,
       role: p.role,
@@ -55,6 +70,7 @@ export const rondoPhaseToTacticalScene = (
       y: p.y,
     })),
     ball: phase.ball,
+    balls: phase.balls,
     vectors,
     shadows: phase.shadows.map((s, idx) => ({
       id: `shadow-${idx}`,

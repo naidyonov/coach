@@ -167,6 +167,21 @@ export const deriveGridZonesFromCones = (
   hasCornerTraps = false
 ): TacticalZone[] => {
   if (template === 'single_square' && cones.length >= 4) {
+    // Diamond configuration: cones[0] = Top, cones[1] = Left, cones[2] = Right, cones[3] = Bottom
+    if (cones[1].x < cones[0].x) {
+      return [
+        {
+          id: 'grid-main-diamond',
+          shape: 'polygon',
+          points: `${cones[0].x},${cones[0].y} ${cones[2].x},${cones[2].y} ${cones[3].x},${cones[3].y} ${cones[1].x},${cones[1].y}`,
+          fill: 'rgba(16, 185, 129, 0.05)',
+          stroke: 'rgba(255, 255, 255, 0.78)',
+          strokeWidth: 2.5,
+          strokeDasharray: '8 6',
+        },
+      ];
+    }
+
     const x = cones[0].x;
     const y = cones[0].y;
     const width = cones[1].x - cones[0].x;
@@ -208,6 +223,35 @@ export const deriveGridZonesFromCones = (
           ...trapStyle,
           x: x + width - trapSize,
           y: y + height - trapSize,
+        }
+      );
+    }
+
+    if (cones.length === 9) {
+      const midX = Math.round(x + width / 2);
+      const midY = Math.round(y + height / 2);
+      zones.push(
+        {
+          id: 'grid-quadrant-vline',
+          shape: 'line',
+          x1: midX,
+          y1: y,
+          x2: midX,
+          y2: y + height,
+          stroke: 'rgba(251, 191, 36, 0.8)',
+          strokeWidth: 2,
+          strokeDasharray: '6 5',
+        },
+        {
+          id: 'grid-quadrant-hline',
+          shape: 'line',
+          x1: x,
+          y1: midY,
+          x2: x + width,
+          y2: midY,
+          stroke: 'rgba(251, 191, 36, 0.8)',
+          strokeWidth: 2,
+          strokeDasharray: '6 5',
         }
       );
     }

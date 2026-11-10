@@ -168,6 +168,19 @@ export const TacticalCanvas: React.FC<TacticalCanvasProps> = ({
         >
           <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#fde047" />
         </marker>
+
+        <pattern
+          id={`goal-net-pattern-${uid}`}
+          width="6"
+          height="6"
+          patternUnits="userSpaceOnUse"
+        >
+          <path
+            d="M 0 0 L 6 6 M 6 0 L 0 6"
+            stroke="rgba(226, 232, 240, 0.42)"
+            strokeWidth="0.75"
+          />
+        </pattern>
       </defs>
 
       {/* Lawn Stripes */}
@@ -279,6 +292,199 @@ export const TacticalCanvas: React.FC<TacticalCanvasProps> = ({
           <circle cx="0" cy="1" r="1.5" fill="#ffedd5" />
         </g>
       ))}
+
+      {/* Colored Dribbling / Passing Cone Gates */}
+      {scene.gates && scene.gates.length > 0 && (
+        <g data-testid="pitch-gates-layer">
+          {scene.gates.map((gate) => {
+            const palette: Record<
+              NonNullable<typeof gate.color>,
+              { cone: string; line: string }
+            > = {
+              amber: { cone: '#facc15', line: 'rgba(250, 204, 21, 0.75)' },
+              cyan: { cone: '#38bdf8', line: 'rgba(56, 189, 248, 0.75)' },
+              rose: { cone: '#fb7185', line: 'rgba(251, 113, 133, 0.75)' },
+              emerald: { cone: '#34d399', line: 'rgba(52, 211, 153, 0.75)' },
+              purple: { cone: '#c084fc', line: 'rgba(192, 132, 252, 0.75)' },
+            };
+            const clr = palette[gate.color || 'amber'];
+            const midX = (gate.p1.x + gate.p2.x) / 2;
+            const midY = (gate.p1.y + gate.p2.y) / 2;
+            return (
+              <g key={gate.id} data-testid={`pitch-gate-${gate.id}`}>
+                <line
+                  x1={gate.p1.x}
+                  y1={gate.p1.y}
+                  x2={gate.p2.x}
+                  y2={gate.p2.y}
+                  stroke={clr.line}
+                  strokeWidth="3"
+                  strokeDasharray="3 3"
+                />
+                {[gate.p1, gate.p2].map((pt, i) => (
+                  <g
+                    key={i}
+                    transform={`translate(${pt.x}, ${pt.y})`}
+                  >
+                    <polygon
+                      points="0,-6.5 -5.5,5 5.5,5"
+                      fill={clr.cone}
+                      stroke="#0f172a"
+                      strokeWidth="1"
+                    />
+                  </g>
+                ))}
+                {gate.label && (
+                  <text
+                    x={midX}
+                    y={midY - 7}
+                    textAnchor="middle"
+                    fill={clr.cone}
+                    fontSize="8.5"
+                    fontWeight="800"
+                    style={{ pointerEvents: 'none' }}
+                  >
+                    {gate.label}
+                  </text>
+                )}
+              </g>
+            );
+          })}
+        </g>
+      )}
+
+      {/* Football Goals (Mini-Goals & Large Goals with Net Mesh & Goalposts) */}
+      {scene.goals && scene.goals.length > 0 && (
+        <g data-testid="pitch-goals-layer">
+          {scene.goals.map((goal) => {
+            const isLarge = goal.size === 'large';
+            const halfW = isLarge ? 42 : 22;
+            const depth = isLarge ? 20 : 13;
+            const taper = isLarge ? 4 : 2.5;
+            const rot =
+              goal.facing === 'bottom'
+                ? 0
+                : goal.facing === 'top'
+                ? 180
+                : goal.facing === 'left'
+                ? 90
+                : -90;
+
+            const labelOffset =
+              goal.facing === 'bottom'
+                ? { dx: 0, dy: -depth - 5 }
+                : goal.facing === 'top'
+                ? { dx: 0, dy: depth + 11 }
+                : goal.facing === 'left'
+                ? { dx: depth + 14, dy: 3 }
+                : { dx: -depth - 14, dy: 3 };
+
+            const netPoints = `${-halfW},0 ${-halfW + taper},${-depth} ${
+              halfW - taper
+            },${-depth} ${halfW},0`;
+
+            return (
+              <g
+                key={goal.id}
+                data-testid={`pitch-goal-${goal.id}`}
+                data-goal-size={goal.size}
+              >
+                <g transform={`translate(${goal.x}, ${goal.y}) rotate(${rot})`}>
+                  {/* Optional 6-yard penalty box marking for Large Goals */}
+                  {isLarge && (
+                    <rect
+                      x={-halfW - 14}
+                      y={0}
+                      width={(halfW + 14) * 2}
+                      height={26}
+                      fill="rgba(255, 255, 255, 0.04)"
+                      stroke="rgba(255, 255, 255, 0.38)"
+                      strokeWidth="1.4"
+                      strokeDasharray="4 3"
+                    />
+                  )}
+                  {/* Net Dark Backdrop */}
+                  <polygon
+                    points={netPoints}
+                    fill="rgba(15, 23, 42, 0.72)"
+                  />
+                  {/* Net Mesh Pattern */}
+                  <polygon
+                    points={netPoints}
+                    fill={`url(#goal-net-pattern-${uid})`}
+                  />
+                  {/* Net Rear & Side Frame */}
+                  <polyline
+                    points={netPoints}
+                    fill="none"
+                    stroke="#cbd5e1"
+                    strokeWidth={isLarge ? '2.2' : '1.8'}
+                    strokeLinejoin="round"
+                  />
+                  {/* Internal Net Depth Struts */}
+                  <line
+                    x1={-halfW}
+                    y1={0}
+                    x2={-halfW + taper}
+                    y2={-depth}
+                    stroke="rgba(255, 255, 255, 0.65)"
+                    strokeWidth="1.4"
+                  />
+                  <line
+                    x1={halfW}
+                    y1={0}
+                    x2={halfW - taper}
+                    y2={-depth}
+                    stroke="rgba(255, 255, 255, 0.65)"
+                    strokeWidth="1.4"
+                  />
+                  {/* Goal Line & Crossbar */}
+                  <line
+                    x1={-halfW}
+                    y1={0}
+                    x2={halfW}
+                    y2={0}
+                    stroke="#ffffff"
+                    strokeWidth={isLarge ? '3.4' : '2.6'}
+                    strokeLinecap="round"
+                  />
+                  {/* Left & Right Goalposts */}
+                  <circle
+                    cx={-halfW}
+                    cy={0}
+                    r={isLarge ? 3.8 : 3}
+                    fill="#ffffff"
+                    stroke="#ef4444"
+                    strokeWidth="1.5"
+                  />
+                  <circle
+                    cx={halfW}
+                    cy={0}
+                    r={isLarge ? 3.8 : 3}
+                    fill="#ffffff"
+                    stroke="#ef4444"
+                    strokeWidth="1.5"
+                  />
+                </g>
+
+                {goal.label && (
+                  <text
+                    x={goal.x + labelOffset.dx}
+                    y={goal.y + labelOffset.dy}
+                    textAnchor="middle"
+                    fill="#f8fafc"
+                    fontSize="8.5"
+                    fontWeight="800"
+                    style={{ pointerEvents: 'none' }}
+                  >
+                    {goal.label}
+                  </text>
+                )}
+              </g>
+            );
+          })}
+        </g>
+      )}
 
       {/* Off-Ball Movement Vectors */}
       {showMovements &&
@@ -483,6 +689,35 @@ export const TacticalCanvas: React.FC<TacticalCanvasProps> = ({
           </g>
         );
       })}
+
+      {/* Additional Balls in Play (Multi-Ball Group Warm-Ups & Simultaneous Circuits) */}
+      {scene.balls &&
+        scene.balls.map((b, bIdx) => (
+          <g
+            key={`extra-ball-${bIdx}`}
+            data-testid={`pitch-extra-ball-${bIdx}`}
+            transform={`translate(${b.x}, ${b.y})`}
+            style={{
+              transition: 'transform 450ms cubic-bezier(0.22, 1, 0.36, 1)',
+              pointerEvents: 'none',
+            }}
+            filter={`url(#token-shadow-${uid})`}
+          >
+            <circle cx={0} cy={0} r={8.5} fill="rgba(250, 204, 21, 0.22)" />
+            <circle
+              cx={0}
+              cy={0}
+              r={6}
+              fill="#ffffff"
+              stroke="#0f172a"
+              strokeWidth="1.5"
+            />
+            <polygon
+              points="0,-2.6 2.5,-0.7 1.5,2.2 -1.5,2.2 -2.5,-0.7"
+              fill="#0f172a"
+            />
+          </g>
+        ))}
 
       {/* Football (Animated along Primary Pass or Draggable) */}
       {ballCoords && (

@@ -77,7 +77,7 @@ export const computeSquadSetup = (
   }
 
   if (rondoId === 'act-7' || rondoId === 'act-8') {
-    const circuits = safeCount >= 14 ? 2 : 1;
+    const circuits = safeCount >= 20 ? 2 : 1;
     return {
       type: 'activation_diamond_circuits',
       playersCount: safeCount,
@@ -88,7 +88,7 @@ export const computeSquadSetup = (
 
   if (rondoId === 'act-9' || rondoId === 'act-10') {
     const pairsCount = Math.floor(safeCount / 2);
-    const stations = Math.max(1, Math.ceil(pairsCount / 3));
+    const stations = safeCount >= 20 ? 2 : 1;
     return {
       type: 'activation_duel_stations',
       playersCount: safeCount,
@@ -98,7 +98,7 @@ export const computeSquadSetup = (
   }
 
   if (rondoId.startsWith('act-')) {
-    const boxes = safeCount >= 14 ? 2 : 1;
+    const boxes = safeCount >= 20 ? 2 : 1;
     return {
       type: 'activation_parallel_boxes',
       playersCount: safeCount,

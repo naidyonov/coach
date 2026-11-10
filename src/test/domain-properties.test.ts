@@ -149,12 +149,18 @@ describe('Domain Logic Property-Based Tests (fast-check)', () => {
                 expect(setup.circuits * setup.playersPerCircuit).toBeGreaterThanOrEqual(
                   setup.playersCount
                 );
+                if (setup.playersCount < 20) {
+                  expect(setup.circuits).toBe(1);
+                }
               }
             } else if (actId === 'act-9' || actId === 'act-10') {
               expect(setup.type).toBe('activation_duel_stations');
               if (setup.type === 'activation_duel_stations') {
                 expect(setup.pairsCount).toBeGreaterThanOrEqual(2);
                 expect(setup.stations).toBeGreaterThanOrEqual(1);
+                if (setup.playersCount < 20) {
+                  expect(setup.stations).toBe(1);
+                }
               }
             } else {
               expect(setup.type).toBe('activation_parallel_boxes');
@@ -162,6 +168,9 @@ describe('Domain Logic Property-Based Tests (fast-check)', () => {
                 expect(setup.boxes * setup.playersPerBox).toBeGreaterThanOrEqual(
                   setup.playersCount
                 );
+                if (setup.playersCount < 20) {
+                  expect(setup.boxes).toBe(1);
+                }
               }
             }
           }

@@ -1,4 +1,4 @@
-import { Point2D, RondoDiagram, RondoItem } from '../i18n/types';
+import { Point2D, RondoDiagram, RondoGate, RondoGoal, RondoItem } from '../i18n/types';
 import { RONDOS_EN } from '../i18n/en';
 
 export interface CanonicalPhaseGeometry {
@@ -9,6 +9,7 @@ export interface CanonicalPhaseGeometry {
     y: number;
   }>;
   ball?: Point2D;
+  balls?: Point2D[];
   passes: Array<{
     from: Point2D;
     to: Point2D;
@@ -32,6 +33,8 @@ export interface CanonicalRondoGeometry {
   category: RondoItem['category'];
   diagramType: RondoDiagram['type'];
   cones: Point2D[];
+  goals?: RondoGoal[];
+  gates?: RondoGate[];
   phases: CanonicalPhaseGeometry[];
 }
 
@@ -43,6 +46,29 @@ export const extractCanonicalGeometry = (
   category: rondo.category,
   diagramType: rondo.diagram.type,
   cones: rondo.diagram.cones.map((c) => ({ x: c.x, y: c.y })),
+  ...(rondo.diagram.goals
+    ? {
+        goals: rondo.diagram.goals.map((g) => ({
+          ...(g.id ? { id: g.id } : {}),
+          x: g.x,
+          y: g.y,
+          size: g.size,
+          facing: g.facing,
+          ...(g.label ? { label: g.label } : {}),
+        })),
+      }
+    : {}),
+  ...(rondo.diagram.gates
+    ? {
+        gates: rondo.diagram.gates.map((gt) => ({
+          ...(gt.id ? { id: gt.id } : {}),
+          p1: { x: gt.p1.x, y: gt.p1.y },
+          p2: { x: gt.p2.x, y: gt.p2.y },
+          ...(gt.color ? { color: gt.color } : {}),
+          ...(gt.label ? { label: gt.label } : {}),
+        })),
+      }
+    : {}),
   phases: rondo.diagram.phases.map((ph) => ({
     players: ph.players.map((p) => ({
       id: p.id,
@@ -51,6 +77,9 @@ export const extractCanonicalGeometry = (
       y: p.y,
     })),
     ball: ph.ball ? { x: ph.ball.x, y: ph.ball.y } : undefined,
+    ...(ph.balls
+      ? { balls: ph.balls.map((b) => ({ x: b.x, y: b.y })) }
+      : {}),
     passes: ph.passes.map((ps) => ({
       from: { x: ps.from.x, y: ps.from.y },
       to: { x: ps.to.x, y: ps.to.y },

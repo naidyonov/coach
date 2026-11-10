@@ -83,6 +83,23 @@ export interface FreehandStroke {
   width: number;
 }
 
+export interface TacticalGoal {
+  id: string;
+  x: number;
+  y: number;
+  size: 'mini' | 'large';
+  facing: 'top' | 'bottom' | 'left' | 'right';
+  label?: string;
+}
+
+export interface TacticalGate {
+  id: string;
+  p1: Point2D;
+  p2: Point2D;
+  color?: 'amber' | 'cyan' | 'rose' | 'emerald' | 'purple';
+  label?: string;
+}
+
 export interface TacticalScene {
   id: string;
   viewBoxWidth?: number;
@@ -91,9 +108,12 @@ export interface TacticalScene {
   gridLabel?: string;
   hasCornerTraps?: boolean;
   cones: Point2D[];
+  goals?: TacticalGoal[];
+  gates?: TacticalGate[];
   zones?: TacticalZone[];
   tokens: TacticalToken[];
   ball?: Point2D;
+  balls?: Point2D[];
   vectors: TacticalVector[];
   shadows: TacticalShadow[];
   annotations?: TacticalAnnotation[];

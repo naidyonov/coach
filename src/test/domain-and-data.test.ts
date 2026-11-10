@@ -342,9 +342,12 @@ describe('Domain & Data Integrity — EN / DE / RU Parity & Canonical Geometry',
       getActivationSquadAdviceDe,
       getActivationSquadAdviceRu,
     ]) {
-      expect(fn(14, ACTIVATIONS_EN[0]).length).toBeGreaterThan(10); // parallel boxes
-      expect(fn(16, ACTIVATIONS_EN[6]).length).toBeGreaterThan(10); // diamond circuits
-      expect(fn(12, ACTIVATIONS_EN[8]).length).toBeGreaterThan(10); // duel stations
+      expect(fn(16, ACTIVATIONS_EN[0]).length).toBeGreaterThan(10); // 1 arena parallel boxes
+      expect(fn(22, ACTIVATIONS_EN[0]).length).toBeGreaterThan(10); // 2 arenas parallel boxes
+      expect(fn(16, ACTIVATIONS_EN[6]).length).toBeGreaterThan(10); // 1 diamond circuit
+      expect(fn(22, ACTIVATIONS_EN[6]).length).toBeGreaterThan(10); // 2 diamond circuits
+      expect(fn(16, ACTIVATIONS_EN[8]).length).toBeGreaterThan(10); // 1 duel arena
+      expect(fn(22, ACTIVATIONS_EN[8]).length).toBeGreaterThan(10); // 2 duel arenas
     }
   });
 });

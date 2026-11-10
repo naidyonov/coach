@@ -5,6 +5,7 @@ import { describe, it, expect, vi, beforeAll, beforeEach, afterEach } from 'vite
 import { LanguageProvider } from '../i18n/LanguageContext';
 import { TacticalPitchSVG } from '../components/TacticalPitchSVG';
 import { RONDOS_EN } from '../i18n/en';
+import { ACTIVATIONS_EN } from '../i18n/activationData';
 
 beforeAll(() => {
   if (!window.PointerEvent) {
@@ -181,5 +182,75 @@ describe('TacticalPitchSVG — Interactive Whiteboard, Fullscreen, Gestures & An
     render(<StatefulBoardWrapper initialRondoIdx={6} />);
     expect(screen.getByTestId('pitch-zone-corner-trap-tl')).toBeInTheDocument();
     expect(screen.getByTestId('pitch-zone-corner-trap-br')).toBeInTheDocument();
+  });
+
+  it('renders SVG Mini-Goals, Large Goals, colored Cone Gates, Multi-Ball tokens, and Diamond/Quadrant grid zones for Activation drills', () => {
+    // 1. Render act-1 (4 Mini-Goals + 4 Cone Gates + 7 extra balls)
+    const { unmount: unmountAct1 } = render(
+      <LanguageProvider>
+        <TacticalPitchSVG
+          rondo={ACTIVATIONS_EN[0]}
+          phaseIndex={0}
+          onPhaseChange={() => {}}
+          showPasses={true}
+          showMovements={true}
+          showShadows={true}
+        />
+      </LanguageProvider>
+    );
+    expect(screen.getByTestId('pitch-goals-layer')).toBeInTheDocument();
+    expect(screen.getByTestId('pitch-goal-act1-g1')).toHaveAttribute('data-goal-size', 'mini');
+    expect(screen.getByTestId('pitch-gates-layer')).toBeInTheDocument();
+    expect(screen.getByTestId('pitch-gate-act1-gt1')).toBeInTheDocument();
+    expect(screen.getByTestId('pitch-extra-ball-0')).toBeInTheDocument();
+    unmountAct1();
+
+    // 2. Render act-4 (Large Goal act4-lg1 + 2 Mini-Goals act4-m1/act4-m2)
+    const { unmount: unmountAct4 } = render(
+      <LanguageProvider>
+        <TacticalPitchSVG
+          rondo={ACTIVATIONS_EN[3]}
+          phaseIndex={0}
+          onPhaseChange={() => {}}
+          showPasses={true}
+          showMovements={true}
+          showShadows={true}
+        />
+      </LanguageProvider>
+    );
+    expect(screen.getByTestId('pitch-goal-act4-lg1')).toHaveAttribute('data-goal-size', 'large');
+    expect(screen.getByTestId('pitch-goal-act4-m1')).toHaveAttribute('data-goal-size', 'mini');
+    unmountAct4();
+
+    // 3. Render act-5 (4-Quadrant cross lines) and act-7 (Diamond polygon)
+    const { unmount: unmountAct5 } = render(
+      <LanguageProvider>
+        <TacticalPitchSVG
+          rondo={ACTIVATIONS_EN[4]}
+          phaseIndex={0}
+          onPhaseChange={() => {}}
+          showPasses={true}
+          showMovements={true}
+          showShadows={true}
+        />
+      </LanguageProvider>
+    );
+    expect(screen.getByTestId('pitch-zone-grid-quadrant-vline')).toBeInTheDocument();
+    expect(screen.getByTestId('pitch-zone-grid-quadrant-hline')).toBeInTheDocument();
+    unmountAct5();
+
+    render(
+      <LanguageProvider>
+        <TacticalPitchSVG
+          rondo={ACTIVATIONS_EN[6]}
+          phaseIndex={0}
+          onPhaseChange={() => {}}
+          showPasses={true}
+          showMovements={true}
+          showShadows={true}
+        />
+      </LanguageProvider>
+    );
+    expect(screen.getByTestId('pitch-zone-grid-main-diamond')).toBeInTheDocument();
   });
 });

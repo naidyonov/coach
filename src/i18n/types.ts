@@ -58,11 +58,29 @@ export interface RondoPhaseShadow {
   variant?: 'danger' | 'solution';
 }
 
+export interface RondoGoal {
+  id?: string;
+  x: number;
+  y: number;
+  size: 'mini' | 'large';
+  facing: 'top' | 'bottom' | 'left' | 'right';
+  label?: string;
+}
+
+export interface RondoGate {
+  id?: string;
+  p1: Point2D;
+  p2: Point2D;
+  color?: 'amber' | 'cyan' | 'rose' | 'emerald' | 'purple';
+  label?: string;
+}
+
 export interface RondoPhase {
   title: string;
   desc: string;
   players: RondoPhasePlayer[];
   ball?: Point2D;
+  balls?: Point2D[];
   passes: RondoPhasePass[];
   movements: RondoPhaseMovement[];
   shadows: RondoPhaseShadow[];
@@ -72,6 +90,8 @@ export interface RondoDiagram {
   type: 'single_square' | 'double_zone' | 'concentric_square';
   gridLabel: string;
   cones: Point2D[];
+  goals?: RondoGoal[];
+  gates?: RondoGate[];
   phases: RondoPhase[];
 }
 
