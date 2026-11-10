@@ -986,15 +986,15 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Sub-navigation filter bar */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-2 flex flex-wrap gap-1.5 shadow-lg">
+      {/* Sub-navigation filter bar (Single-row swipeable strip on mobile, wrapped on desktop) */}
+      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-1.5 sm:p-2 flex items-center overflow-x-auto sm:flex-wrap gap-1.5 no-scrollbar shadow-lg">
         {subTabs.map((tab) => {
           const active = activeSubTab === tab.id;
           return (
             <button
               key={tab.id}
               onClick={() => setActiveSubTab(tab.id)}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+              className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs font-semibold transition-all cursor-pointer ${
                 active
                   ? 'bg-emerald-600 text-white shadow-md shadow-emerald-950/50'
                   : 'text-slate-300 hover:text-white hover:bg-slate-800/70'

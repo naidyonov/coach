@@ -294,6 +294,7 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
     // 4. Verify 6-Rubric Showcase Grid and selecting an exercise card
     const rubricShowcase = screen.getByTestId('activation-rubric-showcase');
     expect(rubricShowcase).toBeInTheDocument();
+    expect(rubricShowcase.textContent).not.toMatch(/1\.\s*1\./);
     const rubricCardAct11 = screen.getByTestId('rubric-card-act-11');
     fireEvent.click(rubricCardAct11);
     expect(

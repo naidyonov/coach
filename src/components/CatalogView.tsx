@@ -134,118 +134,93 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
       : categoryItems.filter((c) => c.id === selectedCategory);
 
   return (
-    <div className="space-y-4">
-      {/* Unified Drill Navigator: Category Filter Pills + Collapsible Rubric Shelf (Activation) + Quick Stepper */}
-      <div className="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-3 sm:p-4 shadow-sm space-y-3">
-        {/* Category / Rubric Filter Pills */}
-        <div className="flex items-center justify-between gap-2 flex-wrap">
-          <div className="flex items-center overflow-x-auto sm:flex-wrap gap-1.5 no-scrollbar flex-1">
-            {isActivation && (
-              <button
-                type="button"
-                onClick={() => onSelectCategory('all')}
-                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition cursor-pointer border ${
-                  selectedCategory === 'all'
-                    ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-sm'
-                    : 'bg-slate-950/80 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white'
-                }`}
-              >
-                <span>
-                  {lang === 'ru'
-                    ? `Все 6 рубрик (${rondos.length})`
-                    : lang === 'de'
-                    ? `Alle 6 Rubriken (${rondos.length})`
-                    : `All 6 Rubrics (${rondos.length})`}
-                </span>
-              </button>
-            )}
-
-            {categoryItems.map((cat) => {
-              const isActive = isActivation
-                ? selectedCategory === cat.id ||
-                  (selectedCategory === 'all' &&
-                    selectedRondo.category === cat.id)
-                : selectedRondo.category === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  type="button"
-                  onClick={() => onSelectCategory(cat.id)}
-                  className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition cursor-pointer border ${
-                    isActive
-                      ? `${cat.color} text-white keep-white border-white/20 shadow-sm`
-                      : 'bg-slate-950/80 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white'
-                  }`}
-                >
-                  <span className={`w-1.5 h-1.5 rounded-full ${cat.dot}`} />
-                  <span>{cat.name}</span>
-                </button>
-              );
-            })}
-          </div>
-
+    <div className="space-y-3 sm:space-y-4">
+      {/* Unified Drill Navigator: Full-Width Category Pills + Compact 2-Col Rubric Chips (Activation) + Quick Stepper */}
+      <div className="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-2.5 sm:p-4 shadow-sm space-y-2 sm:space-y-3">
+        {/* Row 1: Full-Width Category / Rubric Filter Pills (Never crushed by side buttons on mobile) */}
+        <div className="w-full flex items-center overflow-x-auto sm:flex-wrap gap-1.5 no-scrollbar">
           {isActivation && (
             <button
               type="button"
-              data-testid="toggle-rubric-showcase-btn"
-              onClick={() => setIsShowcaseExpanded((v) => !v)}
-              className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-950 hover:bg-slate-800 text-emerald-400 border border-slate-800 text-xs font-bold transition cursor-pointer"
+              onClick={() => onSelectCategory('all')}
+              className={`shrink-0 inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold transition cursor-pointer border ${
+                selectedCategory === 'all'
+                  ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-sm'
+                  : 'bg-slate-950/80 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white'
+              }`}
             >
-              <Layers className="w-3.5 h-3.5" />
               <span>
-                {isShowcaseExpanded
-                  ? lang === 'ru'
-                    ? 'Свернуть витрину'
-                    : lang === 'de'
-                    ? 'Rubriken einklappen'
-                    : 'Collapse Rubrics'
-                  : lang === 'ru'
-                  ? `Витрина по рубрикам (${rondos.length})`
+                {lang === 'ru'
+                  ? `Все 6 рубрик (${rondos.length})`
                   : lang === 'de'
-                  ? `Alle Rubriken zeigen (${rondos.length})`
-                  : `Show Rubric Grid (${rondos.length})`}
+                  ? `Alle 6 Rubriken (${rondos.length})`
+                  : `All 6 Rubrics (${rondos.length})`}
               </span>
             </button>
           )}
+
+          {categoryItems.map((cat) => {
+            const isActive = isActivation
+              ? selectedCategory === cat.id ||
+                (selectedCategory === 'all' &&
+                  selectedRondo.category === cat.id)
+              : selectedRondo.category === cat.id;
+            return (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => onSelectCategory(cat.id)}
+                className={`shrink-0 inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-semibold transition cursor-pointer border ${
+                  isActive
+                    ? `${cat.color} text-white keep-white border-white/20 shadow-sm`
+                    : 'bg-slate-950/80 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white'
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full ${cat.dot}`} />
+                <span>{cat.name}</span>
+              </button>
+            );
+          })}
         </div>
 
-        {/* ACTIVATION RUBRIC SHOWCASE SHELF (Scrollable max-height so the Pitch stays visible) */}
+        {/* Row 2: ACTIVATION RUBRIC SHOWCASE SHELF (Compact 2-Column Chip Grid so the Pitch stays above the fold) */}
         {isActivation && isShowcaseExpanded && (
           <div
             data-testid="activation-rubric-showcase"
-            className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-3 max-h-64 overflow-y-auto space-y-3.5"
+            className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-2 sm:p-3 max-h-32 sm:max-h-56 overflow-y-auto space-y-2 sm:space-y-3"
           >
             {visibleRubrics.map((rubric, rubricIdx) => {
               const drillsInRubric = rondos.filter(
                 (r) => r.category === rubric.id
               );
               if (drillsInRubric.length === 0) return null;
+              const rubricHeading = /^\d+\./.test(rubric.name.trim())
+                ? rubric.name
+                : `${rubricIdx + 1}. ${rubric.name}`;
               return (
-                <div key={rubric.id} className="space-y-2">
+                <div key={rubric.id} className="space-y-1.5">
                   {/* Rubric Section Title */}
                   <div className="flex items-center justify-between gap-2 border-b border-slate-800/70 pb-1">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5 min-w-0">
                       <span
-                        className={`w-2 h-2 rounded-full ${rubric.dot} shrink-0`}
+                        className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${rubric.dot} shrink-0`}
                       />
-                      <h3 className="text-xs font-bold text-slate-200 tracking-tight">
-                        {selectedCategory === 'all'
-                          ? `${rubricIdx + 1}. ${rubric.name}`
-                          : rubric.name}
+                      <h3 className="text-[11px] sm:text-xs font-bold text-slate-200 tracking-tight truncate">
+                        {rubricHeading}
                       </h3>
                     </div>
-                    <span className="text-[11px] text-slate-400 font-medium">
+                    <span className="text-[10px] sm:text-[11px] text-slate-400 font-medium shrink-0">
                       {drillsInRubric.length}{' '}
                       {lang === 'ru'
                         ? 'упр.'
                         : lang === 'de'
-                        ? 'Übungen'
+                        ? 'Üb.'
                         : 'drills'}
                     </span>
                   </div>
 
-                  {/* Compact Cards Grid inside Rubric (No redundant pill badges) */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                  {/* 2-Column Compact Chip Grid on Mobile, 3-Column on Desktop */}
+                  <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-1.5 sm:gap-2">
                     {drillsInRubric.map((drill) => {
                       const isCurrent = drill.id === selectedRondo.id;
                       const shortGrid = drill.dimensionsU15.base.split('(')[0].trim();
@@ -256,31 +231,26 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                           type="button"
                           data-testid={`rubric-card-${drill.id}`}
                           onClick={() => onSelectRondoId(drill.id)}
-                          className={`text-left p-2.5 rounded-xl border transition-all flex flex-col justify-between gap-1.5 cursor-pointer ${
+                          className={`text-left px-2.5 py-1.5 sm:p-2.5 rounded-lg sm:rounded-xl border transition-all flex flex-col justify-between gap-1 cursor-pointer min-w-0 ${
                             isCurrent
-                              ? 'bg-emerald-950/35 border-emerald-500/80 shadow-sm'
+                              ? 'bg-emerald-950/40 border-emerald-500/80 shadow-sm'
                               : 'bg-slate-900/80 border-slate-800/80 hover:border-slate-700 hover:bg-slate-900'
                           }`}
                         >
-                          <div className="space-y-0.5">
-                            <div className="flex items-center justify-between gap-1.5">
-                              <span
-                                className={`text-xs font-bold leading-snug ${
-                                  isCurrent ? 'text-emerald-300' : 'text-white'
-                                }`}
-                              >
-                                {drill.shortTitle || drill.title}
-                              </span>
-                              {isCurrent && (
-                                <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
-                              )}
-                            </div>
-                            <p className="text-[11px] text-slate-400 line-clamp-1 leading-snug">
-                              {drill.title}
-                            </p>
+                          <div className="flex items-center justify-between gap-1.5 min-w-0">
+                            <span
+                              className={`text-[11px] sm:text-xs font-bold truncate ${
+                                isCurrent ? 'text-emerald-300' : 'text-white'
+                              }`}
+                            >
+                              {drill.shortTitle || drill.title}
+                            </span>
+                            {isCurrent && (
+                              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-400 shrink-0" />
+                            )}
                           </div>
 
-                          <div className="text-[10px] text-slate-400 flex items-center justify-between gap-1 pt-1 border-t border-slate-800/60">
+                          <div className="hidden sm:flex text-[10px] text-slate-400 items-center justify-between gap-1 pt-1 border-t border-slate-800/60">
                             <span className="truncate">{shortGrid}</span>
                             <span className="text-emerald-400/90 font-medium shrink-0">
                               {shortPlayers}
@@ -296,10 +266,10 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
           </div>
         )}
 
-        {/* Seamless Quick Stepper Row (Separated by a clean hairline instead of a nested box) */}
+        {/* Row 3: Seamless Quick Stepper Row + Showcase Toggle */}
         <div
           data-testid="quick-rondo-stepper"
-          className="pt-2.5 border-t border-slate-800/70 flex items-center justify-between gap-2"
+          className="pt-1.5 sm:pt-2 border-t border-slate-800/70 flex items-center justify-between gap-1.5 sm:gap-2"
         >
           <button
             type="button"
@@ -317,7 +287,24 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
             <ChevronLeft className="w-4 h-4" />
           </button>
 
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 flex-1">
+          {/* When Activation Showcase is expanded on mobile, show a clean counter instead of repeating the drill pills a second time */}
+          {isActivation && isShowcaseExpanded && (
+            <div className="sm:hidden flex items-center gap-1.5 min-w-0 flex-1 px-1">
+              <span className="text-[11px] font-bold text-emerald-400 shrink-0">
+                {currentRondoIdx + 1}/{orderedRondos.length}
+              </span>
+              <span className="text-slate-600 text-xs">•</span>
+              <span className="text-[11px] text-slate-300 font-semibold truncate">
+                {selectedRondo.shortTitle || selectedRondo.title}
+              </span>
+            </div>
+          )}
+
+          <div
+            className={`${
+              isActivation && isShowcaseExpanded ? 'hidden sm:flex' : 'flex'
+            } items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 flex-1 min-w-0`}
+          >
             {isActivation && (
               <span className="hidden sm:inline-block text-[11px] font-semibold text-slate-400 px-1 shrink-0">
                 {selectedRondo.categoryName}:
@@ -346,7 +333,7 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                   <span
                     className={`${
                       isActivation
-                        ? 'inline truncate max-w-[200px]'
+                        ? 'inline truncate max-w-[160px] sm:max-w-[200px]'
                         : 'hidden xl:inline truncate max-w-[115px]'
                     } text-[11px] ${
                       isSelected ? 'text-slate-950 font-bold' : 'text-slate-300'
@@ -358,6 +345,30 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
               );
             })}
           </div>
+
+          {isActivation && (
+            <button
+              type="button"
+              data-testid="toggle-rubric-showcase-btn"
+              onClick={() => setIsShowcaseExpanded((v) => !v)}
+              className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-950 hover:bg-slate-800 text-emerald-400 border border-slate-800 text-[11px] font-bold transition cursor-pointer"
+            >
+              <Layers className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+              <span>
+                {isShowcaseExpanded
+                  ? lang === 'ru'
+                    ? 'Свернуть'
+                    : lang === 'de'
+                    ? 'Einklappen'
+                    : 'Collapse'
+                  : lang === 'ru'
+                  ? `Сетка (${rondos.length})`
+                  : lang === 'de'
+                  ? `Alle (${rondos.length})`
+                  : `Grid (${rondos.length})`}
+              </span>
+            </button>
+          )}
 
           <button
             type="button"
@@ -378,57 +389,62 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
       </div>
 
       {/* Main Two-Column Workspace: Left Tactical Stage (7 cols) + Right Coaching Brief (5 cols) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-5 items-start">
         {/* LEFT COLUMN (7 cols): Hero Drill Header + Interactive Pitch + Calm Phase Bar */}
         <div className="lg:col-span-7">
-          <div className="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
-            {/* Selected Rondo / Activation Hero Header (Decluttered Subtitle + Clean Action Buttons) */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800/80">
-              <div className="space-y-1 min-w-0">
-                <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 font-medium">
+          <div className="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-3 sm:p-5 shadow-sm space-y-2.5 sm:space-y-4">
+            {/* Selected Rondo / Activation Hero Header (Compact 2-Row Mobile Layout so Pitch is Above the Fold) */}
+            <div className="pb-2 sm:pb-3 border-b border-slate-800/80 space-y-1">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-slate-400 font-medium min-w-0 truncate">
                   {!isActivation && (
-                    <span className="font-mono font-bold text-emerald-400">
+                    <span className="font-mono font-bold text-emerald-400 shrink-0">
                       {t.catalog.numberPrefix}{selectedRondo.number}
                     </span>
                   )}
-                  {!isActivation && <span className="text-slate-600">•</span>}
-                  <span className="text-emerald-300 font-semibold">
+                  {!isActivation && (
+                    <span className="text-slate-600 shrink-0">•</span>
+                  )}
+                  <span className="text-emerald-300 font-semibold truncate">
                     {selectedRondo.categoryName}
                   </span>
-                  <span className="text-slate-600">•</span>
-                  <span>
+                  <span className="hidden sm:inline text-slate-600 shrink-0">
+                    •
+                  </span>
+                  <span className="hidden sm:inline truncate">
                     {activeAgeVariant.formatOverride || selectedRondo.playersCount}
                   </span>
                 </div>
-                <h2 className="text-base sm:text-xl font-extrabold text-white tracking-tight leading-snug">
-                  {selectedRondo.title}
-                </h2>
+
+                <div className="flex items-center gap-1.5 shrink-0">
+                  {onOpenTimerForRondo && (
+                    <button
+                      type="button"
+                      data-testid="launch-rondo-timer-btn"
+                      onClick={onOpenTimerForRondo}
+                      className="inline-flex items-center justify-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 text-[11px] font-semibold transition cursor-pointer"
+                    >
+                      <Timer className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                      <span>{t.nav.timerShort}</span>
+                    </button>
+                  )}
+
+                  {!isActivation && (
+                    <button
+                      type="button"
+                      onClick={onOpenMonthlyPlan}
+                      className="inline-flex items-center justify-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white keep-white text-[11px] font-semibold shadow-sm transition cursor-pointer"
+                    >
+                      <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                      <span>{t.catalog.openMonthlyPlanBtn}</span>
+                    </button>
+                  )}
+                </div>
               </div>
 
-              <div className="flex items-center gap-2 shrink-0">
-                {onOpenTimerForRondo && (
-                  <button
-                    type="button"
-                    data-testid="launch-rondo-timer-btn"
-                    onClick={onOpenTimerForRondo}
-                    className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 text-xs font-semibold transition cursor-pointer"
-                  >
-                    <Timer className="w-3.5 h-3.5" />
-                    <span>{t.nav.timerShort}</span>
-                  </button>
-                )}
-
-                {!isActivation && (
-                  <button
-                    type="button"
-                    onClick={onOpenMonthlyPlan}
-                    className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white keep-white text-xs font-semibold shadow-sm transition cursor-pointer"
-                  >
-                    <Calendar className="w-3.5 h-3.5" />
-                    <span>{t.catalog.openMonthlyPlanBtn}</span>
-                  </button>
-                )}
-              </div>
+              <h2 className="text-sm sm:text-xl font-extrabold text-white tracking-tight leading-snug">
+                {selectedRondo.title}
+              </h2>
             </div>
 
             {/* Interactive SVG Tactical Board */}
@@ -442,30 +458,30 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
             />
 
             {/* Step-by-Step Phase Animation Controls + Lightweight Layer Filter Chips */}
-            <div className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-3.5 space-y-3">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+            <div className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-2.5 sm:p-3.5 space-y-2.5 sm:space-y-3">
+              <div className="flex items-center justify-between gap-2">
+                <span className="hidden sm:inline text-xs font-bold uppercase tracking-wider text-slate-400">
                   {t.catalog.stepByStepTitle}
                 </span>
 
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center justify-between sm:justify-end gap-1.5 w-full sm:w-auto">
                   <button
                     type="button"
                     onClick={handlePrevPhase}
                     title={t.catalog.prevPhase}
                     aria-label={t.catalog.prevPhase}
-                    className="p-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700/80 transition cursor-pointer"
+                    className="p-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700/80 transition cursor-pointer shrink-0"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
 
-                  <div className="flex flex-wrap items-center gap-1">
+                  <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
                     {phases.map((_, idx) => (
                       <button
                         key={idx}
                         type="button"
                         onClick={() => onPhaseChange(idx)}
-                        className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+                        className={`px-2.5 py-1 rounded-lg text-[11px] sm:text-xs font-bold transition cursor-pointer shrink-0 ${
                           safePhaseIndex === idx
                             ? 'bg-emerald-500 text-slate-950 shadow-sm'
                             : 'bg-slate-800/90 text-slate-300 hover:bg-slate-700'
@@ -481,7 +497,7 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                     onClick={handleNextPhase}
                     title={t.catalog.nextPhase}
                     aria-label={t.catalog.nextPhase}
-                    className="p-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700/80 transition cursor-pointer"
+                    className="p-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700/80 transition cursor-pointer shrink-0"
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -489,7 +505,7 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
               </div>
 
               {/* Phase Caption with Left Accent Bar (No Double Box) */}
-              <div className="border-l-2 border-emerald-500 pl-3 py-0.5">
+              <div className="border-l-2 border-emerald-500 pl-2.5 sm:pl-3 py-0.5">
                 <div className="text-xs sm:text-sm font-bold text-emerald-400 mb-0.5">
                   {currentPhase.title}
                 </div>
@@ -499,15 +515,15 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
               </div>
 
               {/* Lightweight Layer Filter Chips */}
-              <div className="pt-2.5 border-t border-slate-800/60 flex flex-wrap items-center gap-1.5">
-                <span className="text-xs text-slate-400 font-medium mr-1">
+              <div className="pt-2 border-t border-slate-800/60 flex items-center overflow-x-auto sm:flex-wrap gap-1.5 no-scrollbar">
+                <span className="hidden sm:inline text-xs text-slate-400 font-medium mr-1">
                   {t.catalog.boardLayersLabel}
                 </span>
 
                 <button
                   type="button"
                   onClick={onTogglePasses}
-                  className={`px-3 py-1 rounded-full text-xs font-medium border transition cursor-pointer ${
+                  className={`shrink-0 px-2.5 py-1 rounded-full text-[11px] sm:text-xs font-medium border transition cursor-pointer ${
                     showPasses
                       ? 'bg-amber-500/10 text-amber-300 border-amber-500/30'
                       : 'bg-slate-900 text-slate-400 border-slate-800'
@@ -519,7 +535,7 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                 <button
                   type="button"
                   onClick={onToggleMovements}
-                  className={`px-3 py-1 rounded-full text-xs font-medium border transition cursor-pointer ${
+                  className={`shrink-0 px-2.5 py-1 rounded-full text-[11px] sm:text-xs font-medium border transition cursor-pointer ${
                     showMovements
                       ? 'bg-blue-500/10 text-blue-300 border-blue-500/30'
                       : 'bg-slate-900 text-slate-400 border-slate-800'
@@ -533,7 +549,7 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
                 <button
                   type="button"
                   onClick={onToggleShadows}
-                  className={`px-3 py-1 rounded-full text-xs font-medium border transition cursor-pointer ${
+                  className={`shrink-0 px-2.5 py-1 rounded-full text-[11px] sm:text-xs font-medium border transition cursor-pointer ${
                     showShadows
                       ? 'bg-rose-500/10 text-rose-300 border-rose-500/30'
                       : 'bg-slate-900 text-slate-400 border-slate-800'
@@ -546,24 +562,24 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
           </div>
         </div>
 
-        {/* RIGHT COLUMN (5 cols): Calm Metrics Strip + Unified 4-Tab Coaching Brief */}
-        <div className="lg:col-span-5 space-y-4">
-          {/* Top Key Metrics Strip: Age-Adapted Pitch Size & Dosage (Without extra corner pill clutter) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-3.5 shadow-sm">
-              <div className="flex items-center justify-between gap-1.5 text-xs text-slate-400 font-medium mb-1">
-                <span className="flex items-center gap-1.5">
-                  <Maximize2 className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>{t.catalog.pitchSizeLabel}</span>
+        {/* RIGHT COLUMN (5 cols): Side-by-Side Metrics Strip + Unified 4-Tab Coaching Brief */}
+        <div className="lg:col-span-5 space-y-3.5 sm:space-y-4">
+          {/* Top Key Metrics Strip: Side-by-Side 2-Column Grid on Mobile & Desktop */}
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+            <div className="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-2.5 sm:p-3.5 shadow-sm min-w-0">
+              <div className="flex items-center justify-between gap-1 text-[11px] sm:text-xs text-slate-400 font-medium mb-1">
+                <span className="flex items-center gap-1 truncate">
+                  <Maximize2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-400 shrink-0" />
+                  <span className="truncate">{t.catalog.pitchSizeLabel}</span>
                 </span>
-                <span className="text-[11px] text-emerald-400 font-semibold">
+                <span className="text-[10px] sm:text-[11px] text-emerald-400 font-semibold shrink-0">
                   {currentAgeBandInfo.shortLabel}
                 </span>
               </div>
-              <div className="text-sm font-extrabold text-white">
+              <div className="text-xs sm:text-sm font-extrabold text-white truncate">
                 {activeAgeVariant.baseGrid}
               </div>
-              <div className="text-[11px] text-slate-400 mt-0.5">
+              <div className="text-[10px] sm:text-[11px] text-slate-400 mt-0.5 truncate">
                 {t.catalog.intensivePrefix}{' '}
                 <span className="text-emerald-300 font-medium">
                   {activeAgeVariant.intensiveGrid}
@@ -571,20 +587,20 @@ export const CatalogView: React.FC<CatalogViewProps> = ({
               </div>
             </div>
 
-            <div className="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-3.5 shadow-sm">
-              <div className="flex items-center justify-between gap-1.5 text-xs text-slate-400 font-medium mb-1">
-                <span className="flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-amber-400" />
-                  <span>{t.catalog.dosageLabel}</span>
+            <div className="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-2.5 sm:p-3.5 shadow-sm min-w-0">
+              <div className="flex items-center justify-between gap-1 text-[11px] sm:text-xs text-slate-400 font-medium mb-1">
+                <span className="flex items-center gap-1 truncate">
+                  <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400 shrink-0" />
+                  <span className="truncate">{t.catalog.dosageLabel}</span>
                 </span>
-                <span className="text-[11px] text-amber-300 font-semibold">
+                <span className="text-[10px] sm:text-[11px] text-amber-300 font-semibold shrink-0 truncate max-w-[75px] sm:max-w-none">
                   {activeAgeVariant.touchesRule}
                 </span>
               </div>
-              <div className="text-sm font-extrabold text-white">
+              <div className="text-xs sm:text-sm font-extrabold text-white truncate">
                 {activeAgeVariant.timing}
               </div>
-              <div className="text-[11px] text-slate-400 mt-0.5">
+              <div className="text-[10px] sm:text-[11px] text-slate-400 mt-0.5 truncate">
                 {t.catalog.formatPrefix}{' '}
                 {activeAgeVariant.formatOverride || selectedRondo.format}
               </div>

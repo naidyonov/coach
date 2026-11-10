@@ -551,7 +551,9 @@ export function App() {
                   {idx > 0 && (
                     <span
                       aria-hidden="true"
-                      className="text-slate-600 text-xs select-none shrink-0"
+                      className={`${
+                        mod.active ? 'inline' : 'hidden sm:inline'
+                      } text-slate-600 text-xs select-none shrink-0`}
                     >
                       →
                     </span>
@@ -581,7 +583,9 @@ export function App() {
                       }
                     }}
                     title={mod.subtitle}
-                    className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition border ${
+                    className={`shrink-0 items-center gap-1.5 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[11px] sm:text-xs font-semibold transition border ${
+                      mod.active ? 'inline-flex' : 'hidden sm:inline-flex'
+                    } ${
                       isCurrent
                         ? 'bg-emerald-500 text-slate-950 border-emerald-400 font-bold shadow-sm cursor-pointer'
                         : mod.active
@@ -610,7 +614,7 @@ export function App() {
       </header>
 
       {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto px-3 sm:px-6 py-3.5 sm:py-5">
+      <main className="max-w-7xl mx-auto px-2.5 sm:px-6 py-2.5 sm:py-5">
         {activeTab === 'catalog' && (
           <CatalogView
             selectedCategory={selectedCategory}

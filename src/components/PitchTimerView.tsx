@@ -226,13 +226,13 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
 
         {/* Main Countdown Display (Front and Center for On-Pitch Glanceability) */}
         <div
-          className={`rounded-2xl p-6 sm:p-8 text-center border transition-all ${
+          className={`rounded-2xl p-4 sm:p-8 text-center border transition-all ${
             isWorkPhase
               ? 'bg-emerald-950/25 border-emerald-500/40'
               : 'bg-amber-950/25 border-amber-500/40'
           }`}
         >
-          <div className="text-xs font-bold uppercase tracking-widest mb-2 flex items-center justify-center gap-2">
+          <div className="text-xs font-bold uppercase tracking-widest mb-1.5 sm:mb-2 flex items-center justify-center gap-2">
             <Timer className="w-4 h-4 text-slate-400" />
             <span className="text-slate-300">
               {t.timer.setLabel} {currentSet} {t.timer.ofLabel} {totalSets}
@@ -243,11 +243,11 @@ export const PitchTimerView: React.FC<PitchTimerViewProps> = ({ selectedRondo })
             </span>
           </div>
 
-          <div className="text-6xl sm:text-7xl font-mono font-black text-white tracking-tight my-3">
+          <div className="text-5xl sm:text-7xl font-mono font-black text-white tracking-tight my-2 sm:my-3">
             {formatTime(timeLeft)}
           </div>
 
-          <div className="flex items-center justify-center gap-3 mt-5">
+          <div className="flex items-center justify-center gap-3 mt-3.5 sm:mt-5">
             <button
               type="button"
               onClick={() => {

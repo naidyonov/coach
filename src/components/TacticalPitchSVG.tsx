@@ -109,10 +109,13 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
       onTouchEnd={handleTouchEnd}
     >
       {/* Unified Single-Row Top Bar: Grid Dimension + Playback Controls + Fullscreen */}
-      <div className="bg-slate-900/95 px-3 sm:px-4 py-2 border-b border-slate-800/80 text-xs flex flex-wrap items-center justify-between gap-2">
-        <div className="flex items-center gap-2 min-w-0">
+      <div className="bg-slate-900/95 px-2.5 sm:px-4 py-1.5 sm:py-2 border-b border-slate-800/80 text-xs flex items-center justify-between gap-1.5">
+        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
           <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
-          <span className="font-semibold text-emerald-300 tracking-wide truncate">
+          <span className="sm:hidden font-semibold text-emerald-300 tracking-wide truncate text-[11px]">
+            {rondo.dimensionsU15.base.split('(')[0].trim()}
+          </span>
+          <span className="hidden sm:inline font-semibold text-emerald-300 tracking-wide truncate">
             {scene.gridLabel}
           </span>
           {hasCustomPositions && !compactHeader && (
@@ -127,7 +130,7 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
               className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-[11px] font-medium transition cursor-pointer shrink-0 print:hidden"
             >
               <RotateCcw className="w-3 h-3" />
-              <span>
+              <span className="hidden sm:inline">
                 {lang === 'ru'
                   ? 'Сбросить расстановку'
                   : lang === 'de'
@@ -139,7 +142,7 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
         </div>
 
         {!compactHeader && (
-          <div className="flex flex-wrap items-center gap-1.5 print:hidden">
+          <div className="flex items-center gap-1 sm:gap-1.5 shrink-0 print:hidden">
             {/* Auto-Play / Pause Button */}
             <button
               type="button"
@@ -147,7 +150,7 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
                 inModal ? 'pitch-autoplay-btn-modal' : 'pitch-autoplay-btn'
               }
               onClick={() => setIsPlaying((prev) => !prev)}
-              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold transition cursor-pointer border ${
+              className={`inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 rounded-lg text-[11px] sm:text-xs font-semibold transition cursor-pointer border ${
                 isPlaying
                   ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-sm'
                   : 'bg-slate-800/90 hover:bg-slate-700 text-emerald-300 border-slate-700/80'
@@ -155,12 +158,12 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
             >
               {isPlaying ? (
                 <>
-                  <Pause className="w-3.5 h-3.5 fill-current" />
+                  <Pause className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current" />
                   <span>{lang === 'ru' ? 'Пауза' : 'Pause'}</span>
                 </>
               ) : (
                 <>
-                  <Play className="w-3.5 h-3.5 fill-current" />
+                  <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current" />
                   <span>
                     {lang === 'ru'
                       ? 'Авто-показ'
@@ -182,7 +185,7 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
                     : 'pitch-replay-pass-btn'
                 }
                 onClick={handleReplayPass}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700/80 transition cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700/80 transition cursor-pointer"
                 title={
                   lang === 'ru'
                     ? 'Повторить траекторию паса в текущей фазе'
@@ -206,8 +209,12 @@ export const TacticalPitchSVG: React.FC<TacticalPitchSVGProps> = ({
               </button>
             )}
 
-            {/* Speed Selector Pill */}
-            <div className="inline-flex items-center rounded-lg bg-slate-950/80 p-0.5 border border-slate-800">
+            {/* Speed Selector Pill (visible on sm+ or inside Fullscreen Modal) */}
+            <div
+              className={`${
+                inModal ? 'inline-flex' : 'hidden sm:inline-flex'
+              } items-center rounded-lg bg-slate-950/80 p-0.5 border border-slate-800`}
+            >
               {([0.75, 1, 1.5] as const).map((spd) => (
                 <button
                   key={spd}
