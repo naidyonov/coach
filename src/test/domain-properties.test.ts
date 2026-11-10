@@ -124,7 +124,7 @@ describe('Domain Logic Property-Based Tests (fast-check)', () => {
       );
     });
 
-    it('correctly computes Activation squad setups for act-1..10 without zero-capacity stations', () => {
+    it('correctly computes Activation squad setups for act-1..16 without zero-capacity stations', () => {
       const actIds = [
         'act-1',
         'act-2',
@@ -136,6 +136,12 @@ describe('Domain Logic Property-Based Tests (fast-check)', () => {
         'act-8',
         'act-9',
         'act-10',
+        'act-11',
+        'act-12',
+        'act-13',
+        'act-14',
+        'act-15',
+        'act-16',
       ];
       fc.assert(
         fc.property(

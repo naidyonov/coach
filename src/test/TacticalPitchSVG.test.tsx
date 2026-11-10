@@ -239,7 +239,7 @@ describe('TacticalPitchSVG — Interactive Whiteboard, Fullscreen, Gestures & An
     expect(screen.getByTestId('pitch-zone-grid-quadrant-hline')).toBeInTheDocument();
     unmountAct5();
 
-    render(
+    const { unmount: unmountAct7 } = render(
       <LanguageProvider>
         <TacticalPitchSVG
           rondo={ACTIVATIONS_EN[6]}
@@ -252,5 +252,54 @@ describe('TacticalPitchSVG — Interactive Whiteboard, Fullscreen, Gestures & An
       </LanguageProvider>
     );
     expect(screen.getByTestId('pitch-zone-grid-main-diamond')).toBeInTheDocument();
+    unmountAct7();
+
+    // 4. Render act-10 (SFV 3 Defensive Lines), act-11 (SFV 3 Internal Dribbelzonen), and act-15 (SFV 3x3 9-Felder Grid)
+    const { unmount: unmountAct10 } = render(
+      <LanguageProvider>
+        <TacticalPitchSVG
+          rondo={ACTIVATIONS_EN[9]}
+          phaseIndex={0}
+          onPhaseChange={() => {}}
+          showPasses={true}
+          showMovements={true}
+          showShadows={true}
+        />
+      </LanguageProvider>
+    );
+    expect(screen.getByTestId('pitch-zone-grid-def-line-1')).toBeInTheDocument();
+    expect(screen.getByTestId('pitch-zone-grid-def-line-3')).toBeInTheDocument();
+    unmountAct10();
+
+    const { unmount: unmountAct11 } = render(
+      <LanguageProvider>
+        <TacticalPitchSVG
+          rondo={ACTIVATIONS_EN[10]}
+          phaseIndex={0}
+          onPhaseChange={() => {}}
+          showPasses={true}
+          showMovements={true}
+          showShadows={true}
+        />
+      </LanguageProvider>
+    );
+    expect(screen.getByTestId('pitch-zone-grid-dribbelzone-1')).toBeInTheDocument();
+    expect(screen.getByTestId('pitch-zone-grid-dribbelzone-3')).toBeInTheDocument();
+    unmountAct11();
+
+    render(
+      <LanguageProvider>
+        <TacticalPitchSVG
+          rondo={ACTIVATIONS_EN[14]}
+          phaseIndex={0}
+          onPhaseChange={() => {}}
+          showPasses={true}
+          showMovements={true}
+          showShadows={true}
+        />
+      </LanguageProvider>
+    );
+    expect(screen.getByTestId('pitch-zone-grid-9zone-v1')).toBeInTheDocument();
+    expect(screen.getByTestId('pitch-zone-grid-9zone-h2')).toBeInTheDocument();
   });
 });

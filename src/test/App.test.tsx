@@ -276,7 +276,7 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
       screen.getAllByText(/Coerver & Funino 4-Minigoal Team Arena/i).length
     ).toBeGreaterThan(0);
 
-    // Filter by independent Activation categories
+    // Filter by independent SFV Activation categories
     const firstTouchCategoryBtn = screen.getByRole('button', {
       name: /First Touch & Directional Reception/i,
     });
@@ -285,12 +285,12 @@ describe('U15 Rondo Tactical Playbook & Monthly Curriculum App', () => {
       screen.getAllByText(/SFV "Zentrum-Stern" Team Circuit: 6-to-6 Directional Reception/i).length
     ).toBeGreaterThan(0);
 
-    const biomotorCategoryBtn = screen.getByRole('button', {
-      name: /Body Strength, Balance & Explosivity/i,
+    const defendingCategoryBtn = screen.getByRole('button', {
+      name: /1v1 Defending & Closing Passing Lanes/i,
     });
-    fireEvent.click(biomotorCategoryBtn);
+    fireEvent.click(defendingCategoryBtn);
     expect(
-      screen.getAllByText(/SFV "Mutig & Stark" \+ FIFA 11\+ Team Duel Arena/i).length
+      screen.getAllByText(/SFV 11_d "5m-Tore durchdribbeln & Bälle jagen": 1v1 Defending/i).length
     ).toBeGreaterThan(0);
 
     // Navigate to Methodology inside Activation module and toggle all 4 Biomechanics & Touch SVG diagrams

@@ -256,10 +256,61 @@ export const deriveGridZonesFromCones = (
       );
     }
 
+    // SFV 9-Felder-Einstieg (3x3 Grid = 9 sub-squares, 16 cones)
+    if (cones.length === 16) {
+      const v1 = Math.round(x + width / 3);
+      const v2 = Math.round(x + (2 * width) / 3);
+      const h1 = Math.round(y + height / 3);
+      const h2 = Math.round(y + (2 * height) / 3);
+      const lineStyle = {
+        shape: 'line' as const,
+        stroke: 'rgba(251, 191, 36, 0.82)',
+        strokeWidth: 2,
+        strokeDasharray: '6 5',
+      };
+      zones.push(
+        { id: 'grid-9zone-v1', ...lineStyle, x1: v1, y1: y, x2: v1, y2: y + height },
+        { id: 'grid-9zone-v2', ...lineStyle, x1: v2, y1: y, x2: v2, y2: y + height },
+        { id: 'grid-9zone-h1', ...lineStyle, x1: x, y1: h1, x2: x + width, y2: h1 },
+        { id: 'grid-9zone-h2', ...lineStyle, x1: x, y1: h2, x2: x + width, y2: h2 }
+      );
+    }
+
     return zones;
   }
 
   if (template === 'double_zone' && cones.length >= 6) {
+    // 10-cone SFV 3-Line Overload setup (cones[0..3] outer corners, cones[4..9] 3 defensive lines)
+    if (cones.length === 10) {
+      const x = cones[0].x;
+      const y = cones[0].y;
+      const width = cones[1].x - cones[0].x;
+      const height = cones[2].y - cones[0].y;
+      const lineStyle = {
+        shape: 'line' as const,
+        stroke: 'rgba(251, 191, 36, 0.85)',
+        strokeWidth: 2.2,
+        strokeDasharray: '7 5',
+      };
+      return [
+        {
+          id: 'grid-double-outer',
+          shape: 'rect',
+          x,
+          y,
+          width,
+          height,
+          rx: 4,
+          fill: 'rgba(16, 185, 129, 0.05)',
+          stroke: 'rgba(255, 255, 255, 0.8)',
+          strokeWidth: 2.5,
+        },
+        { id: 'grid-def-line-1', ...lineStyle, x1: cones[4].x, y1: cones[4].y, x2: cones[5].x, y2: cones[5].y },
+        { id: 'grid-def-line-2', ...lineStyle, x1: cones[6].x, y1: cones[6].y, x2: cones[7].x, y2: cones[7].y },
+        { id: 'grid-def-line-3', ...lineStyle, x1: cones[8].x, y1: cones[8].y, x2: cones[9].x, y2: cones[9].y },
+      ];
+    }
+
     const x = cones[0].x;
     const y = cones[0].y;
     const midX = cones[1].x;
@@ -298,6 +349,46 @@ export const deriveGridZonesFromCones = (
     const oy = cones[0].y;
     const ow = cones[1].x - cones[0].x;
     const oh = cones[2].y - cones[0].y;
+
+    // 16-cone SFV Dribbelzonen setup: cones[0..3] outer square + 3 internal 4-cone squares
+    if (cones.length === 16) {
+      const zones: TacticalZone[] = [
+        {
+          id: 'grid-concentric-outer',
+          shape: 'rect',
+          x: ox,
+          y: oy,
+          width: ow,
+          height: oh,
+          rx: 4,
+          fill: 'rgba(16, 185, 129, 0.04)',
+          stroke: 'rgba(255, 255, 255, 0.75)',
+          strokeWidth: 2.5,
+          strokeDasharray: '8 6',
+        },
+      ];
+      for (let z = 0; z < 3; z++) {
+        const baseIdx = 4 + z * 4;
+        const zx = cones[baseIdx].x;
+        const zy = cones[baseIdx].y;
+        const zw = cones[baseIdx + 1].x - zx;
+        const zh = cones[baseIdx + 2].y - zy;
+        zones.push({
+          id: `grid-dribbelzone-${z + 1}`,
+          shape: 'rect',
+          x: zx,
+          y: zy,
+          width: zw,
+          height: zh,
+          rx: 3,
+          fill: 'rgba(245, 158, 11, 0.14)',
+          stroke: 'rgba(251, 191, 36, 0.9)',
+          strokeWidth: 2,
+          strokeDasharray: '5 4',
+        });
+      }
+      return zones;
+    }
 
     const ix = cones[4].x;
     const iy = cones[4].y;

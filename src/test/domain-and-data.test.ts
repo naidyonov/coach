@@ -118,10 +118,10 @@ describe('Domain & Data Integrity — EN / DE / RU Parity & Canonical Geometry',
     }
   });
 
-  it('enforces 100% canonical geometry & trilingual parity across EN, DE, and RU for all 10 Activation drills', () => {
-    expect(ACTIVATIONS_EN).toHaveLength(10);
-    expect(ACTIVATIONS_DE).toHaveLength(10);
-    expect(ACTIVATIONS_RU).toHaveLength(10);
+  it('enforces 100% canonical geometry & trilingual parity across EN, DE, and RU for all 16 Activation drills', () => {
+    expect(ACTIVATIONS_EN).toHaveLength(16);
+    expect(ACTIVATIONS_DE).toHaveLength(16);
+    expect(ACTIVATIONS_RU).toHaveLength(16);
 
     expect(ACTIVATION_CATEGORIES_EN.map((c) => c.id)).toEqual(
       ACTIVATION_CATEGORIES_DE.map((c) => c.id)
@@ -130,7 +130,7 @@ describe('Domain & Data Integrity — EN / DE / RU Parity & Canonical Geometry',
       ACTIVATION_CATEGORIES_RU.map((c) => c.id)
     );
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 16; i++) {
       const enGeom = extractCanonicalGeometry(ACTIVATIONS_EN[i]);
       const deGeom = extractCanonicalGeometry(ACTIVATIONS_DE[i]);
       const ruGeom = extractCanonicalGeometry(ACTIVATIONS_RU[i]);

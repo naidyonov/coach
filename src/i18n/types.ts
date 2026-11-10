@@ -9,6 +9,8 @@ export type ActivationCategoryId =
   | 'first_touch'
   | 'dribbling_space'
   | 'passing_scanning'
+  | 'finishing'
+  | 'defending'
   | 'biomotor_duels';
 
 export type CategoryId = 'all' | RondoCategoryId | ActivationCategoryId;

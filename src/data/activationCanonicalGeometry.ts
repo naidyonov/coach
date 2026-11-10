@@ -933,10 +933,543 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
   },
 
   // ==========================================================================
-  // act-9 (5.1): SFV "Mutig & Stark" + FIFA 11+ Team Duel Arena (4 Mini-Goals)
-  // 8 players (4 simultaneous pairs, 1 ball per pair) + 4 Perimeter Mini-Goals
+  // act-9 (6.1): SFV 11_d "5m-Tore durchdribbeln & Bälle jagen" (1v1 Defensiv)
+  // 4 internal 5m gates + 4 outer Mini-Goals + 9-10 players
   // ==========================================================================
   'act-9': {
+    type: 'single_square',
+    cones: [
+      { x: 75, y: 55 },
+      { x: 425, y: 55 },
+      { x: 75, y: 345 },
+      { x: 425, y: 345 },
+    ],
+    goals: [
+      { id: 'act9-g1', x: 250, y: 42, size: 'mini', facing: 'bottom', label: 'M1' },
+      { id: 'act9-g2', x: 250, y: 358, size: 'mini', facing: 'top', label: 'M2' },
+      { id: 'act9-g3', x: 62, y: 200, size: 'mini', facing: 'right', label: 'M3' },
+      { id: 'act9-g4', x: 438, y: 200, size: 'mini', facing: 'left', label: 'M4' },
+    ],
+    gates: [
+      { id: 'act9-gt1', p1: { x: 155, y: 115 }, p2: { x: 195, y: 115 }, color: 'amber', label: '5m-1' },
+      { id: 'act9-gt2', p1: { x: 305, y: 115 }, p2: { x: 345, y: 115 }, color: 'cyan', label: '5m-2' },
+      { id: 'act9-gt3', p1: { x: 155, y: 285 }, p2: { x: 195, y: 285 }, color: 'rose', label: '5m-3' },
+      { id: 'act9-gt4', p1: { x: 305, y: 285 }, p2: { x: 345, y: 285 }, color: 'emerald', label: '5m-4' },
+    ],
+    phases: [
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 175, y: 165 },
+          { id: 'D1', role: 'def', label: 'D1', x: 175, y: 115 },
+          { id: 'A2', role: 'att', label: 'A2', x: 325, y: 165 },
+          { id: 'D2', role: 'def', label: 'D2', x: 325, y: 115 },
+          { id: 'A3', role: 'att', label: 'A3', x: 175, y: 235 },
+          { id: 'D3', role: 'def', label: 'D3', x: 175, y: 285 },
+          { id: 'A4', role: 'att', label: 'A4', x: 325, y: 235 },
+          { id: 'D4', role: 'def', label: 'D4', x: 325, y: 285 },
+        ],
+        ball: { x: 175, y: 150 },
+        balls: [
+          { x: 325, y: 150 },
+          { x: 175, y: 250 },
+          { x: 325, y: 250 },
+        ],
+        passes: [],
+        movements: [
+          { from: { x: 175, y: 165 }, to: { x: 175, y: 128 }, role: 'att' },
+          { from: { x: 175, y: 115 }, to: { x: 215, y: 115 }, role: 'def' },
+          { from: { x: 325, y: 165 }, to: { x: 325, y: 128 }, role: 'att' },
+          { from: { x: 325, y: 235 }, to: { x: 325, y: 272 }, role: 'att' },
+        ],
+        shadows: [],
+      },
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 130, y: 125 },
+          { id: 'A2', role: 'att', label: 'A2', x: 365, y: 125 },
+          { id: 'A3', role: 'att', label: 'A3', x: 130, y: 275 },
+          { id: 'A4', role: 'att', label: 'A4', x: 365, y: 275 },
+          { id: 'A5', role: 'att', label: 'A5', x: 250, y: 140 },
+          { id: 'A6', role: 'att', label: 'A6', x: 250, y: 260 },
+          { id: 'D1', role: 'def', label: 'J1', x: 175, y: 155 },
+          { id: 'D2', role: 'def', label: 'J2', x: 315, y: 155 },
+          { id: 'D3', role: 'def', label: 'J3', x: 205, y: 245 },
+        ],
+        ball: { x: 144, y: 125 },
+        balls: [
+          { x: 350, y: 125 },
+          { x: 144, y: 275 },
+          { x: 350, y: 275 },
+          { x: 250, y: 125 },
+          { x: 250, y: 275 },
+        ],
+        passes: [],
+        movements: [
+          { from: { x: 175, y: 155 }, to: { x: 142, y: 132 }, role: 'def' },
+          { from: { x: 315, y: 155 }, to: { x: 352, y: 132 }, role: 'def' },
+          { from: { x: 205, y: 245 }, to: { x: 142, y: 268 }, role: 'def' },
+          { from: { x: 250, y: 140 }, to: { x: 215, y: 105 }, role: 'att' },
+        ],
+        shadows: [
+          { points: '110,100 190,100 190,165 110,165', variant: 'danger' },
+          { points: '305,100 385,100 385,165 305,165', variant: 'danger' },
+        ],
+      },
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 145, y: 135 },
+          { id: 'A2', role: 'att', label: 'A2', x: 375, y: 195 },
+          { id: 'A3', role: 'att', label: 'A3', x: 135, y: 265 },
+          { id: 'A4', role: 'att', label: 'A4', x: 335, y: 285 },
+          { id: 'A5', role: 'att', label: 'A5', x: 250, y: 195 },
+          { id: 'D1', role: 'def', label: 'J1', x: 190, y: 105 },
+          { id: 'D2', role: 'def', label: 'J2', x: 340, y: 185 },
+          { id: 'D3', role: 'def', label: 'J3', x: 215, y: 295 },
+        ],
+        ball: { x: 196, y: 92 },
+        balls: [
+          { x: 388, y: 198 },
+          { x: 222, y: 308 },
+        ],
+        passes: [
+          { from: { x: 198, y: 90 }, to: { x: 244, y: 48 }, primary: true },
+          { from: { x: 390, y: 198 }, to: { x: 430, y: 200 }, primary: false },
+          { from: { x: 224, y: 310 }, to: { x: 246, y: 352 }, primary: false },
+        ],
+        movements: [
+          { from: { x: 190, y: 105 }, to: { x: 225, y: 68 }, role: 'def' },
+          { from: { x: 340, y: 185 }, to: { x: 372, y: 194 }, role: 'def' },
+          { from: { x: 215, y: 295 }, to: { x: 238, y: 335 }, role: 'def' },
+        ],
+        shadows: [],
+      },
+    ],
+  },
+
+  // ==========================================================================
+  // act-10 (5.2): SFV 10_d "Linien zusammen überspielen & Zu zweit Tore erzielen"
+  // 10 cones = 3 vertical defensive lines + 2 far Mini-Goals + 9 players (3 pairs vs 3 line defenders)
+  // ==========================================================================
+  'act-10': {
+    type: 'double_zone',
+    cones: [
+      { x: 70, y: 55 },
+      { x: 430, y: 55 },
+      { x: 70, y: 345 },
+      { x: 430, y: 345 },
+      { x: 165, y: 55 },
+      { x: 165, y: 345 },
+      { x: 250, y: 55 },
+      { x: 250, y: 345 },
+      { x: 335, y: 55 },
+      { x: 335, y: 345 },
+    ],
+    goals: [
+      { id: 'act10-g1', x: 444, y: 125, size: 'mini', facing: 'left', label: 'M1' },
+      { id: 'act10-g2', x: 444, y: 275, size: 'mini', facing: 'left', label: 'M2' },
+    ],
+    phases: [
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 120, y: 115 },
+          { id: 'A2', role: 'att', label: 'A2', x: 205, y: 95 },
+          { id: 'A3', role: 'att', label: 'B1', x: 120, y: 265 },
+          { id: 'A4', role: 'att', label: 'B2', x: 205, y: 295 },
+          { id: 'A5', role: 'att', label: 'C1', x: 82, y: 185 },
+          { id: 'A6', role: 'att', label: 'C2', x: 82, y: 215 },
+          { id: 'D1', role: 'def', label: 'D1', x: 165, y: 175 },
+          { id: 'D2', role: 'def', label: 'D2', x: 250, y: 200 },
+          { id: 'D3', role: 'def', label: 'D3', x: 335, y: 200 },
+        ],
+        ball: { x: 134, y: 112 },
+        balls: [
+          { x: 134, y: 268 },
+          { x: 95, y: 185 },
+        ],
+        passes: [
+          { from: { x: 136, y: 112 }, to: { x: 192, y: 98 }, primary: true },
+          { from: { x: 136, y: 268 }, to: { x: 192, y: 292 }, primary: false },
+        ],
+        movements: [
+          { from: { x: 120, y: 115 }, to: { x: 152, y: 135 }, role: 'att' },
+          { from: { x: 165, y: 175 }, to: { x: 165, y: 135 }, role: 'def' },
+          { from: { x: 205, y: 95 }, to: { x: 235, y: 115 }, role: 'att' },
+        ],
+        shadows: [],
+      },
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 210, y: 115 },
+          { id: 'A2', role: 'att', label: 'A2', x: 295, y: 95 },
+          { id: 'A3', role: 'att', label: 'B1', x: 210, y: 265 },
+          { id: 'A4', role: 'att', label: 'B2', x: 295, y: 295 },
+          { id: 'A5', role: 'att', label: 'C1', x: 120, y: 185 },
+          { id: 'A6', role: 'att', label: 'C2', x: 120, y: 225 },
+          { id: 'D1', role: 'def', label: 'D1', x: 165, y: 205 },
+          { id: 'D2', role: 'def', label: 'D2', x: 250, y: 165 },
+          { id: 'D3', role: 'def', label: 'D3', x: 335, y: 215 },
+        ],
+        ball: { x: 224, y: 112 },
+        balls: [
+          { x: 224, y: 268 },
+          { x: 134, y: 185 },
+        ],
+        passes: [
+          { from: { x: 226, y: 112 }, to: { x: 282, y: 98 }, primary: true },
+        ],
+        movements: [
+          { from: { x: 250, y: 165 }, to: { x: 250, y: 125 }, role: 'def' },
+          { from: { x: 210, y: 265 }, to: { x: 280, y: 255 }, role: 'att' },
+          { from: { x: 295, y: 95 }, to: { x: 325, y: 115 }, role: 'att' },
+        ],
+        shadows: [
+          { points: '250,125 295,95 295,155', variant: 'solution' },
+        ],
+      },
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 365, y: 115 },
+          { id: 'A2', role: 'att', label: 'A2', x: 310, y: 155 },
+          { id: 'A3', role: 'att', label: 'B1', x: 365, y: 285 },
+          { id: 'A4', role: 'att', label: 'B2', x: 310, y: 245 },
+          { id: 'A5', role: 'att', label: 'C1', x: 205, y: 185 },
+          { id: 'A6', role: 'att', label: 'C2', x: 205, y: 225 },
+          { id: 'D1', role: 'def', label: 'D1', x: 165, y: 205 },
+          { id: 'D2', role: 'def', label: 'D2', x: 250, y: 205 },
+          { id: 'D3', role: 'def', label: 'D3', x: 335, y: 175 },
+        ],
+        ball: { x: 378, y: 117 },
+        balls: [
+          { x: 378, y: 283 },
+          { x: 218, y: 185 },
+        ],
+        passes: [
+          { from: { x: 380, y: 117 }, to: { x: 436, y: 124 }, primary: true },
+          { from: { x: 380, y: 283 }, to: { x: 436, y: 276 }, primary: false },
+        ],
+        movements: [
+          { from: { x: 335, y: 175 }, to: { x: 355, y: 130 }, role: 'def' },
+          { from: { x: 205, y: 185 }, to: { x: 275, y: 175 }, role: 'att' },
+        ],
+        shadows: [],
+      },
+    ],
+  },
+
+  // ==========================================================================
+  // act-11 (1.3): SFV 02_d "Aus den Zonen dribbeln & 4gg4 mit Dribbelzonen"
+  // 16 cones = outer square + 3 internal 4-cone Dribbelzonen + 10 players + 4 balls
+  // ==========================================================================
+  'act-11': {
+    type: 'concentric_square',
+    cones: [
+      { x: 65, y: 45 },
+      { x: 435, y: 45 },
+      { x: 65, y: 355 },
+      { x: 435, y: 355 },
+      // Dribbelzone 1 (Top-Left)
+      { x: 105, y: 85 },
+      { x: 190, y: 85 },
+      { x: 105, y: 165 },
+      { x: 190, y: 165 },
+      // Dribbelzone 2 (Top-Right)
+      { x: 310, y: 85 },
+      { x: 395, y: 85 },
+      { x: 310, y: 165 },
+      { x: 395, y: 165 },
+      // Dribbelzone 3 (Bottom-Center)
+      { x: 205, y: 240 },
+      { x: 295, y: 240 },
+      { x: 205, y: 320 },
+      { x: 295, y: 320 },
+    ],
+    phases: [
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 150, y: 125 },
+          { id: 'A2', role: 'att', label: 'A2', x: 350, y: 125 },
+          { id: 'A3', role: 'att', label: 'A3', x: 250, y: 280 },
+          { id: 'A4', role: 'att', label: 'A4', x: 150, y: 265 },
+          { id: 'N1', role: 'neutral', label: 'W1', x: 245, y: 80 },
+          { id: 'N2', role: 'neutral', label: 'W2', x: 415, y: 215 },
+          { id: 'N3', role: 'neutral', label: 'W3', x: 355, y: 295 },
+          { id: 'N4', role: 'neutral', label: 'W4', x: 90, y: 220 },
+        ],
+        ball: { x: 164, y: 122 },
+        balls: [
+          { x: 364, y: 135 },
+          { x: 264, y: 280 },
+          { x: 136, y: 260 },
+        ],
+        passes: [
+          { from: { x: 205, y: 108 }, to: { x: 235, y: 86 }, primary: true },
+          { from: { x: 300, y: 280 }, to: { x: 342, y: 292 }, primary: false },
+        ],
+        movements: [
+          { from: { x: 150, y: 125 }, to: { x: 202, y: 110 }, role: 'att' },
+          { from: { x: 350, y: 125 }, to: { x: 375, y: 185 }, role: 'att' },
+          { from: { x: 250, y: 280 }, to: { x: 298, y: 280 }, role: 'att' },
+        ],
+        shadows: [],
+      },
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 150, y: 125 },
+          { id: 'A2', role: 'att', label: 'A2', x: 350, y: 125 },
+          { id: 'A3', role: 'att', label: 'A3', x: 250, y: 280 },
+          { id: 'A4', role: 'att', label: 'A4', x: 250, y: 185 },
+          { id: 'N1', role: 'neutral', label: 'W1', x: 82, y: 125 },
+          { id: 'N2', role: 'neutral', label: 'W2', x: 350, y: 60 },
+          { id: 'N3', role: 'neutral', label: 'W3', x: 160, y: 280 },
+          { id: 'N4', role: 'neutral', label: 'W4', x: 415, y: 250 },
+        ],
+        ball: { x: 95, y: 125 },
+        balls: [
+          { x: 350, y: 72 },
+          { x: 174, y: 280 },
+        ],
+        passes: [
+          { from: { x: 96, y: 125 }, to: { x: 136, y: 125 }, primary: true },
+          { from: { x: 350, y: 74 }, to: { x: 350, y: 112 }, primary: false },
+          { from: { x: 175, y: 280 }, to: { x: 236, y: 280 }, primary: false },
+        ],
+        movements: [
+          { from: { x: 150, y: 125 }, to: { x: 150, y: 185 }, role: 'att' },
+          { from: { x: 350, y: 125 }, to: { x: 285, y: 125 }, role: 'att' },
+          { from: { x: 250, y: 280 }, to: { x: 250, y: 215 }, role: 'att' },
+        ],
+        shadows: [
+          { points: '105,85 190,85 190,165 105,165', variant: 'solution' },
+          { points: '310,85 395,85 395,165 310,165', variant: 'solution' },
+          { points: '205,240 295,240 295,320 205,320', variant: 'solution' },
+        ],
+      },
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 150, y: 125 },
+          { id: 'A2', role: 'att', label: 'A2', x: 250, y: 115 },
+          { id: 'A3', role: 'att', label: 'A3', x: 350, y: 125 },
+          { id: 'A4', role: 'att', label: 'A4', x: 250, y: 280 },
+          { id: 'A5', role: 'att', label: 'A5', x: 125, y: 275 },
+          { id: 'D1', role: 'def', label: 'D1', x: 195, y: 185 },
+          { id: 'D2', role: 'def', label: 'D2', x: 310, y: 185 },
+          { id: 'D3', role: 'def', label: 'D3', x: 195, y: 265 },
+          { id: 'D4', role: 'def', label: 'D4', x: 335, y: 280 },
+        ],
+        ball: { x: 164, y: 123 },
+        balls: [],
+        passes: [
+          { from: { x: 165, y: 123 }, to: { x: 236, y: 116 }, primary: true },
+        ],
+        movements: [
+          { from: { x: 250, y: 115 }, to: { x: 335, y: 125 }, role: 'att' },
+          { from: { x: 250, y: 280 }, to: { x: 310, y: 280 }, role: 'att' },
+          { from: { x: 195, y: 185 }, to: { x: 165, y: 140 }, role: 'def' },
+        ],
+        shadows: [],
+      },
+    ],
+  },
+
+  // ==========================================================================
+  // act-12 (1.4): SFV 03_d "Doppelpass & Ins Feld dribbeln" (1v1 Line Entry)
+  // 8 cones = Concentric Inner/Outer Square + 8-10 players + 4 balls
+  // ==========================================================================
+  'act-12': {
+    type: 'concentric_square',
+    cones: [
+      { x: 70, y: 45 },
+      { x: 430, y: 45 },
+      { x: 70, y: 355 },
+      { x: 430, y: 355 },
+      { x: 155, y: 115 },
+      { x: 345, y: 115 },
+      { x: 155, y: 285 },
+      { x: 345, y: 285 },
+    ],
+    phases: [
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 205, y: 165 },
+          { id: 'A2', role: 'att', label: 'A2', x: 295, y: 165 },
+          { id: 'A3', role: 'att', label: 'A3', x: 205, y: 235 },
+          { id: 'A4', role: 'att', label: 'A4', x: 295, y: 235 },
+          { id: 'N1', role: 'neutral', label: 'S1', x: 250, y: 115 },
+          { id: 'N2', role: 'neutral', label: 'S2', x: 345, y: 200 },
+          { id: 'N3', role: 'neutral', label: 'S3', x: 250, y: 285 },
+          { id: 'N4', role: 'neutral', label: 'S4', x: 155, y: 200 },
+        ],
+        ball: { x: 215, y: 154 },
+        balls: [
+          { x: 308, y: 172 },
+          { x: 215, y: 246 },
+          { x: 192, y: 228 },
+        ],
+        passes: [
+          { from: { x: 216, y: 152 }, to: { x: 244, y: 122 }, primary: true },
+          { from: { x: 256, y: 122 }, to: { x: 282, y: 142 }, primary: false },
+          { from: { x: 216, y: 248 }, to: { x: 244, y: 278 }, primary: false },
+        ],
+        movements: [
+          { from: { x: 205, y: 165 }, to: { x: 280, y: 140 }, role: 'att' },
+          { from: { x: 205, y: 235 }, to: { x: 280, y: 260 }, role: 'att' },
+        ],
+        shadows: [],
+      },
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 250, y: 150 },
+          { id: 'A2', role: 'att', label: 'A2', x: 310, y: 200 },
+          { id: 'A3', role: 'att', label: 'A3', x: 250, y: 250 },
+          { id: 'A4', role: 'att', label: 'A4', x: 190, y: 200 },
+          { id: 'D1', role: 'def', label: 'D1', x: 250, y: 115 },
+          { id: 'D2', role: 'def', label: 'D2', x: 345, y: 200 },
+          { id: 'D3', role: 'def', label: 'D3', x: 250, y: 285 },
+          { id: 'D4', role: 'def', label: 'D4', x: 155, y: 200 },
+        ],
+        ball: { x: 250, y: 136 },
+        balls: [
+          { x: 324, y: 200 },
+          { x: 250, y: 264 },
+          { x: 176, y: 200 },
+        ],
+        passes: [],
+        movements: [
+          { from: { x: 250, y: 150 }, to: { x: 295, y: 85 }, role: 'att', curve: 18 },
+          { from: { x: 310, y: 200 }, to: { x: 385, y: 240 }, role: 'att', curve: 18 },
+          { from: { x: 250, y: 250 }, to: { x: 205, y: 315 }, role: 'att', curve: 18 },
+          { from: { x: 190, y: 200 }, to: { x: 115, y: 160 }, role: 'att', curve: 18 },
+        ],
+        shadows: [
+          { points: '155,115 345,115 345,285 155,285', variant: 'solution' },
+        ],
+      },
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 230, y: 72 },
+          { id: 'A2', role: 'att', label: 'A2', x: 400, y: 185 },
+          { id: 'A3', role: 'att', label: 'A3', x: 270, y: 328 },
+          { id: 'A4', role: 'att', label: 'A4', x: 100, y: 215 },
+          { id: 'D1', role: 'def', label: 'D1', x: 250, y: 120 },
+          { id: 'D2', role: 'def', label: 'D2', x: 340, y: 200 },
+          { id: 'D3', role: 'def', label: 'D3', x: 250, y: 280 },
+          { id: 'D4', role: 'def', label: 'D4', x: 160, y: 200 },
+        ],
+        ball: { x: 230, y: 86 },
+        balls: [
+          { x: 386, y: 185 },
+          { x: 270, y: 314 },
+          { x: 114, y: 215 },
+        ],
+        passes: [],
+        movements: [
+          { from: { x: 230, y: 72 }, to: { x: 205, y: 155 }, role: 'att', curve: -18 },
+          { from: { x: 400, y: 185 }, to: { x: 305, y: 160 }, role: 'att', curve: -18 },
+          { from: { x: 270, y: 328 }, to: { x: 295, y: 245 }, role: 'att', curve: -18 },
+          { from: { x: 100, y: 215 }, to: { x: 195, y: 240 }, role: 'att', curve: -18 },
+          { from: { x: 250, y: 120 }, to: { x: 218, y: 120 }, role: 'def' },
+          { from: { x: 340, y: 200 }, to: { x: 340, y: 168 }, role: 'def' },
+        ],
+        shadows: [],
+      },
+    ],
+  },
+
+  // ==========================================================================
+  // act-13 (4.3): SFV 04_d "Von Seite zu Seite & Vom 2gg2 zum 4gg4"
+  // 4 outer cones + 8-10 players (central players + 4 endline target players)
+  // ==========================================================================
+  'act-13': {
+    type: 'single_square',
+    cones: [
+      { x: 100, y: 65 },
+      { x: 400, y: 65 },
+      { x: 100, y: 335 },
+      { x: 400, y: 335 },
+    ],
+    phases: [
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 72, y: 145 },
+          { id: 'A2', role: 'att', label: 'A2', x: 185, y: 130 },
+          { id: 'A3', role: 'att', label: 'A3', x: 295, y: 155 },
+          { id: 'A4', role: 'att', label: 'A4', x: 428, y: 145 },
+          { id: 'N1', role: 'neutral', label: 'B1', x: 72, y: 255 },
+          { id: 'N2', role: 'neutral', label: 'B2', x: 205, y: 245 },
+          { id: 'N3', role: 'neutral', label: 'B3', x: 315, y: 265 },
+          { id: 'N4', role: 'neutral', label: 'B4', x: 428, y: 255 },
+        ],
+        ball: { x: 308, y: 152 },
+        balls: [{ x: 192, y: 248 }],
+        passes: [
+          { from: { x: 310, y: 152 }, to: { x: 414, y: 146 }, primary: true },
+          { from: { x: 86, y: 145 }, to: { x: 172, y: 132 }, primary: false },
+          { from: { x: 190, y: 248 }, to: { x: 86, y: 254 }, primary: false },
+        ],
+        movements: [
+          { from: { x: 185, y: 130 }, to: { x: 225, y: 115 }, role: 'att' },
+          { from: { x: 315, y: 265 }, to: { x: 275, y: 280 }, role: 'neutral' },
+        ],
+        shadows: [],
+      },
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 72, y: 145 },
+          { id: 'A2', role: 'att', label: 'A2', x: 185, y: 145 },
+          { id: 'A3', role: 'att', label: 'A3', x: 315, y: 145 },
+          { id: 'A4', role: 'att', label: 'A4', x: 428, y: 145 },
+          { id: 'N1', role: 'neutral', label: 'B1', x: 72, y: 255 },
+          { id: 'N2', role: 'neutral', label: 'B2', x: 185, y: 255 },
+          { id: 'N3', role: 'neutral', label: 'B3', x: 315, y: 255 },
+          { id: 'N4', role: 'neutral', label: 'B4', x: 428, y: 255 },
+        ],
+        ball: { x: 170, y: 145 },
+        balls: [{ x: 330, y: 255 }],
+        passes: [
+          { from: { x: 168, y: 145 }, to: { x: 86, y: 145 }, primary: true },
+          { from: { x: 332, y: 255 }, to: { x: 414, y: 255 }, primary: false },
+        ],
+        movements: [
+          { from: { x: 72, y: 145 }, to: { x: 135, y: 115 }, role: 'att' },
+          { from: { x: 185, y: 145 }, to: { x: 82, y: 165 }, role: 'att' },
+          { from: { x: 428, y: 255 }, to: { x: 365, y: 285 }, role: 'neutral' },
+        ],
+        shadows: [
+          { points: '100,95 165,95 165,175 100,175', variant: 'solution' },
+          { points: '335,225 400,225 400,305 335,305', variant: 'solution' },
+        ],
+      },
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 185, y: 145 },
+          { id: 'A2', role: 'att', label: 'A2', x: 310, y: 135 },
+          { id: 'A3', role: 'att', label: 'A3', x: 72, y: 135 },
+          { id: 'A4', role: 'att', label: 'A4', x: 428, y: 135 },
+          { id: 'D1', role: 'def', label: 'D1', x: 215, y: 205 },
+          { id: 'D2', role: 'def', label: 'D2', x: 285, y: 225 },
+          { id: 'D3', role: 'def', label: 'D3', x: 72, y: 265 },
+          { id: 'D4', role: 'def', label: 'D4', x: 428, y: 265 },
+        ],
+        ball: { x: 324, y: 135 },
+        balls: [],
+        passes: [
+          { from: { x: 326, y: 135 }, to: { x: 414, y: 135 }, primary: true },
+          { from: { x: 198, y: 144 }, to: { x: 296, y: 136 }, primary: false },
+        ],
+        movements: [
+          { from: { x: 428, y: 135 }, to: { x: 365, y: 175 }, role: 'att' },
+          { from: { x: 285, y: 225 }, to: { x: 310, y: 165 }, role: 'def' },
+        ],
+        shadows: [],
+      },
+    ],
+  },
+
+  // ==========================================================================
+  // act-14 (5.1): SFV 07_d "Passspiel & 4gg4+Joker mit Abschluss auf 4 Minitore"
+  // 4 outer cones + 4 outer Mini-Goals + 10 players (3 teams / 4v4+2 Jokers)
+  // ==========================================================================
+  'act-14': {
     type: 'single_square',
     cones: [
       { x: 80, y: 55 },
@@ -945,95 +1478,88 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
       { x: 420, y: 345 },
     ],
     goals: [
-      { id: 'act9-g1', x: 250, y: 42, size: 'mini', facing: 'bottom', label: 'M1' },
-      { id: 'act9-g2', x: 250, y: 358, size: 'mini', facing: 'top', label: 'M2' },
-      { id: 'act9-g3', x: 66, y: 200, size: 'mini', facing: 'right', label: 'M3' },
-      { id: 'act9-g4', x: 434, y: 200, size: 'mini', facing: 'left', label: 'M4' },
+      { id: 'act14-g1', x: 250, y: 42, size: 'mini', facing: 'bottom', label: 'M1' },
+      { id: 'act14-g2', x: 250, y: 358, size: 'mini', facing: 'top', label: 'M2' },
+      { id: 'act14-g3', x: 66, y: 200, size: 'mini', facing: 'right', label: 'M3' },
+      { id: 'act14-g4', x: 434, y: 200, size: 'mini', facing: 'left', label: 'M4' },
     ],
     phases: [
       {
         players: [
-          { id: 'A1', role: 'att', label: 'A1', x: 165, y: 130 },
-          { id: 'D1', role: 'def', label: 'B1', x: 200, y: 130 },
-          { id: 'A2', role: 'att', label: 'A2', x: 300, y: 130 },
-          { id: 'D2', role: 'def', label: 'B2', x: 335, y: 130 },
-          { id: 'A3', role: 'att', label: 'A3', x: 165, y: 270 },
-          { id: 'D3', role: 'def', label: 'B3', x: 200, y: 270 },
-          { id: 'A4', role: 'att', label: 'A4', x: 300, y: 270 },
-          { id: 'D4', role: 'def', label: 'B4', x: 335, y: 270 },
+          { id: 'A1', role: 'att', label: 'A1', x: 145, y: 145 },
+          { id: 'A2', role: 'att', label: 'A2', x: 215, y: 105 },
+          { id: 'A3', role: 'att', label: 'A3', x: 155, y: 235 },
+          { id: 'A4', role: 'att', label: 'A4', x: 245, y: 195 },
+          { id: 'N1', role: 'neutral', label: 'B1', x: 325, y: 125 },
+          { id: 'N2', role: 'neutral', label: 'B2', x: 375, y: 195 },
+          { id: 'N3', role: 'neutral', label: 'B3', x: 315, y: 255 },
+          { id: 'D1', role: 'def', label: 'W1', x: 195, y: 300 },
+          { id: 'D2', role: 'def', label: 'W2', x: 285, y: 305 },
         ],
-        ball: { x: 150, y: 130 },
+        ball: { x: 222, y: 92 },
         balls: [
-          { x: 285, y: 130 },
-          { x: 150, y: 270 },
-          { x: 285, y: 270 },
+          { x: 388, y: 196 },
+          { x: 272, y: 312 },
         ],
-        passes: [],
+        passes: [
+          { from: { x: 224, y: 90 }, to: { x: 246, y: 48 }, primary: true },
+          { from: { x: 155, y: 140 }, to: { x: 204, y: 112 }, primary: false },
+          { from: { x: 390, y: 196 }, to: { x: 428, y: 200 }, primary: false },
+        ],
         movements: [
-          { from: { x: 165, y: 130 }, to: { x: 180, y: 105 }, role: 'att' },
-          { from: { x: 200, y: 130 }, to: { x: 185, y: 105 }, role: 'def' },
-          { from: { x: 300, y: 270 }, to: { x: 315, y: 295 }, role: 'att' },
-          { from: { x: 335, y: 270 }, to: { x: 320, y: 295 }, role: 'def' },
+          { from: { x: 215, y: 105 }, to: { x: 235, y: 78 }, role: 'att' },
+          { from: { x: 375, y: 195 }, to: { x: 405, y: 198 }, role: 'neutral' },
         ],
         shadows: [],
       },
       {
         players: [
-          { id: 'A1', role: 'att', label: 'A1', x: 170, y: 140 },
-          { id: 'D1', role: 'def', label: 'B1', x: 198, y: 155 },
-          { id: 'A2', role: 'att', label: 'A2', x: 330, y: 140 },
-          { id: 'D2', role: 'def', label: 'B2', x: 302, y: 155 },
-          { id: 'A3', role: 'att', label: 'A3', x: 170, y: 260 },
-          { id: 'D3', role: 'def', label: 'B3', x: 198, y: 245 },
-          { id: 'A4', role: 'att', label: 'A4', x: 330, y: 260 },
-          { id: 'D4', role: 'def', label: 'B4', x: 302, y: 245 },
+          { id: 'A1', role: 'att', label: 'A1', x: 145, y: 245 },
+          { id: 'A2', role: 'att', label: 'A2', x: 275, y: 135 },
+          { id: 'A3', role: 'att', label: 'A3', x: 185, y: 155 },
+          { id: 'A4', role: 'att', label: 'A4', x: 235, y: 255 },
+          { id: 'N1', role: 'neutral', label: 'B1', x: 345, y: 115 },
+          { id: 'N2', role: 'neutral', label: 'B2', x: 355, y: 265 },
+          { id: 'N3', role: 'neutral', label: 'B3', x: 135, y: 125 },
+          { id: 'D1', role: 'def', label: 'W1', x: 195, y: 305 },
+          { id: 'D2', role: 'def', label: 'W2', x: 305, y: 305 },
         ],
-        ball: { x: 154, y: 132 },
-        balls: [
-          { x: 346, y: 132 },
-          { x: 154, y: 268 },
-          { x: 346, y: 268 },
+        ball: { x: 288, y: 140 },
+        balls: [{ x: 122, y: 132 }],
+        passes: [
+          { from: { x: 290, y: 142 }, to: { x: 426, y: 196 }, primary: true },
+          { from: { x: 198, y: 152 }, to: { x: 262, y: 138 }, primary: false },
         ],
-        passes: [],
         movements: [
-          { from: { x: 198, y: 155 }, to: { x: 176, y: 144 }, role: 'def' },
-          { from: { x: 302, y: 155 }, to: { x: 324, y: 144 }, role: 'def' },
-          { from: { x: 198, y: 245 }, to: { x: 176, y: 256 }, role: 'def' },
-          { from: { x: 302, y: 245 }, to: { x: 324, y: 256 }, role: 'def' },
+          { from: { x: 275, y: 135 }, to: { x: 315, y: 152 }, role: 'att' },
+          { from: { x: 135, y: 125 }, to: { x: 95, y: 165 }, role: 'neutral' },
         ],
         shadows: [
-          { points: '140,115 215,115 215,170 140,170', variant: 'solution' },
-          { points: '285,115 360,115 360,170 285,170', variant: 'solution' },
-          { points: '140,230 215,230 215,285 140,285', variant: 'solution' },
-          { points: '285,230 360,230 360,285 285,285', variant: 'solution' },
+          { points: '250,55 420,55 420,345 250,345', variant: 'solution' },
         ],
       },
       {
         players: [
           { id: 'A1', role: 'att', label: 'A1', x: 215, y: 105 },
-          { id: 'D1', role: 'def', label: 'B1', x: 185, y: 145 },
-          { id: 'A2', role: 'att', label: 'A2', x: 365, y: 185 },
-          { id: 'D2', role: 'def', label: 'B2', x: 315, y: 165 },
-          { id: 'A3', role: 'att', label: 'A3', x: 135, y: 215 },
-          { id: 'D3', role: 'def', label: 'B3', x: 185, y: 235 },
-          { id: 'A4', role: 'att', label: 'A4', x: 285, y: 295 },
-          { id: 'D4', role: 'def', label: 'B4', x: 315, y: 255 },
+          { id: 'A2', role: 'att', label: 'A2', x: 135, y: 185 },
+          { id: 'A3', role: 'att', label: 'A3', x: 355, y: 165 },
+          { id: 'A4', role: 'att', label: 'A4', x: 295, y: 285 },
+          { id: 'N1', role: 'neutral', label: 'J1', x: 245, y: 175 },
+          { id: 'N2', role: 'neutral', label: 'J2', x: 215, y: 245 },
+          { id: 'D1', role: 'def', label: 'D1', x: 185, y: 145 },
+          { id: 'D2', role: 'def', label: 'D2', x: 305, y: 155 },
+          { id: 'D3', role: 'def', label: 'D3', x: 175, y: 235 },
+          { id: 'D4', role: 'def', label: 'D4', x: 275, y: 235 },
         ],
-        ball: { x: 226, y: 92 },
-        balls: [
-          { x: 380, y: 190 },
-          { x: 120, y: 210 },
-          { x: 274, y: 308 },
-        ],
+        ball: { x: 222, y: 92 },
+        balls: [],
         passes: [
-          { from: { x: 228, y: 90 }, to: { x: 248, y: 48 }, primary: true },
-          { from: { x: 382, y: 192 }, to: { x: 428, y: 198 }, primary: false },
-          { from: { x: 118, y: 208 }, to: { x: 72, y: 202 }, primary: false },
-          { from: { x: 272, y: 310 }, to: { x: 252, y: 352 }, primary: false },
+          { from: { x: 224, y: 90 }, to: { x: 246, y: 48 }, primary: true },
+          { from: { x: 242, y: 162 }, to: { x: 218, y: 118 }, primary: false },
         ],
         movements: [
-          { from: { x: 215, y: 105 }, to: { x: 242, y: 65 }, role: 'att', curve: 15 },
-          { from: { x: 285, y: 295 }, to: { x: 258, y: 335 }, role: 'att', curve: 15 },
+          { from: { x: 185, y: 145 }, to: { x: 210, y: 115 }, role: 'def' },
+          { from: { x: 355, y: 165 }, to: { x: 395, y: 192 }, role: 'att' },
         ],
         shadows: [],
       },
@@ -1041,112 +1567,212 @@ export const ACTIVATION_CANONICAL_GEOMETRY: Record<string, CanonicalDrillGeometr
   },
 
   // ==========================================================================
-  // act-10 (5.2): DFB & RAMP Team Potentiation Waves (Multi-Lane Braking & Goals)
-  // 2 Mini-Goals + 1 Central Large Goal + 2 Midline Braking Gates + 8 players
+  // act-15 (3.3): SFV 09_d "9-Felder-Einstieg" (3x3 Grid Scanning & Freilaufen)
+  // 16 cones = 3x3 9-zone grid + 10 players (4v4 + 2 Neutrals)
   // ==========================================================================
-  'act-10': {
-    type: 'double_zone',
+  'act-15': {
+    type: 'single_square',
     cones: [
-      { x: 70, y: 50 },
-      { x: 250, y: 50 },
-      { x: 430, y: 50 },
-      { x: 70, y: 350 },
-      { x: 250, y: 350 },
-      { x: 430, y: 350 },
-    ],
-    goals: [
-      { id: 'act10-g1', x: 444, y: 105, size: 'mini', facing: 'left', label: 'M1' },
-      { id: 'act10-g2', x: 444, y: 295, size: 'mini', facing: 'left', label: 'M2' },
-    ],
-    gates: [
-      { id: 'act10-gt1', p1: { x: 250, y: 95 }, p2: { x: 250, y: 140 }, color: 'emerald', label: 'Brake 1' },
-      { id: 'act10-gt2', p1: { x: 250, y: 260 }, p2: { x: 250, y: 305 }, color: 'cyan', label: 'Brake 2' },
+      // 4 outer corners first
+      { x: 80, y: 50 },
+      { x: 420, y: 50 },
+      { x: 80, y: 350 },
+      { x: 420, y: 350 },
+      // 12 internal/edge cones of the 3x3 grid
+      { x: 193, y: 50 },
+      { x: 307, y: 50 },
+      { x: 80, y: 150 },
+      { x: 193, y: 150 },
+      { x: 307, y: 150 },
+      { x: 420, y: 150 },
+      { x: 80, y: 250 },
+      { x: 193, y: 250 },
+      { x: 307, y: 250 },
+      { x: 420, y: 250 },
+      { x: 193, y: 350 },
+      { x: 307, y: 350 },
     ],
     phases: [
       {
         players: [
-          { id: 'A1', role: 'att', label: 'A1', x: 145, y: 105 },
-          { id: 'D1', role: 'def', label: 'D1', x: 145, y: 150 },
-          { id: 'A2', role: 'att', label: 'A2', x: 145, y: 250 },
-          { id: 'D2', role: 'def', label: 'D2', x: 145, y: 295 },
-          { id: 'A3', role: 'att', label: 'A3', x: 88, y: 105 },
-          { id: 'D3', role: 'def', label: 'D3', x: 88, y: 150 },
-          { id: 'A4', role: 'att', label: 'A4', x: 88, y: 250 },
-          { id: 'D4', role: 'def', label: 'D4', x: 88, y: 295 },
+          { id: 'A1', role: 'att', label: 'A1', x: 136, y: 100 },
+          { id: 'A2', role: 'att', label: 'A2', x: 250, y: 100 },
+          { id: 'A3', role: 'att', label: 'A3', x: 364, y: 200 },
+          { id: 'A4', role: 'att', label: 'A4', x: 136, y: 300 },
+          { id: 'N1', role: 'neutral', label: 'N1', x: 250, y: 200 },
+          { id: 'N2', role: 'neutral', label: 'N2', x: 364, y: 300 },
+          { id: 'D1', role: 'def', label: 'B1', x: 364, y: 100 },
+          { id: 'D2', role: 'def', label: 'B2', x: 136, y: 200 },
+          { id: 'D3', role: 'def', label: 'B3', x: 250, y: 300 },
         ],
-        ball: { x: 158, y: 105 },
-        balls: [
-          { x: 158, y: 250 },
-          { x: 101, y: 105 },
-          { x: 101, y: 250 },
+        ball: { x: 150, y: 100 },
+        balls: [{ x: 150, y: 200 }],
+        passes: [
+          { from: { x: 152, y: 100 }, to: { x: 234, y: 100 }, primary: true },
+          { from: { x: 152, y: 200 }, to: { x: 234, y: 200 }, primary: false },
         ],
-        passes: [],
         movements: [
-          { from: { x: 145, y: 105 }, to: { x: 235, y: 105 }, role: 'att' },
-          { from: { x: 145, y: 150 }, to: { x: 235, y: 150 }, role: 'def' },
-          { from: { x: 145, y: 250 }, to: { x: 235, y: 250 }, role: 'att' },
-          { from: { x: 145, y: 295 }, to: { x: 235, y: 295 }, role: 'def' },
+          { from: { x: 364, y: 200 }, to: { x: 364, y: 135 }, role: 'att' },
+          { from: { x: 250, y: 300 }, to: { x: 175, y: 300 }, role: 'def' },
         ],
         shadows: [],
       },
       {
         players: [
-          { id: 'A1', role: 'att', label: 'A1', x: 240, y: 110 },
-          { id: 'D1', role: 'def', label: 'D1', x: 240, y: 155 },
-          { id: 'A2', role: 'att', label: 'A2', x: 240, y: 265 },
-          { id: 'D2', role: 'def', label: 'D2', x: 240, y: 310 },
-          { id: 'A3', role: 'att', label: 'A3', x: 115, y: 105 },
-          { id: 'D3', role: 'def', label: 'D3', x: 115, y: 150 },
-          { id: 'A4', role: 'att', label: 'A4', x: 115, y: 250 },
-          { id: 'D4', role: 'def', label: 'D4', x: 115, y: 295 },
+          { id: 'A1', role: 'att', label: 'A1', x: 136, y: 100 },
+          { id: 'A2', role: 'att', label: 'A2', x: 250, y: 100 },
+          { id: 'A3', role: 'att', label: 'A3', x: 136, y: 200 },
+          { id: 'A4', role: 'att', label: 'A4', x: 250, y: 300 },
+          { id: 'N1', role: 'neutral', label: 'N1', x: 364, y: 200 },
+          { id: 'N2', role: 'neutral', label: 'N2', x: 136, y: 300 },
+          { id: 'D1', role: 'def', label: 'B1', x: 364, y: 100 },
+          { id: 'D2', role: 'def', label: 'B2', x: 250, y: 200 },
+          { id: 'D3', role: 'def', label: 'B3', x: 364, y: 300 },
         ],
-        ball: { x: 254, y: 110 },
-        balls: [
-          { x: 254, y: 265 },
-          { x: 128, y: 105 },
-          { x: 128, y: 250 },
+        ball: { x: 264, y: 112 },
+        balls: [{ x: 150, y: 300 }],
+        passes: [
+          { from: { x: 266, y: 114 }, to: { x: 350, y: 186 }, primary: true },
+          { from: { x: 152, y: 300 }, to: { x: 234, y: 300 }, primary: false },
         ],
-        passes: [],
         movements: [
-          { from: { x: 240, y: 110 }, to: { x: 325, y: 95 }, role: 'att', curve: -15 },
-          { from: { x: 240, y: 155 }, to: { x: 315, y: 135 }, role: 'def', curve: -10 },
-          { from: { x: 240, y: 265 }, to: { x: 325, y: 285 }, role: 'att', curve: 15 },
-          { from: { x: 240, y: 310 }, to: { x: 315, y: 305 }, role: 'def', curve: 10 },
+          { from: { x: 250, y: 100 }, to: { x: 250, y: 165 }, role: 'att' },
+          { from: { x: 364, y: 200 }, to: { x: 364, y: 125 }, role: 'neutral' },
         ],
         shadows: [
-          { points: '215,90 275,90 275,165 215,165', variant: 'solution' },
-          { points: '215,250 275,250 275,325 215,325', variant: 'solution' },
+          { points: '307,150 420,150 420,250 307,250', variant: 'solution' },
+          { points: '193,250 307,250 307,350 193,350', variant: 'solution' },
         ],
       },
       {
         players: [
-          { id: 'A1', role: 'att', label: 'A1', x: 350, y: 102 },
-          { id: 'D1', role: 'def', label: 'D1', x: 310, y: 140 },
-          { id: 'A2', role: 'att', label: 'A2', x: 350, y: 292 },
-          { id: 'D2', role: 'def', label: 'D2', x: 310, y: 255 },
-          { id: 'A3', role: 'att', label: 'A3', x: 165, y: 105 },
-          { id: 'D3', role: 'def', label: 'D3', x: 165, y: 150 },
-          { id: 'A4', role: 'att', label: 'A4', x: 165, y: 250 },
-          { id: 'D4', role: 'def', label: 'D4', x: 165, y: 295 },
+          { id: 'A1', role: 'att', label: 'A1', x: 136, y: 100 },
+          { id: 'A2', role: 'att', label: 'A2', x: 364, y: 100 },
+          { id: 'A3', role: 'att', label: 'A3', x: 136, y: 300 },
+          { id: 'A4', role: 'att', label: 'A4', x: 364, y: 300 },
+          { id: 'N1', role: 'neutral', label: 'N1', x: 250, y: 200 },
+          { id: 'N2', role: 'neutral', label: 'N2', x: 250, y: 300 },
+          { id: 'D1', role: 'def', label: 'D1', x: 185, y: 135 },
+          { id: 'D2', role: 'def', label: 'D2', x: 235, y: 125 },
+          { id: 'D3', role: 'def', label: 'D3', x: 175, y: 235 },
+          { id: 'D4', role: 'def', label: 'D4', x: 325, y: 235 },
         ],
-        ball: { x: 365, y: 102 },
-        balls: [
-          { x: 365, y: 292 },
-          { x: 178, y: 105 },
-          { x: 178, y: 250 },
-        ],
+        ball: { x: 264, y: 188 },
+        balls: [],
         passes: [
-          { from: { x: 368, y: 102 }, to: { x: 436, y: 105 }, primary: true },
-          { from: { x: 368, y: 292 }, to: { x: 436, y: 295 }, primary: false },
+          { from: { x: 266, y: 186 }, to: { x: 350, y: 112 }, primary: true },
+          { from: { x: 250, y: 286 }, to: { x: 250, y: 216 }, primary: false },
         ],
         movements: [
-          { from: { x: 310, y: 140 }, to: { x: 365, y: 112 }, role: 'def' },
-          { from: { x: 310, y: 255 }, to: { x: 365, y: 282 }, role: 'def' },
-          { from: { x: 165, y: 105 }, to: { x: 235, y: 105 }, role: 'att' },
-          { from: { x: 165, y: 250 }, to: { x: 235, y: 250 }, role: 'att' },
+          { from: { x: 364, y: 100 }, to: { x: 364, y: 165 }, role: 'att' },
+          { from: { x: 235, y: 125 }, to: { x: 315, y: 110 }, role: 'def' },
+        ],
+        shadows: [
+          { points: '307,50 420,50 420,150 307,150', variant: 'solution' },
+        ],
+      },
+    ],
+  },
+
+  // ==========================================================================
+  // act-16 (6.2): SFV 12_d "Pylonentore schliessen & 2 Teams gegen 1 Team"
+  // 4 outer cones + 6 internal 2m colored Cone Gates + 10 players (3 teams)
+  // ==========================================================================
+  'act-16': {
+    type: 'single_square',
+    cones: [
+      { x: 70, y: 50 },
+      { x: 430, y: 50 },
+      { x: 70, y: 350 },
+      { x: 430, y: 350 },
+    ],
+    gates: [
+      { id: 'act16-gt1', p1: { x: 165, y: 90 }, p2: { x: 165, y: 125 }, color: 'amber', label: 'T1' },
+      { id: 'act16-gt2', p1: { x: 335, y: 90 }, p2: { x: 335, y: 125 }, color: 'cyan', label: 'T2' },
+      { id: 'act16-gt3', p1: { x: 230, y: 185 }, p2: { x: 270, y: 185 }, color: 'rose', label: 'T3' },
+      { id: 'act16-gt4', p1: { x: 140, y: 215 }, p2: { x: 175, y: 215 }, color: 'emerald', label: 'T4' },
+      { id: 'act16-gt5', p1: { x: 165, y: 275 }, p2: { x: 165, y: 310 }, color: 'cyan', label: 'T5' },
+      { id: 'act16-gt6', p1: { x: 335, y: 275 }, p2: { x: 335, y: 310 }, color: 'amber', label: 'T6' },
+    ],
+    phases: [
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 110, y: 108 },
+          { id: 'A2', role: 'att', label: 'A2', x: 225, y: 108 },
+          { id: 'A3', role: 'att', label: 'A3', x: 390, y: 155 },
+          { id: 'N1', role: 'neutral', label: 'B1', x: 110, y: 292 },
+          { id: 'N2', role: 'neutral', label: 'B2', x: 235, y: 292 },
+          { id: 'N3', role: 'neutral', label: 'B3', x: 390, y: 255 },
+          { id: 'D1', role: 'def', label: 'D1', x: 165, y: 165 },
+          { id: 'D2', role: 'def', label: 'D2', x: 335, y: 110 },
+          { id: 'D3', role: 'def', label: 'D3', x: 250, y: 185 },
+          { id: 'D4', role: 'def', label: 'D4', x: 335, y: 292 },
+        ],
+        ball: { x: 124, y: 108 },
+        balls: [{ x: 124, y: 292 }],
+        passes: [
+          { from: { x: 126, y: 108 }, to: { x: 210, y: 108 }, primary: true },
+          { from: { x: 126, y: 292 }, to: { x: 220, y: 292 }, primary: false },
+        ],
+        movements: [
+          { from: { x: 165, y: 165 }, to: { x: 165, y: 120 }, role: 'def' },
+          { from: { x: 250, y: 185 }, to: { x: 185, y: 245 }, role: 'def' },
+        ],
+        shadows: [],
+      },
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 115, y: 155 },
+          { id: 'A2', role: 'att', label: 'A2', x: 250, y: 115 },
+          { id: 'A3', role: 'att', label: 'A3', x: 390, y: 115 },
+          { id: 'N1', role: 'neutral', label: 'B1', x: 110, y: 285 },
+          { id: 'N2', role: 'neutral', label: 'B2', x: 230, y: 285 },
+          { id: 'N3', role: 'neutral', label: 'B3', x: 390, y: 285 },
+          { id: 'D1', role: 'def', label: 'D1', x: 165, y: 110 },
+          { id: 'D2', role: 'def', label: 'D2', x: 335, y: 110 },
+          { id: 'D3', role: 'def', label: 'D3', x: 160, y: 215 },
+          { id: 'D4', role: 'def', label: 'D4', x: 335, y: 292 },
+        ],
+        ball: { x: 124, y: 285 },
+        balls: [{ x: 264, y: 115 }],
+        passes: [
+          { from: { x: 126, y: 285 }, to: { x: 214, y: 285 }, primary: true },
+        ],
+        movements: [
+          { from: { x: 160, y: 215 }, to: { x: 165, y: 278 }, role: 'def' },
+          { from: { x: 335, y: 110 }, to: { x: 275, y: 165 }, role: 'def' },
+        ],
+        shadows: [
+          { points: '165,110 115,155 185,155', variant: 'danger' },
+          { points: '335,110 390,115 355,155', variant: 'danger' },
+        ],
+      },
+      {
+        players: [
+          { id: 'A1', role: 'att', label: 'A1', x: 115, y: 108 },
+          { id: 'A2', role: 'att', label: 'A2', x: 235, y: 108 },
+          { id: 'A3', role: 'att', label: 'A3', x: 395, y: 108 },
+          { id: 'N1', role: 'neutral', label: 'B1', x: 115, y: 255 },
+          { id: 'N2', role: 'neutral', label: 'B2', x: 250, y: 245 },
+          { id: 'N3', role: 'neutral', label: 'B3', x: 390, y: 265 },
+          { id: 'D1', role: 'def', label: 'D1', x: 165, y: 115 },
+          { id: 'D2', role: 'def', label: 'D2', x: 315, y: 165 },
+          { id: 'D3', role: 'def', label: 'D3', x: 250, y: 185 },
+          { id: 'D4', role: 'def', label: 'D4', x: 335, y: 285 },
+        ],
+        ball: { x: 248, y: 108 },
+        balls: [{ x: 250, y: 230 }],
+        passes: [
+          { from: { x: 250, y: 108 }, to: { x: 380, y: 108 }, primary: true },
+          { from: { x: 250, y: 228 }, to: { x: 250, y: 155 }, primary: false },
+        ],
+        movements: [
+          { from: { x: 315, y: 165 }, to: { x: 335, y: 112 }, role: 'def' },
+          { from: { x: 250, y: 185 }, to: { x: 250, y: 215 }, role: 'def' },
         ],
         shadows: [],
       },
     ],
   },
 };
+
