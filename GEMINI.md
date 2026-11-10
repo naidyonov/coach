@@ -73,8 +73,10 @@ Once verification passes:
 
 ---
 
-## 4. Associated Skill & Scripts
-- **Skill**: `/auto-ship` (defined in `.agents/skills/auto-ship/SKILL.md` and registered globally).
+## 4. Associated Skills & Scripts
+- **Skills**:
+  - `/auto-ship` (defined in `.agents/skills/auto-ship/SKILL.md` and registered globally): Autonomous test verification, build, commit, and push directly to `main`.
+  - `/delegate-to-flash` (defined in `.agents/skills/delegate-to-flash/SKILL.md` and registered globally): Delegates routine, bounded, or simpler subtasks to Flash model subagents when running as a Pro model to conserve context and accelerate throughput.
 - **Scripts in `package.json`**:
   - `npm test`: Runs Vitest test suite.
   - `npm run test:property`: Runs `fast-check` property tests.
